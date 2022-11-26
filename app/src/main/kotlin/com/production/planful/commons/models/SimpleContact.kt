@@ -7,8 +7,13 @@ import com.production.planful.commons.helpers.SORT_BY_FULL_NAME
 import com.production.planful.commons.helpers.SORT_DESCENDING
 
 data class SimpleContact(
-    val rawId: Int, val contactId: Int, var name: String, var photoUri: String, var phoneNumbers: ArrayList<PhoneNumber>,
-    var birthdays: ArrayList<String>, var anniversaries: ArrayList<String>
+    val rawId: Int,
+    val contactId: Int,
+    var name: String,
+    var photoUri: String,
+    var phoneNumbers: ArrayList<PhoneNumber>,
+    var birthdays: ArrayList<String>,
+    var anniversaries: ArrayList<String>
 ) : Comparable<SimpleContact> {
 
     companion object {
@@ -36,9 +41,13 @@ data class SimpleContact(
         val firstString = name.normalizeString()
         val secondString = other.name.normalizeString()
 
-        return if (firstString.firstOrNull()?.isLetter() == true && secondString.firstOrNull()?.isLetter() == false) {
+        return if (firstString.firstOrNull()?.isLetter() == true && secondString.firstOrNull()
+                ?.isLetter() == false
+        ) {
             -1
-        } else if (firstString.firstOrNull()?.isLetter() == false && secondString.firstOrNull()?.isLetter() == true) {
+        } else if (firstString.firstOrNull()?.isLetter() == false && secondString.firstOrNull()
+                ?.isLetter() == true
+        ) {
             1
         } else {
             if (firstString.isEmpty() && secondString.isNotEmpty()) {
@@ -61,9 +70,9 @@ data class SimpleContact(
             } else {
                 phoneNumbers.map { it.normalizedNumber }.any { phoneNumber ->
                     PhoneNumberUtils.compare(phoneNumber.normalizePhoneNumber(), normalizedText) ||
-                        phoneNumber.contains(text) ||
-                        phoneNumber.normalizePhoneNumber().contains(normalizedText) ||
-                        phoneNumber.contains(normalizedText)
+                            phoneNumber.contains(text) ||
+                            phoneNumber.normalizePhoneNumber().contains(normalizedText) ||
+                            phoneNumber.contains(normalizedText)
                 }
             }
         } else {
@@ -81,9 +90,9 @@ data class SimpleContact(
             } else {
                 phoneNumbers.map { it.normalizedNumber }.any { phoneNumber ->
                     PhoneNumberUtils.compare(phoneNumber.normalizePhoneNumber(), normalizedText) ||
-                        phoneNumber == text ||
-                        phoneNumber.normalizePhoneNumber() == normalizedText ||
-                        phoneNumber == normalizedText
+                            phoneNumber == text ||
+                            phoneNumber.normalizePhoneNumber() == normalizedText ||
+                            phoneNumber == normalizedText
                 }
             }
         } else {

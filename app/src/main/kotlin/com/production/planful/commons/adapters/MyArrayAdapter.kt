@@ -7,8 +7,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class MyArrayAdapter<T>(context: Context, res: Int, items: Array<T>, val textColor: Int, val backgroundColor: Int, val padding: Int) :
-        ArrayAdapter<T>(context, res, items) {
+class MyArrayAdapter<T>(
+    context: Context,
+    res: Int,
+    items: Array<T>,
+    val textColor: Int,
+    val backgroundColor: Int,
+    val padding: Int
+) :
+    ArrayAdapter<T>(context, res, items) {
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = super.getView(position, convertView, parent)
 

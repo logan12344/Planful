@@ -9,7 +9,11 @@ import com.production.planful.fragments.WeekFragment
 import com.production.planful.helpers.WEEK_START_TIMESTAMP
 import com.production.planful.interfaces.WeekFragmentListener
 
-class MyWeekPagerAdapter(fm: FragmentManager, private val mWeekTimestamps: List<Long>, private val mListener: WeekFragmentListener) :
+class MyWeekPagerAdapter(
+    fm: FragmentManager,
+    private val mWeekTimestamps: List<Long>,
+    private val mListener: WeekFragmentListener
+) :
     FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<WeekFragment>()
 

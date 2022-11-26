@@ -12,6 +12,7 @@ import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.DayEventsAdapter
+import com.production.planful.commons.extensions.*
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.getViewBitmap
@@ -19,7 +20,6 @@ import com.production.planful.extensions.printBitmap
 import com.production.planful.helpers.*
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.Event
-import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 
@@ -31,7 +31,11 @@ class DayFragment : Fragment() {
 
     private lateinit var mHolder: RelativeLayout
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_day, container, false)
         mHolder = view.day_holder
 
@@ -99,9 +103,17 @@ class DayFragment : Fragment() {
         lastHash = newHash
 
         val replaceDescription = requireContext().config.replaceDescription
-        val sorted = ArrayList(events.sortedWith(compareBy({ !it.getIsAllDay() }, { it.startTS }, { it.endTS }, { it.title }, {
-            if (replaceDescription) it.location else it.description
-        })))
+        val sorted = ArrayList(
+            events.sortedWith(
+                compareBy({ !it.getIsAllDay() },
+                    { it.startTS },
+                    { it.endTS },
+                    { it.title },
+                    {
+                        if (replaceDescription) it.location else it.description
+                    })
+            )
+        )
 
         activity?.runOnUiThread {
             updateEvents(sorted)
@@ -109,9 +121,14 @@ class DayFragment : Fragment() {
     }
 
     private fun updateEvents(events: ArrayList<Event>) {
-        if (activity == null)
-            return
-
+        if (activity == null) return
+        if (events.size > 0) {
+            mHolder.no_data.visibility = View.GONE
+            mHolder.day_events.visibility = View.VISIBLE
+        } else {
+            mHolder.no_data.visibility = View.VISIBLE
+            mHolder.day_events.visibility = View.GONE
+        }
         DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
             editEvent(it as Event)
         }.apply {

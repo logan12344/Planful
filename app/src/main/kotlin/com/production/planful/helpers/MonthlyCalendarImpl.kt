@@ -70,7 +70,16 @@ class MonthlyCalendarImpl(val callback: MonthlyCalendar, val context: Context) {
 
             val newDay = curDay.withDayOfMonth(value)
             val dayCode = Formatter.getDayCodeFromDateTime(newDay)
-            val day = DayMonthly(value, isThisMonth, isToday, dayCode, newDay.weekOfWeekyear, ArrayList(), i, isWeekend(i % 7, isSundayFirst))
+            val day = DayMonthly(
+                value,
+                isThisMonth,
+                isToday,
+                dayCode,
+                newDay.weekOfWeekyear,
+                ArrayList(),
+                i,
+                isWeekend(i % 7, isSundayFirst)
+            )
             days.add(day)
             value++
         }
@@ -113,7 +122,8 @@ class MonthlyCalendarImpl(val callback: MonthlyCalendar, val context: Context) {
 
     private fun isToday(targetDate: DateTime, curDayInMonth: Int): Boolean {
         val targetMonthDays = targetDate.dayOfMonth().maximumValue
-        return targetDate.withDayOfMonth(min(curDayInMonth, targetMonthDays)).toString(Formatter.DAYCODE_PATTERN) == mToday
+        return targetDate.withDayOfMonth(min(curDayInMonth, targetMonthDays))
+            .toString(Formatter.DAYCODE_PATTERN) == mToday
     }
 
     private val monthName: String

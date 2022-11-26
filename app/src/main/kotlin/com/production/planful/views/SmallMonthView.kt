@@ -7,16 +7,17 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.production.planful.R
-import com.production.planful.extensions.config
-import com.production.planful.helpers.isWeekend
-import com.production.planful.models.DayYearly
 import com.production.planful.commons.extensions.adjustAlpha
 import com.production.planful.commons.extensions.getProperPrimaryColor
 import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.extensions.config
+import com.production.planful.helpers.isWeekend
+import com.production.planful.models.DayYearly
 
 // used for displaying months at Yearly view
-class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) : View(context, attrs, defStyle) {
+class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) :
+    View(context, attrs, defStyle) {
     private var paint: Paint
     private var todayCirclePaint: Paint
     private var dayWidth = 0f
@@ -89,11 +90,21 @@ class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) : Vie
             for (x in 1..7) {
                 if (curId in 1..days) {
                     val paint = getPaint(curId, x, highlightWeekends)
-                    canvas.drawText(curId.toString(), x * dayWidth - (dayWidth / 4), y * dayWidth, paint)
+                    canvas.drawText(
+                        curId.toString(),
+                        x * dayWidth - (dayWidth / 4),
+                        y * dayWidth,
+                        paint
+                    )
 
                     if (curId == todaysId && !isPrintVersion) {
                         val dividerConstant = if (isLandscape) 6 else 4
-                        canvas.drawCircle(x * dayWidth - dayWidth / 2, y * dayWidth - dayWidth / dividerConstant, dayWidth * 0.41f, todayCirclePaint)
+                        canvas.drawCircle(
+                            x * dayWidth - dayWidth / 2,
+                            y * dayWidth - dayWidth / dividerConstant,
+                            dayWidth * 0.41f,
+                            todayCirclePaint
+                        )
                     }
                 }
                 curId++

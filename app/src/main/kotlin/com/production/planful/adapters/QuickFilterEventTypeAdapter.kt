@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
-import com.production.planful.extensions.config
-import com.production.planful.models.EventType
 import com.production.planful.commons.extensions.adjustAlpha
 import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.commons.helpers.LOWER_ALPHA
+import com.production.planful.extensions.config
+import com.production.planful.models.EventType
 import kotlinx.android.synthetic.main.quick_filter_event_type_view.view.*
 
 class QuickFilterEventTypeAdapter(
@@ -26,12 +26,15 @@ class QuickFilterEventTypeAdapter(
     private val textColorActive = activity.getProperTextColor()
     private val textColorInactive = textColorActive.adjustAlpha(LOWER_ALPHA)
 
-    private val minItemWidth = activity.resources.getDimensionPixelSize(R.dimen.quick_filter_min_width)
+    private val minItemWidth =
+        activity.resources.getDimensionPixelSize(R.dimen.quick_filter_min_width)
     private var lastClickTS = 0L
 
     init {
         quickFilterEventTypeIds.forEach { quickFilterEventType ->
-            val eventType = allEventTypes.firstOrNull { eventType -> eventType.id.toString() == quickFilterEventType } ?: return@forEach
+            val eventType =
+                allEventTypes.firstOrNull { eventType -> eventType.id.toString() == quickFilterEventType }
+                    ?: return@forEach
             quickFilterEventTypes.add(eventType)
 
             if (displayEventTypes.contains(eventType.id.toString())) {
@@ -55,7 +58,8 @@ class QuickFilterEventTypeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val parentWidth = parent.measuredWidth
         val nrOfItems = quickFilterEventTypes.size
-        val view = activity.layoutInflater.inflate(R.layout.quick_filter_event_type_view, parent, false)
+        val view =
+            activity.layoutInflater.inflate(R.layout.quick_filter_event_type_view, parent, false)
         if (nrOfItems * minItemWidth > parentWidth) view.layoutParams.width = minItemWidth
         else view.layoutParams.width = parentWidth / nrOfItems
         return ViewHolder(view)
@@ -76,8 +80,10 @@ class QuickFilterEventTypeAdapter(
                 val textColor = if (isSelected) textColorActive else textColorInactive
                 quick_filter_event_type.setTextColor(textColor)
 
-                val indicatorHeightRes = if (isSelected) R.dimen.quick_filter_active_line_size else R.dimen.quick_filter_inactive_line_size
-                quick_filter_event_type_color.layoutParams.height = resources.getDimensionPixelSize(indicatorHeightRes)
+                val indicatorHeightRes =
+                    if (isSelected) R.dimen.quick_filter_active_line_size else R.dimen.quick_filter_inactive_line_size
+                quick_filter_event_type_color.layoutParams.height =
+                    resources.getDimensionPixelSize(indicatorHeightRes)
                 quick_filter_event_type_color.setBackgroundColor(eventType.color)
 
                 // avoid too quick clicks, could cause glitches

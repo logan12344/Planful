@@ -73,7 +73,8 @@ object Formatter {
 
     fun getLongestDate(ts: Long) = getDateTimeFromTS(ts).toString(LONGEST_PATTERN)
 
-    fun getDate(context: Context, dateTime: DateTime, addDayOfWeek: Boolean = true) = getDayTitle(context, getDayCodeFromDateTime(dateTime), addDayOfWeek)
+    fun getDate(context: Context, dateTime: DateTime, addDayOfWeek: Boolean = true) =
+        getDayTitle(context, getDayCodeFromDateTime(dateTime), addDayOfWeek)
 
     fun getFullDate(context: Context, dateTime: DateTime): String {
         val day = dateTime.toString(DAY_PATTERN)
@@ -93,16 +94,19 @@ object Formatter {
 
     fun getTime(context: Context, dateTime: DateTime) = dateTime.toString(getTimePattern(context))
 
-    fun getDateTimeFromCode(dayCode: String) = DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.UTC).parseDateTime(dayCode)
+    fun getDateTimeFromCode(dayCode: String) =
+        DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.UTC).parseDateTime(dayCode)
 
     fun getLocalDateTimeFromCode(dayCode: String) =
-        DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.getDefault()).parseLocalDate(dayCode).toDateTimeAtStartOfDay()
+        DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.getDefault())
+            .parseLocalDate(dayCode).toDateTimeAtStartOfDay()
 
     fun getTimeFromTS(context: Context, ts: Long) = getTime(context, getDateTimeFromTS(ts))
 
     fun getDayStartTS(dayCode: String) = getLocalDateTimeFromCode(dayCode).seconds()
 
-    fun getDayEndTS(dayCode: String) = getLocalDateTimeFromCode(dayCode).plusDays(1).minusMinutes(1).seconds()
+    fun getDayEndTS(dayCode: String) =
+        getLocalDateTimeFromCode(dayCode).plusDays(1).minusMinutes(1).seconds()
 
     fun getDayCodeFromDateTime(dateTime: DateTime) = dateTime.toString(DAYCODE_PATTERN)
 
@@ -113,11 +117,14 @@ object Formatter {
     fun getUTCDateTimeFromTS(ts: Long) = DateTime(ts * 1000L, DateTimeZone.UTC)
 
     // use manually translated month names, as DateFormat and Joda have issues with a lot of languages
-    fun getMonthName(context: Context, id: Int) = context.resources.getStringArray(R.array.months)[id - 1]
+    fun getMonthName(context: Context, id: Int) =
+        context.resources.getStringArray(R.array.months)[id - 1]
 
-    fun getHourPattern(context: Context) = if (context.config.use24HourFormat) PATTERN_HOURS_24 else PATTERN_HOURS_12
+    fun getHourPattern(context: Context) =
+        if (context.config.use24HourFormat) PATTERN_HOURS_24 else PATTERN_HOURS_12
 
-    fun getTimePattern(context: Context) = if (context.config.use24HourFormat) PATTERN_TIME_24 else PATTERN_TIME_12
+    fun getTimePattern(context: Context) =
+        if (context.config.use24HourFormat) PATTERN_TIME_24 else PATTERN_TIME_12
 
     fun getExportedTime(ts: Long): String {
         val dateTime = DateTime(ts, DateTimeZone.UTC)
@@ -137,9 +144,12 @@ object Formatter {
 
     fun getYearFromDayCode(dayCode: String) = getDateTimeFromCode(dayCode).toString(YEAR_PATTERN)
 
-    fun getShiftedTS(dateTime: DateTime, toZone: DateTimeZone) = dateTime.withTimeAtStartOfDay().withZoneRetainFields(toZone).seconds()
+    fun getShiftedTS(dateTime: DateTime, toZone: DateTimeZone) =
+        dateTime.withTimeAtStartOfDay().withZoneRetainFields(toZone).seconds()
 
-    fun getShiftedLocalTS(ts: Long) = getShiftedTS(dateTime = getUTCDateTimeFromTS(ts), toZone = DateTimeZone.getDefault())
+    fun getShiftedLocalTS(ts: Long) =
+        getShiftedTS(dateTime = getUTCDateTimeFromTS(ts), toZone = DateTimeZone.getDefault())
 
-    fun getShiftedUtcTS(ts: Long) = getShiftedTS(dateTime = getDateTimeFromTS(ts), toZone = DateTimeZone.UTC)
+    fun getShiftedUtcTS(ts: Long) =
+        getShiftedTS(dateTime = getDateTimeFromTS(ts), toZone = DateTimeZone.UTC)
 }

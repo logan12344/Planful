@@ -9,10 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
-import android.provider.ContactsContract.CommonDataKinds.Event
-import android.provider.ContactsContract.CommonDataKinds.Organization
-import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import android.provider.ContactsContract.CommonDataKinds.*
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.PhoneLookup
 import android.text.TextUtils
@@ -63,8 +60,13 @@ class SimpleContactsHelper(val context: Context) {
                     if (contacts.any { it.phoneNumbers.size == 1 } && contacts.any { it.phoneNumbers.size > 1 }) {
                         val multipleNumbersContact = contacts.first()
                         contacts.subList(1, contacts.size).forEach { contact ->
-                            if (contact.phoneNumbers.all { multipleNumbersContact.doesContainPhoneNumber(it.normalizedNumber) }) {
-                                val contactToRemove = allContacts.firstOrNull { it.rawId == contact.rawId }
+                            if (contact.phoneNumbers.all {
+                                    multipleNumbersContact.doesContainPhoneNumber(
+                                        it.normalizedNumber
+                                    )
+                                }) {
+                                val contactToRemove =
+                                    allContacts.firstOrNull { it.rawId == contact.rawId }
                                 if (contactToRemove != null) {
                                     contactsToRemove.add(contactToRemove)
                                 }
@@ -89,7 +91,8 @@ class SimpleContactsHelper(val context: Context) {
             size = anniversaries.size()
             for (i in 0 until size) {
                 val key = anniversaries.keyAt(i)
-                allContacts.firstOrNull { it.rawId == key }?.anniversaries = anniversaries.valueAt(i)
+                allContacts.firstOrNull { it.rawId == key }?.anniversaries =
+                    anniversaries.valueAt(i)
             }
 
             allContacts.sort()
@@ -140,13 +143,33 @@ class SimpleContactsHelper(val context: Context) {
                 val suffix = cursor.getStringValue(StructuredName.SUFFIX) ?: ""
                 if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
                     val names = if (startNameWithSurname) {
-                        arrayOf(prefix, familyName, middleName, firstName, suffix).filter { it.isNotEmpty() }
+                        arrayOf(
+                            prefix,
+                            familyName,
+                            middleName,
+                            firstName,
+                            suffix
+                        ).filter { it.isNotEmpty() }
                     } else {
-                        arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
+                        arrayOf(
+                            prefix,
+                            firstName,
+                            middleName,
+                            familyName,
+                            suffix
+                        ).filter { it.isNotEmpty() }
                     }
 
                     val fullName = TextUtils.join(" ", names)
-                    val contact = SimpleContact(rawId, contactId, fullName, photoUri, ArrayList(), ArrayList(), ArrayList())
+                    val contact = SimpleContact(
+                        rawId,
+                        contactId,
+                        fullName,
+                        photoUri,
+                        ArrayList(),
+                        ArrayList(),
+                        ArrayList()
+                    )
                     contacts.add(contact)
                 }
             }
@@ -157,7 +180,15 @@ class SimpleContactsHelper(val context: Context) {
                 val jobTitle = cursor.getStringValue(Organization.TITLE) ?: ""
                 if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
                     val fullName = "$company $jobTitle".trim()
-                    val contact = SimpleContact(rawId, contactId, fullName, photoUri, ArrayList(), ArrayList(), ArrayList())
+                    val contact = SimpleContact(
+                        rawId,
+                        contactId,
+                        fullName,
+                        photoUri,
+                        ArrayList(),
+                        ArrayList(),
+                        ArrayList()
+                    )
                     contacts.add(contact)
                 }
             }
@@ -191,11 +222,13 @@ class SimpleContactsHelper(val context: Context) {
             val isPrimary = cursor.getIntValue(Phone.IS_PRIMARY) != 0
 
             if (contacts.firstOrNull { it.rawId == rawId } == null) {
-                val contact = SimpleContact(rawId, contactId, "", "", ArrayList(), ArrayList(), ArrayList())
+                val contact =
+                    SimpleContact(rawId, contactId, "", "", ArrayList(), ArrayList(), ArrayList())
                 contacts.add(contact)
             }
 
-            val phoneNumber = PhoneNumber(normalizedNumber, type, label, normalizedNumber, isPrimary)
+            val phoneNumber =
+                PhoneNumber(normalizedNumber, type, label, normalizedNumber, isPrimary)
             contacts.firstOrNull { it.rawId == rawId }?.phoneNumbers?.add(phoneNumber)
         }
         return contacts
@@ -210,7 +243,8 @@ class SimpleContactsHelper(val context: Context) {
         )
 
         val selection = "${Event.MIMETYPE} = ? AND ${Event.TYPE} = ?"
-        val requiredType = if (getBirthdays) Event.TYPE_BIRTHDAY.toString() else Event.TYPE_ANNIVERSARY.toString()
+        val requiredType =
+            if (getBirthdays) Event.TYPE_BIRTHDAY.toString() else Event.TYPE_ANNIVERSARY.toString()
         val selectionArgs = arrayOf(Event.CONTENT_ITEM_TYPE, requiredType)
 
         context.queryCursor(uri, projection, selection, selectionArgs) { cursor ->
@@ -273,8 +307,16 @@ class SimpleContactsHelper(val context: Context) {
         return ""
     }
 
-    fun loadContactImage(path: String, imageView: ImageView, placeholderName: String, placeholderImage: Drawable? = null) {
-        val placeholder = placeholderImage ?: BitmapDrawable(context.resources, getContactLetterIcon(placeholderName))
+    fun loadContactImage(
+        path: String,
+        imageView: ImageView,
+        placeholderName: String,
+        placeholderImage: Drawable? = null
+    ) {
+        val placeholder = placeholderImage ?: BitmapDrawable(
+            context.resources,
+            getContactLetterIcon(placeholderName)
+        )
 
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -299,7 +341,8 @@ class SimpleContactsHelper(val context: Context) {
         view.layout(0, 0, size, size)
 
         val circlePaint = Paint().apply {
-            color = letterBackgroundColors[Math.abs(name.hashCode()) % letterBackgroundColors.size].toInt()
+            color =
+                letterBackgroundColors[Math.abs(name.hashCode()) % letterBackgroundColors.size].toInt()
             isAntiAlias = true
         }
 
@@ -323,8 +366,10 @@ class SimpleContactsHelper(val context: Context) {
 
     fun getColoredGroupIcon(title: String): Drawable {
         val icon = context.resources.getDrawable(R.drawable.ic_group_circle_bg)
-        val bgColor = letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
-        (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background).applyColorFilter(bgColor)
+        val bgColor =
+            letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
+        (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background)
+            .applyColorFilter(bgColor)
         return icon
     }
 
@@ -360,7 +405,8 @@ class SimpleContactsHelper(val context: Context) {
 
     fun getShortcutImage(path: String, placeholderName: String, callback: (image: Bitmap) -> Unit) {
         ensureBackgroundThread {
-            val placeholder = BitmapDrawable(context.resources, getContactLetterIcon(placeholderName))
+            val placeholder =
+                BitmapDrawable(context.resources, getContactLetterIcon(placeholderName))
             try {
                 val options = RequestOptions()
                     .format(DecodeFormat.PREFER_ARGB_8888)
@@ -390,7 +436,8 @@ class SimpleContactsHelper(val context: Context) {
             if (contact != null) {
                 callback.invoke(true)
             } else {
-                val privateContacts = MyContactsContentProvider.getSimpleContacts(context, privateCursor)
+                val privateContacts =
+                    MyContactsContentProvider.getSimpleContacts(context, privateCursor)
                 val privateContact = privateContacts.firstOrNull { it.doesHavePhoneNumber(number) }
                 callback.invoke(privateContact != null)
             }

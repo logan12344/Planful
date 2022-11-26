@@ -44,14 +44,30 @@ class MyContactsContentProvider {
                             val birthdaysJson = cursor.getStringValue(COL_BIRTHDAYS)
                             val anniversariesJson = cursor.getStringValue(COL_ANNIVERSARIES)
 
-                            val phoneNumbersToken = object : TypeToken<ArrayList<PhoneNumber>>() {}.type
-                            val phoneNumbers = Gson().fromJson<ArrayList<PhoneNumber>>(phoneNumbersJson, phoneNumbersToken) ?: ArrayList()
+                            val phoneNumbersToken =
+                                object : TypeToken<ArrayList<PhoneNumber>>() {}.type
+                            val phoneNumbers = Gson().fromJson<ArrayList<PhoneNumber>>(
+                                phoneNumbersJson,
+                                phoneNumbersToken
+                            ) ?: ArrayList()
 
                             val stringsToken = object : TypeToken<ArrayList<String>>() {}.type
-                            val birthdays = Gson().fromJson<ArrayList<String>>(birthdaysJson, stringsToken) ?: ArrayList()
-                            val anniversaries = Gson().fromJson<ArrayList<String>>(anniversariesJson, stringsToken) ?: ArrayList()
+                            val birthdays =
+                                Gson().fromJson<ArrayList<String>>(birthdaysJson, stringsToken)
+                                    ?: ArrayList()
+                            val anniversaries =
+                                Gson().fromJson<ArrayList<String>>(anniversariesJson, stringsToken)
+                                    ?: ArrayList()
 
-                            val contact = SimpleContact(rawId, contactId, name, photoUri, phoneNumbers, birthdays, anniversaries)
+                            val contact = SimpleContact(
+                                rawId,
+                                contactId,
+                                name,
+                                photoUri,
+                                phoneNumbers,
+                                birthdays,
+                                anniversaries
+                            )
                             contacts.add(contact)
                         } while (cursor.moveToNext())
                     }

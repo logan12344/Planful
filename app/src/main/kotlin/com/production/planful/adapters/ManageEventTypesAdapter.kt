@@ -4,20 +4,23 @@ import android.view.*
 import android.widget.PopupMenu
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
-import com.production.planful.extensions.eventsHelper
-import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
-import com.production.planful.interfaces.DeleteEventTypesListener
-import com.production.planful.models.EventType
 import com.production.planful.commons.adapters.MyRecyclerViewAdapter
 import com.production.planful.commons.dialogs.ConfirmationDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.models.RadioItem
 import com.production.planful.commons.views.MyRecyclerView
+import com.production.planful.extensions.eventsHelper
+import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
+import com.production.planful.interfaces.DeleteEventTypesListener
+import com.production.planful.models.EventType
 import kotlinx.android.synthetic.main.item_event_type.view.*
 
 class ManageEventTypesAdapter(
-    activity: SimpleActivity, val eventTypes: ArrayList<EventType>, val listener: DeleteEventTypesListener?, recyclerView: MyRecyclerView,
+    activity: SimpleActivity,
+    val eventTypes: ArrayList<EventType>,
+    val listener: DeleteEventTypesListener?,
+    recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
     init {
@@ -55,7 +58,8 @@ class ManageEventTypesAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_event_type, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        createViewHolder(R.layout.item_event_type, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eventType = eventTypes[position]
@@ -67,9 +71,11 @@ class ManageEventTypesAdapter(
 
     override fun getItemCount() = eventTypes.size
 
-    private fun getItemWithKey(key: Int): EventType? = eventTypes.firstOrNull { it.id?.toInt() == key }
+    private fun getItemWithKey(key: Int): EventType? =
+        eventTypes.firstOrNull { it.id?.toInt() == key }
 
-    private fun getSelectedItems() = eventTypes.filter { selectedKeys.contains(it.id?.toInt()) } as ArrayList<EventType>
+    private fun getSelectedItems() =
+        eventTypes.filter { selectedKeys.contains(it.id?.toInt()) } as ArrayList<EventType>
 
     private fun setupView(view: View, eventType: EventType) {
         view.apply {
@@ -128,7 +134,8 @@ class ManageEventTypesAdapter(
     }
 
     private fun askConfirmDelete() {
-        val eventTypes = eventTypes.filter { selectedKeys.contains(it.id?.toInt()) }.map { it.id } as ArrayList<Long>
+        val eventTypes = eventTypes.filter { selectedKeys.contains(it.id?.toInt()) }
+            .map { it.id } as ArrayList<Long>
 
         activity.eventsHelper.doEventTypesContainEvents(eventTypes) {
             activity.runOnUiThread {
@@ -137,8 +144,18 @@ class ManageEventTypesAdapter(
                     val DELETE_EVENTS = 1
                     val res = activity.resources
                     val items = ArrayList<RadioItem>().apply {
-                        add(RadioItem(MOVE_EVENTS, res.getString(R.string.move_events_into_default)))
-                        add(RadioItem(DELETE_EVENTS, res.getString(R.string.remove_affected_events)))
+                        add(
+                            RadioItem(
+                                MOVE_EVENTS,
+                                res.getString(R.string.move_events_into_default)
+                            )
+                        )
+                        add(
+                            RadioItem(
+                                DELETE_EVENTS,
+                                res.getString(R.string.remove_affected_events)
+                            )
+                        )
                     }
                     RadioGroupDialog(activity, items) {
                         deleteEventTypes(it == DELETE_EVENTS)

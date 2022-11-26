@@ -10,17 +10,17 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.production.planful.R
 import com.production.planful.activities.SplashActivity
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.getColoredBitmap
+import com.production.planful.commons.extensions.getLaunchIntent
+import com.production.planful.commons.extensions.setTextSize
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.config
 import com.production.planful.extensions.getWidgetFontSize
 import com.production.planful.extensions.launchNewEventOrTaskActivity
 import com.production.planful.extensions.widgetsDB
 import com.production.planful.services.WidgetService
 import com.production.planful.services.WidgetServiceEmpty
-import com.production.planful.commons.extensions.applyColorFilter
-import com.production.planful.commons.extensions.getColoredBitmap
-import com.production.planful.commons.extensions.getLaunchIntent
-import com.production.planful.commons.extensions.setTextSize
-import com.production.planful.commons.helpers.ensureBackgroundThread
 import org.joda.time.DateTime
 
 class MyWidgetListProvider : AppWidgetProvider() {
@@ -28,7 +28,11 @@ class MyWidgetListProvider : AppWidgetProvider() {
     private val LAUNCH_CAL = "launch_cal"
     private val GO_TO_TODAY = "go_to_today"
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         performUpdate(context)
     }
 
@@ -41,7 +45,10 @@ class MyWidgetListProvider : AppWidgetProvider() {
             appWidgetManager.getAppWidgetIds(getComponentName(context)).forEach {
                 val widget = context.widgetsDB.getWidgetWithWidgetId(it)
                 val views = RemoteViews(context.packageName, R.layout.widget_event_list).apply {
-                    applyColorFilter(R.id.widget_event_list_background, context.config.widgetBgColor)
+                    applyColorFilter(
+                        R.id.widget_event_list_background,
+                        context.config.widgetBgColor
+                    )
                     setTextColor(R.id.widget_event_list_empty, textColor)
                     setTextSize(R.id.widget_event_list_empty, fontSize)
 
@@ -49,11 +56,17 @@ class MyWidgetListProvider : AppWidgetProvider() {
                     setTextSize(R.id.widget_event_list_today, fontSize)
                 }
 
-                views.setImageViewBitmap(R.id.widget_event_new_event, context.resources.getColoredBitmap(R.drawable.ic_plus_vector, textColor))
+                views.setImageViewBitmap(
+                    R.id.widget_event_new_event,
+                    context.resources.getColoredBitmap(R.drawable.ic_plus_vector, textColor)
+                )
                 setupIntent(context, views, NEW_EVENT, R.id.widget_event_new_event)
                 setupIntent(context, views, LAUNCH_CAL, R.id.widget_event_list_today)
 
-                views.setImageViewBitmap(R.id.widget_event_go_to_today, context.resources.getColoredBitmap(R.drawable.ic_today_vector, textColor))
+                views.setImageViewBitmap(
+                    R.id.widget_event_go_to_today,
+                    context.resources.getColoredBitmap(R.drawable.ic_today_vector, textColor)
+                )
                 setupIntent(context, views, GO_TO_TODAY, R.id.widget_event_go_to_today)
 
                 Intent(context, WidgetService::class.java).apply {
@@ -62,9 +75,15 @@ class MyWidgetListProvider : AppWidgetProvider() {
                     views.setRemoteAdapter(R.id.widget_event_list, this)
                 }
 
-                val startActivityIntent = context.getLaunchIntent() ?: Intent(context, SplashActivity::class.java)
+                val startActivityIntent =
+                    context.getLaunchIntent() ?: Intent(context, SplashActivity::class.java)
                 val startActivityPendingIntent =
-                    PendingIntent.getActivity(context, 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+                    PendingIntent.getActivity(
+                        context,
+                        0,
+                        startActivityIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                    )
                 views.setPendingIntentTemplate(R.id.widget_event_list, startActivityPendingIntent)
                 views.setEmptyView(R.id.widget_event_list, R.id.widget_event_list_empty)
 
@@ -74,12 +93,14 @@ class MyWidgetListProvider : AppWidgetProvider() {
         }
     }
 
-    private fun getComponentName(context: Context) = ComponentName(context, MyWidgetListProvider::class.java)
+    private fun getComponentName(context: Context) =
+        ComponentName(context, MyWidgetListProvider::class.java)
 
     private fun setupIntent(context: Context, views: RemoteViews, action: String, id: Int) {
         Intent(context, MyWidgetListProvider::class.java).apply {
             this.action = action
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, this, PendingIntent.FLAG_IMMUTABLE)
+            val pendingIntent =
+                PendingIntent.getBroadcast(context, 0, this, PendingIntent.FLAG_IMMUTABLE)
             views.setOnClickPendingIntent(id, pendingIntent)
         }
     }

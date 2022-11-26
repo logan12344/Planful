@@ -7,7 +7,11 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.models.BlockedNumber
 import kotlinx.android.synthetic.main.dialog_add_blocked_number.view.*
 
-class AddBlockedNumberDialog(val activity: BaseSimpleActivity, val originalNumber: BlockedNumber? = null, val callback: () -> Unit) {
+class AddBlockedNumberDialog(
+    val activity: BaseSimpleActivity,
+    val originalNumber: BlockedNumber? = null,
+    val callback: () -> Unit
+) {
     init {
         val view = activity.layoutInflater.inflate(R.layout.dialog_add_blocked_number, null).apply {
             if (originalNumber != null) {

@@ -20,7 +20,10 @@ import kotlinx.android.synthetic.main.dialog_radio_group.view.*
  *
  */
 class StoragePickerDialog(
-    val activity: BaseSimpleActivity, val currPath: String, val showRoot: Boolean, pickSingleOption: Boolean,
+    val activity: BaseSimpleActivity,
+    val currPath: String,
+    val showRoot: Boolean,
+    pickSingleOption: Boolean,
     val callback: (pickedPath: String) -> Unit
 ) {
     private val ID_INTERNAL = 1
@@ -51,7 +54,10 @@ class StoragePickerDialog(
     private fun initDialog() {
         val inflater = LayoutInflater.from(activity)
         val resources = activity.resources
-        val layoutParams = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = RadioGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         val view = inflater.inflate(R.layout.dialog_radio_group, null)
         radioGroup = view.dialog_radio_group
         val basePath = currPath.getBasePath(activity)

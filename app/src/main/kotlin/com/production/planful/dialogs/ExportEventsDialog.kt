@@ -5,11 +5,11 @@ import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.FilterEventTypeAdapter
-import com.production.planful.extensions.config
-import com.production.planful.extensions.eventsHelper
 import com.production.planful.commons.dialogs.FilePickerDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.extensions.config
+import com.production.planful.extensions.eventsHelper
 import kotlinx.android.synthetic.main.dialog_export_events.view.*
 import java.io.File
 
@@ -21,7 +21,10 @@ class ExportEventsDialog(
     private val config = activity.config
 
     init {
-        val view = (activity.layoutInflater.inflate(R.layout.dialog_export_events, null) as ViewGroup).apply {
+        val view = (activity.layoutInflater.inflate(
+            R.layout.dialog_export_events,
+            null
+        ) as ViewGroup).apply {
             export_events_folder.setText(activity.humanizePath(realPath))
             export_events_filename.setText("${activity.getString(R.string.events)}_${activity.getCurrentFormattedDateTime()}")
             export_past_events_checkbox.isChecked = config.exportPastEvents
@@ -71,9 +74,11 @@ class ExportEventsDialog(
 
                                 ensureBackgroundThread {
                                     config.lastExportPath = file.absolutePath.getParentPath()
-                                    config.exportPastEvents = view.export_past_events_checkbox.isChecked
+                                    config.exportPastEvents =
+                                        view.export_past_events_checkbox.isChecked
 
-                                    val eventTypes = (view.export_events_types_list.adapter as FilterEventTypeAdapter).getSelectedItemsList()
+                                    val eventTypes =
+                                        (view.export_events_types_list.adapter as FilterEventTypeAdapter).getSelectedItemsList()
                                     callback(file, eventTypes)
                                     alertDialog.dismiss()
                                 }

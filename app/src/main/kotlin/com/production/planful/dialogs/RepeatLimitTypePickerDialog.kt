@@ -5,28 +5,34 @@ import android.app.DatePickerDialog
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
+import com.production.planful.commons.extensions.*
 import com.production.planful.extensions.config
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.getNowSeconds
-import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_repeat_limit_type_picker.view.*
 import org.joda.time.DateTime
 import java.util.*
 
-class RepeatLimitTypePickerDialog(val activity: Activity, var repeatLimit: Long, val startTS: Long, val callback: (repeatLimit: Long) -> Unit) {
+class RepeatLimitTypePickerDialog(
+    val activity: Activity,
+    var repeatLimit: Long,
+    val startTS: Long,
+    val callback: (repeatLimit: Long) -> Unit
+) {
     private var dialog: AlertDialog? = null
     private var view: View
 
     init {
-        view = activity.layoutInflater.inflate(R.layout.dialog_repeat_limit_type_picker, null).apply {
-            repeat_type_date.setOnClickListener { showRepetitionLimitDialog() }
-            repeat_type_count.setOnClickListener { dialog_radio_view.check(R.id.repeat_type_x_times) }
-            repeat_type_forever.setOnClickListener {
-                callback(0)
-                dialog?.dismiss()
+        view =
+            activity.layoutInflater.inflate(R.layout.dialog_repeat_limit_type_picker, null).apply {
+                repeat_type_date.setOnClickListener { showRepetitionLimitDialog() }
+                repeat_type_count.setOnClickListener { dialog_radio_view.check(R.id.repeat_type_x_times) }
+                repeat_type_forever.setOnClickListener {
+                    callback(0)
+                    dialog?.dismiss()
+                }
             }
-        }
 
         view.dialog_radio_view.check(getCheckedItem())
 
@@ -87,25 +93,33 @@ class RepeatLimitTypePickerDialog(val activity: Activity, var repeatLimit: Long,
     }
 
     private fun showRepetitionLimitDialog() {
-        val repeatLimitDateTime = Formatter.getDateTimeFromTS(if (repeatLimit != 0L) repeatLimit else getNowSeconds())
+        val repeatLimitDateTime =
+            Formatter.getDateTimeFromTS(if (repeatLimit != 0L) repeatLimit else getNowSeconds())
         val datepicker = DatePickerDialog(
-            activity, activity.getDatePickerDialogTheme(), repetitionLimitDateSetListener, repeatLimitDateTime.year,
-            repeatLimitDateTime.monthOfYear - 1, repeatLimitDateTime.dayOfMonth
+            activity,
+            activity.getDatePickerDialogTheme(),
+            repetitionLimitDateSetListener,
+            repeatLimitDateTime.year,
+            repeatLimitDateTime.monthOfYear - 1,
+            repeatLimitDateTime.dayOfMonth
         )
 
-        datepicker.datePicker.firstDayOfWeek = if (activity.config.isSundayFirst) Calendar.SUNDAY else Calendar.MONDAY
+        datepicker.datePicker.firstDayOfWeek =
+            if (activity.config.isSundayFirst) Calendar.SUNDAY else Calendar.MONDAY
         datepicker.show()
     }
 
-    private val repetitionLimitDateSetListener = DatePickerDialog.OnDateSetListener { v, year, monthOfYear, dayOfMonth ->
-        val repeatLimitDateTime = DateTime().withDate(year, monthOfYear + 1, dayOfMonth).withTime(23, 59, 59, 0)
-        repeatLimit = if (repeatLimitDateTime.seconds() < startTS) {
-            0
-        } else {
-            repeatLimitDateTime.seconds()
-        }
+    private val repetitionLimitDateSetListener =
+        DatePickerDialog.OnDateSetListener { v, year, monthOfYear, dayOfMonth ->
+            val repeatLimitDateTime =
+                DateTime().withDate(year, monthOfYear + 1, dayOfMonth).withTime(23, 59, 59, 0)
+            repeatLimit = if (repeatLimitDateTime.seconds() < startTS) {
+                0
+            } else {
+                repeatLimitDateTime.seconds()
+            }
 
-        updateRepeatLimitText()
-        view.dialog_radio_view.check(R.id.repeat_type_till_date)
-    }
+            updateRepeatLimitText()
+            view.dialog_radio_view.check(R.id.repeat_type_till_date)
+        }
 }

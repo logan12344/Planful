@@ -16,7 +16,8 @@ data class EventType(
     @ColumnInfo(name = "caldav_email") var caldavEmail: String = "",
     @ColumnInfo(name = "type") var type: Int = OTHER_EVENT
 ) {
-    fun getDisplayTitle() = if (caldavCalendarId == 0) title else "$caldavDisplayName ($caldavEmail)"
+    fun getDisplayTitle() =
+        if (caldavCalendarId == 0) title else "$caldavDisplayName ($caldavEmail)"
 
     fun isSyncedEventType() = caldavCalendarId != 0
 }

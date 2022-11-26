@@ -37,7 +37,11 @@ interface EventsDao {
     fun getOneTimeEventFromToWithId(id: Long, toTS: Long, fromTS: Long): List<Event>
 
     @Query("SELECT * FROM events WHERE start_ts <= :toTS AND end_ts >= :fromTS AND start_ts != 0 AND repeat_interval = 0 AND event_type IN (:eventTypeIds) AND (type = $TYPE_EVENT OR type = $TYPE_TASK)")
-    fun getOneTimeEventsFromToWithTypes(toTS: Long, fromTS: Long, eventTypeIds: List<Long>): List<Event>
+    fun getOneTimeEventsFromToWithTypes(
+        toTS: Long,
+        fromTS: Long,
+        eventTypeIds: List<Long>
+    ): List<Event>
 
     @Query("SELECT * FROM events WHERE end_ts > :toTS AND repeat_interval = 0 AND event_type IN (:eventTypeIds) AND type = $TYPE_EVENT")
     fun getOneTimeFutureEventsWithTypes(toTS: Long, eventTypeIds: List<Long>): List<Event>

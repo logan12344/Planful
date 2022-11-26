@@ -11,8 +11,13 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.models.SimpleListItem
 import kotlinx.android.synthetic.main.item_simple_list.view.*
 
-open class SimpleListItemAdapter(val activity: Activity, val onItemClicked: (SimpleListItem) -> Unit) :
-    ListAdapter<SimpleListItem, SimpleListItemAdapter.SimpleItemViewHolder>(SimpleListItemDiffCallback()) {
+open class SimpleListItemAdapter(
+    val activity: Activity,
+    val onItemClicked: (SimpleListItem) -> Unit
+) :
+    ListAdapter<SimpleListItem, SimpleListItemAdapter.SimpleItemViewHolder>(
+        SimpleListItemDiffCallback()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleItemViewHolder {
         val view = activity.layoutInflater.inflate(R.layout.item_simple_list, parent, false)

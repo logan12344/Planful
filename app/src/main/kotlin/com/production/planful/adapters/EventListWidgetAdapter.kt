@@ -8,17 +8,18 @@ import android.widget.RemoteViewsService
 import com.production.planful.R
 import com.production.planful.R.id.event_item_holder
 import com.production.planful.R.id.event_section_title
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.getWidgetFontSize
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.*
 import com.production.planful.models.*
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import org.joda.time.DateTime
 
-class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+class EventListWidgetAdapter(val context: Context, val intent: Intent) :
+    RemoteViewsService.RemoteViewsFactory {
     private val ITEM_EVENT = 0
     private val ITEM_SECTION_DAY = 1
     private val ITEM_SECTION_MONTH = 2
@@ -81,7 +82,8 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteV
             setBackgroundColor(R.id.event_item_color_bar, item.color)
             setText(R.id.event_item_title, item.title)
 
-            var timeText = if (item.isAllDay) allDayString else Formatter.getTimeFromTS(context, item.startTS)
+            var timeText =
+                if (item.isAllDay) allDayString else Formatter.getTimeFromTS(context, item.startTS)
             val endText = Formatter.getTimeFromTS(context, item.endTS)
             if (item.startTS != item.endTS) {
                 if (!item.isAllDay) {
@@ -98,7 +100,8 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteV
             setText(R.id.event_item_time, timeText)
 
             // we cannot change the event_item_color_bar rules dynamically, so do it like this
-            val descriptionText = if (replaceDescription) item.location else item.description.replace("\n", " ")
+            val descriptionText =
+                if (replaceDescription) item.location else item.description.replace("\n", " ")
             if (displayDescription && descriptionText.isNotEmpty()) {
                 setText(R.id.event_item_time, "$timeText\n$descriptionText")
             }
@@ -123,7 +126,11 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteV
             }
 
             if (item.isTaskCompleted) {
-                setInt(R.id.event_item_title, "setPaintFlags", Paint.ANTI_ALIAS_FLAG or Paint.STRIKE_THRU_TEXT_FLAG)
+                setInt(
+                    R.id.event_item_title,
+                    "setPaintFlags",
+                    Paint.ANTI_ALIAS_FLAG or Paint.STRIKE_THRU_TEXT_FLAG
+                )
             } else {
                 setInt(R.id.event_item_title, "setPaintFlags", Paint.ANTI_ALIAS_FLAG)
             }
@@ -203,7 +210,8 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteV
                 } else {
                     event.endTS
                 }
-            }.thenBy { event -> event.title }.thenBy { event -> if (replaceDescription) event.location else event.description })
+            }.thenBy { event -> event.title }
+                .thenBy { event -> if (replaceDescription) event.location else event.description })
 
             var prevCode = ""
             var prevMonthLabel = ""
@@ -222,7 +230,8 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteV
                 if (code != prevCode) {
                     val day = Formatter.getDateDayTitle(code)
                     val isToday = day == today
-                    val listSection = ListSectionDay(day, code, isToday, !isToday && event.startTS < now)
+                    val listSection =
+                        ListSectionDay(day, code, isToday, !isToday && event.startTS < now)
                     listItems.add(listSection)
                     prevCode = code
                 }

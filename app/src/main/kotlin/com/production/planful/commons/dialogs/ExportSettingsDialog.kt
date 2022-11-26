@@ -12,11 +12,12 @@ class ExportSettingsDialog(
 ) {
     init {
         val lastUsedFolder = activity.baseConfig.lastExportedSettingsFolder
-        var folder = if (lastUsedFolder.isNotEmpty() && activity.getDoesFilePathExist(lastUsedFolder)) {
-            lastUsedFolder
-        } else {
-            activity.internalStoragePath
-        }
+        var folder =
+            if (lastUsedFolder.isNotEmpty() && activity.getDoesFilePathExist(lastUsedFolder)) {
+                lastUsedFolder
+            } else {
+                activity.internalStoragePath
+            }
 
         val view = activity.layoutInflater.inflate(R.layout.dialog_export_settings, null).apply {
             export_settings_filename.setText(defaultFilename.removeSuffix(".txt"))
@@ -56,7 +57,10 @@ class ExportSettingsDialog(
 
                         activity.baseConfig.lastExportedSettingsFolder = folder
                         if (!hidePath && activity.getDoesFilePathExist(newPath)) {
-                            val title = String.format(activity.getString(R.string.file_already_exists_overwrite), newPath.getFilenameFromPath())
+                            val title = String.format(
+                                activity.getString(R.string.file_already_exists_overwrite),
+                                newPath.getFilenameFromPath()
+                            )
                             ConfirmationDialog(activity, title) {
                                 callback(newPath, filename)
                                 alertDialog.dismiss()

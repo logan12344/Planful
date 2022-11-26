@@ -11,13 +11,13 @@ import androidx.viewpager.widget.ViewPager
 import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.adapters.MyMonthDayPagerAdapter
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.views.MyViewPager
 import com.production.planful.extensions.getMonthCode
 import com.production.planful.helpers.DAY_CODE
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.MONTHLY_DAILY_VIEW
 import com.production.planful.interfaces.NavigationListener
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_months_days_holder.view.*
 import org.joda.time.DateTime
 
@@ -38,7 +38,11 @@ class MonthDayFragmentsHolder : MyFragmentHolder(), NavigationListener {
         todayDayCode = Formatter.getTodayCode()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_months_days_holder, container, false)
         view.background = ColorDrawable(requireContext().getProperBackgroundColor())
         viewPager = view.fragment_months_days_viewpager
@@ -49,7 +53,8 @@ class MonthDayFragmentsHolder : MyFragmentHolder(), NavigationListener {
 
     private fun setupFragment() {
         val codes = getMonths(currentDayCode)
-        val monthlyDailyAdapter = MyMonthDayPagerAdapter(requireActivity().supportFragmentManager, codes, this)
+        val monthlyDailyAdapter =
+            MyMonthDayPagerAdapter(requireActivity().supportFragmentManager, codes, this)
         defaultMonthlyPage = codes.size / 2
 
         viewPager!!.apply {
@@ -58,14 +63,20 @@ class MonthDayFragmentsHolder : MyFragmentHolder(), NavigationListener {
                 override fun onPageScrollStateChanged(state: Int) {
                 }
 
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
                 }
 
                 override fun onPageSelected(position: Int) {
                     currentDayCode = codes[position]
                     val shouldGoToTodayBeVisible = shouldGoToTodayBeVisible()
                     if (isGoToTodayVisible != shouldGoToTodayBeVisible) {
-                        (activity as? MainActivity)?.toggleGoToTodayVisibility(shouldGoToTodayBeVisible)
+                        (activity as? MainActivity)?.toggleGoToTodayVisibility(
+                            shouldGoToTodayBeVisible
+                        )
                         isGoToTodayVisible = shouldGoToTodayBeVisible
                     }
                 }
@@ -107,7 +118,8 @@ class MonthDayFragmentsHolder : MyFragmentHolder(), NavigationListener {
         requireActivity().setTheme(requireContext().getDatePickerDialogTheme())
         val view = layoutInflater.inflate(R.layout.date_picker, null)
         val datePicker = view.findViewById<DatePicker>(R.id.date_picker)
-        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("day", "id", "android")).beGone()
+        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("day", "id", "android"))
+            .beGone()
 
         val dateTime = getCurrentDate()!!
         datePicker.init(dateTime.year, dateTime.monthOfYear - 1, 1, null)
@@ -128,21 +140,27 @@ class MonthDayFragmentsHolder : MyFragmentHolder(), NavigationListener {
     }
 
     override fun refreshEvents() {
-        (viewPager?.adapter as? MyMonthDayPagerAdapter)?.updateCalendars(viewPager?.currentItem ?: 0)
+        (viewPager?.adapter as? MyMonthDayPagerAdapter)?.updateCalendars(
+            viewPager?.currentItem ?: 0
+        )
     }
 
-    override fun shouldGoToTodayBeVisible() = currentDayCode.getMonthCode() != todayDayCode.getMonthCode()
+    override fun shouldGoToTodayBeVisible() =
+        currentDayCode.getMonthCode() != todayDayCode.getMonthCode()
 
     override fun updateActionBarTitle() {
         (activity as? MainActivity)?.updateTitle(getString(R.string.app_launcher_name))
     }
 
-    override fun getNewEventDayCode() = (viewPager?.adapter as? MyMonthDayPagerAdapter)?.getNewEventDayCode(viewPager?.currentItem ?: 0)
-        ?: if (shouldGoToTodayBeVisible()) {
-            currentDayCode
-        } else {
-            todayDayCode
-        }
+    override fun getNewEventDayCode() =
+        (viewPager?.adapter as? MyMonthDayPagerAdapter)?.getNewEventDayCode(
+            viewPager?.currentItem ?: 0
+        )
+            ?: if (shouldGoToTodayBeVisible()) {
+                currentDayCode
+            } else {
+                todayDayCode
+            }
 
     override fun printView() {}
 

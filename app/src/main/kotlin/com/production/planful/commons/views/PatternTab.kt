@@ -10,13 +10,17 @@ import com.andrognito.patternlockview.PatternLockView
 import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
 import com.production.planful.R
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.toast
+import com.production.planful.commons.extensions.updateTextColors
 import com.production.planful.commons.helpers.PROTECTION_PATTERN
 import com.production.planful.commons.interfaces.HashListener
 import com.production.planful.commons.interfaces.SecurityTab
 import kotlinx.android.synthetic.main.tab_pattern.view.*
 
-class PatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), SecurityTab {
+class PatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
+    SecurityTab {
     private var hash = ""
     private var requiredHash = ""
     private var scrollView: MyScrollView? = null

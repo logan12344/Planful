@@ -17,7 +17,8 @@ import com.production.planful.commons.interfaces.HashListener
 import com.production.planful.commons.interfaces.SecurityTab
 import kotlinx.android.synthetic.main.tab_fingerprint.view.*
 
-class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), SecurityTab {
+class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs),
+    SecurityTab {
     private val RECHECK_PERIOD = 3000L
     private val registerHandler = Handler()
 
@@ -55,14 +56,21 @@ class FingerprintTab(context: Context, attrs: AttributeSet) : RelativeLayout(con
     private fun checkRegisteredFingerprints() {
         val hasFingerprints = Reprint.hasFingerprintRegistered()
         fingerprint_settings.beGoneIf(hasFingerprints)
-        fingerprint_label.text = context.getString(if (hasFingerprints) R.string.place_finger else R.string.no_fingerprints_registered)
+        fingerprint_label.text =
+            context.getString(if (hasFingerprints) R.string.place_finger else R.string.no_fingerprints_registered)
 
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) {
                 hashListener.receivedHash("", PROTECTION_FINGERPRINT)
             }
 
-            override fun onFailure(failureReason: AuthenticationFailureReason?, fatal: Boolean, errorMessage: CharSequence?, moduleTag: Int, errorCode: Int) {
+            override fun onFailure(
+                failureReason: AuthenticationFailureReason?,
+                fatal: Boolean,
+                errorMessage: CharSequence?,
+                moduleTag: Int,
+                errorCode: Int
+            ) {
                 when (failureReason) {
                     AuthenticationFailureReason.AUTHENTICATION_FAILED -> context.toast(R.string.authentication_failed)
                     AuthenticationFailureReason.LOCKED_OUT -> context.toast(R.string.authentication_blocked)

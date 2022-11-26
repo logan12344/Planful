@@ -3,17 +3,16 @@ package com.production.planful.extensions
 import android.app.Activity
 import com.production.planful.BuildConfig
 import com.production.planful.R
-import com.production.planful.dialogs.CustomEventRepeatIntervalDialog
-import com.production.planful.helpers.*
-import com.production.planful.models.Event
 import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.commons.models.RadioItem
+import com.production.planful.dialogs.CustomEventRepeatIntervalDialog
+import com.production.planful.helpers.*
+import com.production.planful.models.Event
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun BaseSimpleActivity.shareEvents(ids: List<Long>) {
     ensureBackgroundThread {

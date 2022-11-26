@@ -85,7 +85,8 @@ class ColorPickerDialog(
                     y = 0f
 
                 if (y > viewHue.measuredHeight) {
-                    y = viewHue.measuredHeight - 0.001f // to avoid jumping the cursor from bottom to top.
+                    y =
+                        viewHue.measuredHeight - 0.001f // to avoid jumping the cursor from bottom to top.
                 }
                 var hue = 360f - 360f / viewHue.measuredHeight * y
                 if (hue == 360f)

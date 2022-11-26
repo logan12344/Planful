@@ -23,7 +23,10 @@ internal class BottomActionMenuParser(private val context: Context) {
         }
     }
 
-    private fun readContextItems(parser: XmlPullParser, attrs: AttributeSet): List<BottomActionMenuItem> {
+    private fun readContextItems(
+        parser: XmlPullParser,
+        attrs: AttributeSet
+    ): List<BottomActionMenuItem> {
         val items = mutableListOf<BottomActionMenuItem>()
         var eventType = parser.eventType
         var tagName: String
@@ -65,11 +68,15 @@ internal class BottomActionMenuParser(private val context: Context) {
         return items
     }
 
-    private fun readBottomActionMenuItem(parser: XmlPullParser, attrs: AttributeSet): BottomActionMenuItem {
+    private fun readBottomActionMenuItem(
+        parser: XmlPullParser,
+        attrs: AttributeSet
+    ): BottomActionMenuItem {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomActionMenuItem)
         val id = typedArray.getResourceId(R.styleable.BottomActionMenuItem_android_id, View.NO_ID)
         val text = typedArray.getString(R.styleable.BottomActionMenuItem_android_title) ?: NO_TEXT
-        val iconId = typedArray.getResourceId(R.styleable.BottomActionMenuItem_android_icon, View.NO_ID)
+        val iconId =
+            typedArray.getResourceId(R.styleable.BottomActionMenuItem_android_icon, View.NO_ID)
         val showAsAction = typedArray.getInt(R.styleable.BottomActionMenuItem_showAsAction, -1)
         val visible = typedArray.getBoolean(R.styleable.BottomActionMenuItem_android_visible, true)
         typedArray.recycle()

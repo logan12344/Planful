@@ -9,7 +9,8 @@ import com.production.planful.R
 import com.production.planful.extensions.config
 import com.production.planful.extensions.getWeeklyViewItemHeight
 
-class WeeklyViewGrid(context: Context, attrs: AttributeSet, defStyle: Int) : View(context, attrs, defStyle) {
+class WeeklyViewGrid(context: Context, attrs: AttributeSet, defStyle: Int) :
+    View(context, attrs, defStyle) {
     private val ROWS_CNT = 24
     private var paint = Paint(Paint.ANTI_ALIAS_FLAG)
     var daysCount = context.config.weeklyViewDays

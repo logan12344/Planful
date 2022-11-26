@@ -70,7 +70,11 @@ data class Contact(
         return result
     }
 
-    private fun compareUsingStrings(firstString: String, secondString: String, other: Contact): Int {
+    private fun compareUsingStrings(
+        firstString: String,
+        secondString: String,
+        other: Contact
+    ): Int {
         var firstValue = firstString
         var secondValue = secondString
 
@@ -92,9 +96,13 @@ data class Contact(
             }
         }
 
-        return if (firstValue.firstOrNull()?.isLetter() == true && secondValue.firstOrNull()?.isLetter() == false) {
+        return if (firstValue.firstOrNull()?.isLetter() == true && secondValue.firstOrNull()
+                ?.isLetter() == false
+        ) {
             -1
-        } else if (firstValue.firstOrNull()?.isLetter() == false && secondValue.firstOrNull()?.isLetter() == true) {
+        } else if (firstValue.firstOrNull()?.isLetter() == false && secondValue.firstOrNull()
+                ?.isLetter() == true
+        ) {
             1
         } else {
             if (firstValue.isEmpty() && secondValue.isNotEmpty()) {
@@ -186,7 +194,8 @@ data class Contact(
     fun getHashToCompare() = getStringToCompare().hashCode()
 
     fun getFullCompany(): String {
-        var fullOrganization = if (organization.company.isEmpty()) "" else "${organization.company}, "
+        var fullOrganization =
+            if (organization.company.isEmpty()) "" else "${organization.company}, "
         fullOrganization += organization.jobPosition
         return fullOrganization.trim().trimEnd(',')
     }
@@ -199,9 +208,9 @@ data class Contact(
             val normalizedText = if (convertLetters) text.normalizePhoneNumber() else text
             phoneNumbers.any {
                 PhoneNumberUtils.compare(it.normalizedNumber, normalizedText) ||
-                    it.value.contains(text) ||
-                    it.normalizedNumber.contains(normalizedText) ||
-                    it.value.normalizePhoneNumber().contains(normalizedText)
+                        it.value.contains(text) ||
+                        it.normalizedNumber.contains(normalizedText) ||
+                        it.value.normalizePhoneNumber().contains(normalizedText)
             }
         } else {
             false

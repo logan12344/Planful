@@ -4,16 +4,22 @@ import android.app.Activity
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
+import com.production.planful.commons.extensions.*
 import com.production.planful.helpers.DAY
 import com.production.planful.helpers.MONTH
 import com.production.planful.helpers.WEEK
 import com.production.planful.helpers.YEAR
-import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_custom_event_repeat_interval.view.*
 
-class CustomEventRepeatIntervalDialog(val activity: Activity, val callback: (seconds: Int) -> Unit) {
+class CustomEventRepeatIntervalDialog(
+    val activity: Activity,
+    val callback: (seconds: Int) -> Unit
+) {
     private var dialog: AlertDialog? = null
-    private var view = activity.layoutInflater.inflate(R.layout.dialog_custom_event_repeat_interval, null) as ViewGroup
+    private var view = activity.layoutInflater.inflate(
+        R.layout.dialog_custom_event_repeat_interval,
+        null
+    ) as ViewGroup
 
     init {
         view.dialog_radio_view.check(R.id.dialog_radio_days)

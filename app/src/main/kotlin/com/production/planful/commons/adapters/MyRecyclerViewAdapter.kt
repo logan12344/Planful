@@ -13,7 +13,11 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.interfaces.MyActionModeCallback
 import com.production.planful.commons.views.MyRecyclerView
 
-abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyclerView: MyRecyclerView, val itemClick: (Any) -> Unit) :
+abstract class MyRecyclerViewAdapter(
+    val activity: BaseSimpleActivity,
+    val recyclerView: MyRecyclerView,
+    val itemClick: (Any) -> Unit
+) :
     RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
     protected val baseConfig = activity.baseConfig
     protected val resources = activity.resources!!
@@ -66,7 +70,10 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 isSelectable = true
                 actMode = actionMode
                 actBarTextView = layoutInflater.inflate(R.layout.actionbar_title, null) as TextView
-                actBarTextView!!.layoutParams = ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                actBarTextView!!.layoutParams = ActionBar.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
                 actMode!!.customView = actBarTextView
                 actBarTextView!!.setOnClickListener {
                     if (getSelectableItemCount() == selectedKeys.size) {
@@ -89,7 +96,8 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
 
                 if (baseConfig.isUsingSystemTheme) {
                     actBarTextView?.onGlobalLayout {
-                        val backArrow = activity.findViewById<ImageView>(R.id.action_mode_close_button)
+                        val backArrow =
+                            activity.findViewById<ImageView>(R.id.action_mode_close_button)
                         backArrow?.applyColorFilter(bgColor.getContrastColor())
                     }
                 }
@@ -204,7 +212,12 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                     toggleItemSelection(true, position, true)
                 }
 
-                override fun selectRange(initialSelection: Int, lastDraggedIndex: Int, minReached: Int, maxReached: Int) {
+                override fun selectRange(
+                    initialSelection: Int,
+                    lastDraggedIndex: Int,
+                    minReached: Int,
+                    maxReached: Int
+                ) {
                     selectItemRange(
                         initialSelection,
                         Math.max(0, lastDraggedIndex - positionOffset),
@@ -233,7 +246,8 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
             }
 
             if (min > -1 && min < to) {
-                (min until to).filter { it != from }.forEach { toggleItemSelection(false, it, true) }
+                (min until to).filter { it != from }
+                    .forEach { toggleItemSelection(false, it, true) }
             }
 
             if (max > -1) {
@@ -310,13 +324,22 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
     }
 
     open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindView(any: Any, allowSingleClick: Boolean, allowLongClick: Boolean, callback: (itemView: View, adapterPosition: Int) -> Unit): View {
+        fun bindView(
+            any: Any,
+            allowSingleClick: Boolean,
+            allowLongClick: Boolean,
+            callback: (itemView: View, adapterPosition: Int) -> Unit
+        ): View {
             return itemView.apply {
                 callback(this, adapterPosition)
 
                 if (allowSingleClick) {
                     setOnClickListener { viewClicked(any) }
-                    setOnLongClickListener { if (allowLongClick) viewLongClicked() else viewClicked(any); true }
+                    setOnLongClickListener {
+                        if (allowLongClick) viewLongClicked() else viewClicked(
+                            any
+                        ); true
+                    }
                 } else {
                     setOnClickListener(null)
                     setOnLongClickListener(null)

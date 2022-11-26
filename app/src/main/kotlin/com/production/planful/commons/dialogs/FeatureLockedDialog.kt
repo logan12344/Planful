@@ -23,8 +23,10 @@ class FeatureLockedDialog(val activity: Activity, val callback: () -> Unit) {
             .apply {
                 activity.setupDialogStuff(view, this, cancelOnTouchOutside = false) { alertDialog ->
                     dialog = alertDialog
-                    view.feature_locked_description.text = Html.fromHtml(activity.getString(R.string.features_locked))
-                    view.feature_locked_description.movementMethod = LinkMovementMethod.getInstance()
+                    view.feature_locked_description.text =
+                        Html.fromHtml(activity.getString(R.string.features_locked))
+                    view.feature_locked_description.movementMethod =
+                        LinkMovementMethod.getInstance()
 
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         activity.launchPurchaseThankYouIntent()

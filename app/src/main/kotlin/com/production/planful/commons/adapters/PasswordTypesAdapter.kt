@@ -31,7 +31,13 @@ class PasswordTypesAdapter(
         val view = LayoutInflater.from(context).inflate(layoutSelection(position), container, false)
         container.addView(view)
         tabs.put(position, view as SecurityTab)
-        (view as SecurityTab).initTab(requiredHash, hashListener, scrollView, biometricPromptHost, showBiometricAuthentication)
+        (view as SecurityTab).initTab(
+            requiredHash,
+            hashListener,
+            scrollView,
+            biometricPromptHost,
+            showBiometricAuthentication
+        )
         return view
     }
 

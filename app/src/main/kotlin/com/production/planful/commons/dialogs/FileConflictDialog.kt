@@ -2,9 +2,7 @@ package com.production.planful.commons.dialogs
 
 import android.app.Activity
 import com.production.planful.R
-import com.production.planful.R.id.conflict_dialog_radio_keep_both
-import com.production.planful.R.id.conflict_dialog_radio_merge
-import com.production.planful.R.id.conflict_dialog_radio_skip
+import com.production.planful.R.id.*
 import com.production.planful.commons.extensions.baseConfig
 import com.production.planful.commons.extensions.beVisibleIf
 import com.production.planful.commons.extensions.getAlertDialogBuilder
@@ -24,8 +22,10 @@ class FileConflictDialog(
 
     init {
         view.apply {
-            val stringBase = if (fileDirItem.isDirectory) R.string.folder_already_exists else R.string.file_already_exists
-            conflict_dialog_title.text = String.format(activity.getString(stringBase), fileDirItem.name)
+            val stringBase =
+                if (fileDirItem.isDirectory) R.string.folder_already_exists else R.string.file_already_exists
+            conflict_dialog_title.text =
+                String.format(activity.getString(stringBase), fileDirItem.name)
             conflict_dialog_apply_to_all.isChecked = activity.baseConfig.lastConflictApplyToAll
             conflict_dialog_apply_to_all.beVisibleIf(showApplyToAllCheckbox)
             conflict_dialog_divider.beVisibleIf(showApplyToAllCheckbox)

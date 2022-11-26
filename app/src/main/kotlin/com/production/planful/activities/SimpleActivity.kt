@@ -6,12 +6,12 @@ import android.os.Handler
 import android.provider.CalendarContract
 import androidx.core.app.NotificationManagerCompat
 import com.production.planful.R
-import com.production.planful.extensions.config
-import com.production.planful.extensions.refreshCalDAVCalendars
 import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.dialogs.ConfirmationDialog
 import com.production.planful.commons.extensions.toast
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.extensions.config
+import com.production.planful.extensions.refreshCalDAVCalendars
 
 open class SimpleActivity : BaseSimpleActivity() {
     val CALDAV_REFRESH_DELAY = 3000L
@@ -19,25 +19,7 @@ open class SimpleActivity : BaseSimpleActivity() {
     var calDAVRefreshCallback: (() -> Unit)? = null
 
     override fun getAppIconIDs() = arrayListOf(
-        R.mipmap.ic_launcher_red,
-        R.mipmap.ic_launcher_pink,
-        R.mipmap.ic_launcher_purple,
-        R.mipmap.ic_launcher_deep_purple,
-        R.mipmap.ic_launcher_indigo,
-        R.mipmap.ic_launcher_blue,
-        R.mipmap.ic_launcher_light_blue,
-        R.mipmap.ic_launcher_cyan,
-        R.mipmap.ic_launcher_teal,
-        R.mipmap.ic_launcher_green,
-        R.mipmap.ic_launcher_light_green,
-        R.mipmap.ic_launcher_lime,
-        R.mipmap.ic_launcher_yellow,
-        R.mipmap.ic_launcher_amber,
-        R.mipmap.ic_launcher,
-        R.mipmap.ic_launcher_deep_orange,
-        R.mipmap.ic_launcher_brown,
-        R.mipmap.ic_launcher_blue_grey,
-        R.mipmap.ic_launcher_grey_black
+        R.mipmap.ic_launcher
     )
 
     override fun getAppLauncherName() = getString(R.string.app_launcher_name)
@@ -79,7 +61,12 @@ open class SimpleActivity : BaseSimpleActivity() {
                 if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
                     callback()
                 } else {
-                    ConfirmationDialog(this, messageId = R.string.notifications_disabled, positive = R.string.ok, negative = 0) {
+                    ConfirmationDialog(
+                        this,
+                        messageId = R.string.notifications_disabled,
+                        positive = R.string.ok,
+                        negative = 0
+                    ) {
                         callback()
                     }
                 }

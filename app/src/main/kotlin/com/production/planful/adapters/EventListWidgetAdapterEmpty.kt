@@ -6,7 +6,8 @@ import android.widget.RemoteViewsService
 import com.production.planful.R
 
 class EventListWidgetAdapterEmpty(val context: Context) : RemoteViewsService.RemoteViewsFactory {
-    override fun getViewAt(position: Int) = RemoteViews(context.packageName, R.layout.event_list_section_day_widget)
+    override fun getViewAt(position: Int) =
+        RemoteViews(context.packageName, R.layout.event_list_section_day_widget)
 
     override fun getLoadingView() = null
 

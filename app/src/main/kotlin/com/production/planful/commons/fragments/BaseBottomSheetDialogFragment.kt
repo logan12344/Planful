@@ -23,10 +23,19 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val config = context.baseConfig
 
         if (requireContext().isBlackAndWhiteTheme()) {
-            view.background = ResourcesCompat.getDrawable(context.resources, R.drawable.bottom_sheet_bg_black, context.theme)
+            view.background = ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.bottom_sheet_bg_black,
+                context.theme
+            )
         } else if (!config.isUsingSystemTheme) {
-            view.background = ResourcesCompat.getDrawable(context.resources, R.drawable.bottom_sheet_bg, context.theme).apply {
-                (this as LayerDrawable).findDrawableByLayerId(R.id.bottom_sheet_background).applyColorFilter(context.getProperBackgroundColor())
+            view.background = ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.bottom_sheet_bg,
+                context.theme
+            ).apply {
+                (this as LayerDrawable).findDrawableByLayerId(R.id.bottom_sheet_background)
+                    .applyColorFilter(context.getProperBackgroundColor())
             }
         }
         return view

@@ -13,14 +13,20 @@ import androidx.core.widget.PopupWindowCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.production.planful.commons.activities.BaseSimpleActivity
 
-class BottomActionMenuPopup(private val activity: BaseSimpleActivity, items: List<BottomActionMenuItem>) {
+class BottomActionMenuPopup(
+    private val activity: BaseSimpleActivity,
+    items: List<BottomActionMenuItem>
+) {
     private val bottomActionMenuView = BottomActionMenuView(activity)
     private val popup = PopupWindow(activity, null, android.R.attr.popupMenuStyle)
     private var floatingActionButton: FloatingActionButton? = null
     private var underlayView: View? = null
     private var callback: BottomActionMenuCallback? = null
 
-    constructor(activity: BaseSimpleActivity, @MenuRes menuResId: Int) : this(activity, BottomActionMenuParser(activity).inflate(menuResId))
+    constructor(activity: BaseSimpleActivity, @MenuRes menuResId: Int) : this(
+        activity,
+        BottomActionMenuParser(activity).inflate(menuResId)
+    )
 
     init {
         popup.contentView = bottomActionMenuView
@@ -35,7 +41,11 @@ class BottomActionMenuPopup(private val activity: BaseSimpleActivity, items: Lis
         bottomActionMenuView.setup(items)
     }
 
-    fun show(callback: BottomActionMenuCallback? = null, underlayView: View? = null, hideFab: Boolean = true) {
+    fun show(
+        callback: BottomActionMenuCallback? = null,
+        underlayView: View? = null,
+        hideFab: Boolean = true
+    ) {
         this.callback = callback
         callback?.onViewCreated(bottomActionMenuView)
         if (hideFab) {

@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.production.planful.fragments.YearFragment
 import com.production.planful.helpers.YEAR_LABEL
 
-class MyYearPagerAdapter(fm: FragmentManager, val mYears: List<Int>) : FragmentStatePagerAdapter(fm) {
+class MyYearPagerAdapter(fm: FragmentManager, val mYears: List<Int>) :
+    FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<YearFragment>()
 
     override fun getCount() = mYears.size

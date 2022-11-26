@@ -140,7 +140,8 @@ open class MyRecyclerView : RecyclerView {
                                 autoScrollHandler.postDelayed(autoScrollRunnable, AUTO_SCROLL_DELAY)
                             }
 
-                            val simulatedFactor = (hotspotTopBoundEnd - hotspotTopBoundStart).toFloat()
+                            val simulatedFactor =
+                                (hotspotTopBoundEnd - hotspotTopBoundStart).toFloat()
                             val simulatedY = ev.y - hotspotTopBoundStart
                             autoScrollVelocity = (simulatedFactor - simulatedY).toInt() / 2
                         } else if (ev.y in hotspotBottomBoundStart.toFloat()..hotspotBottomBoundEnd.toFloat()) {
@@ -152,7 +153,8 @@ open class MyRecyclerView : RecyclerView {
                             }
 
                             val simulatedY = ev.y + hotspotBottomBoundEnd
-                            val simulatedFactor = (hotspotBottomBoundStart + hotspotBottomBoundEnd).toFloat()
+                            val simulatedFactor =
+                                (hotspotBottomBoundStart + hotspotBottomBoundEnd).toFloat()
                             autoScrollVelocity = (simulatedY - simulatedFactor).toInt() / 2
                         } else if (inTopHotspot || inBottomHotspot) {
                             autoScrollHandler.removeCallbacks(autoScrollRunnable)
@@ -179,7 +181,12 @@ open class MyRecyclerView : RecyclerView {
                             minReached = lastDraggedIndex
                         }
 
-                        dragListener?.selectRange(initialSelection, lastDraggedIndex, minReached, maxReached)
+                        dragListener?.selectRange(
+                            initialSelection,
+                            lastDraggedIndex,
+                            minReached,
+                            maxReached
+                        )
 
                         if (initialSelection == lastDraggedIndex) {
                             minReached = lastDraggedIndex
@@ -281,7 +288,8 @@ open class MyRecyclerView : RecyclerView {
         }
     }
 
-    class GestureListener(val gestureListener: MyGestureListener) : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    class GestureListener(val gestureListener: MyGestureListener) :
+        ScaleGestureDetector.SimpleOnScaleGestureListener() {
         private val ZOOM_IN_THRESHOLD = -0.4f
         private val ZOOM_OUT_THRESHOLD = 0.15f
 
@@ -312,7 +320,12 @@ open class MyRecyclerView : RecyclerView {
     interface MyDragListener {
         fun selectItem(position: Int)
 
-        fun selectRange(initialSelection: Int, lastDraggedIndex: Int, minReached: Int, maxReached: Int)
+        fun selectRange(
+            initialSelection: Int,
+            lastDraggedIndex: Int,
+            minReached: Int,
+            maxReached: Int
+        )
     }
 
     interface MyGestureListener {

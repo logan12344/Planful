@@ -10,7 +10,8 @@ import com.production.planful.commons.interfaces.HashListener
 import com.production.planful.commons.interfaces.SecurityTab
 import kotlinx.android.synthetic.main.tab_biometric_id.view.*
 
-class BiometricIdTab(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs), SecurityTab {
+class BiometricIdTab(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs),
+    SecurityTab {
     private lateinit var hashListener: HashListener
     private lateinit var biometricPromptHost: AuthPromptHost
 

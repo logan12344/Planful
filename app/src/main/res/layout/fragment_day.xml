@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/day_holder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:paddingTop="@dimen/medium_margin">
 
     <include layout="@layout/top_navigation" />
+
+    <!--<com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+        android:id="@+id/carouselRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
 
     <com.production.planful.commons.views.MyRecyclerView
         android:id="@+id/day_events"
@@ -15,6 +20,39 @@
         android:layout_below="@+id/top_value"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_animation"
+        android:visibility="gone"
         app:layoutManager="com.production.planful.commons.views.MyLinearLayoutManager" />
+
+    <LinearLayout
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/checklist" />
+
+        <TextView
+            android:id="@+id/tvNoData1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/no_data_title"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvNoData2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data_description"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </RelativeLayout>

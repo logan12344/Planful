@@ -36,12 +36,14 @@ class FAQActivity : BaseSimpleActivity() {
             inflater.inflate(R.layout.item_faq, null).apply {
                 background.applyColorFilter(backgroundColor.getContrastColor())
                 faq_title.apply {
-                    text = if (faqItem.title is Int) getString(faqItem.title) else faqItem.title as String
+                    text =
+                        if (faqItem.title is Int) getString(faqItem.title) else faqItem.title as String
                     setTextColor(titleColor)
                 }
 
                 faq_text.apply {
-                    text = if (faqItem.text is Int) Html.fromHtml(getString(faqItem.text)) else faqItem.text as String
+                    text =
+                        if (faqItem.text is Int) Html.fromHtml(getString(faqItem.text)) else faqItem.text as String
                     setTextColor(textColor)
                     setLinkTextColor(titleColor)
 

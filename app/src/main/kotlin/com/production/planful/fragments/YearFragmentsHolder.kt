@@ -11,11 +11,11 @@ import androidx.viewpager.widget.ViewPager
 import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.adapters.MyYearPagerAdapter
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.views.MyViewPager
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.YEARLY_VIEW
 import com.production.planful.helpers.YEAR_TO_OPEN
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_years_holder.view.*
 import org.joda.time.DateTime
 import kotlin.text.toInt
@@ -34,11 +34,18 @@ class YearFragmentsHolder : MyFragmentHolder() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dateTimeString = arguments?.getString(YEAR_TO_OPEN)
-        currentYear = (if (dateTimeString != null) DateTime.parse(dateTimeString) else DateTime()).toString(Formatter.YEAR_PATTERN).toInt()
+        currentYear =
+            (if (dateTimeString != null) DateTime.parse(dateTimeString) else DateTime()).toString(
+                Formatter.YEAR_PATTERN
+            ).toInt()
         todayYear = DateTime().toString(Formatter.YEAR_PATTERN).toInt()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_years_holder, container, false)
         view.background = ColorDrawable(requireContext().getProperBackgroundColor())
         viewPager = view.fragment_years_viewpager
@@ -58,14 +65,20 @@ class YearFragmentsHolder : MyFragmentHolder() {
                 override fun onPageScrollStateChanged(state: Int) {
                 }
 
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
                 }
 
                 override fun onPageSelected(position: Int) {
                     currentYear = years[position]
                     val shouldGoToTodayBeVisible = shouldGoToTodayBeVisible()
                     if (isGoToTodayVisible != shouldGoToTodayBeVisible) {
-                        (activity as? MainActivity)?.toggleGoToTodayVisibility(shouldGoToTodayBeVisible)
+                        (activity as? MainActivity)?.toggleGoToTodayVisibility(
+                            shouldGoToTodayBeVisible
+                        )
                         isGoToTodayVisible = shouldGoToTodayBeVisible
                     }
 
@@ -94,8 +107,10 @@ class YearFragmentsHolder : MyFragmentHolder() {
         requireActivity().setTheme(requireContext().getDatePickerDialogTheme())
         val view = layoutInflater.inflate(R.layout.date_picker, null)
         val datePicker = view.findViewById<DatePicker>(R.id.date_picker)
-        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("day", "id", "android")).beGone()
-        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("month", "id", "android")).beGone()
+        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("day", "id", "android"))
+            .beGone()
+        datePicker.findViewById<View>(Resources.getSystem().getIdentifier("month", "id", "android"))
+            .beGone()
 
         val dateTime = DateTime(Formatter.getDateTimeFromCode("${currentYear}0523").toString())
         datePicker.init(dateTime.year, dateTime.monthOfYear - 1, 1, null)

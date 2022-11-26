@@ -10,6 +10,11 @@ import android.os.Bundle
 import android.widget.SeekBar
 import com.production.planful.R
 import com.production.planful.adapters.EventListAdapter
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.RadioItem
 import com.production.planful.dialogs.CustomPeriodPickerDialog
 import com.production.planful.extensions.config
 import com.production.planful.extensions.seconds
@@ -22,11 +27,6 @@ import com.production.planful.models.ListEvent
 import com.production.planful.models.ListItem
 import com.production.planful.models.ListSectionDay
 import com.production.planful.models.Widget
-import com.production.planful.commons.dialogs.ColorPickerDialog
-import com.production.planful.commons.dialogs.RadioGroupDialog
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.*
-import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.widget_config_list.*
 import org.joda.time.DateTime
 import java.util.*
@@ -48,7 +48,8 @@ class WidgetListConfigureActivity : SimpleActivity() {
         initVariables()
 
         val isCustomizingColors = intent.extras?.getBoolean(IS_CUSTOMIZING_COLORS) ?: false
-        mWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        mWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
+            ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
         if (mWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID && !isCustomizingColors) {
             finish()
@@ -87,7 +88,8 @@ class WidgetListConfigureActivity : SimpleActivity() {
         mBgColor = config.widgetBgColor
         mBgAlpha = Color.alpha(mBgColor) / 255.toFloat()
 
-        mBgColorWithoutTransparency = Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
+        mBgColorWithoutTransparency =
+            Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
         config_bg_seekbar.setOnSeekBarChangeListener(bgSeekbarChangeListener)
         config_bg_seekbar.progress = (mBgAlpha * 100).toInt()
         updateBgColor()
@@ -165,9 +167,21 @@ class WidgetListConfigureActivity : SimpleActivity() {
     } else {
         when {
             seconds == YEAR_SECONDS -> getString(R.string.within_the_next_one_year)
-            seconds % MONTH_SECONDS == 0 -> resources.getQuantityString(R.plurals.within_the_next_months, seconds / MONTH_SECONDS, seconds / MONTH_SECONDS)
-            seconds % WEEK_SECONDS == 0 -> resources.getQuantityString(R.plurals.within_the_next_weeks, seconds / WEEK_SECONDS, seconds / WEEK_SECONDS)
-            else -> resources.getQuantityString(R.plurals.within_the_next_days, seconds / DAY_SECONDS, seconds / DAY_SECONDS)
+            seconds % MONTH_SECONDS == 0 -> resources.getQuantityString(
+                R.plurals.within_the_next_months,
+                seconds / MONTH_SECONDS,
+                seconds / MONTH_SECONDS
+            )
+            seconds % WEEK_SECONDS == 0 -> resources.getQuantityString(
+                R.plurals.within_the_next_weeks,
+                seconds / WEEK_SECONDS,
+                seconds / WEEK_SECONDS
+            )
+            else -> resources.getQuantityString(
+                R.plurals.within_the_next_days,
+                seconds / DAY_SECONDS,
+                seconds / DAY_SECONDS
+            )
         }
     }
 
@@ -197,7 +211,12 @@ class WidgetListConfigureActivity : SimpleActivity() {
     }
 
     private fun requestWidgetUpdate() {
-        Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, MyWidgetListProvider::class.java).apply {
+        Intent(
+            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+            null,
+            this,
+            MyWidgetListProvider::class.java
+        ).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(mWidgetId))
             sendBroadcast(this)
         }

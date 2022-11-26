@@ -39,7 +39,12 @@ class PropertiesDialog() {
      */
     constructor(activity: Activity, path: String, countHiddenItems: Boolean = false) : this() {
         if (!activity.getDoesFilePathExist(path) && !path.startsWith("content://")) {
-            activity.toast(String.format(activity.getString(R.string.source_file_doesnt_exist), path))
+            activity.toast(
+                String.format(
+                    activity.getString(R.string.source_file_doesnt_exist),
+                    path
+                )
+            )
             return
         }
 
@@ -54,8 +59,14 @@ class PropertiesDialog() {
         val builder = activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
 
-        if (!path.startsWith("content://") && path.canModifyEXIF() && activity.isPathOnInternalStorage(path)) {
-            if ((isRPlus() && Environment.isExternalStorageManager()) || (!isRPlus() && activity.hasPermission(PERMISSION_WRITE_STORAGE))) {
+        if (!path.startsWith("content://") && path.canModifyEXIF() && activity.isPathOnInternalStorage(
+                path
+            )
+        ) {
+            if ((isRPlus() && Environment.isExternalStorageManager()) || (!isRPlus() && activity.hasPermission(
+                    PERMISSION_WRITE_STORAGE
+                ))
+            ) {
                 builder.setNeutralButton(R.string.remove_exif, null)
             }
         }
@@ -70,7 +81,8 @@ class PropertiesDialog() {
     }
 
     private fun addProperties(path: String) {
-        val fileDirItem = FileDirItem(path, path.getFilenameFromPath(), mActivity.getIsPathDirectory(path))
+        val fileDirItem =
+            FileDirItem(path, path.getFilenameFromPath(), mActivity.getIsPathDirectory(path))
         addProperty(R.string.name, fileDirItem.name)
         addProperty(R.string.path, fileDirItem.getParentPath())
         addProperty(R.string.size, "…", R.id.properties_size)
@@ -86,10 +98,12 @@ class PropertiesDialog() {
             }
 
             this.mActivity.runOnUiThread {
-                (mDialogView.findViewById<LinearLayout>(R.id.properties_size).property_value as TextView).text = size
+                (mDialogView.findViewById<LinearLayout>(R.id.properties_size).property_value as TextView).text =
+                    size
 
                 if (fileDirItem.isDirectory) {
-                    (mDialogView.findViewById<LinearLayout>(R.id.properties_file_count).property_value as TextView).text = fileCount.toString()
+                    (mDialogView.findViewById<LinearLayout>(R.id.properties_file_count).property_value as TextView).text =
+                        fileCount.toString()
                     (mDialogView.findViewById<LinearLayout>(R.id.properties_direct_children_count).property_value as TextView).text =
                         directChildrenCount.toString()
                 }
@@ -100,27 +114,49 @@ class PropertiesDialog() {
                 val uri = MediaStore.Files.getContentUri("external")
                 val selection = "${MediaStore.MediaColumns.DATA} = ?"
                 val selectionArgs = arrayOf(path)
-                val cursor = mActivity.contentResolver.query(uri, projection, selection, selectionArgs, null)
+                val cursor =
+                    mActivity.contentResolver.query(uri, projection, selection, selectionArgs, null)
                 cursor?.use {
                     if (cursor.moveToFirst()) {
-                        val dateModified = cursor.getLongValue(MediaStore.Images.Media.DATE_MODIFIED) * 1000L
+                        val dateModified =
+                            cursor.getLongValue(MediaStore.Images.Media.DATE_MODIFIED) * 1000L
                         updateLastModified(mActivity, mDialogView, dateModified)
                     } else {
-                        updateLastModified(mActivity, mDialogView, fileDirItem.getLastModified(mActivity))
+                        updateLastModified(
+                            mActivity,
+                            mDialogView,
+                            fileDirItem.getLastModified(mActivity)
+                        )
                     }
                 }
 
                 val exif = if (isNougatPlus() && mActivity.isPathOnOTG(fileDirItem.path)) {
-                    ExifInterface((mActivity as BaseSimpleActivity).getFileInputStreamSync(fileDirItem.path)!!)
+                    ExifInterface(
+                        (mActivity as BaseSimpleActivity).getFileInputStreamSync(
+                            fileDirItem.path
+                        )!!
+                    )
                 } else if (isNougatPlus() && fileDirItem.path.startsWith("content://")) {
                     try {
-                        ExifInterface(mActivity.contentResolver.openInputStream(Uri.parse(fileDirItem.path))!!)
+                        ExifInterface(
+                            mActivity.contentResolver.openInputStream(
+                                Uri.parse(
+                                    fileDirItem.path
+                                )
+                            )!!
+                        )
                     } catch (e: Exception) {
                         return@ensureBackgroundThread
                     }
                 } else if (mActivity.isRestrictedSAFOnlyRoot(path)) {
                     try {
-                        ExifInterface(mActivity.contentResolver.openInputStream(mActivity.getAndroidSAFUri(path))!!)
+                        ExifInterface(
+                            mActivity.contentResolver.openInputStream(
+                                mActivity.getAndroidSAFUri(
+                                    path
+                                )
+                            )!!
+                        )
                     } catch (e: Exception) {
                         return@ensureBackgroundThread
                     }
@@ -150,11 +186,16 @@ class PropertiesDialog() {
 
         when {
             fileDirItem.isDirectory -> {
-                addProperty(R.string.direct_children_count, "…", R.id.properties_direct_children_count)
+                addProperty(
+                    R.string.direct_children_count,
+                    "…",
+                    R.id.properties_direct_children_count
+                )
                 addProperty(R.string.files_count, "…", R.id.properties_file_count)
             }
             fileDirItem.path.isImageSlow() -> {
-                fileDirItem.getResolution(mActivity)?.let { addProperty(R.string.resolution, it.formatAsResolution()) }
+                fileDirItem.getResolution(mActivity)
+                    ?.let { addProperty(R.string.resolution, it.formatAsResolution()) }
             }
             fileDirItem.path.isAudioSlow() -> {
                 fileDirItem.getDuration(mActivity)?.let { addProperty(R.string.duration, it) }
@@ -164,14 +205,18 @@ class PropertiesDialog() {
             }
             fileDirItem.path.isVideoSlow() -> {
                 fileDirItem.getDuration(mActivity)?.let { addProperty(R.string.duration, it) }
-                fileDirItem.getResolution(mActivity)?.let { addProperty(R.string.resolution, it.formatAsResolution()) }
+                fileDirItem.getResolution(mActivity)
+                    ?.let { addProperty(R.string.resolution, it.formatAsResolution()) }
                 fileDirItem.getArtist(mActivity)?.let { addProperty(R.string.artist, it) }
                 fileDirItem.getAlbum(mActivity)?.let { addProperty(R.string.album, it) }
             }
         }
 
         if (fileDirItem.isDirectory) {
-            addProperty(R.string.last_modified, fileDirItem.getLastModified(mActivity).formatDate(mActivity))
+            addProperty(
+                R.string.last_modified,
+                fileDirItem.getLastModified(mActivity).formatDate(mActivity)
+            )
         } else {
             addProperty(R.string.last_modified, "…", R.id.properties_last_modified)
             try {
@@ -185,14 +230,16 @@ class PropertiesDialog() {
                 addProperty(R.string.md5, "…", R.id.properties_md5)
                 ensureBackgroundThread {
                     val md5 = if (mActivity.isRestrictedSAFOnlyRoot(path)) {
-                        mActivity.contentResolver.openInputStream(mActivity.getAndroidSAFUri(path))?.md5()
+                        mActivity.contentResolver.openInputStream(mActivity.getAndroidSAFUri(path))
+                            ?.md5()
                     } else {
                         File(path).md5()
                     }
 
                     mActivity.runOnUiThread {
                         if (md5 != null) {
-                            (mDialogView.findViewById<LinearLayout>(R.id.properties_md5).property_value as TextView).text = md5
+                            (mDialogView.findViewById<LinearLayout>(R.id.properties_md5).property_value as TextView).text =
+                                md5
                         } else {
                             mDialogView.findViewById<LinearLayout>(R.id.properties_md5).beGone()
                         }
@@ -204,7 +251,8 @@ class PropertiesDialog() {
 
     private fun updateLastModified(activity: Activity, view: View, timestamp: Long) {
         activity.runOnUiThread {
-            (view.findViewById<LinearLayout>(R.id.properties_last_modified).property_value as TextView).text = timestamp.formatDate(activity)
+            (view.findViewById<LinearLayout>(R.id.properties_last_modified).property_value as TextView).text =
+                timestamp.formatDate(activity)
         }
     }
 
@@ -215,7 +263,11 @@ class PropertiesDialog() {
      * @param path the file path
      * @param countHiddenItems toggle determining if we will count hidden files themselves and their sizes
      */
-    constructor(activity: Activity, paths: List<String>, countHiddenItems: Boolean = false) : this() {
+    constructor(
+        activity: Activity,
+        paths: List<String>,
+        countHiddenItems: Boolean = false
+    ) : this() {
         mActivity = activity
         mInflater = LayoutInflater.from(activity)
         mResources = activity.resources
@@ -225,7 +277,8 @@ class PropertiesDialog() {
 
         val fileDirItems = ArrayList<FileDirItem>(paths.size)
         paths.forEach {
-            val fileDirItem = FileDirItem(it, it.getFilenameFromPath(), activity.getIsPathDirectory(it))
+            val fileDirItem =
+                FileDirItem(it, it.getFilenameFromPath(), activity.getIsPathDirectory(it))
             fileDirItems.add(fileDirItem)
         }
 
@@ -240,19 +293,30 @@ class PropertiesDialog() {
         addProperty(R.string.files_count, "…", R.id.properties_file_count)
 
         ensureBackgroundThread {
-            val fileCount = fileDirItems.sumByInt { it.getProperFileCount(activity, countHiddenItems) }
-            val size = fileDirItems.sumByLong { it.getProperSize(activity, countHiddenItems) }.formatSize()
+            val fileCount =
+                fileDirItems.sumByInt { it.getProperFileCount(activity, countHiddenItems) }
+            val size =
+                fileDirItems.sumByLong { it.getProperSize(activity, countHiddenItems) }.formatSize()
             activity.runOnUiThread {
-                (mDialogView.findViewById<LinearLayout>(R.id.properties_size).property_value as TextView).text = size
-                (mDialogView.findViewById<LinearLayout>(R.id.properties_file_count).property_value as TextView).text = fileCount.toString()
+                (mDialogView.findViewById<LinearLayout>(R.id.properties_size).property_value as TextView).text =
+                    size
+                (mDialogView.findViewById<LinearLayout>(R.id.properties_file_count).property_value as TextView).text =
+                    fileCount.toString()
             }
         }
 
         val builder = activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
 
-        if (!paths.any { it.startsWith("content://") } && paths.any { it.canModifyEXIF() } && paths.any { activity.isPathOnInternalStorage(it) }) {
-            if ((isRPlus() && Environment.isExternalStorageManager()) || (!isRPlus() && activity.hasPermission(PERMISSION_WRITE_STORAGE))) {
+        if (!paths.any { it.startsWith("content://") } && paths.any { it.canModifyEXIF() } && paths.any {
+                activity.isPathOnInternalStorage(
+                    it
+                )
+            }) {
+            if ((isRPlus() && Environment.isExternalStorageManager()) || (!isRPlus() && activity.hasPermission(
+                    PERMISSION_WRITE_STORAGE
+                ))
+            ) {
                 builder.setNeutralButton(R.string.remove_exif, null)
             }
         }
@@ -277,7 +341,13 @@ class PropertiesDialog() {
             }
         } else if (activity.isRestrictedSAFOnlyRoot(path)) {
             try {
-                ExifInterface(activity.contentResolver.openInputStream(activity.getAndroidSAFUri(path))!!)
+                ExifInterface(
+                    activity.contentResolver.openInputStream(
+                        activity.getAndroidSAFUri(
+                            path
+                        )
+                    )!!
+                )
             } catch (e: Exception) {
                 return
             }
@@ -318,9 +388,10 @@ class PropertiesDialog() {
     private fun removeEXIFFromPaths(paths: List<String>) {
         ConfirmationDialog(mActivity, "", R.string.remove_exif_confirmation) {
             try {
-                paths.filter { mActivity.isPathOnInternalStorage(it) && it.canModifyEXIF() }.forEach {
-                    ExifInterface(it).removeValues()
-                }
+                paths.filter { mActivity.isPathOnInternalStorage(it) && it.canModifyEXIF() }
+                    .forEach {
+                        ExifInterface(it).removeValues()
+                    }
                 mActivity.toast(R.string.exif_removed)
             } catch (e: Exception) {
                 mActivity.showErrorToast(e)

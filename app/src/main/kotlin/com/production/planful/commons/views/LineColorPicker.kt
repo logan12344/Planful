@@ -9,7 +9,6 @@ import com.production.planful.R
 import com.production.planful.commons.extensions.isRTLLayout
 import com.production.planful.commons.extensions.onGlobalLayout
 import com.production.planful.commons.interfaces.LineColorPickerListener
-import java.util.*
 
 class LineColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private var colorsCount = 0

@@ -50,10 +50,21 @@ fun Int.formatSize(): String {
 
     val units = arrayOf("B", "kB", "MB", "GB", "TB")
     val digitGroups = (Math.log10(toDouble()) / Math.log10(1024.0)).toInt()
-    return "${DecimalFormat("#,##0.#").format(this / Math.pow(1024.0, digitGroups.toDouble()))} ${units[digitGroups]}"
+    return "${
+        DecimalFormat("#,##0.#").format(
+            this / Math.pow(
+                1024.0,
+                digitGroups.toDouble()
+            )
+        )
+    } ${units[digitGroups]}"
 }
 
-fun Int.formatDate(context: Context, dateFormat: String? = null, timeFormat: String? = null): String {
+fun Int.formatDate(
+    context: Context,
+    dateFormat: String? = null,
+    timeFormat: String? = null
+): String {
     val useDateFormat = dateFormat ?: context.baseConfig.dateFormat
     val useTimeFormat = timeFormat ?: context.getTimeFormat()
     val cal = Calendar.getInstance(Locale.ENGLISH)
@@ -62,7 +73,11 @@ fun Int.formatDate(context: Context, dateFormat: String? = null, timeFormat: Str
 }
 
 // if the given date is today, we show only the time. Else we show the date and optionally the time too
-fun Int.formatDateOrTime(context: Context, hideTimeAtOtherDays: Boolean, showYearEvenIfCurrent: Boolean): String {
+fun Int.formatDateOrTime(
+    context: Context,
+    hideTimeAtOtherDays: Boolean,
+    showYearEvenIfCurrent: Boolean
+): String {
     val cal = Calendar.getInstance(Locale.ENGLISH)
     cal.timeInMillis = this * 1000L
 
@@ -185,7 +200,8 @@ fun Int.ensureTwoDigits(): String {
 }
 
 fun Int.getColorStateList(): ColorStateList {
-    val states = arrayOf(intArrayOf(android.R.attr.state_enabled),
+    val states = arrayOf(
+        intArrayOf(android.R.attr.state_enabled),
         intArrayOf(-android.R.attr.state_enabled),
         intArrayOf(-android.R.attr.state_checked),
         intArrayOf(android.R.attr.state_pressed)

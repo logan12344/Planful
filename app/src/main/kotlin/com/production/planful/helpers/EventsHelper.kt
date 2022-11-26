@@ -6,20 +6,24 @@ import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.collection.LongSparseArray
 import com.production.planful.R
-import com.production.planful.extensions.*
-import com.production.planful.models.Event
-import com.production.planful.models.EventType
 import com.production.planful.commons.extensions.getProperPrimaryColor
 import com.production.planful.commons.extensions.toast
 import com.production.planful.commons.helpers.CHOPPED_LIST_DEFAULT_SIZE
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.extensions.*
+import com.production.planful.models.Event
+import com.production.planful.models.EventType
 
 class EventsHelper(val context: Context) {
     private val config = context.config
     private val eventsDB = context.eventsDB
     private val eventTypesDB = context.eventTypesDB
 
-    fun getEventTypes(activity: Activity, showWritableOnly: Boolean, callback: (eventTypes: ArrayList<EventType>) -> Unit) {
+    fun getEventTypes(
+        activity: Activity,
+        showWritableOnly: Boolean,
+        callback: (eventTypes: ArrayList<EventType>) -> Unit
+    ) {
         ensureBackgroundThread {
             var eventTypes = ArrayList<EventType>()
             try {
@@ -31,7 +35,8 @@ class EventsHelper(val context: Context) {
                 val caldavCalendars = activity.calDAVHelper.getCalDAVCalendars("", true)
                 eventTypes = eventTypes.filter {
                     val eventType = it
-                    it.caldavCalendarId == 0 || caldavCalendars.firstOrNull { it.id == eventType.caldavCalendarId }?.canWrite() == true
+                    it.caldavCalendarId == 0 || caldavCalendars.firstOrNull { it.id == eventType.caldavCalendarId }
+                        ?.canWrite() == true
                 }.toMutableList() as ArrayList<EventType>
             }
 
@@ -43,7 +48,11 @@ class EventsHelper(val context: Context) {
 
     fun getEventTypesSync() = eventTypesDB.getEventTypes().toMutableList() as ArrayList<EventType>
 
-    fun insertOrUpdateEventType(activity: Activity, eventType: EventType, callback: ((newEventTypeId: Long) -> Unit)? = null) {
+    fun insertOrUpdateEventType(
+        activity: Activity,
+        eventType: EventType,
+        callback: ((newEventTypeId: Long) -> Unit)? = null
+    ) {
         ensureBackgroundThread {
             val eventTypeId = insertOrUpdateEventTypeSync(eventType)
             activity.runOnUiThread {
@@ -79,14 +88,18 @@ class EventsHelper(val context: Context) {
 
     fun getEventTypeIdWithClass(classId: Int) = eventTypesDB.getEventTypeIdWithClass(classId) ?: -1L
 
-    private fun getLocalEventTypeIdWithTitle(title: String) = eventTypesDB.getLocalEventTypeIdWithTitle(title) ?: -1L
+    private fun getLocalEventTypeIdWithTitle(title: String) =
+        eventTypesDB.getLocalEventTypeIdWithTitle(title) ?: -1L
 
-    private fun getLocalEventTypeIdWithClass(classId: Int) = eventTypesDB.getLocalEventTypeIdWithClass(classId) ?: -1L
+    private fun getLocalEventTypeIdWithClass(classId: Int) =
+        eventTypesDB.getLocalEventTypeIdWithClass(classId) ?: -1L
 
-    fun getEventTypeWithCalDAVCalendarId(calendarId: Int) = eventTypesDB.getEventTypeWithCalDAVCalendarId(calendarId)
+    fun getEventTypeWithCalDAVCalendarId(calendarId: Int) =
+        eventTypesDB.getEventTypeWithCalDAVCalendarId(calendarId)
 
     fun deleteEventTypes(eventTypes: ArrayList<EventType>, deleteEvents: Boolean) {
-        val typesToDelete = eventTypes.asSequence().filter { it.caldavCalendarId == 0 && it.id != REGULAR_EVENT_TYPE_ID }.toMutableList()
+        val typesToDelete = eventTypes.asSequence()
+            .filter { it.caldavCalendarId == 0 && it.id != REGULAR_EVENT_TYPE_ID }.toMutableList()
         val deleteIds = typesToDelete.map { it.id }.toMutableList()
         val deletedSet = deleteIds.map { it.toString() }.toHashSet()
         config.removeDisplayEventTypes(deletedSet)
@@ -110,7 +123,12 @@ class EventsHelper(val context: Context) {
         }
     }
 
-    fun insertEvent(event: Event, addToCalDAV: Boolean, showToasts: Boolean, callback: ((id: Long) -> Unit)? = null) {
+    fun insertEvent(
+        event: Event,
+        addToCalDAV: Boolean,
+        showToasts: Boolean,
+        callback: ((id: Long) -> Unit)? = null
+    ) {
         if (event.startTS > event.endTS) {
             callback?.invoke(0)
             return
@@ -155,7 +173,12 @@ class EventsHelper(val context: Context) {
         }
     }
 
-    fun updateEvent(event: Event, updateAtCalDAV: Boolean, showToasts: Boolean, callback: (() -> Unit)? = null) {
+    fun updateEvent(
+        event: Event,
+        updateAtCalDAV: Boolean,
+        showToasts: Boolean,
+        callback: (() -> Unit)? = null
+    ) {
         eventsDB.insertOrUpdate(event)
 
         context.updateWidgets()
@@ -173,7 +196,8 @@ class EventsHelper(val context: Context) {
         }
     }
 
-    fun deleteEvent(id: Long, deleteFromCalDAV: Boolean) = deleteEvents(arrayListOf(id), deleteFromCalDAV)
+    fun deleteEvent(id: Long, deleteFromCalDAV: Boolean) =
+        deleteEvents(arrayListOf(id), deleteFromCalDAV)
 
     fun deleteEvents(ids: MutableList<Long>, deleteFromCalDAV: Boolean) {
         if (ids.isEmpty()) {
@@ -225,19 +249,27 @@ class EventsHelper(val context: Context) {
         }
     }
 
-    fun doEventTypesContainEvents(eventTypeIds: ArrayList<Long>, callback: (contain: Boolean) -> Unit) {
+    fun doEventTypesContainEvents(
+        eventTypeIds: ArrayList<Long>,
+        callback: (contain: Boolean) -> Unit
+    ) {
         ensureBackgroundThread {
             val eventIds = eventsDB.getEventIdsByEventType(eventTypeIds)
             callback(eventIds.isNotEmpty())
         }
     }
 
-    fun getEventsWithSearchQuery(text: String, activity: Activity, callback: (searchedText: String, events: List<Event>) -> Unit) {
+    fun getEventsWithSearchQuery(
+        text: String,
+        activity: Activity,
+        callback: (searchedText: String, events: List<Event>) -> Unit
+    ) {
         ensureBackgroundThread {
             val searchQuery = "%$text%"
             val events = eventsDB.getEventsForSearch(searchQuery)
             val displayEventTypes = config.displayEventTypes
-            val filteredEvents = events.filter { displayEventTypes.contains(it.eventType.toString()) }
+            val filteredEvents =
+                events.filter { displayEventTypes.contains(it.eventType.toString()) }
 
             val eventTypeColors = LongSparseArray<Int>()
             eventTypesDB.getEventTypes().forEach {
@@ -257,10 +289,12 @@ class EventsHelper(val context: Context) {
 
     fun addEventRepetitionException(parentEventId: Long, occurrenceTS: Long, addToCalDAV: Boolean) {
         ensureBackgroundThread {
-            val parentEvent = eventsDB.getEventOrTaskWithId(parentEventId) ?: return@ensureBackgroundThread
+            val parentEvent =
+                eventsDB.getEventOrTaskWithId(parentEventId) ?: return@ensureBackgroundThread
             var repetitionExceptions = parentEvent.repetitionExceptions
             repetitionExceptions.add(Formatter.getDayCodeFromTS(occurrenceTS))
-            repetitionExceptions = repetitionExceptions.distinct().toMutableList() as ArrayList<String>
+            repetitionExceptions =
+                repetitionExceptions.distinct().toMutableList() as ArrayList<String>
 
             eventsDB.updateEventRepetitionExceptions(repetitionExceptions.toString(), parentEventId)
             context.scheduleNextEventReminder(parentEvent, false)
@@ -271,13 +305,25 @@ class EventsHelper(val context: Context) {
         }
     }
 
-    fun getEvents(fromTS: Long, toTS: Long, eventId: Long = -1L, applyTypeFilter: Boolean = true, callback: (events: ArrayList<Event>) -> Unit) {
+    fun getEvents(
+        fromTS: Long,
+        toTS: Long,
+        eventId: Long = -1L,
+        applyTypeFilter: Boolean = true,
+        callback: (events: ArrayList<Event>) -> Unit
+    ) {
         ensureBackgroundThread {
             getEventsSync(fromTS, toTS, eventId, applyTypeFilter, callback)
         }
     }
 
-    fun getEventsSync(fromTS: Long, toTS: Long, eventId: Long = -1L, applyTypeFilter: Boolean, callback: (events: ArrayList<Event>) -> Unit) {
+    fun getEventsSync(
+        fromTS: Long,
+        toTS: Long,
+        eventId: Long = -1L,
+        applyTypeFilter: Boolean,
+        callback: (events: ArrayList<Event>) -> Unit
+    ) {
         val birthDayEventId = getLocalBirthdaysEventTypeId(createIfNotExists = false)
         val anniversaryEventId = getAnniversariesEventTypeId(createIfNotExists = false)
 
@@ -291,7 +337,10 @@ class EventsHelper(val context: Context) {
                 try {
                     val typesList = context.config.getDisplayEventTypessAsList()
 
-                    events.addAll(eventsDB.getOneTimeEventsFromToWithTypes(toTS, fromTS, typesList).toMutableList() as ArrayList<Event>)
+                    events.addAll(
+                        eventsDB.getOneTimeEventsFromToWithTypes(toTS, fromTS, typesList)
+                            .toMutableList() as ArrayList<Event>
+                    )
                 } catch (e: Exception) {
                 }
             }
@@ -300,9 +349,11 @@ class EventsHelper(val context: Context) {
 
             events.addAll(
                 if (eventId == -1L) {
-                    eventsDB.getOneTimeEventsOrTasksFromTo(toTS, fromTS).toMutableList() as ArrayList<Event>
+                    eventsDB.getOneTimeEventsOrTasksFromTo(toTS, fromTS)
+                        .toMutableList() as ArrayList<Event>
                 } else {
-                    eventsDB.getOneTimeEventFromToWithId(eventId, toTS, fromTS).toMutableList() as ArrayList<Event>
+                    eventsDB.getOneTimeEventFromToWithId(eventId, toTS, fromTS)
+                        .toMutableList() as ArrayList<Event>
                 }
             )
         }
@@ -343,8 +394,18 @@ class EventsHelper(val context: Context) {
         callback(events)
     }
 
-    fun createPredefinedEventType(title: String, @ColorRes colorResId: Int, type: Int, caldav: Boolean = false): Long {
-        val eventType = EventType(id = null, title = title, color = context.resources.getColor(colorResId), type = type)
+    fun createPredefinedEventType(
+        title: String,
+        @ColorRes colorResId: Int,
+        type: Int,
+        caldav: Boolean = false
+    ): Long {
+        val eventType = EventType(
+            id = null,
+            title = title,
+            color = context.resources.getColor(colorResId),
+            type = type
+        )
 
         // check if the event type already exists but without the type (e.g. BIRTHDAY_EVENT) so as to avoid duplication
         val originalEventTypeId = if (caldav) {
@@ -363,7 +424,11 @@ class EventsHelper(val context: Context) {
         var eventTypeId = getLocalEventTypeIdWithClass(BIRTHDAY_EVENT)
         if (eventTypeId == -1L && createIfNotExists) {
             val birthdays = context.getString(R.string.birthdays)
-            eventTypeId = createPredefinedEventType(birthdays, R.color.default_birthdays_color, BIRTHDAY_EVENT)
+            eventTypeId = createPredefinedEventType(
+                birthdays,
+                R.color.default_birthdays_color,
+                BIRTHDAY_EVENT
+            )
         }
         return eventTypeId
     }
@@ -372,24 +437,38 @@ class EventsHelper(val context: Context) {
         var eventTypeId = getLocalEventTypeIdWithClass(ANNIVERSARY_EVENT)
         if (eventTypeId == -1L && createIfNotExists) {
             val anniversaries = context.getString(R.string.anniversaries)
-            eventTypeId = createPredefinedEventType(anniversaries, R.color.default_anniversaries_color, ANNIVERSARY_EVENT)
+            eventTypeId = createPredefinedEventType(
+                anniversaries,
+                R.color.default_anniversaries_color,
+                ANNIVERSARY_EVENT
+            )
         }
         return eventTypeId
     }
 
-    fun getRepeatableEventsFor(fromTS: Long, toTS: Long, eventId: Long = -1L, applyTypeFilter: Boolean = false): List<Event> {
+    fun getRepeatableEventsFor(
+        fromTS: Long,
+        toTS: Long,
+        eventId: Long = -1L,
+        applyTypeFilter: Boolean = false
+    ): List<Event> {
         val events = if (applyTypeFilter) {
             val displayEventTypes = context.config.displayEventTypes
             if (displayEventTypes.isEmpty()) {
                 return ArrayList()
             } else {
-                eventsDB.getRepeatableEventsOrTasksWithTypes(toTS, context.config.getDisplayEventTypessAsList()).toMutableList() as ArrayList<Event>
+                eventsDB.getRepeatableEventsOrTasksWithTypes(
+                    toTS,
+                    context.config.getDisplayEventTypessAsList()
+                ).toMutableList() as ArrayList<Event>
             }
         } else {
             if (eventId == -1L) {
-                eventsDB.getRepeatableEventsOrTasksWithTypes(toTS).toMutableList() as ArrayList<Event>
+                eventsDB.getRepeatableEventsOrTasksWithTypes(toTS)
+                    .toMutableList() as ArrayList<Event>
             } else {
-                eventsDB.getRepeatableEventsOrTasksWithId(eventId, toTS).toMutableList() as ArrayList<Event>
+                eventsDB.getRepeatableEventsOrTasksWithId(eventId, toTS)
+                    .toMutableList() as ArrayList<Event>
             }
         }
 
@@ -407,7 +486,12 @@ class EventsHelper(val context: Context) {
         return newEvents
     }
 
-    private fun getEventsRepeatingXTimes(fromTS: Long, toTS: Long, startTimes: LongSparseArray<Long>, event: Event): ArrayList<Event> {
+    private fun getEventsRepeatingXTimes(
+        fromTS: Long,
+        toTS: Long,
+        startTimes: LongSparseArray<Long>,
+        event: Event
+    ): ArrayList<Event> {
         val original = event.copy()
         val events = ArrayList<Event>()
         while (event.repeatLimit < 0 && event.startTS <= toTS) {
@@ -449,7 +533,12 @@ class EventsHelper(val context: Context) {
         return events
     }
 
-    private fun getEventsRepeatingTillDateOrForever(fromTS: Long, toTS: Long, startTimes: LongSparseArray<Long>, event: Event): ArrayList<Event> {
+    private fun getEventsRepeatingTillDateOrForever(
+        fromTS: Long,
+        toTS: Long,
+        startTimes: LongSparseArray<Long>,
+        event: Event
+    ): ArrayList<Event> {
         val original = event.copy()
         val events = ArrayList<Event>()
         while (event.startTS <= toTS && (event.repeatLimit == 0L || event.repeatLimit >= event.startTS)) {
@@ -508,7 +597,8 @@ class EventsHelper(val context: Context) {
 
     fun getRunningEventsOrTasks(): List<Event> {
         val ts = getNowSeconds()
-        val events = eventsDB.getOneTimeEventsOrTasksFromTo(ts, ts).toMutableList() as ArrayList<Event>
+        val events =
+            eventsDB.getOneTimeEventsOrTasksFromTo(ts, ts).toMutableList() as ArrayList<Event>
         events.addAll(getRepeatableEventsFor(ts, ts))
         events.forEach {
             if (it.isTask()) updateIsTaskCompleted(it)

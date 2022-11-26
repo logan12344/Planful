@@ -10,12 +10,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import com.production.planful.R
 import com.production.planful.adapters.SelectTimeZoneAdapter
+import com.production.planful.commons.extensions.hideKeyboard
+import com.production.planful.commons.helpers.NavigationIcon
 import com.production.planful.helpers.CURRENT_TIME_ZONE
 import com.production.planful.helpers.TIME_ZONE
 import com.production.planful.helpers.getAllTimeZones
 import com.production.planful.models.MyTimeZone
-import com.production.planful.commons.extensions.hideKeyboard
-import com.production.planful.commons.helpers.NavigationIcon
 import kotlinx.android.synthetic.main.activity_select_time_zone.*
 import java.util.*
 
@@ -47,7 +47,11 @@ class SelectTimeZoneActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(select_time_zone_toolbar, NavigationIcon.Arrow, searchMenuItem = mSearchMenuItem)
+        setupToolbar(
+            select_time_zone_toolbar,
+            NavigationIcon.Arrow,
+            searchMenuItem = mSearchMenuItem
+        )
     }
 
     private fun setupOptionsMenu() {
@@ -73,23 +77,26 @@ class SelectTimeZoneActivity : SimpleActivity() {
         }
 
         mSearchMenuItem!!.expandActionView()
-        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, object : MenuItemCompat.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                searchQueryChanged("")
-                return true
-            }
+        MenuItemCompat.setOnActionExpandListener(
+            mSearchMenuItem,
+            object : MenuItemCompat.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                    searchQueryChanged("")
+                    return true
+                }
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                hideKeyboard()
-                finish()
-                return true
-            }
-        })
+                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                    hideKeyboard()
+                    finish()
+                    return true
+                }
+            })
     }
 
     private fun searchQueryChanged(text: String) {
         val timeZones = allTimeZones.filter {
-            it.zoneName.toLowerCase(Locale.getDefault()).contains(text.toLowerCase(Locale.getDefault()))
+            it.zoneName.toLowerCase(Locale.getDefault())
+                .contains(text.toLowerCase(Locale.getDefault()))
         }.toMutableList() as ArrayList<MyTimeZone>
         (select_time_zone_list.adapter as? SelectTimeZoneAdapter)?.updateTimeZones(timeZones)
     }

@@ -9,17 +9,17 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.widget.Toast
 import com.production.planful.R
+import com.production.planful.commons.dialogs.*
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.AlarmSound
+import com.production.planful.commons.models.RadioItem
 import com.production.planful.dialogs.SelectCalendarsDialog
 import com.production.planful.dialogs.SelectEventTypeDialog
 import com.production.planful.dialogs.SelectQuickFilterEventTypesDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.models.EventType
-import com.production.planful.commons.dialogs.*
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.*
-import com.production.planful.commons.models.AlarmSound
-import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.joda.time.DateTime
 import java.io.File
@@ -91,8 +91,6 @@ class SettingsActivity : SimpleActivity() {
         setupAllowChangingTimeZones()
         updateTextColors(settings_holder)
         checkPrimaryColor()
-        setupExportSettings()
-        setupImportSettings()
 
         arrayOf(
             settings_color_customization_label,
@@ -105,8 +103,7 @@ class SettingsActivity : SimpleActivity() {
             settings_event_lists_label,
             settings_widgets_label,
             settings_events_label,
-            settings_tasks_label,
-            settings_migrating_label
+            settings_tasks_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
         }
@@ -122,8 +119,7 @@ class SettingsActivity : SimpleActivity() {
             settings_event_lists_holder,
             settings_widgets_holder,
             settings_events_holder,
-            settings_tasks_holder,
-            settings_migrating_holder
+            settings_tasks_holder
         ).forEach {
             it.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
         }
@@ -136,7 +132,11 @@ class SettingsActivity : SimpleActivity() {
 
     override fun onStop() {
         super.onStop()
-        val reminders = sortedSetOf(config.defaultReminder1, config.defaultReminder2, config.defaultReminder3).filter { it != REMINDER_OFF }
+        val reminders = sortedSetOf(
+            config.defaultReminder1,
+            config.defaultReminder2,
+            config.defaultReminder3
+        ).filter { it != REMINDER_OFF }
         config.defaultReminder1 = reminders.getOrElse(0) { REMINDER_OFF }
         config.defaultReminder2 = reminders.getOrElse(1) { REMINDER_OFF }
         config.defaultReminder3 = reminders.getOrElse(2) { REMINDER_OFF }
@@ -176,7 +176,8 @@ class SettingsActivity : SimpleActivity() {
         settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
 
         if (settings_customize_notifications_holder.isGone()) {
-            settings_reminder_sound_holder.background = resources.getDrawable(R.drawable.ripple_top_corners, theme)
+            settings_reminder_sound_holder.background =
+                resources.getDrawable(R.drawable.ripple_top_corners, theme)
         }
 
         settings_customize_notifications_holder.setOnClickListener {
@@ -199,7 +200,8 @@ class SettingsActivity : SimpleActivity() {
         settings_language_holder.beVisibleIf(isTiramisuPlus())
 
         if (settings_use_english_holder.isGone() && settings_language_holder.isGone()) {
-            settings_manage_event_types_holder.background = resources.getDrawable(R.drawable.ripple_top_corners, theme)
+            settings_manage_event_types_holder.background =
+                resources.getDrawable(R.drawable.ripple_top_corners, theme)
         }
 
         settings_language_holder.setOnClickListener {
@@ -275,10 +277,13 @@ class SettingsActivity : SimpleActivity() {
 
     private fun checkCalDAVBackgrounds() {
         if (config.caldavSync) {
-            settings_caldav_sync_holder.background = resources.getDrawable(R.drawable.ripple_top_corners, theme)
-            settings_manage_synced_calendars_holder.background = resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
+            settings_caldav_sync_holder.background =
+                resources.getDrawable(R.drawable.ripple_top_corners, theme)
+            settings_manage_synced_calendars_holder.background =
+                resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
         } else {
-            settings_caldav_sync_holder.background = resources.getDrawable(R.drawable.ripple_all_corners, theme)
+            settings_caldav_sync_holder.background =
+                resources.getDrawable(R.drawable.ripple_all_corners, theme)
         }
     }
 
@@ -335,7 +340,14 @@ class SettingsActivity : SimpleActivity() {
                     getSyncedCalDAVCalendars().forEach {
                         val calendarTitle = it.getFullTitle()
                         if (!existingEventTypeNames.contains(calendarTitle.lowercase(Locale.getDefault()))) {
-                            val eventType = EventType(null, it.displayName, it.color, it.id, it.displayName, it.accountName)
+                            val eventType = EventType(
+                                null,
+                                it.displayName,
+                                it.color,
+                                it.id,
+                                it.displayName,
+                                it.accountName
+                            )
                             existingEventTypeNames.add(calendarTitle.lowercase(Locale.getDefault()))
                             eventsHelper.insertOrUpdateEventType(this, eventType)
                         }
@@ -389,12 +401,18 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupHighlightWeekendsColor() {
-        settings_highlight_weekends_color.setFillWithStroke(config.highlightWeekendsColor, getProperBackgroundColor())
+        settings_highlight_weekends_color.setFillWithStroke(
+            config.highlightWeekendsColor,
+            getProperBackgroundColor()
+        )
         settings_highlight_weekends_color_holder.setOnClickListener {
             ColorPickerDialog(this, config.highlightWeekendsColor) { wasPositivePressed, color ->
                 if (wasPositivePressed) {
                     config.highlightWeekendsColor = color
-                    settings_highlight_weekends_color.setFillWithStroke(color, getProperBackgroundColor())
+                    settings_highlight_weekends_color.setFillWithStroke(
+                        color,
+                        getProperBackgroundColor()
+                    )
                 }
             }
         }
@@ -402,9 +420,11 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupHighlightWeekendColorBackground() {
         if (settings_highlight_weekends_color_holder.isVisible()) {
-            settings_highlight_weekends_holder.background = resources.getDrawable(R.drawable.ripple_background, theme)
+            settings_highlight_weekends_holder.background =
+                resources.getDrawable(R.drawable.ripple_background, theme)
         } else {
-            settings_highlight_weekends_holder.background = resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
+            settings_highlight_weekends_holder.background =
+                resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
         }
     }
 
@@ -429,9 +449,11 @@ class SettingsActivity : SimpleActivity() {
     private fun setupDescriptionVisibility() {
         settings_replace_description_holder.beVisibleIf(config.displayDescription)
         if (settings_replace_description_holder.isVisible()) {
-            settings_display_description_holder.background = resources.getDrawable(R.drawable.ripple_background, theme)
+            settings_display_description_holder.background =
+                resources.getDrawable(R.drawable.ripple_background, theme)
         } else {
-            settings_display_description_holder.background = resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
+            settings_display_description_holder.background =
+                resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
         }
     }
 
@@ -501,12 +523,18 @@ class SettingsActivity : SimpleActivity() {
         settings_reminder_sound.text = config.reminderSoundTitle
 
         settings_reminder_sound_holder.setOnClickListener {
-            SelectAlarmSoundDialog(this, config.reminderSoundUri, config.reminderAudioStream, GET_RINGTONE_URI, RingtoneManager.TYPE_NOTIFICATION, false,
+            SelectAlarmSoundDialog(this,
+                config.reminderSoundUri,
+                config.reminderAudioStream,
+                GET_RINGTONE_URI,
+                RingtoneManager.TYPE_NOTIFICATION,
+                false,
                 onAlarmPicked = {
                     if (it != null) {
                         updateReminderSound(it)
                     }
-                }, onAlarmSoundDeleted = {
+                },
+                onAlarmSoundDeleted = {
                     if (it.uri == config.reminderSoundUri) {
                         val defaultAlarm = getDefaultAlarmSound(RingtoneManager.TYPE_NOTIFICATION)
                         updateReminderSound(defaultAlarm)
@@ -527,7 +555,10 @@ class SettingsActivity : SimpleActivity() {
             val items = arrayListOf(
                 RadioItem(AudioManager.STREAM_ALARM, getString(R.string.alarm_stream)),
                 RadioItem(AudioManager.STREAM_SYSTEM, getString(R.string.system_stream)),
-                RadioItem(AudioManager.STREAM_NOTIFICATION, getString(R.string.notification_stream)),
+                RadioItem(
+                    AudioManager.STREAM_NOTIFICATION,
+                    getString(R.string.notification_stream)
+                ),
                 RadioItem(AudioManager.STREAM_RING, getString(R.string.ring_stream))
             )
 
@@ -577,9 +608,11 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupSnoozeBackgrounds() {
         if (config.useSameSnooze) {
-            settings_use_same_snooze_holder.background = resources.getDrawable(R.drawable.ripple_background, theme)
+            settings_use_same_snooze_holder.background =
+                resources.getDrawable(R.drawable.ripple_background, theme)
         } else {
-            settings_use_same_snooze_holder.background = resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
+            settings_use_same_snooze_holder.background =
+                resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
         }
     }
 
@@ -638,14 +671,20 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun toggleDefaultRemindersVisibility(show: Boolean) {
-        arrayOf(settings_default_reminder_1_holder, settings_default_reminder_2_holder, settings_default_reminder_3_holder).forEach {
+        arrayOf(
+            settings_default_reminder_1_holder,
+            settings_default_reminder_2_holder,
+            settings_default_reminder_3_holder
+        ).forEach {
             it.beVisibleIf(show)
         }
 
         if (show) {
-            settings_use_last_event_reminders_holder.background = resources.getDrawable(R.drawable.ripple_background, theme)
+            settings_use_last_event_reminders_holder.background =
+                resources.getDrawable(R.drawable.ripple_background, theme)
         } else {
-            settings_use_last_event_reminders_holder.background = resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
+            settings_use_last_event_reminders_holder.background =
+                resources.getDrawable(R.drawable.ripple_bottom_corners, theme)
         }
     }
 
@@ -771,7 +810,12 @@ class SettingsActivity : SimpleActivity() {
 
             val items = ArrayList<RadioItem>()
             items.add(RadioItem(DEFAULT_START_TIME_CURRENT_TIME, getString(R.string.current_time)))
-            items.add(RadioItem(DEFAULT_START_TIME_NEXT_FULL_HOUR, getString(R.string.next_full_hour)))
+            items.add(
+                RadioItem(
+                    DEFAULT_START_TIME_NEXT_FULL_HOUR,
+                    getString(R.string.next_full_hour)
+                )
+            )
             items.add(RadioItem(0, getString(R.string.other_time)))
 
             RadioGroupDialog(this@SettingsActivity, items, currentDefaultTime) {
@@ -779,10 +823,11 @@ class SettingsActivity : SimpleActivity() {
                     config.defaultStartTime = it
                     updateDefaultStartTimeText()
                 } else {
-                    val timeListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                        config.defaultStartTime = hourOfDay * 60 + minute
-                        updateDefaultStartTimeText()
-                    }
+                    val timeListener =
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                            config.defaultStartTime = hourOfDay * 60 + minute
+                            updateDefaultStartTimeText()
+                        }
 
                     val currentDateTime = DateTime.now()
                     TimePickerDialog(
@@ -800,8 +845,10 @@ class SettingsActivity : SimpleActivity() {
 
     private fun updateDefaultStartTimeText() {
         when (config.defaultStartTime) {
-            DEFAULT_START_TIME_CURRENT_TIME -> settings_default_start_time.text = getString(R.string.current_time)
-            DEFAULT_START_TIME_NEXT_FULL_HOUR -> settings_default_start_time.text = getString(R.string.next_full_hour)
+            DEFAULT_START_TIME_CURRENT_TIME -> settings_default_start_time.text =
+                getString(R.string.current_time)
+            DEFAULT_START_TIME_NEXT_FULL_HOUR -> settings_default_start_time.text =
+                getString(R.string.next_full_hour)
             else -> {
                 val hours = config.defaultStartTime / 60
                 val minutes = config.defaultStartTime % 60
@@ -857,85 +904,6 @@ class SettingsActivity : SimpleActivity() {
                 } else {
                     config.defaultEventTypeId = -1
                     updateDefaultEventTypeText()
-                }
-            }
-        }
-    }
-
-    private fun setupExportSettings() {
-        settings_export_holder.setOnClickListener {
-            val configItems = LinkedHashMap<String, Any>().apply {
-                put(IS_USING_SHARED_THEME, config.isUsingSharedTheme)
-                put(TEXT_COLOR, config.textColor)
-                put(BACKGROUND_COLOR, config.backgroundColor)
-                put(PRIMARY_COLOR, config.primaryColor)
-                put(ACCENT_COLOR, config.accentColor)
-                put(APP_ICON_COLOR, config.appIconColor)
-                put(USE_ENGLISH, config.useEnglish)
-                put(WAS_USE_ENGLISH_TOGGLED, config.wasUseEnglishToggled)
-                put(WIDGET_BG_COLOR, config.widgetBgColor)
-                put(WIDGET_TEXT_COLOR, config.widgetTextColor)
-                put(WEEK_NUMBERS, config.showWeekNumbers)
-                put(START_WEEKLY_AT, config.startWeeklyAt)
-                put(VIBRATE, config.vibrateOnReminder)
-                put(LAST_EVENT_REMINDER_MINUTES, config.lastEventReminderMinutes1)
-                put(LAST_EVENT_REMINDER_MINUTES_2, config.lastEventReminderMinutes2)
-                put(LAST_EVENT_REMINDER_MINUTES_3, config.lastEventReminderMinutes3)
-                put(DISPLAY_PAST_EVENTS, config.displayPastEvents)
-                put(FONT_SIZE, config.fontSize)
-                put(LIST_WIDGET_VIEW_TO_OPEN, config.listWidgetViewToOpen)
-                put(REMINDER_AUDIO_STREAM, config.reminderAudioStream)
-                put(DISPLAY_DESCRIPTION, config.displayDescription)
-                put(REPLACE_DESCRIPTION, config.replaceDescription)
-                put(SHOW_GRID, config.showGrid)
-                put(LOOP_REMINDERS, config.loopReminders)
-                put(DIM_PAST_EVENTS, config.dimPastEvents)
-                put(DIM_COMPLETED_TASKS, config.dimCompletedTasks)
-                put(ALLOW_CHANGING_TIME_ZONES, config.allowChangingTimeZones)
-                put(USE_PREVIOUS_EVENT_REMINDERS, config.usePreviousEventReminders)
-                put(DEFAULT_REMINDER_1, config.defaultReminder1)
-                put(DEFAULT_REMINDER_2, config.defaultReminder2)
-                put(DEFAULT_REMINDER_3, config.defaultReminder3)
-                put(PULL_TO_REFRESH, config.pullToRefresh)
-                put(DEFAULT_START_TIME, config.defaultStartTime)
-                put(DEFAULT_DURATION, config.defaultDuration)
-                put(USE_SAME_SNOOZE, config.useSameSnooze)
-                put(SNOOZE_TIME, config.snoozeTime)
-                put(USE_24_HOUR_FORMAT, config.use24HourFormat)
-                put(SUNDAY_FIRST, config.isSundayFirst)
-                put(HIGHLIGHT_WEEKENDS, config.highlightWeekends)
-                put(HIGHLIGHT_WEEKENDS_COLOR, config.highlightWeekendsColor)
-                put(ALLOW_CREATING_TASKS, config.allowCreatingTasks)
-            }
-
-            exportSettings(configItems)
-        }
-    }
-
-    private fun setupImportSettings() {
-        settings_import_holder.setOnClickListener {
-            if (isQPlus()) {
-                Intent(Intent.ACTION_GET_CONTENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/plain"
-
-                    try {
-                        startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                    } catch (e: Exception) {
-                        showErrorToast(e)
-                    }
-                }
-            } else {
-                handlePermission(PERMISSION_READ_STORAGE) {
-                    if (it) {
-                        FilePickerDialog(this) {
-                            ensureBackgroundThread {
-                                parseFile(File(it).inputStream())
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -1016,7 +984,8 @@ class SettingsActivity : SimpleActivity() {
         }
 
         runOnUiThread {
-            val msg = if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing
+            val msg =
+                if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing
             toast(msg)
 
             setupSettingItems()

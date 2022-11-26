@@ -124,7 +124,8 @@ fun ExifInterface.getExifProperties(): String {
 
 @TargetApi(Build.VERSION_CODES.N)
 fun ExifInterface.getExifDateTaken(context: Context): String {
-    val dateTime = getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL) ?: getAttribute(ExifInterface.TAG_DATETIME)
+    val dateTime = getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL)
+        ?: getAttribute(ExifInterface.TAG_DATETIME)
     dateTime.let {
         if (it?.isNotEmpty() == true) {
             try {

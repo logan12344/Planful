@@ -17,7 +17,8 @@ import com.production.planful.commons.models.FileDirItem
 import kotlinx.android.synthetic.main.item_breadcrumb.view.*
 
 class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(context, attrs) {
-    private val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val itemsLayout: LinearLayout
     private var textColor = context.getProperTextColor()
     private var fontSize = resources.getDimension(R.dimen.bigger_text_size)
@@ -186,7 +187,8 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
 
             inflater.inflate(R.layout.item_breadcrumb_first, itemsLayout, false).apply {
                 resources.apply {
-                    breadcrumb_text.background = ContextCompat.getDrawable(context, R.drawable.button_background)
+                    breadcrumb_text.background =
+                        ContextCompat.getDrawable(context, R.drawable.button_background)
                     breadcrumb_text.background.applyColorFilter(textColor)
                     elevation = 1f
                     background = ColorDrawable(firstItemBgColor)

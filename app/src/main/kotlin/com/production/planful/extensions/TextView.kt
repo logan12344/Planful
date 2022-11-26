@@ -9,7 +9,12 @@ import com.production.planful.commons.extensions.addBit
 import com.production.planful.commons.extensions.applyColorFilter
 import com.production.planful.commons.extensions.removeBit
 
-fun TextView.addResizedBackgroundDrawable(res: Resources, drawableHeight: Int, primaryColor: Int, drawableId: Int) {
+fun TextView.addResizedBackgroundDrawable(
+    res: Resources,
+    drawableHeight: Int,
+    primaryColor: Int,
+    drawableId: Int
+) {
     val baseDrawable = res.getDrawable(drawableId).toBitmap(drawableHeight, drawableHeight)
     val scaledDrawable = BitmapDrawable(res, baseDrawable)
     scaledDrawable.applyColorFilter(primaryColor)

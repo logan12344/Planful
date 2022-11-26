@@ -20,7 +20,7 @@
         <item>@string/yearly</item>
     </string-array>
 
-<array name="md_primary_colors">
+    <array name="md_primary_colors">
         <item>@color/md_red</item>
         <item>@color/md_pink</item>
         <item>@color/md_purple</item>

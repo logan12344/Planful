@@ -105,7 +105,8 @@ class PinTab(context: Context, attrs: AttributeSet) : RelativeLayout(context, at
         messageDigest.update(pin.toByteArray(charset("UTF-8")))
         val digest = messageDigest.digest()
         val bigInteger = BigInteger(1, digest)
-        return String.format(Locale.getDefault(), "%0${digest.size * 2}x", bigInteger).lowercase(Locale.getDefault())
+        return String.format(Locale.getDefault(), "%0${digest.size * 2}x", bigInteger)
+            .lowercase(Locale.getDefault())
     }
 
     override fun visibilityChanged(isVisible: Boolean) {}

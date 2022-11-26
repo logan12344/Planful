@@ -2,10 +2,7 @@ package com.production.planful.commons.helpers
 
 import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds
-import android.provider.ContactsContract.CommonDataKinds.Event
-import android.provider.ContactsContract.CommonDataKinds.Im
-import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
+import android.provider.ContactsContract.CommonDataKinds.*
 import android.provider.MediaStore
 import com.production.planful.R
 import com.production.planful.commons.activities.BaseSimpleActivity
@@ -19,6 +16,10 @@ import ezvcard.VCard
 import ezvcard.VCardVersion
 import ezvcard.parameter.ImageType
 import ezvcard.property.*
+import ezvcard.property.Email
+import ezvcard.property.Organization
+import ezvcard.property.Photo
+import ezvcard.property.StructuredName
 import java.io.OutputStream
 import java.util.*
 
@@ -51,7 +52,13 @@ class VcfExporter {
             for (contact in contacts) {
                 val card = VCard()
 
-                val formattedName = arrayOf(contact.prefix, contact.firstName, contact.middleName, contact.surname, contact.suffix)
+                val formattedName = arrayOf(
+                    contact.prefix,
+                    contact.firstName,
+                    contact.middleName,
+                    contact.surname,
+                    contact.suffix
+                )
                     .filter { it.isNotEmpty() }
                     .joinToString(separator = " ")
                 card.formattedName = FormattedName(formattedName)
@@ -142,7 +149,10 @@ class VcfExporter {
                 }
 
                 if (contact.thumbnailUri.isNotEmpty()) {
-                    val photoByteArray = MediaStore.Images.Media.getBitmap(activity.contentResolver, Uri.parse(contact.thumbnailUri)).getByteArray()
+                    val photoByteArray = MediaStore.Images.Media.getBitmap(
+                        activity.contentResolver,
+                        Uri.parse(contact.thumbnailUri)
+                    ).getByteArray()
                     val photo = Photo(photoByteArray, ImageType.JPEG)
                     card.addPhoto(photo)
                 }

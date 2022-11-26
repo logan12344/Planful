@@ -1,13 +1,13 @@
 package com.production.planful.helpers
 
+import com.production.planful.commons.extensions.areDigitsOnly
+import com.production.planful.commons.helpers.*
 import com.production.planful.extensions.isXMonthlyRepetition
 import com.production.planful.extensions.isXWeeklyRepetition
 import com.production.planful.extensions.isXYearlyRepetition
 import com.production.planful.extensions.seconds
 import com.production.planful.models.Event
 import com.production.planful.models.EventRepetition
-import com.production.planful.commons.extensions.areDigitsOnly
-import com.production.planful.commons.helpers.*
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import kotlin.math.floor
@@ -59,7 +59,8 @@ class Parser {
                 if (repeatInterval.isXWeeklyRepetition()) {
                     repeatRule = handleRepeatRule(value)
                 } else if (repeatInterval.isXMonthlyRepetition() || repeatInterval.isXYearlyRepetition()) {
-                    repeatRule = if (value.startsWith("-1")) REPEAT_ORDER_WEEKDAY_USE_LAST else REPEAT_ORDER_WEEKDAY
+                    repeatRule =
+                        if (value.startsWith("-1")) REPEAT_ORDER_WEEKDAY_USE_LAST else REPEAT_ORDER_WEEKDAY
                 }
             } else if (key == BYMONTHDAY) {
                 if (value.split(",").any { it.toInt() == -1 }) {
@@ -111,7 +112,8 @@ class Parser {
     private fun parseLongFormat(digitString: String, useUTC: Boolean): Long {
         val dateTimeFormat = DateTimeFormat.forPattern("yyyyMMddHHmmss")
         val dateTimeZone = if (useUTC) DateTimeZone.UTC else DateTimeZone.getDefault()
-        return dateTimeFormat.parseDateTime(digitString).withZoneRetainFields(dateTimeZone).seconds()
+        return dateTimeFormat.parseDateTime(digitString).withZoneRetainFields(dateTimeZone)
+            .seconds()
     }
 
     // from Daily, 5x... to RRULE:FREQ=DAILY;COUNT=5
@@ -221,7 +223,8 @@ class Parser {
         return seconds + (minutes * minSecs) + (hours * hourSecs) + (days * daySecs) + (weeks * weekSecs)
     }
 
-    private fun getDurationValue(duration: String, char: String) = Regex("[0-9]+(?=$char)").find(duration)?.value?.toInt() ?: 0
+    private fun getDurationValue(duration: String, char: String) =
+        Regex("[0-9]+(?=$char)").find(duration)?.value?.toInt() ?: 0
 
     // from 65 to P0DT1H5M0S
     fun getDurationCode(minutes: Long): String {

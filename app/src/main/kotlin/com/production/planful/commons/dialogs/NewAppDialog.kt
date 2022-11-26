@@ -8,7 +8,13 @@ import com.production.planful.commons.extensions.getAlertDialogBuilder
 import com.production.planful.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_textview.view.*
 
-class NewAppDialog(val activity: Activity, val packageName: String, val title: String, val packageName2: String, val title2: String) {
+class NewAppDialog(
+    val activity: Activity,
+    val packageName: String,
+    val title: String,
+    val packageName2: String,
+    val title2: String
+) {
     init {
         val view = activity.layoutInflater.inflate(R.layout.dialog_textview, null).apply {
             val text = String.format(

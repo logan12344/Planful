@@ -4,20 +4,21 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventTypesDB
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.helpers.IcsImporter
-import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_FAIL
-import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_NOTHING_NEW
-import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_OK
-import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_PARTIAL
+import com.production.planful.helpers.IcsImporter.ImportResult.*
 import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_import_events.view.*
 
-class ImportEventsDialog(val activity: SimpleActivity, val path: String, val callback: (refreshView: Boolean) -> Unit) {
+class ImportEventsDialog(
+    val activity: SimpleActivity,
+    val path: String,
+    val callback: (refreshView: Boolean) -> Unit
+) {
     private var currEventTypeId = REGULAR_EVENT_TYPE_ID
     private var currEventTypeCalDAVCalendarId = 0
     private val config = activity.config
@@ -28,9 +29,11 @@ class ImportEventsDialog(val activity: SimpleActivity, val path: String, val cal
                 config.lastUsedLocalEventTypeId = REGULAR_EVENT_TYPE_ID
             }
 
-            val isLastCaldavCalendarOK = config.caldavSync && config.getSyncedCalendarIdsAsList().contains(config.lastUsedCaldavCalendarId)
+            val isLastCaldavCalendarOK = config.caldavSync && config.getSyncedCalendarIdsAsList()
+                .contains(config.lastUsedCaldavCalendarId)
             currEventTypeId = if (isLastCaldavCalendarOK) {
-                val lastUsedCalDAVCalendar = activity.eventsHelper.getEventTypeWithCalDAVCalendarId(config.lastUsedCaldavCalendarId)
+                val lastUsedCalDAVCalendar =
+                    activity.eventsHelper.getEventTypeWithCalDAVCalendarId(config.lastUsedCaldavCalendarId)
                 if (lastUsedCalDAVCalendar != null) {
                     currEventTypeCalDAVCalendarId = config.lastUsedCaldavCalendarId
                     lastUsedCalDAVCalendar.id!!
@@ -48,7 +51,10 @@ class ImportEventsDialog(val activity: SimpleActivity, val path: String, val cal
     }
 
     private fun initDialog() {
-        val view = (activity.layoutInflater.inflate(R.layout.dialog_import_events, null) as ViewGroup).apply {
+        val view = (activity.layoutInflater.inflate(
+            R.layout.dialog_import_events,
+            null
+        ) as ViewGroup).apply {
             updateEventType(this)
             import_event_type_title.setOnClickListener {
                 SelectEventTypeDialog(activity, currEventTypeId, true, true, false, true) {
@@ -77,7 +83,12 @@ class ImportEventsDialog(val activity: SimpleActivity, val path: String, val cal
                         activity.toast(R.string.importing)
                         ensureBackgroundThread {
                             val overrideFileEventTypes = view.import_events_checkbox.isChecked
-                            val result = IcsImporter(activity).importEvents(path, currEventTypeId, currEventTypeCalDAVCalendarId, overrideFileEventTypes)
+                            val result = IcsImporter(activity).importEvents(
+                                path,
+                                currEventTypeId,
+                                currEventTypeCalDAVCalendarId,
+                                overrideFileEventTypes
+                            )
                             handleParseResult(result)
                             alertDialog.dismiss()
                         }
@@ -91,7 +102,10 @@ class ImportEventsDialog(val activity: SimpleActivity, val path: String, val cal
             val eventType = activity.eventTypesDB.getEventTypeWithId(currEventTypeId)
             activity.runOnUiThread {
                 view.import_event_type_title.setText(eventType!!.getDisplayTitle())
-                view.import_event_type_color.setFillWithStroke(eventType.color, activity.getProperBackgroundColor())
+                view.import_event_type_color.setFillWithStroke(
+                    eventType.color,
+                    activity.getProperBackgroundColor()
+                )
             }
         }
     }

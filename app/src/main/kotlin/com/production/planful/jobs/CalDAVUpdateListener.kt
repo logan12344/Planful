@@ -31,7 +31,12 @@ class CalDAVUpdateListener : JobService() {
         val componentName = ComponentName(context, CalDAVUpdateListener::class.java)
         val uri = CalendarContract.Calendars.CONTENT_URI
         JobInfo.Builder(CALDAV_EVENT_CONTENT_JOB, componentName).apply {
-            addTriggerContentUri(JobInfo.TriggerContentUri(uri, JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
+            addTriggerContentUri(
+                JobInfo.TriggerContentUri(
+                    uri,
+                    JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS
+                )
+            )
             (context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(build())
         }
     }

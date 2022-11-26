@@ -1,6 +1,5 @@
 package com.production.planful.commons.adapters
 
-import android.content.Context
 import android.view.*
 import android.widget.PopupMenu
 import com.production.planful.R
@@ -15,8 +14,11 @@ import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.item_manage_blocked_number.view.*
 
 class ManageBlockedNumbersAdapter(
-    activity: BaseSimpleActivity, var blockedNumbers: ArrayList<BlockedNumber>, val listener: RefreshRecyclerViewListener?,
-    recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
+    activity: BaseSimpleActivity,
+    var blockedNumbers: ArrayList<BlockedNumber>,
+    val listener: RefreshRecyclerViewListener?,
+    recyclerView: MyRecyclerView,
+    itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
     init {
         setupDragListener(true)
@@ -45,7 +47,8 @@ class ManageBlockedNumbersAdapter(
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = blockedNumbers.getOrNull(position)?.id?.toInt()
+    override fun getItemSelectionKey(position: Int) =
+        blockedNumbers.getOrNull(position)?.id?.toInt()
 
     override fun getItemKeyPosition(key: Int) = blockedNumbers.indexOfFirst { it.id.toInt() == key }
 
@@ -53,7 +56,8 @@ class ManageBlockedNumbersAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_manage_blocked_number, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        createViewHolder(R.layout.item_manage_blocked_number, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val blockedNumber = blockedNumbers[position]
@@ -65,11 +69,13 @@ class ManageBlockedNumbersAdapter(
 
     override fun getItemCount() = blockedNumbers.size
 
-    private fun getSelectedItems() = blockedNumbers.filter { selectedKeys.contains(it.id.toInt()) } as ArrayList<BlockedNumber>
+    private fun getSelectedItems() =
+        blockedNumbers.filter { selectedKeys.contains(it.id.toInt()) } as ArrayList<BlockedNumber>
 
     private fun setupView(view: View, blockedNumber: BlockedNumber) {
         view.apply {
-            manage_blocked_number_holder?.isSelected = selectedKeys.contains(blockedNumber.id.toInt())
+            manage_blocked_number_holder?.isSelected =
+                selectedKeys.contains(blockedNumber.id.toInt())
             manage_blocked_number_title.apply {
                 text = blockedNumber.number
                 setTextColor(textColor)

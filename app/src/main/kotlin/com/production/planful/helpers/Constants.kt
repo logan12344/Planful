@@ -56,7 +56,8 @@ const val TYPE_TASK = 1
 const val TWELVE_HOURS = 43200
 const val DAY = 86400
 const val WEEK = 604800
-const val MONTH = 2592001    // exact value not taken into account, Joda is used for adding months and years
+const val MONTH =
+    2592001    // exact value not taken into account, Joda is used for adding months and years
 const val YEAR = 31536000
 
 const val EVENT_PERIOD_TODAY = -1
@@ -118,10 +119,13 @@ const val LAST_USED_EVENT_SPAN = "last_used_event_span"
 const val ALLOW_CREATING_TASKS = "allow_creating_tasks"
 
 // repeat_rule for monthly and yearly repetition
-const val REPEAT_SAME_DAY = 1                           // i.e. 25th every month, or 3rd june (if yearly repetition)
-const val REPEAT_ORDER_WEEKDAY_USE_LAST = 2             // i.e. every last sunday. 4th if a month has 4 sundays, 5th if 5 (or last sunday in june, if yearly)
+const val REPEAT_SAME_DAY =
+    1                           // i.e. 25th every month, or 3rd june (if yearly repetition)
+const val REPEAT_ORDER_WEEKDAY_USE_LAST =
+    2             // i.e. every last sunday. 4th if a month has 4 sundays, 5th if 5 (or last sunday in june, if yearly)
 const val REPEAT_LAST_DAY = 3                           // i.e. every last day of the month
-const val REPEAT_ORDER_WEEKDAY = 4                      // i.e. every 4th sunday, even if a month has 4 sundays only (will stay 4th even at months with 5)
+const val REPEAT_ORDER_WEEKDAY =
+    4                      // i.e. every 4th sunday, even if a month has 4 sundays only (will stay 4th even at months with 5)
 
 // special event and task flags
 const val FLAG_ALL_DAY = 1

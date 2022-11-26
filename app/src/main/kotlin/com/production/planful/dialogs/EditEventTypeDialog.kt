@@ -4,15 +4,19 @@ import android.app.Activity
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
-import com.production.planful.extensions.eventsHelper
-import com.production.planful.helpers.OTHER_EVENT
-import com.production.planful.models.EventType
 import com.production.planful.commons.dialogs.ColorPickerDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.extensions.eventsHelper
+import com.production.planful.helpers.OTHER_EVENT
+import com.production.planful.models.EventType
 import kotlinx.android.synthetic.main.dialog_event_type.view.*
 
-class EditEventTypeDialog(val activity: Activity, var eventType: EventType? = null, val callback: (eventType: EventType) -> Unit) {
+class EditEventTypeDialog(
+    val activity: Activity,
+    var eventType: EventType? = null,
+    val callback: (eventType: EventType) -> Unit
+) {
     private var isNewEvent = eventType == null
 
     init {
@@ -44,7 +48,11 @@ class EditEventTypeDialog(val activity: Activity, var eventType: EventType? = nu
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
             .apply {
-                activity.setupDialogStuff(view, this, if (isNewEvent) R.string.add_new_type else R.string.edit_type) { alertDialog ->
+                activity.setupDialogStuff(
+                    view,
+                    this,
+                    if (isNewEvent) R.string.add_new_type else R.string.edit_type
+                ) { alertDialog ->
                     alertDialog.showKeyboard(view.type_title)
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         ensureBackgroundThread {
@@ -69,7 +77,8 @@ class EditEventTypeDialog(val activity: Activity, var eventType: EventType? = nu
 
         var isEventTypeTitleTaken = isNewEvent && eventTypeId != -1L
         if (!isEventTypeTitleTaken) {
-            isEventTypeTitleTaken = !isNewEvent && eventType!!.id != eventTypeId && eventTypeId != -1L
+            isEventTypeTitleTaken =
+                !isNewEvent && eventType!!.id != eventTypeId && eventTypeId != -1L
         }
 
         if (title.isEmpty()) {

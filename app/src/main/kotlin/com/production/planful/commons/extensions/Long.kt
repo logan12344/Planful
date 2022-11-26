@@ -12,10 +12,21 @@ fun Long.formatSize(): String {
 
     val units = arrayOf("B", "kB", "MB", "GB", "TB")
     val digitGroups = (Math.log10(toDouble()) / Math.log10(1024.0)).toInt()
-    return "${DecimalFormat("#,##0.#").format(this / Math.pow(1024.0, digitGroups.toDouble()))} ${units[digitGroups]}"
+    return "${
+        DecimalFormat("#,##0.#").format(
+            this / Math.pow(
+                1024.0,
+                digitGroups.toDouble()
+            )
+        )
+    } ${units[digitGroups]}"
 }
 
-fun Long.formatDate(context: Context, dateFormat: String? = null, timeFormat: String? = null): String {
+fun Long.formatDate(
+    context: Context,
+    dateFormat: String? = null,
+    timeFormat: String? = null
+): String {
     val useDateFormat = dateFormat ?: context.baseConfig.dateFormat
     val useTimeFormat = timeFormat ?: context.getTimeFormat()
     val cal = Calendar.getInstance(Locale.ENGLISH)

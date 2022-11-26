@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.production.planful.R
+import com.production.planful.commons.extensions.getProperPrimaryColor
 import com.production.planful.extensions.config
 import com.production.planful.helpers.Converters
 import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
@@ -19,7 +20,6 @@ import com.production.planful.models.Event
 import com.production.planful.models.EventType
 import com.production.planful.models.Task
 import com.production.planful.models.Widget
-import com.production.planful.commons.extensions.getProperPrimaryColor
 import java.util.concurrent.Executors
 
 @Database(entities = [Event::class, EventType::class, Widget::class, Task::class], version = 8)
@@ -41,7 +41,11 @@ abstract class EventsDatabase : RoomDatabase() {
             if (db == null) {
                 synchronized(EventsDatabase::class) {
                     if (db == null) {
-                        db = Room.databaseBuilder(context.applicationContext, EventsDatabase::class.java, "events.db")
+                        db = Room.databaseBuilder(
+                            context.applicationContext,
+                            EventsDatabase::class.java,
+                            "events.db"
+                        )
                             .addCallback(object : Callback() {
                                 override fun onCreate(db: SupportSQLiteDatabase) {
                                     super.onCreate(db)
@@ -70,7 +74,8 @@ abstract class EventsDatabase : RoomDatabase() {
         private fun insertRegularEventType(context: Context) {
             Executors.newSingleThreadScheduledExecutor().execute {
                 val regularEvent = context.resources.getString(R.string.regular_event)
-                val eventType = EventType(REGULAR_EVENT_TYPE_ID, regularEvent, context.getProperPrimaryColor())
+                val eventType =
+                    EventType(REGULAR_EVENT_TYPE_ID, regularEvent, context.getProperPrimaryColor())
                 db!!.EventTypesDao().insertOrUpdate(eventType)
                 context.config.addDisplayEventType(REGULAR_EVENT_TYPE_ID.toString())
             }

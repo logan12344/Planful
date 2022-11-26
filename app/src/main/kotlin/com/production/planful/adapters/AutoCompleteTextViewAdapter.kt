@@ -8,19 +8,21 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
-import com.production.planful.models.Attendee
 import com.production.planful.commons.extensions.normalizeString
 import com.production.planful.commons.helpers.SimpleContactsHelper
+import com.production.planful.models.Attendee
 import kotlinx.android.synthetic.main.item_autocomplete_email_name.view.*
 
-class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Attendee>) : ArrayAdapter<Attendee>(activity, 0, contacts) {
+class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Attendee>) :
+    ArrayAdapter<Attendee>(activity, 0, contacts) {
     var resultList = ArrayList<Attendee>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val contact = resultList[position]
         var listItem = convertView
         if (listItem == null || listItem.tag != contact.name.isNotEmpty()) {
-            val layout = if (contact.name.isNotEmpty()) R.layout.item_autocomplete_email_name else R.layout.item_autocomplete_email
+            val layout =
+                if (contact.name.isNotEmpty()) R.layout.item_autocomplete_email_name else R.layout.item_autocomplete_email
             listItem = LayoutInflater.from(activity).inflate(layout, parent, false)
         }
 
@@ -30,7 +32,10 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             else -> "A"
         }
 
-        val placeholder = BitmapDrawable(activity.resources, SimpleContactsHelper(context).getContactLetterIcon(nameToUse))
+        val placeholder = BitmapDrawable(
+            activity.resources,
+            SimpleContactsHelper(context).getContactLetterIcon(nameToUse)
+        )
         listItem!!.apply {
             tag = contact.name.isNotEmpty()
             item_autocomplete_name?.text = contact.name
@@ -49,7 +54,11 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
                 resultList.clear()
                 val searchString = constraint.toString().normalizeString()
                 contacts.forEach {
-                    if (it.email.contains(searchString, true) || it.name.contains(searchString, true)) {
+                    if (it.email.contains(searchString, true) || it.name.contains(
+                            searchString,
+                            true
+                        )
+                    ) {
                         resultList.add(it)
                     }
                 }
@@ -75,7 +84,8 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             }
         }
 
-        override fun convertResultToString(resultValue: Any?) = (resultValue as? Attendee)?.getPublicName()
+        override fun convertResultToString(resultValue: Any?) =
+            (resultValue as? Attendee)?.getPublicName()
     }
 
     override fun getItem(index: Int) = resultList[index]

@@ -56,7 +56,12 @@ fun Context.getSharedPrefs() = getSharedPreferences(PREFS_KEY, Context.MODE_PRIV
 
 val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 
-val Context.areSystemAnimationsEnabled: Boolean get() = Settings.Global.getFloat(contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 0f) > 0f
+val Context.areSystemAnimationsEnabled: Boolean
+    get() = Settings.Global.getFloat(
+        contentResolver,
+        Settings.Global.ANIMATOR_DURATION_SCALE,
+        0f
+    ) > 0f
 
 fun Context.toast(id: Int, length: Int = Toast.LENGTH_SHORT) {
     toast(getString(id), length)
@@ -100,7 +105,8 @@ val Context.otgPath: String get() = baseConfig.OTGPath
 
 fun Context.isFingerPrintSensorAvailable() = isMarshmallowPlus() && Reprint.isHardwarePresent()
 
-fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
+fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this)
+    .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
     BiometricManager.BIOMETRIC_SUCCESS, BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> true
     else -> false
 }
@@ -165,7 +171,10 @@ fun Context.getRealPathFromURI(uri: Uri): String? {
     if (isDownloadsDocument(uri)) {
         val id = DocumentsContract.getDocumentId(uri)
         if (id.areDigitsOnly()) {
-            val newUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), id.toLong())
+            val newUri = ContentUris.withAppendedId(
+                Uri.parse("content://downloads/public_downloads"),
+                id.toLong()
+            )
             val path = getDataColumn(newUri)
             if (path != null) {
                 return path
@@ -199,7 +208,11 @@ fun Context.getRealPathFromURI(uri: Uri): String? {
     return getDataColumn(uri)
 }
 
-fun Context.getDataColumn(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): String? {
+fun Context.getDataColumn(
+    uri: Uri,
+    selection: String? = null,
+    selectionArgs: Array<String>? = null
+): String? {
     try {
         val projection = arrayOf(Files.FileColumns.DATA)
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
@@ -218,11 +231,16 @@ fun Context.getDataColumn(uri: Uri, selection: String? = null, selectionArgs: Ar
 
 private fun isMediaDocument(uri: Uri) = uri.authority == "com.android.providers.media.documents"
 
-private fun isDownloadsDocument(uri: Uri) = uri.authority == "com.android.providers.downloads.documents"
+private fun isDownloadsDocument(uri: Uri) =
+    uri.authority == "com.android.providers.downloads.documents"
 
-private fun isExternalStorageDocument(uri: Uri) = uri.authority == "com.android.externalstorage.documents"
+private fun isExternalStorageDocument(uri: Uri) =
+    uri.authority == "com.android.externalstorage.documents"
 
-fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(this, getPermissionString(permId)) == PackageManager.PERMISSION_GRANTED
+fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(
+    this,
+    getPermissionString(permId)
+) == PackageManager.PERMISSION_GRANTED
 
 fun Context.getPermissionString(id: Int) = when (id) {
     PERMISSION_READ_STORAGE -> Manifest.permission.READ_EXTERNAL_STORAGE
@@ -369,15 +387,6 @@ fun Context.ensurePublicUri(path: String, applicationId: String): Uri? {
     }
 }
 
-fun Context.ensurePublicUri(uri: Uri, applicationId: String): Uri {
-    return if (uri.scheme == "content") {
-        uri
-    } else {
-        val file = File(uri.path)
-        getFilePublicUri(file, applicationId)
-    }
-}
-
 fun Context.getFilenameFromContentUri(uri: Uri): String? {
     val projection = arrayOf(
         OpenableColumns.DISPLAY_NAME
@@ -409,13 +418,21 @@ fun Context.getSizeFromContentUri(uri: Uri): Long {
     return 0L
 }
 
-fun Context.getMyContentProviderCursorLoader() = CursorLoader(this, MyContentProvider.MY_CONTENT_URI, null, null, null, null)
+fun Context.getMyContentProviderCursorLoader() =
+    CursorLoader(this, MyContentProvider.MY_CONTENT_URI, null, null, null, null)
 
 fun Context.getMyContactsCursor(favoritesOnly: Boolean, withPhoneNumbersOnly: Boolean) = try {
     val getFavoritesOnly = if (favoritesOnly) "1" else "0"
     val getWithPhoneNumbersOnly = if (withPhoneNumbersOnly) "1" else "0"
     val args = arrayOf(getFavoritesOnly, getWithPhoneNumbersOnly)
-    CursorLoader(this, MyContactsContentProvider.CONTACTS_CONTENT_URI, null, null, args, null).loadInBackground()
+    CursorLoader(
+        this,
+        MyContactsContentProvider.CONTACTS_CONTENT_URI,
+        null,
+        null,
+        args,
+        null
+    ).loadInBackground()
 } catch (e: Exception) {
     null
 }
@@ -457,26 +474,6 @@ fun Context.isOrWasThankYouInstalled(): Boolean {
     }
 }
 
-fun Context.isAProApp() = packageName.startsWith("com.production.planful.") && packageName.removeSuffix(".debug").endsWith(".pro")
-
-fun Context.getCustomizeColorsString(): String {
-    val textId = if (isOrWasThankYouInstalled()) {
-        R.string.customize_colors
-    } else {
-        R.string.customize_colors_locked
-    }
-
-    return getString(textId)
-}
-
-fun Context.addLockedLabelIfNeeded(stringId: Int): String {
-    return if (isOrWasThankYouInstalled()) {
-        getString(stringId)
-    } else {
-        "${getString(stringId)} (${getString(R.string.feature_locked)})"
-    }
-}
-
 fun Context.isPackageInstalled(pkgName: String): Boolean {
     return try {
         packageManager.getPackageInfo(pkgName, 0)
@@ -488,7 +485,15 @@ fun Context.isPackageInstalled(pkgName: String): Boolean {
 
 // format day bits to strings like "Mon, Tue, Wed"
 fun Context.getSelectedDaysString(bitMask: Int): String {
-    val dayBits = arrayListOf(MONDAY_BIT, TUESDAY_BIT, WEDNESDAY_BIT, THURSDAY_BIT, FRIDAY_BIT, SATURDAY_BIT, SUNDAY_BIT)
+    val dayBits = arrayListOf(
+        MONDAY_BIT,
+        TUESDAY_BIT,
+        WEDNESDAY_BIT,
+        THURSDAY_BIT,
+        FRIDAY_BIT,
+        SATURDAY_BIT,
+        SUNDAY_BIT
+    )
     val weekDays = resources.getStringArray(R.array.week_days_short).toList() as ArrayList<String>
 
     if (baseConfig.isSundayFirst) {
@@ -505,7 +510,8 @@ fun Context.getSelectedDaysString(bitMask: Int): String {
     return days.trim().trimEnd(',')
 }
 
-fun Context.formatMinutesToTimeString(totalMinutes: Int) = formatSecondsToTimeString(totalMinutes * 60)
+fun Context.formatMinutesToTimeString(totalMinutes: Int) =
+    formatSecondsToTimeString(totalMinutes * 60)
 
 fun Context.formatSecondsToTimeString(totalSeconds: Int): String {
     val days = totalSeconds / DAY_SECONDS
@@ -524,12 +530,14 @@ fun Context.formatSecondsToTimeString(totalSeconds: Int): String {
     }
 
     if (minutes > 0) {
-        val minutesString = String.format(resources.getQuantityString(R.plurals.minutes, minutes, minutes))
+        val minutesString =
+            String.format(resources.getQuantityString(R.plurals.minutes, minutes, minutes))
         timesString.append("$minutesString, ")
     }
 
     if (seconds > 0) {
-        val secondsString = String.format(resources.getQuantityString(R.plurals.seconds, seconds, seconds))
+        val secondsString =
+            String.format(resources.getQuantityString(R.plurals.seconds, seconds, seconds))
         timesString.append(secondsString)
     }
 
@@ -540,9 +548,10 @@ fun Context.formatSecondsToTimeString(totalSeconds: Int): String {
     return result
 }
 
-fun Context.getFormattedMinutes(minutes: Int, showBefore: Boolean = true) = getFormattedSeconds(if (minutes == -1) minutes else minutes * 60, showBefore)
+fun Context.getFormattedMinutes(minutes: Int, showBefore: Boolean = true) =
+    getFormattedSeconds(if (minutes == -1) minutes else minutes * 60, showBefore)
 
-fun Context.getFormattedSeconds(seconds: Int, showBefore: Boolean = true) = when (seconds) {
+fun Context.`getFormattedSeconds`(seconds: Int, showBefore: Boolean = true) = when (seconds) {
     -1 -> getString(R.string.no_reminder)
     0 -> getString(R.string.at_start)
     else -> {
@@ -573,7 +582,11 @@ fun Context.getFormattedSeconds(seconds: Int, showBefore: Boolean = true) = when
             }
             seconds % MINUTE_SECONDS == 0 -> {
                 val base = if (showBefore) R.plurals.minutes_before else R.plurals.by_minutes
-                resources.getQuantityString(base, seconds / MINUTE_SECONDS, seconds / MINUTE_SECONDS)
+                resources.getQuantityString(
+                    base,
+                    seconds / MINUTE_SECONDS,
+                    seconds / MINUTE_SECONDS
+                )
             }
             else -> {
                 val base = if (showBefore) R.plurals.seconds_before else R.plurals.by_seconds
@@ -586,18 +599,24 @@ fun Context.getFormattedSeconds(seconds: Int, showBefore: Boolean = true) = when
 fun Context.getDefaultAlarmTitle(type: Int): String {
     val alarmString = getString(R.string.alarm)
     return try {
-        RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(type))?.getTitle(this) ?: alarmString
+        RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(type))?.getTitle(this)
+            ?: alarmString
     } catch (e: Exception) {
         alarmString
     }
 }
 
-fun Context.getDefaultAlarmSound(type: Int) = AlarmSound(0, getDefaultAlarmTitle(type), RingtoneManager.getDefaultUri(type).toString())
+fun Context.getDefaultAlarmSound(type: Int) =
+    AlarmSound(0, getDefaultAlarmTitle(type), RingtoneManager.getDefaultUri(type).toString())
 
 fun Context.grantReadUriPermission(uriString: String) {
     try {
         // ensure custom reminder sounds play well
-        grantUriPermission("com.android.systemui", Uri.parse(uriString), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        grantUriPermission(
+            "com.android.systemui",
+            Uri.parse(uriString),
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
     } catch (ignored: Exception) {
     }
 }
@@ -612,7 +631,8 @@ fun Context.storeNewYourAlarmSound(resultData: Intent): AlarmSound {
     val token = object : TypeToken<ArrayList<AlarmSound>>() {}.type
     val yourAlarmSounds = Gson().fromJson<ArrayList<AlarmSound>>(baseConfig.yourAlarmSounds, token)
         ?: ArrayList()
-    val newAlarmSoundId = (yourAlarmSounds.maxByOrNull { it.id }?.id ?: YOUR_ALARM_SOUNDS_MIN_ID) + 1
+    val newAlarmSoundId =
+        (yourAlarmSounds.maxByOrNull { it.id }?.id ?: YOUR_ALARM_SOUNDS_MIN_ID) + 1
     val newAlarmSound = AlarmSound(newAlarmSoundId, filename, uri.toString())
     if (yourAlarmSounds.firstOrNull { it.uri == uri.toString() } == null) {
         yourAlarmSounds.add(newAlarmSound)
@@ -644,7 +664,8 @@ fun Context.saveImageRotation(path: String, degrees: Int): Boolean {
 }
 
 fun Context.saveExifRotation(exif: ExifInterface, degrees: Int) {
-    val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val orientation =
+        exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
     val orientationDegrees = (orientation.degreesFromOrientation() + degrees) % 360
     exif.setAttribute(ExifInterface.TAG_ORIENTATION, orientationDegrees.orientationFromDegrees())
     exif.saveAttributes()
@@ -652,11 +673,15 @@ fun Context.saveExifRotation(exif: ExifInterface, degrees: Int) {
 
 fun Context.getLaunchIntent() = packageManager.getLaunchIntentForPackage(baseConfig.appId)
 
-fun Context.getCanAppBeUpgraded() = proPackages.contains(baseConfig.appId.removeSuffix(".debug").removePrefix("com.production.planful."))
+fun Context.getCanAppBeUpgraded() = proPackages.contains(
+    baseConfig.appId.removeSuffix(".debug").removePrefix("com.production.planful.")
+)
 
-fun Context.getProUrl() = "https://play.google.com/store/apps/details?id=${baseConfig.appId.removeSuffix(".debug")}.pro"
+fun Context.getProUrl() =
+    "https://play.google.com/store/apps/details?id=${baseConfig.appId.removeSuffix(".debug")}.pro"
 
-fun Context.getStoreUrl() = "https://play.google.com/store/apps/details?id=${packageName.removeSuffix(".debug")}"
+fun Context.getStoreUrl() =
+    "https://play.google.com/store/apps/details?id=${packageName.removeSuffix(".debug")}"
 
 fun Context.getTimeFormat() = if (baseConfig.use24HourFormat) TIME_FORMAT_24 else TIME_FORMAT_12
 
@@ -674,7 +699,11 @@ fun Context.getImageResolution(path: String): Point? {
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
     if (isRestrictedSAFOnlyRoot(path)) {
-        BitmapFactory.decodeStream(contentResolver.openInputStream(getAndroidSAFUri(path)), null, options)
+        BitmapFactory.decodeStream(
+            contentResolver.openInputStream(getAndroidSAFUri(path)),
+            null,
+            options
+        )
     } else {
         BitmapFactory.decodeFile(path, options)
     }
@@ -697,8 +726,10 @@ fun Context.getVideoResolution(path: String): Point? {
             retriever.setDataSource(path)
         }
 
-        val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
-        val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
+        val width =
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+        val height =
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
         Point(width, height)
     } catch (ignored: Exception) {
         null
@@ -709,8 +740,11 @@ fun Context.getVideoResolution(path: String): Point? {
             val fd = contentResolver.openFileDescriptor(Uri.parse(path), "r")?.fileDescriptor
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(fd)
-            val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
-            val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
+            val width =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+            val height =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
+                    .toInt()
             point = Point(width, height)
         } catch (ignored: Exception) {
         }
@@ -725,14 +759,17 @@ fun Context.getDuration(path: String): Int? {
     )
 
     val uri = getFileUri(path)
-    val selection = if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs = if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
 
     try {
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
         cursor?.use {
             if (cursor.moveToFirst()) {
-                return Math.round(cursor.getIntValue(MediaColumns.DURATION) / 1000.toDouble()).toInt()
+                return Math.round(cursor.getIntValue(MediaColumns.DURATION) / 1000.toDouble())
+                    .toInt()
             }
         }
     } catch (ignored: Exception) {
@@ -741,7 +778,10 @@ fun Context.getDuration(path: String): Int? {
     return try {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(path)
-        Math.round(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!.toInt() / 1000f)
+        Math.round(
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
+                .toInt() / 1000f
+        )
     } catch (ignored: Exception) {
         null
     }
@@ -753,8 +793,10 @@ fun Context.getTitle(path: String): String? {
     )
 
     val uri = getFileUri(path)
-    val selection = if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs = if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
 
     try {
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
@@ -781,8 +823,10 @@ fun Context.getArtist(path: String): String? {
     )
 
     val uri = getFileUri(path)
-    val selection = if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs = if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
 
     try {
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
@@ -809,8 +853,10 @@ fun Context.getAlbum(path: String): String? {
     )
 
     val uri = getFileUri(path)
-    val selection = if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs = if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
 
     try {
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
@@ -910,7 +956,8 @@ val Context.statusBarHeight: Int
 
 val Context.actionBarHeight: Int
     get() {
-        val styledAttributes = theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+        val styledAttributes =
+            theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
         val actionBarHeight = styledAttributes.getDimension(0, 0f)
         styledAttributes.recycle()
         return actionBarHeight.toInt()
@@ -935,9 +982,15 @@ fun Context.getCornerRadius() = resources.getDimension(R.dimen.rounded_corner_ra
 // we need the Default Dialer functionality only in Simple Dialer and in Simple Contacts for now
 @TargetApi(Build.VERSION_CODES.M)
 fun Context.isDefaultDialer(): Boolean {
-    return if (!packageName.startsWith("com.production.planful.contacts") && !packageName.startsWith("com.production.planful.dialer")) {
+    return if (!packageName.startsWith("com.production.planful.contacts") && !packageName.startsWith(
+            "com.production.planful.dialer"
+        )
+    ) {
         true
-    } else if ((packageName.startsWith("com.production.planful.contacts") || packageName.startsWith("com.production.planful.dialer")) && isQPlus()) {
+    } else if ((packageName.startsWith("com.production.planful.contacts") || packageName.startsWith(
+            "com.production.planful.dialer"
+        )) && isQPlus()
+    ) {
         val roleManager = getSystemService(RoleManager::class.java)
         roleManager!!.isRoleAvailable(RoleManager.ROLE_DIALER) && roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
     } else {
@@ -991,16 +1044,25 @@ fun Context.deleteBlockedNumber(number: String) {
     contentResolver.delete(BlockedNumbers.CONTENT_URI, selection, selectionArgs)
 }
 
-fun Context.isNumberBlocked(number: String, blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()): Boolean {
+fun Context.isNumberBlocked(
+    number: String,
+    blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()
+): Boolean {
     if (!isNougatPlus()) {
         return false
     }
 
     val numberToCompare = number.trimToComparableNumber()
-    return blockedNumbers.any { numberToCompare in it.numberToCompare || numberToCompare in it.number } || isNumberBlockedByPattern(number, blockedNumbers)
+    return blockedNumbers.any { numberToCompare in it.numberToCompare || numberToCompare in it.number } || isNumberBlockedByPattern(
+        number,
+        blockedNumbers
+    )
 }
 
-fun Context.isNumberBlockedByPattern(number: String, blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()): Boolean {
+fun Context.isNumberBlockedByPattern(
+    number: String,
+    blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()
+): Boolean {
     for (blockedNumber in blockedNumbers) {
         val num = blockedNumber.number
         if (num.isBlockedNumberPattern()) {

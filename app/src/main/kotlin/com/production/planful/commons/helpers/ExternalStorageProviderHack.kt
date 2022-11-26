@@ -37,7 +37,10 @@ object ExternalStorageProviderHack {
 
     fun transformQueryResult(rootDocId: String, uri: Uri, cursor: Cursor): Cursor {
         val documentId = DocumentsContract.getDocumentId(uri)
-        if (uri.authority == EXTERNAL_STORAGE_PROVIDER_AUTHORITY && documentId == getAndroidDocumentId(rootDocId)) {
+        if (uri.authority == EXTERNAL_STORAGE_PROVIDER_AUTHORITY && documentId == getAndroidDocumentId(
+                rootDocId
+            )
+        ) {
             var hasDataRow = false
             var hasObbRow = false
             try {

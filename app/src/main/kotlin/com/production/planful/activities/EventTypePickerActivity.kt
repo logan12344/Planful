@@ -3,10 +3,10 @@ package com.production.planful.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.production.planful.R
-import com.production.planful.extensions.launchNewEventIntent
-import com.production.planful.extensions.launchNewTaskIntent
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.models.RadioItem
+import com.production.planful.extensions.launchNewEventIntent
+import com.production.planful.extensions.launchNewTaskIntent
 
 class EventTypePickerActivity : AppCompatActivity() {
     private val TYPE_EVENT = 0

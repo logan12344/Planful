@@ -6,7 +6,11 @@ import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_rename_item.view.*
 
-class RenameItemDialog(val activity: BaseSimpleActivity, val path: String, val callback: (newPath: String) -> Unit) {
+class RenameItemDialog(
+    val activity: BaseSimpleActivity,
+    val path: String,
+    val callback: (newPath: String) -> Unit
+) {
     init {
         var ignoreClicks = false
         val fullName = path.getFilenameFromPath()
@@ -56,7 +60,12 @@ class RenameItemDialog(val activity: BaseSimpleActivity, val path: String, val c
                         }
 
                         if (!activity.getDoesFilePathExist(path)) {
-                            activity.toast(String.format(activity.getString(R.string.source_file_doesnt_exist), path))
+                            activity.toast(
+                                String.format(
+                                    activity.getString(R.string.source_file_doesnt_exist),
+                                    path
+                                )
+                            )
                             return@setOnClickListener
                         }
 
@@ -67,7 +76,11 @@ class RenameItemDialog(val activity: BaseSimpleActivity, val path: String, val c
                             return@setOnClickListener
                         }
 
-                        if (!path.equals(newPath, ignoreCase = true) && activity.getDoesFilePathExist(newPath)) {
+                        if (!path.equals(
+                                newPath,
+                                ignoreCase = true
+                            ) && activity.getDoesFilePathExist(newPath)
+                        ) {
                             activity.toast(R.string.name_taken)
                             return@setOnClickListener
                         }

@@ -12,7 +12,12 @@ import com.production.planful.commons.helpers.RENAME_SIMPLE
 import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.dialog_rename.view.*
 
-class RenameDialog(val activity: BaseSimpleActivity, val paths: ArrayList<String>, val useMediaFileExtension: Boolean, val callback: () -> Unit) {
+class RenameDialog(
+    val activity: BaseSimpleActivity,
+    val paths: ArrayList<String>,
+    val useMediaFileExtension: Boolean,
+    val callback: () -> Unit
+) {
     var dialog: AlertDialog? = null
     val view = LayoutInflater.from(activity).inflate(R.layout.dialog_rename, null)
     var tabsAdapter: RenameAdapter
@@ -44,7 +49,10 @@ class RenameDialog(val activity: BaseSimpleActivity, val paths: ArrayList<String
 
             dialog_tab_layout.onTabSelectionChanged(tabSelectedAction = {
                 viewPager.currentItem = when {
-                    it.text.toString().equals(resources.getString(R.string.simple_renaming), true) -> RENAME_SIMPLE
+                    it.text.toString().equals(
+                        resources.getString(R.string.simple_renaming),
+                        true
+                    ) -> RENAME_SIMPLE
                     else -> RENAME_PATTERN
                 }
             })

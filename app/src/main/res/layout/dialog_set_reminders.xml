@@ -61,6 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_below="@+id/set_reminders_3"
-        android:padding="@dimen/normal_margin"/>
+        android:padding="@dimen/normal_margin" />
 
 </RelativeLayout>

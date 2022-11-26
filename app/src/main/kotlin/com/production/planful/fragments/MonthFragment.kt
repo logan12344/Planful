@@ -10,6 +10,10 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.production.planful.R
 import com.production.planful.activities.MainActivity
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.beGone
+import com.production.planful.commons.extensions.beVisible
+import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.extensions.config
 import com.production.planful.extensions.getViewBitmap
 import com.production.planful.extensions.printBitmap
@@ -20,10 +24,6 @@ import com.production.planful.helpers.MonthlyCalendarImpl
 import com.production.planful.interfaces.MonthlyCalendar
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.DayMonthly
-import com.production.planful.commons.extensions.applyColorFilter
-import com.production.planful.commons.extensions.beGone
-import com.production.planful.commons.extensions.beVisible
-import com.production.planful.commons.extensions.getProperTextColor
 import kotlinx.android.synthetic.main.fragment_month.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 import org.joda.time.DateTime
@@ -43,7 +43,11 @@ class MonthFragment : Fragment(), MonthlyCalendar {
     lateinit var mHolder: RelativeLayout
     lateinit var mConfig: Config
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_month, container, false)
         mRes = resources
         mPackageName = requireActivity().packageName
@@ -89,7 +93,13 @@ class MonthFragment : Fragment(), MonthlyCalendar {
         mCalendar?.updateMonthlyCalendar(Formatter.getDateTimeFromCode(mDayCode))
     }
 
-    override fun updateMonthlyCalendar(context: Context, month: String, days: ArrayList<DayMonthly>, checkedEvents: Boolean, currTargetDate: DateTime) {
+    override fun updateMonthlyCalendar(
+        context: Context,
+        month: String,
+        days: ArrayList<DayMonthly>,
+        checkedEvents: Boolean,
+        currTargetDate: DateTime
+    ) {
         val newHash = month.hashCode() + days.hashCode().toLong()
         if ((mLastHash != 0L && !checkedEvents) || mLastHash == newHash) {
             return

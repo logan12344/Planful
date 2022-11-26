@@ -30,7 +30,11 @@ class BottomActionMenuView : LinearLayout {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    )
 
     private val inflater = LayoutInflater.from(context)
     private val itemsLookup = LinkedHashMap<Int, BottomActionMenuItem>()
@@ -67,7 +71,12 @@ class BottomActionMenuView : LinearLayout {
             it.cancel()
             clearAnimation()
         }
-        animateChildTo(0, ENTER_ANIMATION_DURATION.toLong(), AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR, true)
+        animateChildTo(
+            0,
+            ENTER_ANIMATION_DURATION.toLong(),
+            AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR,
+            true
+        )
     }
 
     private fun slideDownToGone() {
@@ -82,7 +91,12 @@ class BottomActionMenuView : LinearLayout {
         )
     }
 
-    private fun animateChildTo(targetY: Int, duration: Long, interpolator: TimeInterpolator, visible: Boolean = false) {
+    private fun animateChildTo(
+        targetY: Int,
+        duration: Long,
+        interpolator: TimeInterpolator,
+        visible: Boolean = false
+    ) {
         currentAnimator = animate()
             .translationY(targetY.toFloat())
             .setInterpolator(interpolator)

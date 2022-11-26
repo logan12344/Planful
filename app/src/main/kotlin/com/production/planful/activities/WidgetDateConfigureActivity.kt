@@ -8,12 +8,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.SeekBar
 import com.production.planful.R
-import com.production.planful.extensions.config
-import com.production.planful.helpers.Formatter
-import com.production.planful.helpers.MyWidgetDateProvider
 import com.production.planful.commons.dialogs.ColorPickerDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.LOWER_ALPHA
+import com.production.planful.extensions.config
+import com.production.planful.helpers.Formatter
+import com.production.planful.helpers.MyWidgetDateProvider
 import kotlinx.android.synthetic.main.widget_config_date.*
 
 class WidgetDateConfigureActivity : SimpleActivity() {
@@ -35,7 +35,10 @@ class WidgetDateConfigureActivity : SimpleActivity() {
 
         val extras = intent.extras
         if (extras != null)
-            mWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+            mWidgetId = extras.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )
 
         if (mWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID)
             finish()
@@ -60,7 +63,8 @@ class WidgetDateConfigureActivity : SimpleActivity() {
         mBgColor = config.widgetBgColor
         mBgAlpha = Color.alpha(mBgColor) / 255.toFloat()
 
-        mBgColorWithoutTransparency = Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
+        mBgColorWithoutTransparency =
+            Color.rgb(Color.red(mBgColor), Color.green(mBgColor), Color.blue(mBgColor))
         config_bg_seekbar.setOnSeekBarChangeListener(bgSeekbarChangeListener)
         config_bg_seekbar.progress = (mBgAlpha * 100).toInt()
         updateBgColor()
@@ -103,7 +107,12 @@ class WidgetDateConfigureActivity : SimpleActivity() {
     }
 
     private fun requestWidgetUpdate() {
-        Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, MyWidgetDateProvider::class.java).apply {
+        Intent(
+            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+            null,
+            this,
+            MyWidgetDateProvider::class.java
+        ).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(mWidgetId))
             sendBroadcast(this)
         }

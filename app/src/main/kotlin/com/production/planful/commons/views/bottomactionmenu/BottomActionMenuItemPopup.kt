@@ -15,7 +15,7 @@ import com.production.planful.R
 import com.production.planful.commons.extensions.applyColorFilter
 import com.production.planful.commons.extensions.windowManager
 import com.production.planful.commons.helpers.isRPlus
-import kotlinx.android.synthetic.main.item_action_mode_popup.view.cab_item
+import kotlinx.android.synthetic.main.item_action_mode_popup.view.*
 
 class BottomActionMenuItemPopup(
     private val context: Context,
@@ -36,11 +36,13 @@ class BottomActionMenuItemPopup(
     val isShowing: Boolean
         get() = popup.isShowing
 
-    private val popupListAdapter = object : ArrayAdapter<BottomActionMenuItem>(context, R.layout.item_action_mode_popup, items) {
+    private val popupListAdapter = object :
+        ArrayAdapter<BottomActionMenuItem>(context, R.layout.item_action_mode_popup, items) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var view = convertView
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_action_mode_popup, parent, false)
+                view = LayoutInflater.from(context)
+                    .inflate(R.layout.item_action_mode_popup, parent, false)
             }
 
             val item = items[position]
@@ -72,7 +74,10 @@ class BottomActionMenuItemPopup(
     fun show(anchorView: View) {
         this.anchorView = anchorView
         buildDropDown()
-        PopupWindowCompat.setWindowLayoutType(popup, WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL)
+        PopupWindowCompat.setWindowLayoutType(
+            popup,
+            WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL
+        )
         popup.isOutsideTouchable = true
         popup.width = dropDownWidth
         popup.height = dropDownHeight
@@ -115,7 +120,12 @@ class BottomActionMenuItemPopup(
             isHorizontalScrollBarEnabled = false
             clipToOutline = true
             elevation = 3f
-            setPaddingRelative(popupPaddingStart, popupPaddingTop, popupPaddingEnd, popupPaddingBottom)
+            setPaddingRelative(
+                popupPaddingStart,
+                popupPaddingTop,
+                popupPaddingEnd,
+                popupPaddingBottom
+            )
         }
 
         val screenWidth = if (isRPlus()) {
@@ -188,7 +198,10 @@ class BottomActionMenuItemPopup(
             var childLayoutParams: ViewGroup.LayoutParams? = child.layoutParams
 
             if (childLayoutParams == null) {
-                childLayoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                childLayoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
                 child.layoutParams = childLayoutParams
             }
 

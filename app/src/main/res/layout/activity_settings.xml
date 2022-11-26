@@ -1023,53 +1023,6 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/settings_migrating_label"
-                style="@style/SettingsSectionLabelStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/migrating" />
-
-            <LinearLayout
-                android:id="@+id/settings_migrating_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium_margin"
-                android:background="@drawable/section_holder_stroke"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/settings_export_holder"
-                    style="@style/SettingsHolderTextViewOneLinerStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ripple_top_corners">
-
-                    <com.production.planful.commons.views.MyTextView
-                        android:id="@+id/settings_export"
-                        style="@style/SettingsTextLabelStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/export_settings" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/settings_import_holder"
-                    style="@style/SettingsHolderTextViewOneLinerStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ripple_bottom_corners">
-
-                    <com.production.planful.commons.views.MyTextView
-                        android:id="@+id/settings_import"
-                        style="@style/SettingsTextLabelStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/import_settings" />
-
-                </RelativeLayout>
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

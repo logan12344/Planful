@@ -12,7 +12,11 @@ class MyScrollView : ScrollView {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    )
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return when (ev.action) {

@@ -5,15 +5,16 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.production.planful.R
+import com.production.planful.commons.extensions.onGlobalLayout
 import com.production.planful.extensions.config
 import com.production.planful.helpers.COLUMN_COUNT
 import com.production.planful.helpers.ROW_COUNT
 import com.production.planful.models.DayMonthly
-import com.production.planful.commons.extensions.onGlobalLayout
-import kotlinx.android.synthetic.main.month_view.view.month_view
+import kotlinx.android.synthetic.main.month_view.view.*
 
 // used in the Monthly view fragment, 1 view per screen
-class MonthViewWrapper(context: Context, attrs: AttributeSet, defStyle: Int) : FrameLayout(context, attrs, defStyle) {
+class MonthViewWrapper(context: Context, attrs: AttributeSet, defStyle: Int) :
+    FrameLayout(context, attrs, defStyle) {
     private var dayWidth = 0f
     private var dayHeight = 0f
     private var weekDaysLetterHeight = 0
@@ -71,7 +72,12 @@ class MonthViewWrapper(context: Context, attrs: AttributeSet, defStyle: Int) : F
             val childRight = childLeft + childWidth
             val childBottom = childTop + childHeight
 
-            child.layout(childLeft.toInt(), childTop.toInt(), childRight.toInt(), childBottom.toInt())
+            child.layout(
+                childLeft.toInt(),
+                childTop.toInt(),
+                childRight.toInt(),
+                childBottom.toInt()
+            )
 
             if (curLeft + childWidth < end) {
                 curLeft += childWidth
@@ -84,7 +90,11 @@ class MonthViewWrapper(context: Context, attrs: AttributeSet, defStyle: Int) : F
         }
     }
 
-    fun updateDays(newDays: ArrayList<DayMonthly>, addEvents: Boolean, callback: ((DayMonthly) -> Unit)? = null) {
+    fun updateDays(
+        newDays: ArrayList<DayMonthly>,
+        addEvents: Boolean,
+        callback: ((DayMonthly) -> Unit)? = null
+    ) {
         setupHorizontalOffset()
         measureSizes()
         dayClickCallback = callback
@@ -98,7 +108,8 @@ class MonthViewWrapper(context: Context, attrs: AttributeSet, defStyle: Int) : F
     }
 
     private fun setupHorizontalOffset() {
-        horizontalOffset = if (context.config.showWeekNumbers) resources.getDimensionPixelSize(R.dimen.smaller_text_size) * 2 else 0
+        horizontalOffset =
+            if (context.config.showWeekNumbers) resources.getDimensionPixelSize(R.dimen.smaller_text_size) * 2 else 0
     }
 
     private fun measureSizes() {

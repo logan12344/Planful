@@ -7,21 +7,27 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.helpers.STORED_LOCALLY_ONLY
 import com.production.planful.models.CalDAVCalendar
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_select_radio_group.view.*
 import kotlinx.android.synthetic.main.radio_button_with_color.view.*
 
-class SelectEventCalendarDialog(val activity: Activity, val calendars: List<CalDAVCalendar>, val currCalendarId: Int, val callback: (id: Int) -> Unit) {
+class SelectEventCalendarDialog(
+    val activity: Activity,
+    val calendars: List<CalDAVCalendar>,
+    val currCalendarId: Int,
+    val callback: (id: Int) -> Unit
+) {
     private var dialog: AlertDialog? = null
     private val radioGroup: RadioGroup
     private var wasInit = false
 
     init {
-        val view = activity.layoutInflater.inflate(R.layout.dialog_select_radio_group, null) as ViewGroup
+        val view =
+            activity.layoutInflater.inflate(R.layout.dialog_select_radio_group, null) as ViewGroup
         radioGroup = view.dialog_radio_group
 
         ensureBackgroundThread {
@@ -36,7 +42,11 @@ class SelectEventCalendarDialog(val activity: Activity, val calendars: List<CalD
                 calendars.forEach {
                     addRadioButton(it.getFullTitle(), it.id, it.color)
                 }
-                addRadioButton(activity.getString(R.string.store_locally_only), STORED_LOCALLY_ONLY, Color.TRANSPARENT)
+                addRadioButton(
+                    activity.getString(R.string.store_locally_only),
+                    STORED_LOCALLY_ONLY,
+                    Color.TRANSPARENT
+                )
                 wasInit = true
                 activity.updateTextColors(view.dialog_radio_holder)
             }
@@ -63,7 +73,13 @@ class SelectEventCalendarDialog(val activity: Activity, val calendars: List<CalD
         }
 
         view.setOnClickListener { viewClicked(typeId) }
-        radioGroup.addView(view, RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        radioGroup.addView(
+            view,
+            RadioGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
     }
 
     private fun viewClicked(typeId: Int) {

@@ -16,7 +16,12 @@ class WhatsNewDialog(val activity: Activity, val releases: List<Release>) {
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
             .apply {
-                activity.setupDialogStuff(view, this, R.string.whats_new, cancelOnTouchOutside = false)
+                activity.setupDialogStuff(
+                    view,
+                    this,
+                    R.string.whats_new,
+                    cancelOnTouchOutside = false
+                )
             }
     }
 

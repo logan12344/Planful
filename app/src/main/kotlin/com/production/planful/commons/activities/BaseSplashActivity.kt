@@ -27,8 +27,10 @@ abstract class BaseSplashActivity : AppCompatActivity() {
             if (isUsingAutoTheme) {
                 val isUsingSystemDarkTheme = isUsingSystemDarkTheme()
                 isUsingSharedTheme = false
-                textColor = resources.getColor(if (isUsingSystemDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color)
-                backgroundColor = resources.getColor(if (isUsingSystemDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color)
+                textColor =
+                    resources.getColor(if (isUsingSystemDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color)
+                backgroundColor =
+                    resources.getColor(if (isUsingSystemDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color)
                 navigationBarColor = if (isUsingSystemDarkTheme) Color.BLACK else -2
             }
         }

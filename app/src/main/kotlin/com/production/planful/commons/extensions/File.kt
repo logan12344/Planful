@@ -4,7 +4,6 @@ import android.content.Context
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.FileDirItem
 import java.io.File
-import java.util.*
 
 fun File.isMediaFile() = absolutePath.isMediaFile()
 fun File.isGif() = absolutePath.endsWith(".gif", true)
@@ -94,7 +93,14 @@ fun File.getDirectChildrenCount(context: Context, countHiddenItems: Boolean): In
     return fileCount
 }
 
-fun File.toFileDirItem(context: Context) = FileDirItem(absolutePath, name, context.getIsPathDirectory(absolutePath), 0, length(), lastModified())
+fun File.toFileDirItem(context: Context) = FileDirItem(
+    absolutePath,
+    name,
+    context.getIsPathDirectory(absolutePath),
+    0,
+    length(),
+    lastModified()
+)
 
 fun File.containsNoMedia(): Boolean {
     return if (!isDirectory) {

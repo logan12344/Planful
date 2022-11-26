@@ -8,7 +8,6 @@ import com.production.planful.interfaces.YearlyCalendar
 import com.production.planful.models.DayYearly
 import com.production.planful.models.Event
 import org.joda.time.DateTime
-import java.util.*
 
 class YearlyCalendarImpl(val callback: YearlyCalendar, val context: Context, val year: Int) {
 

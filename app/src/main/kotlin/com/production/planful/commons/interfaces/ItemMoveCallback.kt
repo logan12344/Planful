@@ -4,14 +4,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.commons.adapters.MyRecyclerViewAdapter
 
-open class ItemMoveCallback(private val mAdapter: ItemTouchHelperContract, private val allowHorizontalDrag: Boolean = false) : ItemTouchHelper.Callback() {
+open class ItemMoveCallback(
+    private val mAdapter: ItemTouchHelperContract,
+    private val allowHorizontalDrag: Boolean = false
+) : ItemTouchHelper.Callback() {
     override fun isLongPressDragEnabled() = false
 
     override fun isItemViewSwipeEnabled() = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {}
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
         var dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         if (allowHorizontalDrag) {
             dragFlags = dragFlags or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -19,7 +25,11 @@ open class ItemMoveCallback(private val mAdapter: ItemTouchHelperContract, priva
         return makeMovementFlags(dragFlags, 0)
     }
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         mAdapter.onRowMoved(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }

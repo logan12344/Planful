@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.dialog_textview.view.*
 
 class AppSideloadedDialog(val activity: Activity, val callback: () -> Unit) {
     private var dialog: AlertDialog? = null
-    private val url = "https://play.google.com/store/apps/details?id=${activity.getStringsPackageName()}"
+    private val url =
+        "https://play.google.com/store/apps/details?id=${activity.getStringsPackageName()}"
 
     init {
         val view = activity.layoutInflater.inflate(R.layout.dialog_textview, null).apply {

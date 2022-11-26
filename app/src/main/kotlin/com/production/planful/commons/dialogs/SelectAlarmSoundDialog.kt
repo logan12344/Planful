@@ -19,8 +19,13 @@ import com.production.planful.commons.views.MyCompatRadioButton
 import kotlinx.android.synthetic.main.dialog_select_alarm_sound.view.*
 
 class SelectAlarmSoundDialog(
-    val activity: BaseSimpleActivity, val currentUri: String, val audioStream: Int, val pickAudioIntentId: Int,
-    val type: Int, val loopAudio: Boolean, val onAlarmPicked: (alarmSound: AlarmSound?) -> Unit,
+    val activity: BaseSimpleActivity,
+    val currentUri: String,
+    val audioStream: Int,
+    val pickAudioIntentId: Int,
+    val type: Int,
+    val loopAudio: Boolean,
+    val onAlarmPicked: (alarmSound: AlarmSound?) -> Unit,
     val onAlarmSoundDeleted: (alarmSound: AlarmSound) -> Unit
 ) {
     private val ADD_NEW_SOUND_ID = -2
@@ -58,8 +63,15 @@ class SelectAlarmSoundDialog(
     private fun addYourAlarms() {
         view.dialog_select_alarm_your_radio.removeAllViews()
         val token = object : TypeToken<ArrayList<AlarmSound>>() {}.type
-        yourAlarmSounds = Gson().fromJson<ArrayList<AlarmSound>>(config.yourAlarmSounds, token) ?: ArrayList()
-        yourAlarmSounds.add(AlarmSound(ADD_NEW_SOUND_ID, activity.getString(R.string.add_new_sound), ""))
+        yourAlarmSounds =
+            Gson().fromJson<ArrayList<AlarmSound>>(config.yourAlarmSounds, token) ?: ArrayList()
+        yourAlarmSounds.add(
+            AlarmSound(
+                ADD_NEW_SOUND_ID,
+                activity.getString(R.string.add_new_sound),
+                ""
+            )
+        )
         yourAlarmSounds.forEach {
             addAlarmSound(it, view.dialog_select_alarm_your_radio)
         }
@@ -72,11 +84,18 @@ class SelectAlarmSoundDialog(
     }
 
     private fun addAlarmSound(alarmSound: AlarmSound, holder: ViewGroup) {
-        val radioButton = (activity.layoutInflater.inflate(R.layout.item_select_alarm_sound, null) as MyCompatRadioButton).apply {
+        val radioButton = (activity.layoutInflater.inflate(
+            R.layout.item_select_alarm_sound,
+            null
+        ) as MyCompatRadioButton).apply {
             text = alarmSound.title
             isChecked = alarmSound.uri == currentUri
             id = alarmSound.id
-            setColors(activity.getProperTextColor(), activity.getProperPrimaryColor(), activity.getProperBackgroundColor())
+            setColors(
+                activity.getProperTextColor(),
+                activity.getProperPrimaryColor(),
+                activity.getProperBackgroundColor()
+            )
             setOnClickListener {
                 alarmClicked(alarmSound)
 
@@ -99,7 +118,13 @@ class SelectAlarmSoundDialog(
             }
         }
 
-        holder.addView(radioButton, RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        holder.addView(
+            radioButton,
+            RadioGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
     }
 
     private fun alarmClicked(alarmSound: AlarmSound) {
@@ -141,7 +166,8 @@ class SelectAlarmSoundDialog(
 
     private fun removeAlarmSound(alarmSound: AlarmSound) {
         val token = object : TypeToken<ArrayList<AlarmSound>>() {}.type
-        yourAlarmSounds = Gson().fromJson<ArrayList<AlarmSound>>(config.yourAlarmSounds, token) ?: ArrayList()
+        yourAlarmSounds =
+            Gson().fromJson<ArrayList<AlarmSound>>(config.yourAlarmSounds, token) ?: ArrayList()
         yourAlarmSounds.remove(alarmSound)
         config.yourAlarmSounds = Gson().toJson(yourAlarmSounds)
         addYourAlarms()

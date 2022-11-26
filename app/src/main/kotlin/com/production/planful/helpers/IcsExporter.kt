@@ -2,17 +2,15 @@ package com.production.planful.helpers
 
 import android.provider.CalendarContract.Events
 import com.production.planful.R
-import com.production.planful.extensions.calDAVHelper
-import com.production.planful.extensions.eventTypesDB
-import com.production.planful.helpers.IcsExporter.ExportResult.EXPORT_FAIL
-import com.production.planful.helpers.IcsExporter.ExportResult.EXPORT_OK
-import com.production.planful.helpers.IcsExporter.ExportResult.EXPORT_PARTIAL
-import com.production.planful.models.CalDAVCalendar
-import com.production.planful.models.Event
 import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.extensions.toast
 import com.production.planful.commons.extensions.writeLn
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.extensions.calDAVHelper
+import com.production.planful.extensions.eventTypesDB
+import com.production.planful.helpers.IcsExporter.ExportResult.*
+import com.production.planful.models.CalDAVCalendar
+import com.production.planful.models.Event
 import java.io.BufferedWriter
 import java.io.OutputStream
 import java.io.OutputStreamWriter
@@ -67,11 +65,36 @@ class IcsExporter {
                 out.writeLn(CALENDAR_VERSION)
                 for (event in events) {
                     out.writeLn(BEGIN_EVENT)
-                    event.title.replace("\n", "\\n").let { if (it.isNotEmpty()) out.writeLn("$SUMMARY:$it") }
+                    event.title.replace("\n", "\\n")
+                        .let { if (it.isNotEmpty()) out.writeLn("$SUMMARY:$it") }
                     event.importId.let { if (it.isNotEmpty()) out.writeLn("$UID$it") }
-                    event.eventType.let { out.writeLn("$CATEGORY_COLOR${activity.eventTypesDB.getEventTypeWithId(it)?.color}") }
-                    event.eventType.let { out.writeLn("$CATEGORIES${activity.eventTypesDB.getEventTypeWithId(it)?.title}") }
-                    event.lastUpdated.let { out.writeLn("$LAST_MODIFIED:${Formatter.getExportedTime(it)}") }
+                    event.eventType.let {
+                        out.writeLn(
+                            "$CATEGORY_COLOR${
+                                activity.eventTypesDB.getEventTypeWithId(
+                                    it
+                                )?.color
+                            }"
+                        )
+                    }
+                    event.eventType.let {
+                        out.writeLn(
+                            "$CATEGORIES${
+                                activity.eventTypesDB.getEventTypeWithId(
+                                    it
+                                )?.title
+                            }"
+                        )
+                    }
+                    event.lastUpdated.let {
+                        out.writeLn(
+                            "$LAST_MODIFIED:${
+                                Formatter.getExportedTime(
+                                    it
+                                )
+                            }"
+                        )
+                    }
                     event.location.let { if (it.isNotEmpty()) out.writeLn("$LOCATION:$it") }
                     event.availability.let { out.writeLn("$TRANSP${if (it == Events.AVAILABILITY_FREE) TRANSPARENT else OPAQUE}") }
 
@@ -86,7 +109,8 @@ class IcsExporter {
 
                     out.writeLn("$DTSTAMP$exportTime")
                     out.writeLn("$STATUS$CONFIRMED")
-                    Parser().getRepeatCode(event).let { if (it.isNotEmpty()) out.writeLn("$RRULE$it") }
+                    Parser().getRepeatCode(event)
+                        .let { if (it.isNotEmpty()) out.writeLn("$RRULE$it") }
 
                     fillDescription(event.description.replace("\n", "\\n"), out)
                     fillReminders(event, out, reminderLabel)
@@ -118,7 +142,8 @@ class IcsExporter {
                     writeLn("$ACTION$DISPLAY")
                 } else {
                     writeLn("$ACTION$EMAIL")
-                    val attendee = calendars.firstOrNull { it.id == event.getCalDAVCalendarId() }?.accountName
+                    val attendee =
+                        calendars.firstOrNull { it.id == event.getCalDAVCalendarId() }?.accountName
                     if (attendee != null) {
                         writeLn("$ATTENDEE$MAILTO$attendee")
                     }
@@ -142,7 +167,8 @@ class IcsExporter {
         var isFirstLine = true
 
         while (index < description.length) {
-            val substring = description.substring(index, Math.min(index + MAX_LINE_LENGTH, description.length))
+            val substring =
+                description.substring(index, Math.min(index + MAX_LINE_LENGTH, description.length))
             if (isFirstLine) {
                 out.writeLn("$DESCRIPTION$substring")
             } else {

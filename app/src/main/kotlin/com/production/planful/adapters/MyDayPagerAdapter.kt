@@ -9,8 +9,12 @@ import com.production.planful.fragments.DayFragment
 import com.production.planful.helpers.DAY_CODE
 import com.production.planful.interfaces.NavigationListener
 
-class MyDayPagerAdapter(fm: FragmentManager, private val mCodes: List<String>, private val mListener: NavigationListener) :
-        FragmentStatePagerAdapter(fm) {
+class MyDayPagerAdapter(
+    fm: FragmentManager,
+    private val mCodes: List<String>,
+    private val mListener: NavigationListener
+) :
+    FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<DayFragment>()
 
     override fun getCount() = mCodes.size

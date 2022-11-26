@@ -23,7 +23,8 @@ class FilepickerFavoritesAdapter(
 
     override fun getActionMenuId() = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.filepicker_favorite, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        createViewHolder(R.layout.filepicker_favorite, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val path = paths[position]

@@ -9,7 +9,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
-data class Attendee(val contactId: Int, var name: String, val email: String, var status: Int, var photoUri: String, var isMe: Boolean, var relationship: Int) {
+data class Attendee(
+    val contactId: Int,
+    var name: String,
+    val email: String,
+    var status: Int,
+    var photoUri: String,
+    var isMe: Boolean,
+    var relationship: Int
+) {
     fun getPublicName() = if (name.isNotEmpty()) name else email
 
     fun updateImage(context: Context, imageView: ImageView, placeholder: Drawable) {
@@ -17,17 +25,17 @@ data class Attendee(val contactId: Int, var name: String, val email: String, var
             imageView.setImageDrawable(placeholder)
         } else {
             val options = RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .error(placeholder)
-                    .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .error(placeholder)
+                .centerCrop()
 
             Glide.with(context)
-                    .load(photoUri)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .placeholder(placeholder)
-                    .apply(options)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageView)
+                .load(photoUri)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(placeholder)
+                .apply(options)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView)
         }
     }
 

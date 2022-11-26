@@ -5,9 +5,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.production.planful.commons.extensions.addBitIf
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.*
-import com.production.planful.commons.extensions.addBitIf
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.io.Serializable
@@ -62,7 +62,8 @@ data class Event(
                         REPEAT_SAME_DAY -> addMonthsWithSameDay(oldStart, original)
                         REPEAT_ORDER_WEEKDAY -> addXthDayInterval(oldStart, original, false)
                         REPEAT_ORDER_WEEKDAY_USE_LAST -> addXthDayInterval(oldStart, original, true)
-                        else -> oldStart.plusMonths(repeatInterval / MONTH).dayOfMonth().withMaximumValue()
+                        else -> oldStart.plusMonths(repeatInterval / MONTH).dayOfMonth()
+                            .withMaximumValue()
                     }
                     repeatInterval % WEEK == 0 -> {
                         // step through weekly repetition by days too, as events can trigger multiple times a week
@@ -100,7 +101,9 @@ data class Event(
             return newDateTime
         }
 
-        while (newDateTime.dayOfMonth().maximumValue < Formatter.getDateTimeFromTS(original.startTS).dayOfMonth().maximumValue) {
+        while (newDateTime.dayOfMonth().maximumValue < Formatter.getDateTimeFromTS(original.startTS)
+                .dayOfMonth().maximumValue
+        ) {
             newDateTime = newDateTime.plusMonths(repeatInterval / MONTH)
             newDateTime = try {
                 newDateTime.withDayOfMonth(currStart.dayOfMonth)
@@ -112,26 +115,34 @@ data class Event(
     }
 
     // handle monthly repetitions like Third Monday
-    private fun addXthDayInterval(currStart: DateTime, original: Event, forceLastWeekday: Boolean): DateTime {
+    private fun addXthDayInterval(
+        currStart: DateTime,
+        original: Event,
+        forceLastWeekday: Boolean
+    ): DateTime {
         val day = currStart.dayOfWeek
         var order = (currStart.dayOfMonth - 1) / 7
-        var properMonth = currStart.withDayOfMonth(7).plusMonths(repeatInterval / MONTH).withDayOfWeek(day)
+        var properMonth =
+            currStart.withDayOfMonth(7).plusMonths(repeatInterval / MONTH).withDayOfWeek(day)
         var wantedDay: Int
 
         // check if it should be for example Fourth Monday, or Last Monday
         if (forceLastWeekday && (order == 3 || order == 4)) {
             val originalDateTime = Formatter.getDateTimeFromTS(original.startTS)
-            val isLastWeekday = originalDateTime.monthOfYear != originalDateTime.plusDays(7).monthOfYear
+            val isLastWeekday =
+                originalDateTime.monthOfYear != originalDateTime.plusDays(7).monthOfYear
             if (isLastWeekday)
                 order = -1
         }
 
         if (order == -1) {
-            wantedDay = properMonth.dayOfMonth + ((properMonth.dayOfMonth().maximumValue - properMonth.dayOfMonth) / 7) * 7
+            wantedDay =
+                properMonth.dayOfMonth + ((properMonth.dayOfMonth().maximumValue - properMonth.dayOfMonth) / 7) * 7
         } else {
             wantedDay = properMonth.dayOfMonth + (order - (properMonth.dayOfMonth - 1) / 7) * 7
             while (properMonth.dayOfMonth().maximumValue < wantedDay) {
-                properMonth = properMonth.withDayOfMonth(7).plusMonths(repeatInterval / MONTH).withDayOfWeek(day)
+                properMonth = properMonth.withDayOfMonth(7).plusMonths(repeatInterval / MONTH)
+                    .withDayOfWeek(day)
                 wantedDay = properMonth.dayOfMonth + (order - (properMonth.dayOfMonth - 1) / 7) * 7
             }
         }
@@ -167,13 +178,17 @@ data class Event(
         }
     }
 
-    fun getCalDAVCalendarId() = if (source.startsWith(CALDAV)) (source.split("-").lastOrNull() ?: "0").toString().toInt() else 0
+    fun getCalDAVCalendarId() =
+        if (source.startsWith(CALDAV)) (source.split("-").lastOrNull() ?: "0").toString()
+            .toInt() else 0
 
     // check if it's the proper week, for events repeating every x weeks
     // get the week number since 1970, not just in the current year
     fun isOnProperWeek(startTimes: LongSparseArray<Long>): Boolean {
-        val initialWeekNumber = Formatter.getDateTimeFromTS(startTimes[id!!]!!).withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
-        val currentWeekNumber = Formatter.getDateTimeFromTS(startTS).withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
+        val initialWeekNumber = Formatter.getDateTimeFromTS(startTimes[id!!]!!)
+            .withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
+        val currentWeekNumber = Formatter.getDateTimeFromTS(startTS)
+            .withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
         return (Math.round(initialWeekNumber) - Math.round(currentWeekNumber)) % (repeatInterval / WEEK) == 0
     }
 
@@ -189,7 +204,8 @@ data class Event(
     fun addRepetitionException(daycode: String) {
         var newRepetitionExceptions = repetitionExceptions
         newRepetitionExceptions.add(daycode)
-        newRepetitionExceptions = newRepetitionExceptions.distinct().toMutableList() as ArrayList<String>
+        newRepetitionExceptions =
+            newRepetitionExceptions.distinct().toMutableList() as ArrayList<String>
         repetitionExceptions = newRepetitionExceptions
     }
 
@@ -200,7 +216,8 @@ data class Event(
         }
 
     fun getTimeZoneString(): String {
-        return if (timeZone.isNotEmpty() && getAllTimeZones().map { it.zoneName }.contains(timeZone)) {
+        return if (timeZone.isNotEmpty() && getAllTimeZones().map { it.zoneName }
+                .contains(timeZone)) {
             timeZone
         } else {
             DateTimeZone.getDefault().id

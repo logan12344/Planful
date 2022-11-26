@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.dialog_change_date_time_format.view.*
 import java.util.*
 
 class ChangeDateTimeFormatDialog(val activity: Activity, val callback: () -> Unit) {
-    private val view = activity.layoutInflater.inflate(R.layout.dialog_change_date_time_format, null)!!
+    private val view =
+        activity.layoutInflater.inflate(R.layout.dialog_change_date_time_format, null)!!
     private val sampleTS = 1613422500000    // February 15, 2021
 
     init {
@@ -50,16 +51,17 @@ class ChangeDateTimeFormatDialog(val activity: Activity, val callback: () -> Uni
     }
 
     private fun dialogConfirmed() {
-        activity.baseConfig.dateFormat = when (view.change_date_time_dialog_radio_group.checkedRadioButtonId) {
-            change_date_time_dialog_radio_one -> DATE_FORMAT_ONE
-            change_date_time_dialog_radio_two -> DATE_FORMAT_TWO
-            change_date_time_dialog_radio_three -> DATE_FORMAT_THREE
-            change_date_time_dialog_radio_four -> DATE_FORMAT_FOUR
-            change_date_time_dialog_radio_five -> DATE_FORMAT_FIVE
-            change_date_time_dialog_radio_six -> DATE_FORMAT_SIX
-            change_date_time_dialog_radio_seven -> DATE_FORMAT_SEVEN
-            else -> DATE_FORMAT_EIGHT
-        }
+        activity.baseConfig.dateFormat =
+            when (view.change_date_time_dialog_radio_group.checkedRadioButtonId) {
+                change_date_time_dialog_radio_one -> DATE_FORMAT_ONE
+                change_date_time_dialog_radio_two -> DATE_FORMAT_TWO
+                change_date_time_dialog_radio_three -> DATE_FORMAT_THREE
+                change_date_time_dialog_radio_four -> DATE_FORMAT_FOUR
+                change_date_time_dialog_radio_five -> DATE_FORMAT_FIVE
+                change_date_time_dialog_radio_six -> DATE_FORMAT_SIX
+                change_date_time_dialog_radio_seven -> DATE_FORMAT_SEVEN
+                else -> DATE_FORMAT_EIGHT
+            }
 
         activity.baseConfig.use24HourFormat = view.change_date_time_dialog_24_hour.isChecked
         callback()

@@ -35,9 +35,13 @@ open class FileDirItem(
             when {
                 sorting and SORT_BY_NAME != 0 -> {
                     result = if (sorting and SORT_USE_NUMERIC_VALUE != 0) {
-                        AlphanumericComparator().compare(name.normalizeString().toLowerCase(), other.name.normalizeString().toLowerCase())
+                        AlphanumericComparator().compare(
+                            name.normalizeString().toLowerCase(),
+                            other.name.normalizeString().toLowerCase()
+                        )
                     } else {
-                        name.normalizeString().toLowerCase().compareTo(other.name.normalizeString().toLowerCase())
+                        name.normalizeString().toLowerCase()
+                            .compareTo(other.name.normalizeString().toLowerCase())
                     }
                 }
                 sorting and SORT_BY_SIZE != 0 -> result = when {
@@ -53,7 +57,8 @@ open class FileDirItem(
                     }
                 }
                 else -> {
-                    result = getExtension().toLowerCase().compareTo(other.getExtension().toLowerCase())
+                    result =
+                        getExtension().toLowerCase().compareTo(other.getExtension().toLowerCase())
                 }
             }
 
@@ -66,20 +71,27 @@ open class FileDirItem(
 
     fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
 
-    fun getBubbleText(context: Context, dateFormat: String? = null, timeFormat: String? = null) = when {
-        sorting and SORT_BY_SIZE != 0 -> size.formatSize()
-        sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(context, dateFormat, timeFormat)
-        sorting and SORT_BY_EXTENSION != 0 -> getExtension().toLowerCase()
-        else -> name
-    }
+    fun getBubbleText(context: Context, dateFormat: String? = null, timeFormat: String? = null) =
+        when {
+            sorting and SORT_BY_SIZE != 0 -> size.formatSize()
+            sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
+                context,
+                dateFormat,
+                timeFormat
+            )
+            sorting and SORT_BY_EXTENSION != 0 -> getExtension().toLowerCase()
+            else -> name
+        }
 
     fun getProperSize(context: Context, countHidden: Boolean): Long {
         return when {
             context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileSize(path)
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getItemSize(countHidden) ?: 0
+            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getItemSize(countHidden)
+                ?: 0
             isNougatPlus() && path.startsWith("content://") -> {
                 try {
-                    context.contentResolver.openInputStream(Uri.parse(path))?.available()?.toLong() ?: 0L
+                    context.contentResolver.openInputStream(Uri.parse(path))?.available()?.toLong()
+                        ?: 0L
                 } catch (e: Exception) {
                     context.getSizeFromContentUri(Uri.parse(path))
                 }
@@ -90,16 +102,24 @@ open class FileDirItem(
 
     fun getProperFileCount(context: Context, countHidden: Boolean): Int {
         return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileCount(path, countHidden)
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getFileCount(countHidden) ?: 0
+            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileCount(
+                path,
+                countHidden
+            )
+            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getFileCount(countHidden)
+                ?: 0
             else -> File(path).getFileCount(countHidden)
         }
     }
 
     fun getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
         return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(path, countHiddenItems)
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size
+            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(
+                path,
+                countHiddenItems
+            )
+            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()
+                ?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size
                 ?: 0
             else -> File(path).getDirectChildrenCount(context, countHiddenItems)
         }
@@ -109,7 +129,9 @@ open class FileDirItem(
         return when {
             context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFLastModified(path)
             context.isPathOnOTG(path) -> context.getFastDocumentFile(path)?.lastModified() ?: 0L
-            isNougatPlus() && path.startsWith("content://") -> context.getMediaStoreLastModified(path)
+            isNougatPlus() && path.startsWith("content://") -> context.getMediaStoreLastModified(
+                path
+            )
             else -> File(path).lastModified()
         }
     }

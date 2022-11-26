@@ -12,6 +12,11 @@ import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.EventListAdapter
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.MONTH_SECONDS
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.commons.views.MyLinearLayoutManager
+import com.production.planful.commons.views.MyRecyclerView
 import com.production.planful.extensions.*
 import com.production.planful.helpers.EVENTS_LIST_VIEW
 import com.production.planful.helpers.Formatter
@@ -19,11 +24,6 @@ import com.production.planful.models.Event
 import com.production.planful.models.ListEvent
 import com.production.planful.models.ListItem
 import com.production.planful.models.ListSectionDay
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.MONTH_SECONDS
-import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
-import com.production.planful.commons.views.MyLinearLayoutManager
-import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.fragment_event_list.view.*
 import org.joda.time.DateTime
 
@@ -48,7 +48,11 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
 
     override val viewType = EVENTS_LIST_VIEW
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mView = inflater.inflate(R.layout.fragment_event_list, container, false)
         mView.background = ColorDrawable(requireContext().getProperBackgroundColor())
         mView.calendar_events_list_holder?.id = (System.currentTimeMillis() % 100000).toInt()
@@ -72,7 +76,9 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
         val use24Hour = requireContext().config.use24HourFormat
         if (use24Hour != use24HourFormat) {
             use24HourFormat = use24Hour
-            (mView.calendar_events_list.adapter as? EventListAdapter)?.toggle24HourFormat(use24HourFormat)
+            (mView.calendar_events_list.adapter as? EventListAdapter)?.toggle24HourFormat(
+                use24HourFormat
+            )
         }
     }
 
@@ -83,7 +89,8 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
 
     private fun checkEvents() {
         if (!wereInitialEventsAdded) {
-            minFetchedTS = DateTime().minusMinutes(requireContext().config.displayPastEvents).seconds()
+            minFetchedTS =
+                DateTime().minusMinutes(requireContext().config.displayPastEvents).seconds()
             maxFetchedTS = DateTime().plusMonths(6).seconds()
         }
 
@@ -104,7 +111,11 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
         }
     }
 
-    private fun receivedEvents(events: ArrayList<Event>, updateStatus: Int, forceRecreation: Boolean = false) {
+    private fun receivedEvents(
+        events: ArrayList<Event>,
+        updateStatus: Int,
+        forceRecreation: Boolean = false
+    ) {
         if (context == null || activity == null) {
             return
         }
@@ -119,7 +130,13 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
 
             val currAdapter = mView.calendar_events_list.adapter
             if (currAdapter == null || forceRecreation) {
-                EventListAdapter(activity as SimpleActivity, listItems, true, this, mView.calendar_events_list) {
+                EventListAdapter(
+                    activity as SimpleActivity,
+                    listItems,
+                    true,
+                    this,
+                    mView.calendar_events_list
+                ) {
                     if (it is ListEvent) {
                         context?.editEvent(it)
                     }
@@ -131,17 +148,19 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
                     mView.calendar_events_list.scheduleLayoutAnimation()
                 }
 
-                mView.calendar_events_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
-                    override fun updateTop() {
-                        fetchPreviousPeriod()
+                mView.calendar_events_list.endlessScrollListener =
+                    object : MyRecyclerView.EndlessScrollListener {
+                        override fun updateTop() {
+                            fetchPreviousPeriod()
+                        }
+
+                        override fun updateBottom() {
+                            fetchNextPeriod()
+                        }
                     }
 
-                    override fun updateBottom() {
-                        fetchNextPeriod()
-                    }
-                }
-
-                mView.calendar_events_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                mView.calendar_events_list.addOnScrollListener(object :
+                    RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
                         if (!hasBeenScrolled) {
@@ -159,7 +178,11 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
                         mView.calendar_events_list.scrollToPosition(item)
                     }
                 } else if (updateStatus == UPDATE_BOTTOM) {
-                    mView.calendar_events_list.smoothScrollBy(0, requireContext().resources.getDimension(R.dimen.endless_scroll_move_height).toInt())
+                    mView.calendar_events_list.smoothScrollBy(
+                        0,
+                        requireContext().resources.getDimension(R.dimen.endless_scroll_move_height)
+                            .toInt()
+                    )
                 }
             }
             checkPlaceholderVisibility()
@@ -175,8 +198,10 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
     }
 
     private fun fetchPreviousPeriod() {
-        val lastPosition = (mView.calendar_events_list.layoutManager as MyLinearLayoutManager).findLastVisibleItemPosition()
-        bottomItemAtRefresh = (mView.calendar_events_list.adapter as EventListAdapter).listItems[lastPosition]
+        val lastPosition =
+            (mView.calendar_events_list.layoutManager as MyLinearLayoutManager).findLastVisibleItemPosition()
+        bottomItemAtRefresh =
+            (mView.calendar_events_list.adapter as EventListAdapter).listItems[lastPosition]
 
         val oldMinFetchedTS = minFetchedTS - 1
         minFetchedTS -= FETCH_INTERVAL
@@ -211,9 +236,13 @@ class EventListFragment : MyFragmentHolder(), RefreshRecyclerViewListener {
 
     override fun goToToday() {
         val listItems = requireContext().getEventListItems(mEvents)
-        val firstNonPastSectionIndex = listItems.indexOfFirst { it is ListSectionDay && !it.isPastSection }
+        val firstNonPastSectionIndex =
+            listItems.indexOfFirst { it is ListSectionDay && !it.isPastSection }
         if (firstNonPastSectionIndex != -1) {
-            (mView.calendar_events_list.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(firstNonPastSectionIndex, 0)
+            (mView.calendar_events_list.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                firstNonPastSectionIndex,
+                0
+            )
             mView.calendar_events_list.onGlobalLayout {
                 hasBeenScrolled = false
                 (activity as? MainActivity)?.refreshItems()

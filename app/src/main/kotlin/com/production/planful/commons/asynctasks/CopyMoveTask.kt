@@ -24,15 +24,20 @@ import java.io.OutputStream
 import java.lang.ref.WeakReference
 
 class CopyMoveTask(
-    val activity: BaseSimpleActivity, val copyOnly: Boolean, val copyMediaOnly: Boolean, val conflictResolutions: LinkedHashMap<String, Int>,
-    listener: CopyMoveListener, val copyHidden: Boolean
+    val activity: BaseSimpleActivity,
+    val copyOnly: Boolean,
+    val copyMediaOnly: Boolean,
+    val conflictResolutions: LinkedHashMap<String, Int>,
+    listener: CopyMoveListener,
+    val copyHidden: Boolean
 ) : AsyncTask<Pair<ArrayList<FileDirItem>, String>, Void, Boolean>() {
     private val INITIAL_PROGRESS_DELAY = 3000L
     private val PROGRESS_RECHECK_INTERVAL = 500L
 
     private var mListener: WeakReference<CopyMoveListener>? = null
     private var mTransferredFiles = ArrayList<FileDirItem>()
-    private var mFileDirItemsToDelete = ArrayList<FileDirItem>()        // confirm the deletion of files on Android 11 from Downloads and Android at once
+    private var mFileDirItemsToDelete =
+        ArrayList<FileDirItem>()        // confirm the deletion of files on Android 11 from Downloads and Android at once
     private var mDocuments = LinkedHashMap<String, DocumentFile?>()
     private var mFiles = ArrayList<FileDirItem>()
     private var mFileCountToCopy = 0
@@ -70,7 +75,11 @@ class CopyMoveTask(
 
             val newPath = "$mDestinationPath/${file.name}"
             val fileExists = activity.getDoesFilePathExist(newPath)
-            if (getConflictResolution(conflictResolutions, newPath) != CONFLICT_SKIP || !fileExists) {
+            if (getConflictResolution(
+                    conflictResolutions,
+                    newPath
+                ) != CONFLICT_SKIP || !fileExists
+            ) {
                 mMaxSize += (file.size / 1000).toInt()
             }
         }
@@ -83,7 +92,8 @@ class CopyMoveTask(
         for (file in mFiles) {
             try {
                 val newPath = "$mDestinationPath/${file.name}"
-                var newFileDirItem = FileDirItem(newPath, newPath.getFilenameFromPath(), file.isDirectory)
+                var newFileDirItem =
+                    FileDirItem(newPath, newPath.getFilenameFromPath(), file.isDirectory)
                 if (activity.getDoesFilePathExist(newPath)) {
                     val resolution = getConflictResolution(conflictResolutions, newPath)
                     if (resolution == CONFLICT_SKIP) {
@@ -91,7 +101,8 @@ class CopyMoveTask(
                         continue
                     } else if (resolution == CONFLICT_KEEP_BOTH) {
                         val newFile = activity.getAlternativeFile(File(newFileDirItem.path))
-                        newFileDirItem = FileDirItem(newFile.path, newFile.name, newFile.isDirectory)
+                        newFileDirItem =
+                            FileDirItem(newFile.path, newFile.name, newFile.isDirectory)
                     }
                 }
 
@@ -116,7 +127,12 @@ class CopyMoveTask(
         val listener = mListener?.get() ?: return
 
         if (success) {
-            listener.copySucceeded(copyOnly, mTransferredFiles.size >= mFileCountToCopy, mDestinationPath, mTransferredFiles.size == 1)
+            listener.copySucceeded(
+                copyOnly,
+                mTransferredFiles.size >= mFileCountToCopy,
+                mDestinationPath,
+                mTransferredFiles.size == 1
+            )
         } else {
             listener.copyFailed()
         }
@@ -172,7 +188,8 @@ class CopyMoveTask(
 
     private fun copyDirectory(source: FileDirItem, destinationPath: String) {
         if (!activity.createDirectorySync(destinationPath)) {
-            val error = String.format(activity.getString(R.string.could_not_create_folder), destinationPath)
+            val error =
+                String.format(activity.getString(R.string.could_not_create_folder), destinationPath)
             activity.showErrorToast(error)
             return
         }
@@ -186,7 +203,8 @@ class CopyMoveTask(
                 }
 
                 val oldPath = "${source.path}/${child.name}"
-                val oldFileDirItem = FileDirItem(oldPath, child.name!!, child.isDirectory, 0, child.length())
+                val oldFileDirItem =
+                    FileDirItem(oldPath, child.name!!, child.isDirectory, 0, child.length())
                 val newFileDirItem = FileDirItem(newPath, child.name!!, child.isDirectory)
                 copy(oldFileDirItem, newFileDirItem)
             }
@@ -200,7 +218,8 @@ class CopyMoveTask(
                     }
 
                     val oldPath = "${source.path}/${child.name}"
-                    val oldFileDirItem = FileDirItem(oldPath, child.name, child.isDirectory, 0, child.size)
+                    val oldFileDirItem =
+                        FileDirItem(oldPath, child.name, child.isDirectory, 0, child.size)
                     val newFileDirItem = FileDirItem(newPath, child.name, child.isDirectory)
                     copy(oldFileDirItem, newFileDirItem)
                 }
@@ -215,7 +234,8 @@ class CopyMoveTask(
                 }
 
                 val oldPath = "${source.path}/${child.name}"
-                val oldFileDirItem = FileDirItem(oldPath, child.name!!, child.isDirectory, 0, child.length())
+                val oldFileDirItem =
+                    FileDirItem(oldPath, child.name!!, child.isDirectory, 0, child.length())
                 val newFileDirItem = FileDirItem(newPath, child.name!!, child.isDirectory)
                 copy(oldFileDirItem, newFileDirItem)
             }
@@ -230,7 +250,8 @@ class CopyMoveTask(
 
                 val oldFile = File(source.path, child)
                 val oldFileDirItem = oldFile.toFileDirItem(activity)
-                val newFileDirItem = FileDirItem(newPath, newPath.getFilenameFromPath(), oldFile.isDirectory)
+                val newFileDirItem =
+                    FileDirItem(newPath, newPath.getFilenameFromPath(), oldFile.isDirectory)
                 copy(oldFileDirItem, newFileDirItem)
             }
             mTransferredFiles.add(source)
@@ -245,7 +266,8 @@ class CopyMoveTask(
 
         val directory = destination.getParentPath()
         if (!activity.createDirectorySync(directory)) {
-            val error = String.format(activity.getString(R.string.could_not_create_folder), directory)
+            val error =
+                String.format(activity.getString(R.string.could_not_create_folder), directory)
             activity.showErrorToast(error)
             mCurrentProgress += source.size
             return
@@ -255,11 +277,18 @@ class CopyMoveTask(
         var inputStream: InputStream? = null
         var out: OutputStream? = null
         try {
-            if (!mDocuments.containsKey(directory) && activity.needsStupidWritePermissions(destination.path)) {
+            if (!mDocuments.containsKey(directory) && activity.needsStupidWritePermissions(
+                    destination.path
+                )
+            ) {
                 mDocuments[directory] = activity.getDocumentFile(directory)
             }
 
-            out = activity.getFileOutputStreamSync(destination.path, source.path.getMimeType(), mDocuments[directory])
+            out = activity.getFileOutputStreamSync(
+                destination.path,
+                source.path.getMimeType(),
+                mDocuments[directory]
+            )
             inputStream = activity.getFileInputStreamSync(source.path)!!
 
             var copiedSize = 0L
@@ -343,7 +372,13 @@ class CopyMoveTask(
         val uri = MediaStore.Files.getContentUri("external")
         val selection = "${MediaStore.MediaColumns.DATA} = ?"
         var selectionArgs = arrayOf(sourcePath)
-        val cursor = activity.applicationContext.contentResolver.query(uri, projection, selection, selectionArgs, null)
+        val cursor = activity.applicationContext.contentResolver.query(
+            uri,
+            projection,
+            selection,
+            selectionArgs,
+            null
+        )
 
         cursor?.use {
             if (cursor.moveToFirst()) {
@@ -356,7 +391,12 @@ class CopyMoveTask(
                 }
 
                 selectionArgs = arrayOf(destinationPath)
-                activity.applicationContext.contentResolver.update(uri, values, selection, selectionArgs)
+                activity.applicationContext.contentResolver.update(
+                    uri,
+                    values,
+                    selection,
+                    selectionArgs
+                )
             }
         }
     }

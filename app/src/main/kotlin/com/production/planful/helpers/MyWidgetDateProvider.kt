@@ -9,14 +9,18 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.production.planful.R
 import com.production.planful.activities.SplashActivity
-import com.production.planful.extensions.config
 import com.production.planful.commons.extensions.applyColorFilter
 import com.production.planful.commons.extensions.getLaunchIntent
+import com.production.planful.extensions.config
 
 class MyWidgetDateProvider : AppWidgetProvider() {
     private val OPEN_APP_INTENT_ID = 1
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         appWidgetManager.getAppWidgetIds(getComponentName(context)).forEach {
             RemoteViews(context.packageName, R.layout.widget_date).apply {
                 applyColorFilter(R.id.widget_date_background, context.config.widgetBgColor)
@@ -31,11 +35,17 @@ class MyWidgetDateProvider : AppWidgetProvider() {
         }
     }
 
-    private fun getComponentName(context: Context) = ComponentName(context, MyWidgetDateProvider::class.java)
+    private fun getComponentName(context: Context) =
+        ComponentName(context, MyWidgetDateProvider::class.java)
 
     private fun setupAppOpenIntent(context: Context, views: RemoteViews) {
         (context.getLaunchIntent() ?: Intent(context, SplashActivity::class.java)).apply {
-            val pendingIntent = PendingIntent.getActivity(context, OPEN_APP_INTENT_ID, this, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                OPEN_APP_INTENT_ID,
+                this,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
             views.setOnClickPendingIntent(R.id.widget_date_holder, pendingIntent)
         }
     }

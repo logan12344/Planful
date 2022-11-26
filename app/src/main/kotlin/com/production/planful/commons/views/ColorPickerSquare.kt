@@ -9,7 +9,15 @@ import android.view.View
 
 class ColorPickerSquare(context: Context, attrs: AttributeSet) : View(context, attrs) {
     var paint: Paint? = null
-    var luar: Shader = LinearGradient(0f, 0f, 0f, measuredHeight.toFloat(), Color.WHITE, Color.BLACK, Shader.TileMode.CLAMP)
+    var luar: Shader = LinearGradient(
+        0f,
+        0f,
+        0f,
+        measuredHeight.toFloat(),
+        Color.WHITE,
+        Color.BLACK,
+        Shader.TileMode.CLAMP
+    )
     val color = floatArrayOf(1f, 1f, 1f)
 
     @SuppressLint("DrawAllocation")
@@ -17,10 +25,19 @@ class ColorPickerSquare(context: Context, attrs: AttributeSet) : View(context, a
         super.onDraw(canvas)
         if (paint == null) {
             paint = Paint()
-            luar = LinearGradient(0f, 0f, 0f, measuredHeight.toFloat(), Color.WHITE, Color.BLACK, TileMode.CLAMP)
+            luar = LinearGradient(
+                0f,
+                0f,
+                0f,
+                measuredHeight.toFloat(),
+                Color.WHITE,
+                Color.BLACK,
+                TileMode.CLAMP
+            )
         }
         val rgb = Color.HSVToColor(color)
-        val dalam = LinearGradient(0f, 0f, measuredWidth.toFloat(), 0f, Color.WHITE, rgb, TileMode.CLAMP)
+        val dalam =
+            LinearGradient(0f, 0f, measuredWidth.toFloat(), 0f, Color.WHITE, rgb, TileMode.CLAMP)
         val shader = ComposeShader(luar, dalam, PorterDuff.Mode.MULTIPLY)
         paint!!.shader = shader
         canvas.drawRect(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat(), paint!!)

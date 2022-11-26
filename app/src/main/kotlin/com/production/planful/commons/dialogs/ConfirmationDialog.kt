@@ -18,14 +18,20 @@ import kotlinx.android.synthetic.main.dialog_message.view.*
  * @param callback an anonymous function
  */
 class ConfirmationDialog(
-    activity: Activity, message: String = "", messageId: Int = R.string.proceed_with_deletion, positive: Int = R.string.yes,
-    negative: Int = R.string.no, val cancelOnTouchOutside: Boolean = true, val callback: () -> Unit
+    activity: Activity,
+    message: String = "",
+    messageId: Int = R.string.proceed_with_deletion,
+    positive: Int = R.string.yes,
+    negative: Int = R.string.no,
+    val cancelOnTouchOutside: Boolean = true,
+    val callback: () -> Unit
 ) {
     private var dialog: AlertDialog? = null
 
     init {
         val view = activity.layoutInflater.inflate(R.layout.dialog_message, null)
-        view.message.text = if (message.isEmpty()) activity.resources.getString(messageId) else message
+        view.message.text =
+            if (message.isEmpty()) activity.resources.getString(messageId) else message
 
         val builder = activity.getAlertDialogBuilder()
             .setPositiveButton(positive) { dialog, which -> dialogConfirmed() }
@@ -35,7 +41,11 @@ class ConfirmationDialog(
         }
 
         builder.apply {
-            activity.setupDialogStuff(view, this, cancelOnTouchOutside = cancelOnTouchOutside) { alertDialog ->
+            activity.setupDialogStuff(
+                view,
+                this,
+                cancelOnTouchOutside = cancelOnTouchOutside
+            ) { alertDialog ->
                 dialog = alertDialog
             }
         }

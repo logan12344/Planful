@@ -37,7 +37,8 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity(), RefreshRecyclerViewLi
         updateTextColors(manage_blocked_numbers_wrapper)
         updatePlaceholderTexts()
 
-        val blockTitleRes = if (baseConfig.appId.startsWith("com.production.planful.dialer")) R.string.block_unknown_calls else R.string.block_unknown_messages
+        val blockTitleRes =
+            if (baseConfig.appId.startsWith("com.production.planful.dialer")) R.string.block_unknown_calls else R.string.block_unknown_messages
 
         block_unknown.apply {
             setText(blockTitleRes)
@@ -115,15 +116,22 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity(), RefreshRecyclerViewLi
     }
 
     private fun updatePlaceholderTexts() {
-        manage_blocked_numbers_placeholder.text = getString(if (isDefaultDialer()) R.string.not_blocking_anyone else R.string.must_make_default_dialer)
-        manage_blocked_numbers_placeholder_2.text = getString(if (isDefaultDialer()) R.string.add_a_blocked_number else R.string.set_as_default)
+        manage_blocked_numbers_placeholder.text =
+            getString(if (isDefaultDialer()) R.string.not_blocking_anyone else R.string.must_make_default_dialer)
+        manage_blocked_numbers_placeholder_2.text =
+            getString(if (isDefaultDialer()) R.string.add_a_blocked_number else R.string.set_as_default)
     }
 
     private fun updateBlockedNumbers() {
         ensureBackgroundThread {
             val blockedNumbers = getBlockedNumbers()
             runOnUiThread {
-                ManageBlockedNumbersAdapter(this, blockedNumbers, this, manage_blocked_numbers_list) {
+                ManageBlockedNumbersAdapter(
+                    this,
+                    blockedNumbers,
+                    this,
+                    manage_blocked_numbers_list
+                ) {
                     addOrEditBlockedNumber(it as BlockedNumber)
                 }.apply {
                     manage_blocked_numbers_list.adapter = this
@@ -212,7 +220,11 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity(), RefreshRecyclerViewLi
 
     private fun tryExportBlockedNumbers() {
         if (isQPlus()) {
-            ExportBlockedNumbersDialog(this, baseConfig.lastBlockedNumbersExportPath, true) { file ->
+            ExportBlockedNumbersDialog(
+                this,
+                baseConfig.lastBlockedNumbersExportPath,
+                true
+            ) { file ->
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TITLE, file.name)
@@ -230,7 +242,11 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity(), RefreshRecyclerViewLi
         } else {
             handlePermission(PERMISSION_WRITE_STORAGE) {
                 if (it) {
-                    ExportBlockedNumbersDialog(this, baseConfig.lastBlockedNumbersExportPath, false) { file ->
+                    ExportBlockedNumbersDialog(
+                        this,
+                        baseConfig.lastBlockedNumbersExportPath,
+                        false
+                    ) { file ->
                         getFileOutputStream(file.toFileDirItem(this), true) { out ->
                             exportBlockedNumbersTo(out)
                         }

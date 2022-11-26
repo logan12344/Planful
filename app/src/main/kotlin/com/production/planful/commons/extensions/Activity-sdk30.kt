@@ -54,11 +54,13 @@ fun BaseSimpleActivity.copySingleFileSdk30(source: FileDirItem, destination: Fil
 }
 
 fun BaseSimpleActivity.copyOldLastModified(sourcePath: String, destinationPath: String) {
-    val projection = arrayOf(MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.DATE_MODIFIED)
+    val projection =
+        arrayOf(MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.DATE_MODIFIED)
     val uri = MediaStore.Files.getContentUri("external")
     val selection = "${MediaStore.MediaColumns.DATA} = ?"
     var selectionArgs = arrayOf(sourcePath)
-    val cursor = applicationContext.contentResolver.query(uri, projection, selection, selectionArgs, null)
+    val cursor =
+        applicationContext.contentResolver.query(uri, projection, selection, selectionArgs, null)
 
     cursor?.use {
         if (cursor.moveToFirst()) {

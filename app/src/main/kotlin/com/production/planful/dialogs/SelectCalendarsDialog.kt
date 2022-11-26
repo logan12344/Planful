@@ -5,19 +5,20 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
-import com.production.planful.extensions.calDAVHelper
-import com.production.planful.extensions.config
 import com.production.planful.commons.extensions.beVisibleIf
 import com.production.planful.commons.extensions.getAlertDialogBuilder
 import com.production.planful.commons.extensions.setupDialogStuff
 import com.production.planful.commons.views.MyAppCompatCheckbox
+import com.production.planful.extensions.calDAVHelper
+import com.production.planful.extensions.config
 import kotlinx.android.synthetic.main.calendar_item_account.view.*
 import kotlinx.android.synthetic.main.calendar_item_calendar.view.*
 import kotlinx.android.synthetic.main.dialog_select_calendars.view.*
 
 class SelectCalendarsDialog(val activity: SimpleActivity, val callback: () -> Unit) {
     private var prevAccount = ""
-    private var view = (activity.layoutInflater.inflate(R.layout.dialog_select_calendars, null) as ViewGroup)
+    private var view =
+        (activity.layoutInflater.inflate(R.layout.dialog_select_calendars, null) as ViewGroup)
 
     init {
         val ids = activity.config.getSyncedCalendarIdsAsList()
@@ -45,9 +46,16 @@ class SelectCalendarsDialog(val activity: SimpleActivity, val callback: () -> Un
             }
     }
 
-    private fun addCalendarItem(isEvent: Boolean, text: String, tag: Int = 0, shouldCheck: Boolean = false) {
-        val layout = if (isEvent) R.layout.calendar_item_calendar else R.layout.calendar_item_account
-        val calendarItem = activity.layoutInflater.inflate(layout, view.dialog_select_calendars_holder, false)
+    private fun addCalendarItem(
+        isEvent: Boolean,
+        text: String,
+        tag: Int = 0,
+        shouldCheck: Boolean = false
+    ) {
+        val layout =
+            if (isEvent) R.layout.calendar_item_calendar else R.layout.calendar_item_account
+        val calendarItem =
+            activity.layoutInflater.inflate(layout, view.dialog_select_calendars_holder, false)
 
         if (isEvent) {
             calendarItem.calendar_item_calendar_switch.apply {

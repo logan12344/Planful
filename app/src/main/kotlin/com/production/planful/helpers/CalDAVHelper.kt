@@ -10,12 +10,12 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.production.planful.R
-import com.production.planful.extensions.*
-import com.production.planful.models.*
-import com.production.planful.objects.States.isUpdatingCalDAV
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.PERMISSION_READ_CALENDAR
 import com.production.planful.commons.helpers.PERMISSION_WRITE_CALENDAR
+import com.production.planful.extensions.*
+import com.production.planful.models.*
+import com.production.planful.objects.States.isUpdatingCalDAV
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import java.util.*
@@ -32,9 +32,11 @@ class CalDAVHelper(val context: Context) {
 
         isUpdatingCalDAV = true
         try {
-            val calDAVCalendars = getCalDAVCalendars(context.config.caldavSyncedCalendarIds, showToasts)
+            val calDAVCalendars =
+                getCalDAVCalendars(context.config.caldavSyncedCalendarIds, showToasts)
             for (calendar in calDAVCalendars) {
-                val localEventType = eventsHelper.getEventTypeWithCalDAVCalendarId(calendar.id) ?: continue
+                val localEventType =
+                    eventsHelper.getEventTypeWithCalDAVCalendarId(calendar.id) ?: continue
                 if (calendar.displayName != localEventType.title || calendar.color != localEventType.color) {
                     localEventType.apply {
                         title = calendar.displayName
@@ -61,7 +63,10 @@ class CalDAVHelper(val context: Context) {
     @SuppressLint("MissingPermission")
     fun getCalDAVCalendars(ids: String, showToasts: Boolean): ArrayList<CalDAVCalendar> {
         val calendars = ArrayList<CalDAVCalendar>()
-        if (!context.hasPermission(PERMISSION_WRITE_CALENDAR) || !context.hasPermission(PERMISSION_READ_CALENDAR)) {
+        if (!context.hasPermission(PERMISSION_WRITE_CALENDAR) || !context.hasPermission(
+                PERMISSION_READ_CALENDAR
+            )
+        ) {
             return calendars
         }
 
@@ -85,7 +90,15 @@ class CalDAVHelper(val context: Context) {
             val ownerName = cursor.getStringValue(Calendars.OWNER_ACCOUNT) ?: ""
             val color = cursor.getIntValue(Calendars.CALENDAR_COLOR)
             val accessLevel = cursor.getIntValue(Calendars.CALENDAR_ACCESS_LEVEL)
-            val calendar = CalDAVCalendar(id, displayName, accountName, accountType, ownerName, color, accessLevel)
+            val calendar = CalDAVCalendar(
+                id,
+                displayName,
+                accountName,
+                accountType,
+                ownerName,
+                color,
+                accessLevel
+            )
             calendars.add(calendar)
         }
 
@@ -93,7 +106,8 @@ class CalDAVHelper(val context: Context) {
     }
 
     fun updateCalDAVCalendar(eventType: EventType) {
-        val uri = ContentUris.withAppendedId(Calendars.CONTENT_URI, eventType.caldavCalendarId.toLong())
+        val uri =
+            ContentUris.withAppendedId(Calendars.CONTENT_URI, eventType.caldavCalendarId.toLong())
         val values = ContentValues().apply {
             val colorKey = getCalDAVColorKey(eventType)
             if (colorKey != null) {
@@ -195,7 +209,10 @@ class CalDAVHelper(val context: Context) {
             val title = cursor.getStringValue(Events.TITLE) ?: ""
 
             if (errorFetchingLocalEvents) {
-                context.toast(context.getString(R.string.fetching_event_failed, "\"$title\""), Toast.LENGTH_LONG)
+                context.toast(
+                    context.getString(R.string.fetching_event_failed, "\"$title\""),
+                    Toast.LENGTH_LONG
+                )
                 return
             }
 
@@ -226,11 +243,29 @@ class CalDAVHelper(val context: Context) {
             val source = "$CALDAV-$calendarId"
             val repeatRule = Parser().parseRepeatInterval(rrule, startTS)
             val event = Event(
-                null, startTS, endTS, title, location, description, reminder1?.minutes ?: REMINDER_OFF,
-                reminder2?.minutes ?: REMINDER_OFF, reminder3?.minutes ?: REMINDER_OFF,
-                reminder1?.type ?: REMINDER_NOTIFICATION, reminder2?.type ?: REMINDER_NOTIFICATION,
-                reminder3?.type ?: REMINDER_NOTIFICATION, repeatRule.repeatInterval, repeatRule.repeatRule,
-                repeatRule.repeatLimit, ArrayList(), attendees, importId, eventTimeZone, allDay, eventTypeId, source = source, availability = availability
+                null,
+                startTS,
+                endTS,
+                title,
+                location,
+                description,
+                reminder1?.minutes ?: REMINDER_OFF,
+                reminder2?.minutes ?: REMINDER_OFF,
+                reminder3?.minutes ?: REMINDER_OFF,
+                reminder1?.type ?: REMINDER_NOTIFICATION,
+                reminder2?.type ?: REMINDER_NOTIFICATION,
+                reminder3?.type ?: REMINDER_NOTIFICATION,
+                repeatRule.repeatInterval,
+                repeatRule.repeatRule,
+                repeatRule.repeatLimit,
+                ArrayList(),
+                attendees,
+                importId,
+                eventTimeZone,
+                allDay,
+                eventTypeId,
+                source = source,
+                availability = availability
             )
 
             if (event.getIsAllDay()) {
@@ -244,7 +279,10 @@ class CalDAVHelper(val context: Context) {
                 val parentImportId = "$source-$originalId"
                 val parentEvent = context.eventsDB.getEventWithImportId(parentImportId)
                 val originalDayCode = Formatter.getDayCodeFromTS(originalInstanceTime / 1000L)
-                if (parentEvent != null && !parentEvent.repetitionExceptions.contains(originalDayCode)) {
+                if (parentEvent != null && !parentEvent.repetitionExceptions.contains(
+                        originalDayCode
+                    )
+                ) {
                     val storedEventId = context.eventsDB.getEventIdWithImportId(importId)
                     if (storedEventId != null) {
                         event.id = storedEventId
@@ -271,7 +309,8 @@ class CalDAVHelper(val context: Context) {
                         if (it.endsWith("Z")) {
                             // convert for example "20190216T230000Z" to "20190217000000" in Slovakia in a weird way
                             val formatter = DateTimeFormat.forPattern("yyyyMMdd'T'HHmmss'Z'")
-                            val offset = DateTimeZone.getDefault().getOffset(System.currentTimeMillis())
+                            val offset =
+                                DateTimeZone.getDefault().getOffset(System.currentTimeMillis())
                             val dt = formatter.parseDateTime(it).plusMillis(offset)
                             val dayCode = Formatter.getDayCodeFromDateTime(dt)
                             event.repetitionExceptions.add(dayCode)
@@ -357,7 +396,10 @@ class CalDAVHelper(val context: Context) {
         event.getReminders().forEach {
             val contentValues = ContentValues().apply {
                 put(Reminders.MINUTES, it.minutes)
-                put(Reminders.METHOD, if (it.type == REMINDER_EMAIL) Reminders.METHOD_EMAIL else Reminders.METHOD_ALERT)
+                put(
+                    Reminders.METHOD,
+                    if (it.type == REMINDER_EMAIL) Reminders.METHOD_EMAIL else Reminders.METHOD_ALERT
+                )
                 put(Reminders.EVENT_ID, event.getCalDAVEventId())
             }
 
@@ -371,7 +413,10 @@ class CalDAVHelper(val context: Context) {
 
     private fun setupCalDAVEventAttendees(event: Event) {
         clearEventAttendees(event)
-        val attendees = Gson().fromJson<ArrayList<Attendee>>(event.attendees, object : TypeToken<List<Attendee>>() {}.type) ?: ArrayList()
+        val attendees = Gson().fromJson<ArrayList<Attendee>>(
+            event.attendees,
+            object : TypeToken<List<Attendee>>() {}.type
+        ) ?: ArrayList()
         attendees.forEach {
             val contentValues = ContentValues().apply {
                 put(Attendees.ATTENDEE_NAME, it.name)
@@ -390,7 +435,11 @@ class CalDAVHelper(val context: Context) {
     }
 
     private fun setupCalDAVEventImportId(event: Event) {
-        context.eventsDB.updateEventImportIdAndSource(event.importId, "$CALDAV-${event.getCalDAVCalendarId()}", event.id!!)
+        context.eventsDB.updateEventImportIdAndSource(
+            event.importId,
+            "$CALDAV-${event.getCalDAVCalendarId()}",
+            event.id!!
+        )
     }
 
     private fun fillEventContentValues(event: Event): ContentValues {
@@ -450,7 +499,8 @@ class CalDAVHelper(val context: Context) {
     }
 
     fun deleteCalDAVCalendarEvents(calendarId: Long) {
-        val eventIds = context.eventsDB.getCalDAVCalendarEvents("$CALDAV-$calendarId").toMutableList()
+        val eventIds =
+            context.eventsDB.getCalDAVCalendarEvents("$CALDAV-$calendarId").toMutableList()
         eventsHelper.deleteEvents(eventIds, false)
     }
 
@@ -500,7 +550,8 @@ class CalDAVHelper(val context: Context) {
             val minutes = cursor.getIntValue(Reminders.MINUTES)
             val method = cursor.getIntValue(Reminders.METHOD)
             if (method == Reminders.METHOD_ALERT || method == Reminders.METHOD_EMAIL) {
-                val type = if (method == Reminders.METHOD_EMAIL) REMINDER_EMAIL else REMINDER_NOTIFICATION
+                val type =
+                    if (method == Reminders.METHOD_EMAIL) REMINDER_EMAIL else REMINDER_NOTIFICATION
                 val reminder = Reminder(minutes, type)
                 reminders.add(reminder)
             }
@@ -531,7 +582,9 @@ class CalDAVHelper(val context: Context) {
         return attendees
     }
 
-    private fun getCalDAVEventImportId(calendarId: Int, eventId: Long) = "$CALDAV-$calendarId-$eventId"
+    private fun getCalDAVEventImportId(calendarId: Int, eventId: Long) =
+        "$CALDAV-$calendarId-$eventId"
 
-    private fun refreshCalDAVCalendar(event: Event) = context.refreshCalDAVCalendars(event.getCalDAVCalendarId().toString(), false)
+    private fun refreshCalDAVCalendar(event: Event) =
+        context.refreshCalDAVCalendars(event.getCalDAVCalendarId().toString(), false)
 }

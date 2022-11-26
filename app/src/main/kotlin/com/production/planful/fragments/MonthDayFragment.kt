@@ -12,6 +12,10 @@ import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.EventListAdapter
+import com.production.planful.commons.extensions.areSystemAnimationsEnabled
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
 import com.production.planful.extensions.*
 import com.production.planful.helpers.Config
 import com.production.planful.helpers.DAY_CODE
@@ -23,10 +27,6 @@ import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.DayMonthly
 import com.production.planful.models.Event
 import com.production.planful.models.ListEvent
-import com.production.planful.commons.extensions.areSystemAnimationsEnabled
-import com.production.planful.commons.extensions.beVisibleIf
-import com.production.planful.commons.extensions.getProperTextColor
-import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
 import kotlinx.android.synthetic.main.fragment_month_day.*
 import kotlinx.android.synthetic.main.fragment_month_day.view.*
 import org.joda.time.DateTime
@@ -47,7 +47,11 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
     lateinit var mHolder: ConstraintLayout
     lateinit var mConfig: Config
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_month_day, container, false)
         mRes = resources
         mPackageName = requireActivity().packageName
@@ -100,7 +104,13 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
         mCalendar?.updateMonthlyCalendar(Formatter.getDateTimeFromCode(mDayCode))
     }
 
-    override fun updateMonthlyCalendar(context: Context, month: String, days: ArrayList<DayMonthly>, checkedEvents: Boolean, currTargetDate: DateTime) {
+    override fun updateMonthlyCalendar(
+        context: Context,
+        month: String,
+        days: ArrayList<DayMonthly>,
+        checkedEvents: Boolean,
+        currTargetDate: DateTime
+    ) {
         val newHash = month.hashCode() + days.hashCode().toLong()
         if ((mLastHash != 0L && !checkedEvents) || mLastHash == newHash) {
             return
@@ -136,9 +146,11 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
             }
         }
 
-        val listItems = requireActivity().getEventListItems(filtered, mSelectedDayCode.isEmpty(), false)
+        val listItems =
+            requireActivity().getEventListItems(filtered, mSelectedDayCode.isEmpty(), false)
         if (mSelectedDayCode.isNotEmpty()) {
-            mHolder.month_day_selected_day_label.text = Formatter.getDateFromCode(requireActivity(), mSelectedDayCode, false)
+            mHolder.month_day_selected_day_label.text =
+                Formatter.getDateFromCode(requireActivity(), mSelectedDayCode, false)
         }
 
         activity?.runOnUiThread {
@@ -148,7 +160,13 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
 
                 val currAdapter = mHolder.month_day_events_list.adapter
                 if (currAdapter == null) {
-                    EventListAdapter(activity as SimpleActivity, listItems, true, this, month_day_events_list) {
+                    EventListAdapter(
+                        activity as SimpleActivity,
+                        listItems,
+                        true,
+                        this,
+                        month_day_events_list
+                    ) {
                         if (it is ListEvent) {
                             activity?.editEvent(it)
                         }
@@ -190,7 +208,10 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
     override fun refreshItems() {
         val startDateTime = Formatter.getLocalDateTimeFromCode(mDayCode).minusWeeks(1)
         val endDateTime = startDateTime.plusWeeks(7)
-        activity?.eventsHelper?.getEvents(startDateTime.seconds(), endDateTime.seconds()) { events ->
+        activity?.eventsHelper?.getEvents(
+            startDateTime.seconds(),
+            endDateTime.seconds()
+        ) { events ->
             mListEvents = events
             activity?.runOnUiThread {
                 updateVisibleEvents()

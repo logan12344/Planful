@@ -14,8 +14,13 @@ import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.dialog_radio_group.view.*
 
 class RadioGroupDialog(
-    val activity: Activity, val items: ArrayList<RadioItem>, val checkedItemId: Int = -1, val titleId: Int = 0,
-    showOKButton: Boolean = false, val cancelCallback: (() -> Unit)? = null, val callback: (newValue: Any) -> Unit
+    val activity: Activity,
+    val items: ArrayList<RadioItem>,
+    val checkedItemId: Int = -1,
+    val titleId: Int = 0,
+    showOKButton: Boolean = false,
+    val cancelCallback: (() -> Unit)? = null,
+    val callback: (newValue: Any) -> Unit
 ) {
     private var dialog: AlertDialog? = null
     private var wasInit = false
@@ -25,7 +30,10 @@ class RadioGroupDialog(
         val view = activity.layoutInflater.inflate(R.layout.dialog_radio_group, null)
         view.dialog_radio_group.apply {
             for (i in 0 until items.size) {
-                val radioButton = (activity.layoutInflater.inflate(R.layout.radio_button, null) as RadioButton).apply {
+                val radioButton = (activity.layoutInflater.inflate(
+                    R.layout.radio_button,
+                    null
+                ) as RadioButton).apply {
                     text = items[i].title
                     isChecked = items[i].id == checkedItemId
                     id = i
@@ -36,7 +44,13 @@ class RadioGroupDialog(
                     selectedItemId = i
                 }
 
-                addView(radioButton, RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+                addView(
+                    radioButton,
+                    RadioGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                )
             }
         }
 
@@ -56,7 +70,8 @@ class RadioGroupDialog(
         if (selectedItemId != -1) {
             view.dialog_radio_holder.apply {
                 onGlobalLayout {
-                    scrollY = view.dialog_radio_group.findViewById<View>(selectedItemId).bottom - height
+                    scrollY =
+                        view.dialog_radio_group.findViewById<View>(selectedItemId).bottom - height
                 }
             }
         }

@@ -51,7 +51,10 @@ class SecurityDialog(
 
                 if (shouldShowBiometricIdTab()) {
                     val tabTitle = if (isRPlus()) R.string.biometrics else R.string.fingerprint
-                    dialog_tab_layout.addTab(dialog_tab_layout.newTab().setText(tabTitle), PROTECTION_FINGERPRINT)
+                    dialog_tab_layout.addTab(
+                        dialog_tab_layout.newTab().setText(tabTitle),
+                        PROTECTION_FINGERPRINT
+                    )
                 }
 
                 if (activity.baseConfig.isUsingSystemTheme) {
@@ -64,8 +67,12 @@ class SecurityDialog(
                 dialog_tab_layout.setSelectedTabIndicatorColor(context.getProperPrimaryColor())
                 dialog_tab_layout.onTabSelectionChanged(tabSelectedAction = {
                     viewPager.currentItem = when {
-                        it.text.toString().equals(resources.getString(R.string.pattern), true) -> PROTECTION_PATTERN
-                        it.text.toString().equals(resources.getString(R.string.pin), true) -> PROTECTION_PIN
+                        it.text.toString().equals(
+                            resources.getString(R.string.pattern),
+                            true
+                        ) -> PROTECTION_PATTERN
+                        it.text.toString()
+                            .equals(resources.getString(R.string.pin), true) -> PROTECTION_PIN
                         else -> PROTECTION_FINGERPRINT
                     }
                     updateTabVisibility()

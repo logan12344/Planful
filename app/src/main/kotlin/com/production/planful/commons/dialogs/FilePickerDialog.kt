@@ -99,7 +99,9 @@ class FilePickerDialog(
             }
         }
 
-        val secondaryFabBottomMargin = activity.resources.getDimension(if (showFAB) R.dimen.secondary_fab_bottom_margin else R.dimen.activity_margin).toInt()
+        val secondaryFabBottomMargin =
+            activity.resources.getDimension(if (showFAB) R.dimen.secondary_fab_bottom_margin else R.dimen.activity_margin)
+                .toInt()
         mDialogView.filepicker_fabs_holder.apply {
             (layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = secondaryFabBottomMargin
         }
@@ -168,7 +170,8 @@ class FilePickerDialog(
             return
         }
 
-        val sortedItems = items.sortedWith(compareBy({ !it.isDirectory }, { it.name.toLowerCase() }))
+        val sortedItems =
+            items.sortedWith(compareBy({ !it.isDirectory }, { it.name.toLowerCase() }))
         val adapter = FilepickerItemsAdapter(activity, sortedItems, mDialogView.filepicker_list) {
             if ((it as FileDirItem).isDirectory) {
                 activity.handleLockedFolderOpening(it.path) { success ->
@@ -282,7 +285,11 @@ class FilePickerDialog(
         }
     }
 
-    private fun getRegularItems(path: String, lastModifieds: HashMap<String, Long>, callback: (List<FileDirItem>) -> Unit) {
+    private fun getRegularItems(
+        path: String,
+        lastModifieds: HashMap<String, Long>,
+        callback: (List<FileDirItem>) -> Unit
+    ) {
         val items = ArrayList<FileDirItem>()
         val files = File(path).listFiles()?.filterNotNull()
         if (files == null) {
@@ -301,7 +308,8 @@ class FilePickerDialog(
             var lastModified = lastModifieds.remove(curPath)
             val isDirectory = if (lastModified != null) false else file.isDirectory
             if (lastModified == null) {
-                lastModified = 0    // we don't actually need the real lastModified that badly, do not check file.lastModified()
+                lastModified =
+                    0    // we don't actually need the real lastModified that badly, do not check file.lastModified()
             }
 
             val children = if (isDirectory) file.getDirectChildrenCount(activity, showHidden) else 0
@@ -313,7 +321,11 @@ class FilePickerDialog(
     private fun containsDirectory(items: List<FileDirItem>) = items.any { it.isDirectory }
 
     private fun setupFavorites() {
-        FilepickerFavoritesAdapter(activity, activity.baseConfig.favorites.toMutableList(), mDialogView.filepicker_favorites_list) {
+        FilepickerFavoritesAdapter(
+            activity,
+            activity.baseConfig.favorites.toMutableList(),
+            mDialogView.filepicker_favorites_list
+        ) {
             currPath = it as String
             verifyPath()
         }.apply {
@@ -325,7 +337,10 @@ class FilePickerDialog(
         mDialogView.apply {
             filepicker_favorites_holder.beVisible()
             filepicker_files_holder.beGone()
-            val drawable = activity.resources.getColoredDrawableWithColor(R.drawable.ic_folder_vector, activity.getProperPrimaryColor().getContrastColor())
+            val drawable = activity.resources.getColoredDrawableWithColor(
+                R.drawable.ic_folder_vector,
+                activity.getProperPrimaryColor().getContrastColor()
+            )
             filepicker_fab_show_favorites.setImageDrawable(drawable)
         }
     }
@@ -334,7 +349,10 @@ class FilePickerDialog(
         mDialogView.apply {
             filepicker_favorites_holder.beGone()
             filepicker_files_holder.beVisible()
-            val drawable = activity.resources.getColoredDrawableWithColor(R.drawable.ic_star_vector, activity.getProperPrimaryColor().getContrastColor())
+            val drawable = activity.resources.getColoredDrawableWithColor(
+                R.drawable.ic_star_vector,
+                activity.getProperPrimaryColor().getContrastColor()
+            )
             filepicker_fab_show_favorites.setImageDrawable(drawable)
         }
     }

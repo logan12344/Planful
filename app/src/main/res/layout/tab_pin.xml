@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.production.planful.commons.views.PinTab
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.production.planful.commons.views.PinTab xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pin_lock_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -13,7 +12,7 @@
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin"
         android:paddingTop="@dimen/activity_margin"
-        android:text="@string/enter_pin"/>
+        android:text="@string/enter_pin" />
 
     <com.production.planful.commons.views.MyTextView
         android:id="@+id/pin_lock_current_pin"
@@ -26,7 +25,7 @@
         android:maxLength="10"
         android:paddingBottom="@dimen/small_margin"
         android:paddingTop="@dimen/small_margin"
-        android:textSize="@dimen/big_text_size"/>
+        android:textSize="@dimen/big_text_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="1"/>
+                android:text="1" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_2"
@@ -55,7 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="2"/>
+                android:text="2" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_3"
@@ -63,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="3"/>
+                android:text="3" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +77,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="4"/>
+                android:text="4" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_5"
@@ -86,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="5"/>
+                android:text="5" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_6"
@@ -94,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="6"/>
+                android:text="6" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="7"/>
+                android:text="7" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_8"
@@ -117,7 +116,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="8"/>
+                android:text="8" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_9"
@@ -125,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="9"/>
+                android:text="9" />
         </LinearLayout>
 
         <LinearLayout
@@ -140,7 +139,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="C"/>
+                android:text="C" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/pin_0"
@@ -148,7 +147,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="0"/>
+                android:text="0" />
 
             <ImageView
                 android:id="@+id/pin_ok"
@@ -157,7 +156,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="@dimen/activity_margin"
-                android:src="@drawable/ic_check_vector"/>
+                android:src="@drawable/ic_check_vector" />
 
         </LinearLayout>
     </LinearLayout>

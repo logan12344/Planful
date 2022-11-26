@@ -8,6 +8,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.production.planful.R
+import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.RadioItem
 import com.production.planful.dialogs.*
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
@@ -15,11 +20,6 @@ import com.production.planful.helpers.Formatter
 import com.production.planful.models.Event
 import com.production.planful.models.EventType
 import com.production.planful.models.Reminder
-import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
-import com.production.planful.commons.dialogs.RadioGroupDialog
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.*
-import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.activity_task.*
 import org.joda.time.DateTime
 import java.util.*
@@ -66,8 +66,10 @@ class TaskActivity : SimpleActivity() {
                 return@ensureBackgroundThread
             }
 
-            val storedEventTypes = eventTypesDB.getEventTypes().toMutableList() as ArrayList<EventType>
-            val localEventType = storedEventTypes.firstOrNull { it.id == config.lastUsedLocalEventTypeId }
+            val storedEventTypes =
+                eventTypesDB.getEventTypes().toMutableList() as ArrayList<EventType>
+            val localEventType =
+                storedEventTypes.firstOrNull { it.id == config.lastUsedLocalEventTypeId }
             runOnUiThread {
                 if (!isDestroyed && !isFinishing) {
                     gotTask(savedInstanceState, localEventType, task)
@@ -133,7 +135,13 @@ class TaskActivity : SimpleActivity() {
     override fun onBackPressed() {
         if (System.currentTimeMillis() - mLastSavePromptTS > SAVE_DISCARD_PROMPT_INTERVAL && isTaskChanged()) {
             mLastSavePromptTS = System.currentTimeMillis()
-            ConfirmationAdvancedDialog(this, "", R.string.save_before_closing, R.string.save, R.string.discard) {
+            ConfirmationAdvancedDialog(
+                this,
+                "",
+                R.string.save_before_closing,
+                R.string.save,
+                R.string.discard
+            ) {
                 if (it) {
                     saveCurrentTask()
                 } else {
@@ -208,7 +216,8 @@ class TaskActivity : SimpleActivity() {
             config.lastUsedLocalEventTypeId = REGULAR_EVENT_TYPE_ID
         }
 
-        mEventTypeId = if (config.defaultEventTypeId == -1L) config.lastUsedLocalEventTypeId else config.defaultEventTypeId
+        mEventTypeId =
+            if (config.defaultEventTypeId == -1L) config.lastUsedLocalEventTypeId else config.defaultEventTypeId
 
         if (task != null) {
             mTask = task
@@ -225,9 +234,12 @@ class TaskActivity : SimpleActivity() {
         } else {
             mTask = Event(null)
             config.apply {
-                mReminder1Minutes = if (usePreviousEventReminders && lastEventReminderMinutes1 >= -1) lastEventReminderMinutes1 else defaultReminder1
-                mReminder2Minutes = if (usePreviousEventReminders && lastEventReminderMinutes2 >= -1) lastEventReminderMinutes2 else defaultReminder2
-                mReminder3Minutes = if (usePreviousEventReminders && lastEventReminderMinutes3 >= -1) lastEventReminderMinutes3 else defaultReminder3
+                mReminder1Minutes =
+                    if (usePreviousEventReminders && lastEventReminderMinutes1 >= -1) lastEventReminderMinutes1 else defaultReminder1
+                mReminder2Minutes =
+                    if (usePreviousEventReminders && lastEventReminderMinutes2 >= -1) lastEventReminderMinutes2 else defaultReminder2
+                mReminder3Minutes =
+                    if (usePreviousEventReminders && lastEventReminderMinutes3 >= -1) lastEventReminderMinutes3 else defaultReminder3
             }
 
             if (savedInstanceState == null) {
@@ -425,7 +437,9 @@ class TaskActivity : SimpleActivity() {
                 hideKeyboard()
 
                 if (DateTime.now().isAfter(mTaskDateTime.millis)) {
-                    if (mTask.repeatInterval == 0 && mTask.getReminders().any { it.type == REMINDER_NOTIFICATION }) {
+                    if (mTask.repeatInterval == 0 && mTask.getReminders()
+                            .any { it.type == REMINDER_NOTIFICATION }
+                    ) {
                         notifyEvent(mTask)
                     }
                 }
@@ -452,7 +466,11 @@ class TaskActivity : SimpleActivity() {
             when (it) {
                 0 -> {
                     ensureBackgroundThread {
-                        eventsHelper.addEventRepetitionException(mTask.id!!, mTaskOccurrenceTS, true)
+                        eventsHelper.addEventRepetitionException(
+                            mTask.id!!,
+                            mTaskOccurrenceTS,
+                            true
+                        )
                         mTask.apply {
                             parentId = id!!.toLong()
                             id = null
@@ -498,8 +516,15 @@ class TaskActivity : SimpleActivity() {
         DeleteEventDialog(this, arrayListOf(mTask.id!!), mTask.repeatInterval > 0, isTask = true) {
             ensureBackgroundThread {
                 when (it) {
-                    DELETE_SELECTED_OCCURRENCE -> eventsHelper.addEventRepetitionException(mTask.id!!, mTaskOccurrenceTS, true)
-                    DELETE_FUTURE_OCCURRENCES -> eventsHelper.addEventRepeatLimit(mTask.id!!, mTaskOccurrenceTS)
+                    DELETE_SELECTED_OCCURRENCE -> eventsHelper.addEventRepetitionException(
+                        mTask.id!!,
+                        mTaskOccurrenceTS,
+                        true
+                    )
+                    DELETE_FUTURE_OCCURRENCES -> eventsHelper.addEventRepeatLimit(
+                        mTask.id!!,
+                        mTaskOccurrenceTS
+                    )
                     DELETE_ALL_OCCURRENCES -> eventsHelper.deleteEvent(mTask.id!!, true)
                 }
 
@@ -525,23 +550,35 @@ class TaskActivity : SimpleActivity() {
     private fun setupDate() {
         hideKeyboard()
         val datePicker = DatePickerDialog(
-            this, getDatePickerDialogTheme(), dateSetListener, mTaskDateTime.year, mTaskDateTime.monthOfYear - 1, mTaskDateTime.dayOfMonth
+            this,
+            getDatePickerDialogTheme(),
+            dateSetListener,
+            mTaskDateTime.year,
+            mTaskDateTime.monthOfYear - 1,
+            mTaskDateTime.dayOfMonth
         )
 
-        datePicker.datePicker.firstDayOfWeek = if (config.isSundayFirst) Calendar.SUNDAY else Calendar.MONDAY
+        datePicker.datePicker.firstDayOfWeek =
+            if (config.isSundayFirst) Calendar.SUNDAY else Calendar.MONDAY
         datePicker.show()
     }
 
     private fun setupTime() {
         hideKeyboard()
         TimePickerDialog(
-            this, getTimePickerDialogTheme(), timeSetListener, mTaskDateTime.hourOfDay, mTaskDateTime.minuteOfHour, config.use24HourFormat
+            this,
+            getTimePickerDialogTheme(),
+            timeSetListener,
+            mTaskDateTime.hourOfDay,
+            mTaskDateTime.minuteOfHour,
+            config.use24HourFormat
         ).show()
     }
 
-    private val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-        dateSet(year, monthOfYear, dayOfMonth)
-    }
+    private val dateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            dateSet(year, monthOfYear, dayOfMonth)
+        }
 
     private val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         timeSet(hourOfDay, minute)
@@ -608,7 +645,8 @@ class TaskActivity : SimpleActivity() {
 
     private fun updateTaskCompletedButton() {
         if (mTaskCompleted) {
-            toggle_mark_complete.background = ContextCompat.getDrawable(this, R.drawable.button_background_stroke)
+            toggle_mark_complete.background =
+                ContextCompat.getDrawable(this, R.drawable.button_background_stroke)
             toggle_mark_complete.setText(R.string.mark_incomplete)
             toggle_mark_complete.setTextColor(getProperTextColor())
         } else {
@@ -693,7 +731,8 @@ class TaskActivity : SimpleActivity() {
             Reminder(mReminder2Minutes, mReminder2Type),
             Reminder(mReminder3Minutes, mReminder3Type)
         )
-        reminders = reminders.filter { it.minutes != REMINDER_OFF }.sortedBy { it.minutes }.toMutableList() as ArrayList<Reminder>
+        reminders = reminders.filter { it.minutes != REMINDER_OFF }.sortedBy { it.minutes }
+            .toMutableList() as ArrayList<Reminder>
         return reminders
     }
 
@@ -747,7 +786,9 @@ class TaskActivity : SimpleActivity() {
         checkRepeatTexts(interval)
 
         when {
-            mRepeatInterval.isXWeeklyRepetition() -> setRepeatRule(2.0.pow((mTaskDateTime.dayOfWeek - 1).toDouble()).toInt())
+            mRepeatInterval.isXWeeklyRepetition() -> setRepeatRule(
+                2.0.pow((mTaskDateTime.dayOfWeek - 1).toDouble()).toInt()
+            )
             mRepeatInterval.isXMonthlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
             mRepeatInterval.isXYearlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
         }
@@ -813,33 +854,70 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun getAvailableMonthlyRepetitionRules(): ArrayList<RadioItem> {
-        val items = arrayListOf(RadioItem(REPEAT_SAME_DAY, getString(R.string.repeat_on_the_same_day_monthly)))
+        val items = arrayListOf(
+            RadioItem(
+                REPEAT_SAME_DAY,
+                getString(R.string.repeat_on_the_same_day_monthly)
+            )
+        )
 
-        items.add(RadioItem(REPEAT_ORDER_WEEKDAY, getRepeatXthDayString(true, REPEAT_ORDER_WEEKDAY)))
+        items.add(
+            RadioItem(
+                REPEAT_ORDER_WEEKDAY,
+                getRepeatXthDayString(true, REPEAT_ORDER_WEEKDAY)
+            )
+        )
         if (isLastWeekDayOfMonth()) {
-            items.add(RadioItem(REPEAT_ORDER_WEEKDAY_USE_LAST, getRepeatXthDayString(true, REPEAT_ORDER_WEEKDAY_USE_LAST)))
+            items.add(
+                RadioItem(
+                    REPEAT_ORDER_WEEKDAY_USE_LAST,
+                    getRepeatXthDayString(true, REPEAT_ORDER_WEEKDAY_USE_LAST)
+                )
+            )
         }
 
         if (isLastDayOfTheMonth()) {
-            items.add(RadioItem(REPEAT_LAST_DAY, getString(R.string.repeat_on_the_last_day_monthly)))
+            items.add(
+                RadioItem(
+                    REPEAT_LAST_DAY,
+                    getString(R.string.repeat_on_the_last_day_monthly)
+                )
+            )
         }
         return items
     }
 
     private fun getAvailableYearlyRepetitionRules(): ArrayList<RadioItem> {
-        val items = arrayListOf(RadioItem(REPEAT_SAME_DAY, getString(R.string.repeat_on_the_same_day_yearly)))
+        val items = arrayListOf(
+            RadioItem(
+                REPEAT_SAME_DAY,
+                getString(R.string.repeat_on_the_same_day_yearly)
+            )
+        )
 
-        items.add(RadioItem(REPEAT_ORDER_WEEKDAY, getRepeatXthDayInMonthString(true, REPEAT_ORDER_WEEKDAY)))
+        items.add(
+            RadioItem(
+                REPEAT_ORDER_WEEKDAY,
+                getRepeatXthDayInMonthString(true, REPEAT_ORDER_WEEKDAY)
+            )
+        )
         if (isLastWeekDayOfMonth()) {
-            items.add(RadioItem(REPEAT_ORDER_WEEKDAY_USE_LAST, getRepeatXthDayInMonthString(true, REPEAT_ORDER_WEEKDAY_USE_LAST)))
+            items.add(
+                RadioItem(
+                    REPEAT_ORDER_WEEKDAY_USE_LAST,
+                    getRepeatXthDayInMonthString(true, REPEAT_ORDER_WEEKDAY_USE_LAST)
+                )
+            )
         }
 
         return items
     }
 
-    private fun isLastDayOfTheMonth() = mTaskDateTime.dayOfMonth == mTaskDateTime.dayOfMonth().withMaximumValue().dayOfMonth
+    private fun isLastDayOfTheMonth() =
+        mTaskDateTime.dayOfMonth == mTaskDateTime.dayOfMonth().withMaximumValue().dayOfMonth
 
-    private fun isLastWeekDayOfMonth() = mTaskDateTime.monthOfYear != mTaskDateTime.plusDays(7).monthOfYear
+    private fun isLastWeekDayOfMonth() =
+        mTaskDateTime.monthOfYear != mTaskDateTime.plusDays(7).monthOfYear
 
     private fun getRepeatXthDayString(includeBase: Boolean, repeatRule: Int): String {
         val dayOfWeek = mTaskDateTime.dayOfWeek
@@ -849,7 +927,8 @@ class TaskActivity : SimpleActivity() {
         return if (includeBase) {
             "$base $order $dayString"
         } else {
-            val everyString = getString(if (isMaleGender(mTaskDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
+            val everyString =
+                getString(if (isMaleGender(mTaskDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
             "$everyString $order $dayString"
         }
     }
@@ -917,18 +996,23 @@ class TaskActivity : SimpleActivity() {
     private fun checkRepetitionRuleText() {
         when {
             mRepeatInterval.isXWeeklyRepetition() -> {
-                task_repetition_rule.text = if (mRepeatRule == EVERY_DAY_BIT) getString(R.string.every_day) else getSelectedDaysString(mRepeatRule)
+                task_repetition_rule.text =
+                    if (mRepeatRule == EVERY_DAY_BIT) getString(R.string.every_day) else getSelectedDaysString(
+                        mRepeatRule
+                    )
             }
             mRepeatInterval.isXMonthlyRepetition() -> {
-                val repeatString = if (mRepeatRule == REPEAT_ORDER_WEEKDAY_USE_LAST || mRepeatRule == REPEAT_ORDER_WEEKDAY)
-                    R.string.repeat else R.string.repeat_on
+                val repeatString =
+                    if (mRepeatRule == REPEAT_ORDER_WEEKDAY_USE_LAST || mRepeatRule == REPEAT_ORDER_WEEKDAY)
+                        R.string.repeat else R.string.repeat_on
 
                 task_repetition_rule_label.text = getString(repeatString)
                 task_repetition_rule.text = getMonthlyRepetitionRuleText()
             }
             mRepeatInterval.isXYearlyRepetition() -> {
-                val repeatString = if (mRepeatRule == REPEAT_ORDER_WEEKDAY_USE_LAST || mRepeatRule == REPEAT_ORDER_WEEKDAY)
-                    R.string.repeat else R.string.repeat_on
+                val repeatString =
+                    if (mRepeatRule == REPEAT_ORDER_WEEKDAY_USE_LAST || mRepeatRule == REPEAT_ORDER_WEEKDAY)
+                        R.string.repeat else R.string.repeat_on
 
                 task_repetition_rule_label.text = getString(repeatString)
                 task_repetition_rule.text = getYearlyRepetitionRuleText()

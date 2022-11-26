@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.dialog_custom_period_picker.view.*
 
 class CustomPeriodPickerDialog(val activity: Activity, val callback: (value: Int) -> Unit) {
     private var dialog: AlertDialog? = null
-    private var view = (activity.layoutInflater.inflate(R.layout.dialog_custom_period_picker, null) as ViewGroup)
+    private var view =
+        (activity.layoutInflater.inflate(R.layout.dialog_custom_period_picker, null) as ViewGroup)
 
     init {
         view.dialog_custom_period_value.setText("")
@@ -28,11 +29,12 @@ class CustomPeriodPickerDialog(val activity: Activity, val callback: (value: Int
             }
     }
 
-    private fun calculatePeriod(selectedPeriodValue: Int, selectedPeriodValueType: Int) = when (selectedPeriodValueType) {
-        R.id.dialog_radio_days -> selectedPeriodValue * DAY_SECONDS
-        R.id.dialog_radio_weeks -> selectedPeriodValue * WEEK_SECONDS
-        else -> selectedPeriodValue * MONTH_SECONDS
-    }
+    private fun calculatePeriod(selectedPeriodValue: Int, selectedPeriodValueType: Int) =
+        when (selectedPeriodValueType) {
+            R.id.dialog_radio_days -> selectedPeriodValue * DAY_SECONDS
+            R.id.dialog_radio_weeks -> selectedPeriodValue * WEEK_SECONDS
+            else -> selectedPeriodValue * MONTH_SECONDS
+        }
 
     private fun confirmReminder() {
         val value = view.dialog_custom_period_value.value

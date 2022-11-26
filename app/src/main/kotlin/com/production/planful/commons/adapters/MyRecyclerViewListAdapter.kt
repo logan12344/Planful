@@ -76,7 +76,10 @@ abstract class MyRecyclerViewListAdapter<T>(
                 isSelectable = true
                 actMode = actionMode
                 actBarTextView = layoutInflater.inflate(R.layout.actionbar_title, null) as TextView
-                actBarTextView!!.layoutParams = ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                actBarTextView!!.layoutParams = ActionBar.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
                 actMode!!.customView = actBarTextView
                 actBarTextView!!.setOnClickListener {
                     if (getSelectableItemCount() == selectedKeys.size) {
@@ -88,7 +91,11 @@ abstract class MyRecyclerViewListAdapter<T>(
 
                 activity.menuInflater.inflate(getActionMenuId(), menu)
                 val bgColor = if (baseConfig.isUsingSystemTheme) {
-                    ResourcesCompat.getColor(resources, R.color.you_contextual_status_bar_color, activity.theme)
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.you_contextual_status_bar_color,
+                        activity.theme
+                    )
                 } else {
                     Color.BLACK
                 }
@@ -99,7 +106,8 @@ abstract class MyRecyclerViewListAdapter<T>(
 
                 if (baseConfig.isUsingSystemTheme) {
                     actBarTextView?.onGlobalLayout {
-                        val backArrow = activity.findViewById<ImageView>(R.id.action_mode_close_button)
+                        val backArrow =
+                            activity.findViewById<ImageView>(R.id.action_mode_close_button)
                         backArrow?.applyColorFilter(bgColor.getContrastColor())
                     }
                 }
@@ -223,7 +231,12 @@ abstract class MyRecyclerViewListAdapter<T>(
                     toggleItemSelection(true, position, true)
                 }
 
-                override fun selectRange(initialSelection: Int, lastDraggedIndex: Int, minReached: Int, maxReached: Int) {
+                override fun selectRange(
+                    initialSelection: Int,
+                    lastDraggedIndex: Int,
+                    minReached: Int,
+                    maxReached: Int
+                ) {
                     selectItemRange(
                         initialSelection,
                         max(0, lastDraggedIndex - positionOffset),
@@ -252,7 +265,8 @@ abstract class MyRecyclerViewListAdapter<T>(
             }
 
             if (min > -1 && min < to) {
-                (min until to).filter { it != from }.forEach { toggleItemSelection(false, it, true) }
+                (min until to).filter { it != from }
+                    .forEach { toggleItemSelection(false, it, true) }
             }
 
             if (max > -1) {
@@ -329,13 +343,22 @@ abstract class MyRecyclerViewListAdapter<T>(
     }
 
     open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindView(item: T, allowSingleClick: Boolean, allowLongClick: Boolean, callback: (itemView: View, adapterPosition: Int) -> Unit): View {
+        fun bindView(
+            item: T,
+            allowSingleClick: Boolean,
+            allowLongClick: Boolean,
+            callback: (itemView: View, adapterPosition: Int) -> Unit
+        ): View {
             return itemView.apply {
                 callback(this, adapterPosition)
 
                 if (allowSingleClick) {
                     setOnClickListener { viewClicked(item) }
-                    setOnLongClickListener { if (allowLongClick) viewLongClicked() else viewClicked(item); true }
+                    setOnLongClickListener {
+                        if (allowLongClick) viewLongClicked() else viewClicked(
+                            item
+                        ); true
+                    }
                 } else {
                     setOnClickListener(null)
                     setOnLongClickListener(null)
