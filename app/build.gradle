@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'de.timfreiheit.resourceplaceholders'
+
+def canonicalVersionCode = 264
+def canonicalVersionName = "1.0.0"
+
+def postFixSize = 10
+def abiPostFix =
+        ['armeabi-v7a' : 1,
+        'arm64-v8a'   : 2,
+        'universal'   : 5]
+
+android {
+    compileSdkVersion 33
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        versionCode canonicalVersionCode * postFixSize
+        versionName canonicalVersionName
+        applicationId "com.production.planful"
+        minSdkVersion 23
+        targetSdkVersion 33
+        setProperty("archivesBaseName", "Planful")
+        vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+
+        splits {
+            abi {
+                enable true
+                reset()
+                include 'armeabi-v7a', 'arm64-v8a'
+                universalApk true
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".release"
+        }
+        release {
+            applicationIdSuffix = '.release'
+            debuggable = false
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFileName = output.outputFileName.replace(".apk", "-${variant.versionName}.apk")
+            def abiName = output.getFilter("ABI") ?: 'universal'
+            def postFix = abiPostFix.get(abiName, 0)
+
+            if (postFix >= postFixSize) throw new AssertionError("postFix is too large")
+
+            output.versionCodeOverride = canonicalVersionCode * postFixSize + postFix
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/library_release.kotlin_module'
+    }
+}
+
+dependencies {
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:92e9ea7598'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.print:print:1.0.0"
+
+    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+}

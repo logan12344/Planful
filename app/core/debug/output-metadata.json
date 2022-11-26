@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.production.planful.debug",
+  "variantName": "coreDebug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 225,
+      "versionName": "6.20.3",
+      "outputFile": "calendar-core-debug.apk"
+    }
+  ],
+  "elementType": "File"
+}
