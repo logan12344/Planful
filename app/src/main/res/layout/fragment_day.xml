@@ -39,7 +39,7 @@
             android:layout_marginStart="6dp"
             android:src="@drawable/checklist" />
 
-        <TextView
+        <com.production.planful.commons.views.MyTextView
             android:id="@+id/tvNoData1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:text="@string/no_data_title"
             android:textSize="17sp" />
 
-        <TextView
+        <com.production.planful.commons.views.MyTextView
             android:id="@+id/tvNoData2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

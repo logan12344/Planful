@@ -6,6 +6,8 @@ import com.production.planful.commons.extensions.normalizePhoneNumber
 import com.production.planful.commons.extensions.normalizeString
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.PhoneNumber
+import java.util.*
+import kotlin.collections.ArrayList
 
 data class Contact(
     var id: Int,
@@ -167,7 +169,7 @@ data class Contact(
         return copy(
             id = 0,
             prefix = "",
-            firstName = getNameToDisplay().toLowerCase(),
+            firstName = getNameToDisplay().lowercase(Locale.getDefault()),
             middleName = "",
             surname = "",
             suffix = "",

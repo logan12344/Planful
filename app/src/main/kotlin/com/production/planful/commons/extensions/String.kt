@@ -125,7 +125,7 @@ fun String.isAudioSlow() =
 
 fun String.canModifyEXIF() = extensionsSupportingEXIF.any { endsWith(it, true) }
 
-fun String.getCompressionFormat() = when (getFilenameExtension().toLowerCase()) {
+fun String.getCompressionFormat() = when (getFilenameExtension().lowercase(Locale.getDefault())) {
     "png" -> Bitmap.CompressFormat.PNG
     "webp" -> Bitmap.CompressFormat.WEBP
     else -> Bitmap.CompressFormat.JPEG
@@ -305,7 +305,7 @@ fun String.trimToComparableNumber(): String {
 
 // get the contact names first letter at showing the placeholder without image
 fun String.getNameLetter() =
-    normalizeString().toCharArray().getOrNull(0)?.toString()?.toUpperCase(Locale.getDefault())
+    normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault())
         ?: "A"
 
 fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
@@ -965,7 +965,7 @@ fun String.getMimeType(): String {
         put("zip", "application/zip")
     }
 
-    return typesMap[getFilenameExtension().toLowerCase()] ?: ""
+    return typesMap[getFilenameExtension().lowercase(Locale.getDefault())] ?: ""
 }
 
 fun String.isBlockedNumberPattern() = contains("*")

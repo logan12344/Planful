@@ -7,6 +7,7 @@ import com.bumptech.glide.signature.ObjectKey
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import java.io.File
+import java.util.*
 
 open class FileDirItem(
     val path: String,
@@ -36,12 +37,12 @@ open class FileDirItem(
                 sorting and SORT_BY_NAME != 0 -> {
                     result = if (sorting and SORT_USE_NUMERIC_VALUE != 0) {
                         AlphanumericComparator().compare(
-                            name.normalizeString().toLowerCase(),
-                            other.name.normalizeString().toLowerCase()
+                            name.normalizeString().lowercase(Locale.getDefault()),
+                            other.name.normalizeString().lowercase(Locale.getDefault())
                         )
                     } else {
-                        name.normalizeString().toLowerCase()
-                            .compareTo(other.name.normalizeString().toLowerCase())
+                        name.normalizeString().lowercase(Locale.getDefault())
+                            .compareTo(other.name.normalizeString().lowercase(Locale.getDefault()))
                     }
                 }
                 sorting and SORT_BY_SIZE != 0 -> result = when {
@@ -58,7 +59,8 @@ open class FileDirItem(
                 }
                 else -> {
                     result =
-                        getExtension().toLowerCase().compareTo(other.getExtension().toLowerCase())
+                        getExtension().lowercase(Locale.getDefault()).compareTo(other.getExtension()
+                            .lowercase(Locale.getDefault()))
                 }
             }
 
@@ -79,7 +81,7 @@ open class FileDirItem(
                 dateFormat,
                 timeFormat
             )
-            sorting and SORT_BY_EXTENSION != 0 -> getExtension().toLowerCase()
+            sorting and SORT_BY_EXTENSION != 0 -> getExtension().lowercase(Locale.getDefault())
             else -> name
         }
 

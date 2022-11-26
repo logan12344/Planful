@@ -95,8 +95,8 @@ class SelectTimeZoneActivity : SimpleActivity() {
 
     private fun searchQueryChanged(text: String) {
         val timeZones = allTimeZones.filter {
-            it.zoneName.toLowerCase(Locale.getDefault())
-                .contains(text.toLowerCase(Locale.getDefault()))
+            it.zoneName.lowercase(Locale.getDefault())
+                .contains(text.lowercase(Locale.getDefault()))
         }.toMutableList() as ArrayList<MyTimeZone>
         (select_time_zone_list.adapter as? SelectTimeZoneAdapter)?.updateTimeZones(timeZones)
     }

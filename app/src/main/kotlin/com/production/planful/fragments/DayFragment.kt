@@ -13,6 +13,7 @@ import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.DayEventsAdapter
 import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.getViewBitmap
@@ -20,6 +21,7 @@ import com.production.planful.extensions.printBitmap
 import com.production.planful.helpers.*
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.Event
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 
@@ -39,6 +41,8 @@ class DayFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_day, container, false)
         mHolder = view.day_holder
 
+        mHolder.no_data.tvNoData1.setTextColor(view.context.getProperTextColor())
+        mHolder.no_data.tvNoData2.setTextColor(view.context.getProperTextColor())
         mDayCode = requireArguments().getString(DAY_CODE)!!
         setupButtons()
         return view
