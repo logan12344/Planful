@@ -10,10 +10,10 @@ import com.production.planful.R
 import com.production.planful.extensions.config
 import com.production.planful.helpers.isWeekend
 import com.production.planful.models.DayYearly
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.commons.extensions.adjustAlpha
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
 
 // used for displaying months at Yearly view
 class SmallMonthView(context: Context, attrs: AttributeSet, defStyle: Int) : View(context, attrs, defStyle) {

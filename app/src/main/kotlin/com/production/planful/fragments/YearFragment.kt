@@ -17,9 +17,9 @@ import com.production.planful.helpers.YearlyCalendarImpl
 import com.production.planful.interfaces.YearlyCalendar
 import com.production.planful.models.DayYearly
 import com.production.planful.views.SmallMonthView
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.updateTextColors
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.updateTextColors
 import kotlinx.android.synthetic.main.fragment_year.view.*
 import org.joda.time.DateTime
 

@@ -9,8 +9,8 @@ import android.widget.Filter
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.models.Attendee
-import com.simplemobiletools.commons.extensions.normalizeString
-import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.production.planful.commons.extensions.normalizeString
+import com.production.planful.commons.helpers.SimpleContactsHelper
 import kotlinx.android.synthetic.main.item_autocomplete_email_name.view.*
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Attendee>) : ArrayAdapter<Attendee>(activity, 0, contacts) {

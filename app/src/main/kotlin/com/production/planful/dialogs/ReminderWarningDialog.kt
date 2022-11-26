@@ -6,10 +6,10 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.hideKeyboard
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.extensions.showErrorToast
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.hideKeyboard
+import com.production.planful.commons.extensions.setupDialogStuff
+import com.production.planful.commons.extensions.showErrorToast
 
 class ReminderWarningDialog(val activity: Activity, val callback: () -> Unit) {
     private var dialog: AlertDialog? = null

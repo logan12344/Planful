@@ -8,7 +8,7 @@ import com.production.planful.helpers.ANNIVERSARY_EVENT
 import com.production.planful.helpers.BIRTHDAY_EVENT
 import com.production.planful.helpers.OTHER_EVENT
 import com.production.planful.helpers.REMINDER_OFF
-import com.simplemobiletools.commons.extensions.*
+import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_set_reminders.view.*
 
 class SetRemindersDialog(val activity: SimpleActivity, val eventType: Int, val callback: (reminders: ArrayList<Int>) -> Unit) {

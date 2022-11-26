@@ -16,11 +16,11 @@ import com.production.planful.extensions.launchNewEventOrTaskActivity
 import com.production.planful.extensions.widgetsDB
 import com.production.planful.services.WidgetService
 import com.production.planful.services.WidgetServiceEmpty
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getColoredBitmap
-import com.simplemobiletools.commons.extensions.getLaunchIntent
-import com.simplemobiletools.commons.extensions.setTextSize
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.getColoredBitmap
+import com.production.planful.commons.extensions.getLaunchIntent
+import com.production.planful.commons.extensions.setTextSize
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import org.joda.time.DateTime
 
 class MyWidgetListProvider : AppWidgetProvider() {

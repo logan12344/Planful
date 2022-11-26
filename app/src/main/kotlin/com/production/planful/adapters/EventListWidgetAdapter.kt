@@ -14,8 +14,8 @@ import com.production.planful.extensions.getWidgetFontSize
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.*
 import com.production.planful.models.*
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import org.joda.time.DateTime
 
 class EventListWidgetAdapter(val context: Context, val intent: Intent) : RemoteViewsService.RemoteViewsFactory {

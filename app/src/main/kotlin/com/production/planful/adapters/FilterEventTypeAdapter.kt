@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.extensions.getProperBackgroundColor
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.setFillWithStroke
+import com.production.planful.commons.extensions.getProperBackgroundColor
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.setFillWithStroke
 import kotlinx.android.synthetic.main.filter_event_type_view.view.*
 
 class FilterEventTypeAdapter(val activity: SimpleActivity, val eventTypes: List<EventType>, val displayEventTypes: Set<String>) :

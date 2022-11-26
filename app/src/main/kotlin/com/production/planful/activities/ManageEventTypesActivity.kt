@@ -7,10 +7,10 @@ import com.production.planful.dialogs.EditEventTypeDialog
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.interfaces.DeleteEventTypesListener
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.extensions.updateTextColors
-import com.simplemobiletools.commons.helpers.NavigationIcon
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.toast
+import com.production.planful.commons.extensions.updateTextColors
+import com.production.planful.commons.helpers.NavigationIcon
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.activity_manage_event_types.*
 
 class ManageEventTypesActivity : SimpleActivity(), DeleteEventTypesListener {

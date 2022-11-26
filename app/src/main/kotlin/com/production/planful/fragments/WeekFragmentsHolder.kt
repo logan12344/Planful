@@ -20,9 +20,9 @@ import com.production.planful.helpers.WEEKLY_VIEW
 import com.production.planful.helpers.WEEK_START_DATE_TIME
 import com.production.planful.interfaces.WeekFragmentListener
 import com.production.planful.views.MyScrollView
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.WEEK_SECONDS
-import com.simplemobiletools.commons.views.MyViewPager
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.WEEK_SECONDS
+import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_week_holder.view.*
 import org.joda.time.DateTime
 

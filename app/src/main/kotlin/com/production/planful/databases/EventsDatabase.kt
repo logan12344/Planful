@@ -19,7 +19,7 @@ import com.production.planful.models.Event
 import com.production.planful.models.EventType
 import com.production.planful.models.Task
 import com.production.planful.models.Widget
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperPrimaryColor
 import java.util.concurrent.Executors
 
 @Database(entities = [Event::class, EventType::class, Widget::class, Task::class], version = 8)

@@ -17,10 +17,10 @@ import com.production.planful.helpers.isWeekend
 import com.production.planful.models.DayMonthly
 import com.production.planful.models.Event
 import com.production.planful.models.MonthViewEvent
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.HIGHER_ALPHA
-import com.simplemobiletools.commons.helpers.LOWER_ALPHA
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.HIGHER_ALPHA
+import com.production.planful.commons.helpers.LOWER_ALPHA
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import org.joda.time.DateTime
 import org.joda.time.Days
 import kotlin.math.max

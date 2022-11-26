@@ -14,11 +14,11 @@ import com.production.planful.helpers.DAILY_VIEW
 import com.production.planful.helpers.DAY_CODE
 import com.production.planful.helpers.Formatter
 import com.production.planful.interfaces.NavigationListener
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.getDatePickerDialogTheme
-import com.simplemobiletools.commons.extensions.getProperBackgroundColor
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.views.MyViewPager
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.getDatePickerDialogTheme
+import com.production.planful.commons.extensions.getProperBackgroundColor
+import com.production.planful.commons.extensions.setupDialogStuff
+import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_days_holder.view.*
 import org.joda.time.DateTime
 

@@ -7,10 +7,10 @@ import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.extensions.calDAVHelper
 import com.production.planful.extensions.config
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.views.MyAppCompatCheckbox
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.setupDialogStuff
+import com.production.planful.commons.views.MyAppCompatCheckbox
 import kotlinx.android.synthetic.main.calendar_item_account.view.*
 import kotlinx.android.synthetic.main.calendar_item_calendar.view.*
 import kotlinx.android.synthetic.main.dialog_select_calendars.view.*

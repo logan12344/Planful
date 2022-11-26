@@ -7,9 +7,9 @@ import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.extensions.config
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.helpers.LOWER_ALPHA
+import com.production.planful.commons.extensions.adjustAlpha
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.helpers.LOWER_ALPHA
 import kotlinx.android.synthetic.main.quick_filter_event_type_view.view.*
 
 class QuickFilterEventTypeAdapter(

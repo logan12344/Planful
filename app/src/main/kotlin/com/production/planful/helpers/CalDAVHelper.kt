@@ -13,9 +13,9 @@ import com.production.planful.R
 import com.production.planful.extensions.*
 import com.production.planful.models.*
 import com.production.planful.objects.States.isUpdatingCalDAV
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_CALENDAR
-import com.simplemobiletools.commons.helpers.PERMISSION_WRITE_CALENDAR
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.PERMISSION_READ_CALENDAR
+import com.production.planful.commons.helpers.PERMISSION_WRITE_CALENDAR
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import java.util.*

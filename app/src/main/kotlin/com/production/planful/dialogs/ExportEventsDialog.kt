@@ -7,9 +7,9 @@ import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.FilterEventTypeAdapter
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.dialogs.FilePickerDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_export_events.view.*
 import java.io.File
 

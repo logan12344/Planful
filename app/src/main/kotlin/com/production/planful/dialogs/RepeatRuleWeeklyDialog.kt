@@ -3,9 +3,9 @@ package com.production.planful.dialogs
 import android.app.Activity
 import com.production.planful.R
 import com.production.planful.extensions.config
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.commons.views.MyAppCompatCheckbox
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.setupDialogStuff
+import com.production.planful.commons.views.MyAppCompatCheckbox
 import kotlinx.android.synthetic.main.dialog_vertical_linear_layout.view.*
 
 class RepeatRuleWeeklyDialog(val activity: Activity, val curRepeatRule: Int, val callback: (repeatRule: Int) -> Unit) {

@@ -11,7 +11,7 @@ import com.production.planful.extensions.updateListWidget
 import com.production.planful.helpers.EVENT_ID
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.REMINDER_NOTIFICATION
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.helpers.ensureBackgroundThread
 
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

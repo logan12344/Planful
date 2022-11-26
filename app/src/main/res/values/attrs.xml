@@ -3,4 +3,12 @@
     <declare-styleable name="SmallMonthView">
         <attr name="days" format="integer"/>
     </declare-styleable>
+    
+    <declare-styleable name="BottomActionMenuItem">
+            <attr name="android:id" />
+            <attr name="android:title" />
+            <attr name="android:icon" />
+            <attr name="android:visible" />
+            <attr name="showAsAction" />
+        </declare-styleable>
 </resources>

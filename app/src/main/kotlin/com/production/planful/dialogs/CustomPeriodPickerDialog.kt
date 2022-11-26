@@ -4,10 +4,10 @@ import android.app.Activity
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.DAY_SECONDS
-import com.simplemobiletools.commons.helpers.MONTH_SECONDS
-import com.simplemobiletools.commons.helpers.WEEK_SECONDS
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.DAY_SECONDS
+import com.production.planful.commons.helpers.MONTH_SECONDS
+import com.production.planful.commons.helpers.WEEK_SECONDS
 import kotlinx.android.synthetic.main.dialog_custom_period_picker.view.*
 
 class CustomPeriodPickerDialog(val activity: Activity, val callback: (value: Int) -> Unit) {

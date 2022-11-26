@@ -3,7 +3,7 @@ package com.production.planful.activities
 import android.content.Intent
 import com.production.planful.extensions.getNewEventTimestampFromCode
 import com.production.planful.helpers.*
-import com.simplemobiletools.commons.activities.BaseSplashActivity
+import com.production.planful.commons.activities.BaseSplashActivity
 import org.joda.time.DateTime
 
 class SplashActivity : BaseSplashActivity() {

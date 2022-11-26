@@ -23,10 +23,10 @@ import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.DayMonthly
 import com.production.planful.models.Event
 import com.production.planful.models.ListEvent
-import com.simplemobiletools.commons.extensions.areSystemAnimationsEnabled
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.commons.extensions.areSystemAnimationsEnabled
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
 import kotlinx.android.synthetic.main.fragment_month_day.*
 import kotlinx.android.synthetic.main.fragment_month_day.view.*
 import org.joda.time.DateTime

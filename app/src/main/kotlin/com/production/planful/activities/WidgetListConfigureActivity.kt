@@ -22,11 +22,11 @@ import com.production.planful.models.ListEvent
 import com.production.planful.models.ListItem
 import com.production.planful.models.ListSectionDay
 import com.production.planful.models.Widget
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
-import com.simplemobiletools.commons.models.RadioItem
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.widget_config_list.*
 import org.joda.time.DateTime
 import java.util.*

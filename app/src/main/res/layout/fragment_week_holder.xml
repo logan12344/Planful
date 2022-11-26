@@ -33,7 +33,7 @@
 
     </com.production.planful.views.MyScrollView>
 
-    <com.simplemobiletools.commons.views.MyViewPager
+    <com.production.planful.commons.views.MyViewPager
         android:id="@+id/week_view_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +48,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_above="@+id/week_view_seekbar" />
 
-    <com.simplemobiletools.commons.views.MySeekBar
+    <com.production.planful.commons.views.MySeekBar
         android:id="@+id/week_view_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         android:paddingTop="@dimen/normal_margin"
         android:paddingBottom="@dimen/normal_margin" />
 
-    <com.simplemobiletools.commons.views.MyTextView
+    <com.production.planful.commons.views.MyTextView
         android:id="@+id/week_view_days_count"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

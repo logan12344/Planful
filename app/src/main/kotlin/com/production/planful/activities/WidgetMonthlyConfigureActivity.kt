@@ -22,9 +22,9 @@ import com.production.planful.helpers.MyWidgetMonthlyProvider
 import com.production.planful.helpers.isWeekend
 import com.production.planful.interfaces.MonthlyCalendar
 import com.production.planful.models.DayMonthly
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.LOWER_ALPHA
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.LOWER_ALPHA
 import kotlinx.android.synthetic.main.day_monthly_number_view.view.*
 import kotlinx.android.synthetic.main.first_row.*
 import kotlinx.android.synthetic.main.top_navigation.*

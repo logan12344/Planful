@@ -35,7 +35,7 @@
             android:paddingStart="@dimen/activity_margin"
             android:paddingBottom="@dimen/activity_margin">
 
-            <com.simplemobiletools.commons.views.MyTextView
+            <com.production.planful.commons.views.MyTextView
                 android:id="@+id/period_picker_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:text="@string/show_events_happening" />
 
-            <com.simplemobiletools.commons.views.MyTextView
+            <com.production.planful.commons.views.MyTextView
                 android:id="@+id/period_picker_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 
         </RelativeLayout>
 
-        <com.simplemobiletools.commons.views.MyRecyclerView
+        <com.production.planful.commons.views.MyRecyclerView
             android:id="@+id/config_events_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -65,7 +65,7 @@
             android:clipToPadding="false"
             android:divider="@null"
             android:paddingTop="@dimen/medium_margin"
-            app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
+            app:layoutManager="com.production.planful.commons.views.MyLinearLayoutManager" />
 
         <ImageView
             android:id="@+id/config_bg_color"
@@ -84,7 +84,7 @@
             android:layout_toEndOf="@+id/config_bg_color"
             android:background="@drawable/widget_config_seekbar_background">
 
-            <com.simplemobiletools.commons.views.MySeekBar
+            <com.production.planful.commons.views.MySeekBar
                 android:id="@+id/config_bg_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

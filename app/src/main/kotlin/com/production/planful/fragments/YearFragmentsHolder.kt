@@ -14,8 +14,8 @@ import com.production.planful.adapters.MyYearPagerAdapter
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.YEARLY_VIEW
 import com.production.planful.helpers.YEAR_TO_OPEN
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.views.MyViewPager
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_years_holder.view.*
 import org.joda.time.DateTime
 import kotlin.text.toInt

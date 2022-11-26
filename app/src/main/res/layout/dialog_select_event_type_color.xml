@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.simplemobiletools.commons.views.MyTextView
+        <com.production.planful.commons.views.MyTextView
             android:id="@+id/dialog_select_event_type_other_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

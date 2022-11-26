@@ -8,12 +8,12 @@ import com.production.planful.extensions.eventsHelper
 import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
 import com.production.planful.interfaces.DeleteEventTypesListener
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.models.RadioItem
-import com.simplemobiletools.commons.views.MyRecyclerView
+import com.production.planful.commons.adapters.MyRecyclerViewAdapter
+import com.production.planful.commons.dialogs.ConfirmationDialog
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.models.RadioItem
+import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.item_event_type.view.*
 
 class ManageEventTypesAdapter(

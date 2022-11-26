@@ -6,8 +6,8 @@ import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsDB
 import com.production.planful.extensions.rescheduleReminder
 import com.production.planful.helpers.EVENT_ID
-import com.simplemobiletools.commons.extensions.showPickSecondsDialogHelper
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.showPickSecondsDialogHelper
+import com.production.planful.commons.helpers.ensureBackgroundThread
 
 class SnoozeReminderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

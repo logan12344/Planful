@@ -14,8 +14,8 @@ import com.production.planful.helpers.CURRENT_TIME_ZONE
 import com.production.planful.helpers.TIME_ZONE
 import com.production.planful.helpers.getAllTimeZones
 import com.production.planful.models.MyTimeZone
-import com.simplemobiletools.commons.extensions.hideKeyboard
-import com.simplemobiletools.commons.helpers.NavigationIcon
+import com.production.planful.commons.extensions.hideKeyboard
+import com.production.planful.commons.helpers.NavigationIcon
 import kotlinx.android.synthetic.main.activity_select_time_zone.*
 import java.util.*
 

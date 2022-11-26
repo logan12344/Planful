@@ -10,14 +10,14 @@ import com.production.planful.dialogs.DeleteEventDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.Formatter
 import com.production.planful.models.Event
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.views.MyRecyclerView
+import com.production.planful.commons.adapters.MyRecyclerViewAdapter
+import com.production.planful.commons.extensions.adjustAlpha
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.event_list_item.view.*
 
 class DayEventsAdapter(activity: SimpleActivity, val events: ArrayList<Event>, recyclerView: MyRecyclerView, var dayCode: String, itemClick: (Any) -> Unit) :

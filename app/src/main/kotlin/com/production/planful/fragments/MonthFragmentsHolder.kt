@@ -16,8 +16,8 @@ import com.production.planful.helpers.DAY_CODE
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.MONTHLY_VIEW
 import com.production.planful.interfaces.NavigationListener
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.views.MyViewPager
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.views.MyViewPager
 import kotlinx.android.synthetic.main.fragment_months_holder.view.*
 import org.joda.time.DateTime
 

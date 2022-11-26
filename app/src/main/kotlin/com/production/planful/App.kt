@@ -1,7 +1,7 @@
 package com.production.planful
 
 import androidx.multidex.MultiDexApplication
-import com.simplemobiletools.commons.extensions.checkUseEnglish
+import com.production.planful.commons.extensions.checkUseEnglish
 
 class App : MultiDexApplication() {
     override fun onCreate() {

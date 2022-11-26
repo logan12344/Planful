@@ -20,10 +20,10 @@ import com.production.planful.helpers.MonthlyCalendarImpl
 import com.production.planful.interfaces.MonthlyCalendar
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.DayMonthly
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.beGone
-import com.simplemobiletools.commons.extensions.beVisible
-import com.simplemobiletools.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.beGone
+import com.production.planful.commons.extensions.beVisible
+import com.production.planful.commons.extensions.getProperTextColor
 import kotlinx.android.synthetic.main.fragment_month.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 import org.joda.time.DateTime

@@ -6,8 +6,8 @@ import com.production.planful.extensions.isXYearlyRepetition
 import com.production.planful.extensions.seconds
 import com.production.planful.models.Event
 import com.production.planful.models.EventRepetition
-import com.simplemobiletools.commons.extensions.areDigitsOnly
-import com.simplemobiletools.commons.helpers.*
+import com.production.planful.commons.extensions.areDigitsOnly
+import com.production.planful.commons.helpers.*
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import kotlin.math.floor

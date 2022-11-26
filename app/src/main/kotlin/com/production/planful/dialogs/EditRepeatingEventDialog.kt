@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.hideKeyboard
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.hideKeyboard
+import com.production.planful.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_edit_repeating_event.view.*
 
 class EditRepeatingEventDialog(val activity: SimpleActivity, val isTask: Boolean = false, val callback: (allOccurrences: Int) -> Unit) {

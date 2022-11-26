@@ -15,11 +15,11 @@ import com.production.planful.dialogs.SelectQuickFilterEventTypesDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.dialogs.*
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
-import com.simplemobiletools.commons.models.AlarmSound
-import com.simplemobiletools.commons.models.RadioItem
+import com.production.planful.commons.dialogs.*
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.AlarmSound
+import com.production.planful.commons.models.RadioItem
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.joda.time.DateTime
 import java.io.File

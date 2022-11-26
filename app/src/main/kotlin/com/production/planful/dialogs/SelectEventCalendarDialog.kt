@@ -10,8 +10,8 @@ import com.production.planful.R
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.helpers.STORED_LOCALLY_ONLY
 import com.production.planful.models.CalDAVCalendar
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_select_radio_group.view.*
 import kotlinx.android.synthetic.main.radio_button_with_color.view.*
 

@@ -7,9 +7,9 @@ import com.production.planful.R
 import com.production.planful.helpers.DELETE_ALL_OCCURRENCES
 import com.production.planful.helpers.DELETE_FUTURE_OCCURRENCES
 import com.production.planful.helpers.DELETE_SELECTED_OCCURRENCE
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_delete_event.view.*
 
 class DeleteEventDialog(

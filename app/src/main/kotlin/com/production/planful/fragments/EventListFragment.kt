@@ -19,11 +19,11 @@ import com.production.planful.models.Event
 import com.production.planful.models.ListEvent
 import com.production.planful.models.ListItem
 import com.production.planful.models.ListSectionDay
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.MONTH_SECONDS
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
-import com.simplemobiletools.commons.views.MyLinearLayoutManager
-import com.simplemobiletools.commons.views.MyRecyclerView
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.MONTH_SECONDS
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.commons.views.MyLinearLayoutManager
+import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.fragment_event_list.view.*
 import org.joda.time.DateTime
 

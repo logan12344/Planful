@@ -7,9 +7,9 @@ import com.production.planful.R
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.helpers.OTHER_EVENT
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_event_type.view.*
 
 class EditEventTypeDialog(val activity: Activity, var eventType: EventType? = null, val callback: (eventType: EventType) -> Unit) {

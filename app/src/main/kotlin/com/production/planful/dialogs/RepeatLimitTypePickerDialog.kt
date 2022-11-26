@@ -9,7 +9,7 @@ import com.production.planful.extensions.config
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.getNowSeconds
-import com.simplemobiletools.commons.extensions.*
+import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_repeat_limit_type_picker.view.*
 import org.joda.time.DateTime
 import java.util.*

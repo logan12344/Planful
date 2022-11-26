@@ -11,9 +11,9 @@ import com.production.planful.R
 import com.production.planful.extensions.config
 import com.production.planful.helpers.Formatter
 import com.production.planful.helpers.MyWidgetDateProvider
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.LOWER_ALPHA
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.LOWER_ALPHA
 import kotlinx.android.synthetic.main.widget_config_date.*
 
 class WidgetDateConfigureActivity : SimpleActivity() {

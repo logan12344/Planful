@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.models.MyTimeZone
-import com.simplemobiletools.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.getProperTextColor
 import kotlinx.android.synthetic.main.item_select_time_zone.view.*
 
 class SelectTimeZoneAdapter(val activity: SimpleActivity, var timeZones: ArrayList<MyTimeZone>, val itemClick: (Any) -> Unit) :

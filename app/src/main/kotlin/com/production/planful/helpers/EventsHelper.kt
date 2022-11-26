@@ -9,10 +9,10 @@ import com.production.planful.R
 import com.production.planful.extensions.*
 import com.production.planful.models.Event
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.helpers.CHOPPED_LIST_DEFAULT_SIZE
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.toast
+import com.production.planful.commons.helpers.CHOPPED_LIST_DEFAULT_SIZE
+import com.production.planful.commons.helpers.ensureBackgroundThread
 
 class EventsHelper(val context: Context) {
     private val config = context.config

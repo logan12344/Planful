@@ -10,8 +10,8 @@ import android.widget.RemoteViews
 import com.production.planful.R
 import com.production.planful.activities.SplashActivity
 import com.production.planful.extensions.config
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getLaunchIntent
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.getLaunchIntent
 
 class MyWidgetDateProvider : AppWidgetProvider() {
     private val OPEN_APP_INTENT_ID = 1

@@ -6,10 +6,10 @@ import android.media.RingtoneManager
 import com.production.planful.R
 import com.production.planful.extensions.config
 import com.production.planful.extensions.scheduleCalDAVSync
-import com.simplemobiletools.commons.extensions.getDefaultAlarmTitle
-import com.simplemobiletools.commons.helpers.BaseConfig
-import com.simplemobiletools.commons.helpers.DAY_MINUTES
-import com.simplemobiletools.commons.helpers.YEAR_SECONDS
+import com.production.planful.commons.extensions.getDefaultAlarmTitle
+import com.production.planful.commons.helpers.BaseConfig
+import com.production.planful.commons.helpers.DAY_MINUTES
+import com.production.planful.commons.helpers.YEAR_SECONDS
 import java.util.*
 
 class Config(context: Context) : BaseConfig(context) {

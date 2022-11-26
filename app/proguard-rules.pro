@@ -1,1 +1,1 @@
--keep class com.simplemobiletools.calendar.models.** { *; }
+-keep class com.production.planful.calendar.models.** { *; }

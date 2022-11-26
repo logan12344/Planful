@@ -19,7 +19,7 @@ import com.production.planful.extensions.printBitmap
 import com.production.planful.helpers.*
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.Event
-import com.simplemobiletools.commons.extensions.*
+import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 

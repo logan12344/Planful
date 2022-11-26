@@ -6,7 +6,7 @@ import android.content.Intent
 import com.production.planful.extensions.notifyRunningEvents
 import com.production.planful.extensions.recheckCalDAVCalendars
 import com.production.planful.extensions.scheduleAllEvents
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.helpers.ensureBackgroundThread
 
 class BootCompletedReceiver : BroadcastReceiver() {
 

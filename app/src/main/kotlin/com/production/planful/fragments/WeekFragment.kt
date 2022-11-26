@@ -24,11 +24,11 @@ import com.production.planful.interfaces.WeeklyCalendar
 import com.production.planful.models.Event
 import com.production.planful.models.EventWeeklyView
 import com.production.planful.views.MyScrollView
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
-import com.simplemobiletools.commons.models.RadioItem
-import com.simplemobiletools.commons.views.MyTextView
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.models.RadioItem
+import com.production.planful.commons.views.MyTextView
 import kotlinx.android.synthetic.main.fragment_week.*
 import kotlinx.android.synthetic.main.fragment_week.view.*
 import kotlinx.android.synthetic.main.week_event_marker.view.*

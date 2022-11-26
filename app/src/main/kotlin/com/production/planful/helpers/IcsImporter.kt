@@ -12,9 +12,9 @@ import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_PARTIAL
 import com.production.planful.models.Event
 import com.production.planful.models.EventType
 import com.production.planful.models.Reminder
-import com.simplemobiletools.commons.extensions.areDigitsOnly
-import com.simplemobiletools.commons.extensions.showErrorToast
-import com.simplemobiletools.commons.helpers.HOUR_SECONDS
+import com.production.planful.commons.extensions.areDigitsOnly
+import com.production.planful.commons.extensions.showErrorToast
+import com.production.planful.commons.helpers.HOUR_SECONDS
 import org.joda.time.DateTimeZone
 import java.io.File
 

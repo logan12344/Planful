@@ -6,8 +6,8 @@ import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.FilterEventTypeAdapter
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_filter_event_types.view.*
 
 class FilterEventTypesDialog(val activity: SimpleActivity, val callback: () -> Unit) {

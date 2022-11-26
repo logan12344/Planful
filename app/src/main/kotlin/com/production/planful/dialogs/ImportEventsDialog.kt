@@ -13,8 +13,8 @@ import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_NOTHING_NE
 import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_OK
 import com.production.planful.helpers.IcsImporter.ImportResult.IMPORT_PARTIAL
 import com.production.planful.helpers.REGULAR_EVENT_TYPE_ID
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.dialog_import_events.view.*
 
 class ImportEventsDialog(val activity: SimpleActivity, val path: String, val callback: (refreshView: Boolean) -> Unit) {

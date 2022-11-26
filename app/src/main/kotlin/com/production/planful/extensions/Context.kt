@@ -41,8 +41,8 @@ import com.production.planful.receivers.CalDAVSyncReceiver
 import com.production.planful.receivers.NotificationReceiver
 import com.production.planful.services.MarkCompletedService
 import com.production.planful.services.SnoozeService
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
 import kotlinx.android.synthetic.main.day_monthly_event_view.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone

@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.*
-import com.simplemobiletools.commons.extensions.addBitIf
+import com.production.planful.commons.extensions.addBitIf
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.io.Serializable

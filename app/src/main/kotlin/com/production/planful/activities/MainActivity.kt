@@ -39,16 +39,16 @@ import com.production.planful.helpers.IcsImporter.ImportResult
 import com.production.planful.jobs.CalDAVUpdateListener
 import com.production.planful.models.Event
 import com.production.planful.models.ListEvent
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
-import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
-import com.simplemobiletools.commons.models.FAQItem
-import com.simplemobiletools.commons.models.RadioItem
-import com.simplemobiletools.commons.models.Release
-import com.simplemobiletools.commons.models.SimpleContact
+import com.production.planful.commons.dialogs.ConfirmationDialog
+import com.production.planful.commons.dialogs.FilePickerDialog
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.extensions.*
+import com.production.planful.commons.helpers.*
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.commons.models.FAQItem
+import com.production.planful.commons.models.RadioItem
+import com.production.planful.commons.models.Release
+import com.production.planful.commons.models.SimpleContact
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -151,7 +151,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
         addBirthdaysAnniversariesAtStart()
 
-        if (!config.wasUpgradedFromFreeShown && isPackageInstalled("com.simplemobiletools.calendar")) {
+        if (!config.wasUpgradedFromFreeShown && isPackageInstalled("com.production.planful.calendar")) {
             ConfirmationDialog(this, "", R.string.upgraded_from_free, R.string.ok, 0, false) {}
             config.wasUpgradedFromFreeShown = true
         }

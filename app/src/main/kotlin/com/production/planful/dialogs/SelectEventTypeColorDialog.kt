@@ -8,11 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.extensions.calDAVHelper
 import com.production.planful.models.EventType
-import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
-import com.simplemobiletools.commons.extensions.getProperBackgroundColor
-import com.simplemobiletools.commons.extensions.setFillWithStroke
-import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.production.planful.commons.dialogs.ColorPickerDialog
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.getProperBackgroundColor
+import com.production.planful.commons.extensions.setFillWithStroke
+import com.production.planful.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_select_event_type_color.view.*
 import kotlinx.android.synthetic.main.radio_button_with_color.view.*
 

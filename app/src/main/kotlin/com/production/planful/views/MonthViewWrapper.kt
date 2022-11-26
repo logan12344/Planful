@@ -9,7 +9,7 @@ import com.production.planful.extensions.config
 import com.production.planful.helpers.COLUMN_COUNT
 import com.production.planful.helpers.ROW_COUNT
 import com.production.planful.models.DayMonthly
-import com.simplemobiletools.commons.extensions.onGlobalLayout
+import com.production.planful.commons.extensions.onGlobalLayout
 import kotlinx.android.synthetic.main.month_view.view.month_view
 
 // used in the Monthly view fragment, 1 view per screen

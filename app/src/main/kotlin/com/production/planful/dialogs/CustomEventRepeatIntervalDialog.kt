@@ -8,7 +8,7 @@ import com.production.planful.helpers.DAY
 import com.production.planful.helpers.MONTH
 import com.production.planful.helpers.WEEK
 import com.production.planful.helpers.YEAR
-import com.simplemobiletools.commons.extensions.*
+import com.production.planful.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_custom_event_repeat_interval.view.*
 
 class CustomEventRepeatIntervalDialog(val activity: Activity, val callback: (seconds: Int) -> Unit) {

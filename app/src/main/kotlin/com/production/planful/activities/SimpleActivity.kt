@@ -8,10 +8,10 @@ import androidx.core.app.NotificationManagerCompat
 import com.production.planful.R
 import com.production.planful.extensions.config
 import com.production.planful.extensions.refreshCalDAVCalendars
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.extensions.toast
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.activities.BaseSimpleActivity
+import com.production.planful.commons.dialogs.ConfirmationDialog
+import com.production.planful.commons.extensions.toast
+import com.production.planful.commons.helpers.ensureBackgroundThread
 
 open class SimpleActivity : BaseSimpleActivity() {
     val CALDAV_REFRESH_DELAY = 3000L

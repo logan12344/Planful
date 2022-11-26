@@ -13,15 +13,15 @@ import com.production.planful.models.ListEvent
 import com.production.planful.models.ListItem
 import com.production.planful.models.ListSectionDay
 import com.production.planful.models.ListSectionMonth
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.helpers.MEDIUM_ALPHA
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
-import com.simplemobiletools.commons.views.MyRecyclerView
+import com.production.planful.commons.adapters.MyRecyclerViewAdapter
+import com.production.planful.commons.extensions.adjustAlpha
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.helpers.MEDIUM_ALPHA
+import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.commons.views.MyRecyclerView
 import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.event_list_section_day.view.*
 
