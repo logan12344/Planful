@@ -18,7 +18,6 @@
         tools:ignore="HardcodedText" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_0"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -26,7 +25,6 @@
         android:text="@string/monday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_1"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -34,7 +32,6 @@
         android:text="@string/tuesday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_2"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -42,7 +39,6 @@
         android:text="@string/wednesday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_3"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -50,7 +46,6 @@
         android:text="@string/thursday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_4"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -58,7 +53,6 @@
         android:text="@string/friday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_5"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -66,7 +60,6 @@
         android:text="@string/saturday_letter" />
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/label_6"
         style="@style/MetaView"
         android:layout_width="0dp"
         android:layout_height="match_parent"

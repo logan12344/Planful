@@ -33,7 +33,6 @@
         android:visibility="visible">
 
         <ImageView
-            android:id="@+id/ivNoData"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="6dp"

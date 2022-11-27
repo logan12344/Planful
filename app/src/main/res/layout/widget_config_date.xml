@@ -2,12 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/config_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/config_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,7 +20,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/config_date_time_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -69,7 +66,6 @@
             android:layout_margin="@dimen/tiny_margin" />
 
         <RelativeLayout
-            android:id="@+id/config_bg_seekbar_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignTop="@+id/config_bg_color"

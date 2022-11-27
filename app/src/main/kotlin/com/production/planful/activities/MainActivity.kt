@@ -103,6 +103,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 openNewEvent()
             }
         }
+        settings_fab.setOnClickListener { launchSettings() }
+
         fab_event_label.setOnClickListener { openNewEvent() }
         fab_task_label.setOnClickListener { openNewTask() }
 
@@ -255,7 +257,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 R.id.add_holidays -> addHolidays()
                 R.id.add_birthdays -> tryAddBirthdays()
                 R.id.add_anniversaries -> tryAddAnniversaries()
-                R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
             }

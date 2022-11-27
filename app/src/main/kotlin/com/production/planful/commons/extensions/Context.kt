@@ -921,11 +921,8 @@ val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW
 val Context.notificationManager: NotificationManager get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 val Context.shortcutManager: ShortcutManager get() = getSystemService(ShortcutManager::class.java) as ShortcutManager
 
-val Context.portrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 val Context.navigationBarOnSide: Boolean get() = usableScreenSize.x < realScreenSize.x && usableScreenSize.x > usableScreenSize.y
 val Context.navigationBarOnBottom: Boolean get() = usableScreenSize.y < realScreenSize.y
-val Context.navigationBarHeight: Int get() = if (navigationBarOnBottom && navigationBarSize.y != usableScreenSize.y) navigationBarSize.y else 0
-val Context.navigationBarWidth: Int get() = if (navigationBarOnSide) navigationBarSize.x else 0
 
 val Context.navigationBarSize: Point
     get() = when {
@@ -944,25 +941,6 @@ val Context.newNavigationBarHeight: Int
         return navigationBarHeight
     }
 
-val Context.statusBarHeight: Int
-    get() {
-        var statusBarHeight = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            statusBarHeight = resources.getDimensionPixelSize(resourceId)
-        }
-        return statusBarHeight
-    }
-
-val Context.actionBarHeight: Int
-    get() {
-        val styledAttributes =
-            theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
-        val actionBarHeight = styledAttributes.getDimension(0, 0f)
-        styledAttributes.recycle()
-        return actionBarHeight.toInt()
-    }
-
 val Context.usableScreenSize: Point
     get() {
         val size = Point()
@@ -977,10 +955,7 @@ val Context.realScreenSize: Point
         return size
     }
 
-fun Context.getCornerRadius() = resources.getDimension(R.dimen.rounded_corner_radius_small)
-
 // we need the Default Dialer functionality only in Simple Dialer and in Simple Contacts for now
-@TargetApi(Build.VERSION_CODES.M)
 fun Context.isDefaultDialer(): Boolean {
     return if (!packageName.startsWith("com.production.planful.contacts") && !packageName.startsWith(
             "com.production.planful.dialer"
@@ -1044,21 +1019,6 @@ fun Context.deleteBlockedNumber(number: String) {
     contentResolver.delete(BlockedNumbers.CONTENT_URI, selection, selectionArgs)
 }
 
-fun Context.isNumberBlocked(
-    number: String,
-    blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()
-): Boolean {
-    if (!isNougatPlus()) {
-        return false
-    }
-
-    val numberToCompare = number.trimToComparableNumber()
-    return blockedNumbers.any { numberToCompare in it.numberToCompare || numberToCompare in it.number } || isNumberBlockedByPattern(
-        number,
-        blockedNumbers
-    )
-}
-
 fun Context.isNumberBlockedByPattern(
     number: String,
     blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()
@@ -1080,41 +1040,4 @@ fun Context.copyToClipboard(text: String) {
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
     val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
     toast(toastText)
-}
-
-fun Context.getPhoneNumberTypeText(type: Int, label: String): String {
-    return if (type == BaseTypes.TYPE_CUSTOM) {
-        label
-    } else {
-        getString(
-            when (type) {
-                Phone.TYPE_MOBILE -> R.string.mobile
-                Phone.TYPE_HOME -> R.string.home
-                Phone.TYPE_WORK -> R.string.work
-                Phone.TYPE_MAIN -> R.string.main_number
-                Phone.TYPE_FAX_WORK -> R.string.work_fax
-                Phone.TYPE_FAX_HOME -> R.string.home_fax
-                Phone.TYPE_PAGER -> R.string.pager
-                else -> R.string.other
-            }
-        )
-    }
-}
-
-fun Context.updateBottomTabItemColors(view: View?, isActive: Boolean) {
-    val color = if (isActive) {
-        getProperPrimaryColor()
-    } else {
-        getProperTextColor()
-    }
-
-    view?.findViewById<ImageView>(R.id.tab_item_icon)?.applyColorFilter(color)
-    view?.findViewById<TextView>(R.id.tab_item_label)?.setTextColor(color)
-}
-
-fun Context.sendEmailIntent(recipient: String) {
-    Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.fromParts(KEY_MAILTO, recipient, null)
-        launchActivityIntent(this)
-    }
 }

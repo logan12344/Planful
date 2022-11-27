@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/export_events_scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/export_events_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -30,7 +28,6 @@
         </com.production.planful.commons.views.MyTextInputLayout>
 
         <com.production.planful.commons.views.MyTextInputLayout
-            android:id="@+id/export_events_filename_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin"
@@ -79,7 +76,6 @@
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/export_events_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginBottom="@dimen/medium_margin"
@@ -87,7 +83,6 @@
                 android:importantForAccessibility="no" />
 
             <com.production.planful.commons.views.MyTextView
-                android:id="@+id/export_events_pick_types_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small_margin"

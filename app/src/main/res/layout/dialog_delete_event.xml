@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/delete_event_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,7 +8,6 @@
     android:paddingEnd="@dimen/big_margin">
 
     <com.production.planful.commons.views.MyTextView
-        android:id="@+id/delete_event_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/proceed_with_deletion"
@@ -30,7 +28,6 @@
         android:layout_height="wrap_content">
 
         <com.production.planful.commons.views.MyCompatRadioButton
-            android:id="@+id/delete_event_one_only"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"

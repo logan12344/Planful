@@ -6,7 +6,6 @@
     <!-- Release notes -->
     <string name="release_167">Added time zone support (customization has to be enabled in the app settings)</string>
     <string name="release_155">Allow customizing the bottom navigation bar color</string>
-    <string name="release_146">Added email reminders and attendees in CalDAV synced events</string>
     <string name="release_143">
         Allow setting default start time/duration/event type for new events\n
         Allow exporting/importing settings
@@ -66,30 +65,18 @@
 
     <string name="pro">Pro</string>
     <string name="simple_commons">Simple Commons</string>
-    <string name="progress">%1$s / %2$s</string>
-    <string name="donate_url">https://simplemobiletools.com/donate</string>
     <string name="thank_you_url">https://play.google.com/store/apps/details?id=com.production.planful.thankyou</string>
-    <string name="a_m">am</string>
-    <string name="p_m">pm</string>
     <string name="material_you">Material You</string>
 
     <!-- About -->
-    <string name="two_string_placeholder">%1$s%2$s</string>
-    <string name="my_website">\nhttps://simplemobiletools.com</string>
     <string name="my_email">hello@simplemobiletools.com</string>
-    <string name="facebook">Facebook</string>
-    <string name="reddit">Reddit</string>
-    <string name="telegram">Telegram</string>
-    <string name="github">GitHub</string>
 
     <!-- Contributors -->
     <string name="contributors_developers">Aga-C, AlbertoPellitteri, Alfavio, connyduck, correia55, dagkalis, DaPa, ForgottenUmbrella, KryptKode, qwertyfinger</string>
-    <string name="contributors_other_help"></string>
     <string name="translators_arabic">karmac2015, unofficial-hima</string>
     <string name="translators_azerbaijani">Gozzwip</string>
     <string name="translators_basque">avtkal</string>
     <string name="translators_bengali">kabirnayeem99</string>
-    <string name="translators_breton"></string>
     <string name="translators_catalan">Solatec</string>
     <string name="translators_chinese_cn">dadaewq, fiepi, KrasnayaPloshchad, linsui, Pzqqt, waldens, WanderMax, xiaomingyan</string>
     <string name="translators_chinese_hk">1552980358</string>
@@ -118,7 +105,6 @@
     <string name="translators_portuguese">ailmcoll, floppyD, hugomg, lnux-usr, marciozomb13, matheusvictor, RodolfoCandido, rodymacedo, smarquespt</string>
     <string name="translators_romanian">melintemarian</string>
     <string name="translators_russian">antonv6, AVM77, macbaze, solokot, trubitsyn</string>
-    <string name="translators_serbian"></string>
     <string name="translators_slovak">tibbi</string>
     <string name="translators_slovenian">franga2000, rmajc</string>
     <string name="translators_spanish">FredMan95, Guzleon, MarcAbonce, mlopezgva, Yngvar-Skjaldulfsson</string>
@@ -126,7 +112,6 @@
     <string name="translators_tamil">GobinathAL</string>
     <string name="translators_turkish">akcansoft, ersen0, Fatih-BaKeR</string>
     <string name="translators_ukrainian">bac1, motomoto7, sawka6630</string>
-    <string name="translators_vietnamese"></string>
     <string name="translators_welsh">Cymrodor</string>
 
     <!-- License -->

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -93,6 +91,20 @@
                 app:layout_constraintBottom_toBottomOf="@+id/fab_task_icon"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_fab"
                 app:layout_constraintTop_toTopOf="@+id/fab_task_icon" />
+
+            <com.production.planful.commons.views.MyFloatingActionButton
+                android:id="@+id/settings_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:contentDescription="@string/settings"
+                android:src="@drawable/ic_settings_cog_vector"
+                app:backgroundTint="@color/color_primary"
+                app:layout_constraintBottom_toTopOf="@+id/quick_event_type_filter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/pressed_item_foreground" />
 
             <com.production.planful.commons.views.MyFloatingActionButton
                 android:id="@+id/calendar_fab"
