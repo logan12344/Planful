@@ -83,12 +83,6 @@ fun Activity.appLaunched(appId: String) {
 
     baseConfig.appRunCount++
 
-    if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            RateStarsDialog(this)
-        }
-    }
-
     if (baseConfig.navigationBarColor == INVALID_NAVIGATION_BAR_COLOR && (window.attributes.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN == 0)) {
         baseConfig.defaultNavigationBarColor = window.navigationBarColor
         baseConfig.navigationBarColor = window.navigationBarColor
@@ -1842,9 +1836,6 @@ fun Activity.checkAppSideloading(): Boolean {
     }
 
     baseConfig.appSideloadingStatus = if (isSideloaded) SIDELOADING_TRUE else SIDELOADING_FALSE
-    if (isSideloaded) {
-        showSideloadingDialog()
-    }
 
     return isSideloaded
 }
@@ -1855,12 +1846,6 @@ fun Activity.isAppSideloaded(): Boolean {
         false
     } catch (e: Exception) {
         true
-    }
-}
-
-fun Activity.showSideloadingDialog() {
-    AppSideloadedDialog(this) {
-        finish()
     }
 }
 

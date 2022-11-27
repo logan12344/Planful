@@ -18,9 +18,6 @@ abstract class BaseSplashActivity : AppCompatActivity() {
             if (checkAppSideloading()) {
                 return
             }
-        } else if (baseConfig.appSideloadingStatus == SIDELOADING_TRUE) {
-            showSideloadingDialog()
-            return
         }
 
         baseConfig.apply {

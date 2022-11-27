@@ -86,3 +86,5 @@ lint/tmp/
 java_pid2494.hprof
 /fastlane
 /graphics
+app/release
+.idea

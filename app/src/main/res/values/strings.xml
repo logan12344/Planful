@@ -5,12 +5,10 @@
     <string name="weekly_view">Weekly view</string>
     <string name="monthly_view">Monthly view</string>
     <string name="monthly_daily_view">Monthly and daily view</string>
-    <string name="yearly_view">Yearly view</string>
     <string name="simple_event_list">Simple event list</string>
     <string name="no_upcoming_events">Seems like you don\'t have any upcoming events.</string>
     <string name="go_to_today">Go to today</string>
     <string name="go_to_date">Go to date</string>
-    <string name="upgraded_from_free">Hey,\n\nseems like you upgraded from the old free app. You have to migrate locally stored events manually via exporting in an .ics file, then importing. You can find both export/import buttons at the main screen menu.\n\nYou can then uninstall the old version, which has an \'Upgrade to Pro\' button at the top of the app settings. You will then only have to reset your app settings.\n\nThanks!</string>
     <string name="no_data_title">No Data!</string>
     <string name="no_data_description">Your plans list is empty.</string>
     <!-- Widget titles -->
@@ -280,14 +278,9 @@
     <string name="faq_5_text">Check your device battery and notification settings, if there is nothing blocking the reminders, or killing the app in the background. You might also want to take a look at &lt;a href=https://dontkillmyapp.com&gt;https://dontkillmyapp.com&lt;/a&gt;, it has some useful tips.</string>
     <string name="faq_6_title">How can I modify or delete an existing event type?</string>
     <string name="faq_6_text">You can do both of those in the app Settings - Manage event types. Just click on the wanted one for changing the label and color, or select the wanted one by long pressing it and use the trashbin at the top menu for deleting.</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
-    -->
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="later">Later</string>
     <string name="invalid_file_format">Invalid file format</string>
     <string name="error">Error: %s</string>
     <string name="open_with">Open with</string>
@@ -302,22 +295,12 @@
     <string name="never">Never</string>
     <string name="label">Label</string>
     <string name="transparent">Transparent</string>
-    <string name="download">Download</string>
     <string name="notification">Notification</string>
     <string name="email">Email</string>
     <string name="number">Number</string>
     <string name="call_person">Call %s</string>
     <string name="value">Value</string>
-    <string name="app_corrupt">App Corrupt</string>
     <string name="disclaimer">Disclaimer</string>
-
-    <!-- Events -->
-
-    <!-- Emails -->
-
-    <!-- Phone numbers -->
-
-    <!-- View types -->
 
     <!-- Blocked numbers -->
     <string name="manage_blocked_numbers">Manage blocked numbers</string>
@@ -415,10 +398,6 @@
         <item quantity="other">%d items</item>
     </plurals>
 
-    <!-- Are you sure you want to delete 5 items? -->
-
-    <!-- Are you sure you want to delete 5 contacts? -->
-
     <!-- Storages -->
     <string name="select_storage">Select storage</string>
     <string name="internal">Internal</string>
@@ -431,23 +410,7 @@
     <string name="wrong_folder_selected">Wrong folder selected, please select path \'%s\'</string>
 
     <!-- File properties -->
-    <string name="properties">Properties</string>
     <string name="path">Path</string>
-    <string name="items_selected">Items selected</string>
-    <string name="direct_children_count">Direct children count</string>
-    <string name="files_count">Total files count</string>
-    <string name="resolution">Resolution</string>
-    <string name="duration">Duration</string>
-    <string name="artist">Artist</string>
-    <string name="album">Album</string>
-    <string name="camera">Camera</string>
-    <string name="exif">EXIF</string>
-    <string name="song_title">Song title</string>
-    <string name="gps_coordinates">GPS coordinates</string>
-    <string name="altitude">Altitude</string>
-    <string name="remove_exif">Remove EXIF</string>
-    <string name="remove_exif_confirmation">Are you sure you want to remove EXIF values like GPS coordinates, camera model etc?</string>
-    <string name="exif_removed">EXIF values removed successfully</string>
 
     <!-- Color customization -->
     <string name="use_default">Use default</string>
@@ -456,12 +419,6 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="save_before_closing">You have unsaved changes. Save before exit?</string>
-    <string name="shared_theme_note">Note that even though you are using the Pro app version, you still need Simple Thank You for technical reasons. It takes care of the color synchronization.</string>
-    <string name="purchase_thank_you">
-        <![CDATA[
-            Please purchase <a href="https://play.google.com/store/apps/details?id=com.production.planful.thankyou">Simple Thank You</a> to unlock this function and support the development. Thanks!
-        ]]>
-    </string>
 
     <!-- Themes -->
     <string name="light_theme">Light</string>
@@ -487,10 +444,6 @@
     <string name="print">Print</string>
 
     <!-- Sorting -->
-    <string name="name">Name</string>
-    <string name="size">Size</string>
-    <string name="last_modified">Last modified</string>
-    <string name="date_taken">Date taken</string>
     <string name="title">Title</string>
     <string name="extension">Extension</string>
 
@@ -664,14 +617,6 @@
     <string name="settings_exported_successfully">Settings exported successfully</string>
     <string name="settings_imported_successfully">Settings imported successfully</string>
 
-    <!-- Setting sections -->
-
-    <!-- Excluding -->
-
-    <!-- Default tab to open -->
-
-    <!-- Recycle Bin -->
-
     <!-- Import / Export -->
     <string name="importing">Importing…</string>
     <string name="exporting">Exporting…</string>
@@ -741,53 +686,24 @@
     <string name="sunday_short">Sun</string>
 
     <!-- Pro version -->
-    <string name="upgrade_to_pro_long">Your app version will not be updated anymore. Please upgrade to the Pro version to receive new fixes and other improvements.</string>
     <string name="more_info">More info</string>
-    <string name="upgrade">Upgrade</string>
 
     <!-- About -->
     <string name="about">About</string>
-    <string name="upgrade_to_pro">Upgrade to Pro</string>
-    <string name="rate">Rate</string>
     <string name="support">Support</string>
     <string name="other">Other</string>
     <string name="version_placeholder">Version %s</string>
     <string name="hello">Hello :)</string>
     <string name="app_version">App version: %s</string>
     <string name="device_os">Device OS: %s</string>
-    <string name="donate_short">Support us by purchasing &lt;a href=https://play.google.com/store/apps/details?id=com.production.planful.thankyou&gt;Simple Thank You&lt;/a&gt; please, it will also unlock all app features including color customization.</string>
     <string name="purchase">Purchase</string>
     <string name="update_thank_you">Please update Simple Thank You to the latest version</string>
     <string name="before_asking_question_read_faq">Before you ask a question, please check the app settings and read the Frequently Asked Questions first. Maybe the solution is there.</string>
     <string name="make_sure_latest">Also make sure that you are using the latest app version.</string>
     <string name="read_faq">Read FAQ</string>
-    <string name="rate_us_prompt">Hello,\n\nit looks like you are using this app for quite a while already, and we really appreciate it.\n\nIf we can ask you a favor, please rate us on Google Play. That would really help us a lot.\n\nNo matter how you decide, you will not see this message again.\n\nThanks!</string>
-    <string name="rate_our_app">Rate our app please :)</string>
-    <string name="thank_you">Thank you</string>
     <string name="features_locked">This feature is locked, please purchase &lt;a href=https://play.google.com/store/apps/details?id=com.production.planful.thankyou&gt;Simple Thank You&lt;/a&gt; for unlocking the full app.&lt;br&gt;&lt;br&gt;It is a one time payment only and if you won\'t be satisfied, we can refund you.</string>
 
     <!-- New app (do not translate anything on the 4th line) -->
-    <string name="new_app">
-        <![CDATA[
-            Hey,<br><br>
-            just letting you know that some new apps have been released recently:<br><br>
-            <a href="%1$s">%2$s</a><br><br>
-            <a href="%3$s">%4$s</a><br><br>
-            <a href="%5$s">%6$s</a><br><br>
-            You can download them by pressing their titles or icons.<br><br>
-            Thanks
-        ]]>
-    </string>
-
-    <string name="simple_dialer">Simple Dialer</string>
-    <string name="simple_sms_messenger">Simple SMS Messenger</string>
-    <string name="simple_voice_recorder">Simple Voice Recorder</string>
-
-    <string name="sideloaded_app">
-        <![CDATA[
-            It looks like your app version is corrupt. Please download the original version <a href="%s">here</a>.
-        ]]>
-    </string>
 
     <!-- FAQ -->
     <string name="frequently_asked_questions">Frequently asked questions</string>
@@ -810,71 +726,6 @@
     <string name="faq_7_text_commons">Payments are fully handled by Google, their system glitches from time to time. Just clear your Google Play app cache and restart your device, then retry downloading it.</string>
 
     <!-- Contributors -->
-    <string name="contributors">Contributors</string>
-    <string name="translation">Translation</string>
-    <string name="development">Development</string>
-    <string name="contributors_label">
-        <![CDATA[
-            This list contains everyone that noticeably helped any app within the Simple Mobile Tools suite, not only this one. Translations are handled by volunteers,
-            let us know if you want to help too. The guide to translating is at <a href="https://github.com/SimpleMobileTools/General-Discussion#how-can-i-suggest-an-edit-to-a-file">this website</a>, or just contact us at <a href="mailto:hello@simplemobiletools.com">hello@simplemobiletools.com</a> if you have any questions.
-            Thanks to all contributors and other supporters!
-        ]]>
-    </string>
-
-    <string name="translation_arabic">Arabic</string>
-    <string name="translation_azerbaijani">Azerbaijani</string>
-    <string name="translation_bengali">Bengali</string>
-    <string name="translation_catalan">Catalan</string>
-    <string name="translation_czech">Czech</string>
-    <string name="translation_welsh">Welsh</string>
-    <string name="translation_danish">Danish</string>
-    <string name="translation_german">German</string>
-    <string name="translation_greek">Greek</string>
-    <string name="translation_spanish">Spanish</string>
-    <string name="translation_basque">Basque</string>
-    <string name="translation_persian">Persian</string>
-    <string name="translation_finnish">Finnish</string>
-    <string name="translation_french">French</string>
-    <string name="translation_galician">Galician</string>
-    <string name="translation_hindi">Hindi</string>
-    <string name="translation_croatian">Croatian</string>
-    <string name="translation_hungarian">Hungarian</string>
-    <string name="translation_indonesian">Indonesian</string>
-    <string name="translation_italian">Italian</string>
-    <string name="translation_hebrew">Hebrew</string>
-    <string name="translation_japanese">Japanese</string>
-    <string name="translation_korean">Korean</string>
-    <string name="translation_lithuanian">Lithuanian</string>
-    <string name="translation_nepali">Nepali</string>
-    <string name="translation_norwegian">Norwegian</string>
-    <string name="translation_dutch">Dutch</string>
-    <string name="translation_polish">Polish</string>
-    <string name="translation_portuguese">Portuguese</string>
-    <string name="translation_romanian">Romanian</string>
-    <string name="translation_russian">Russian</string>
-    <string name="translation_slovak">Slovak</string>
-    <string name="translation_slovenian">Slovenian</string>
-    <string name="translation_swedish">Swedish</string>
-    <string name="translation_tamil">Tamil</string>
-    <string name="translation_turkish">Turkish</string>
-    <string name="translation_ukrainian">Ukrainian</string>
-    <string name="translation_chinese_hk">Chinese (Hong Kong)</string>
-    <string name="translation_chinese_cn">Chinese (Simplified)</string>
-    <string name="translation_chinese_tw">Chinese (Traditional)</string>
-
-    <!-- Pro comparison (shown in the deprecated free apps) -->
-
-    <!-- Gallery Pro -->
-
-    <!-- Calendar Pro -->
-
-    <!-- Contacts Pro -->
-
-    <!-- Notes Pro -->
-
-    <!-- File Manager Pro -->
-
-    <!-- Draw Pro -->
 
     <!-- License -->
     <string name="third_party_licences">Third party licences</string>
@@ -910,8 +761,4 @@
     <string name="pdf_viewer_title">Android PdfViewer (PDF viewer)</string>
     <string name="m3u_parser_title">M3U Parser (m3u playlist file handling)</string>
     <string name="android_lame_title">AndroidLame (mp3 encoder)</string>
-
-    <!-- Google Play listing -->
-
-    <!-- Description of our developer profile on Google Play, it can have max 140 characters -->
 </resources>

@@ -81,6 +81,9 @@ class DayFragment : Fragment() {
         }
 
         val day = Formatter.getDayTitle(requireContext(), mDayCode)
+        if (mDayCode == Formatter.getTodayCode()) {
+            mHolder.top_value.background = requireContext().getDrawable(R.drawable.red_border)
+        }
         mHolder.top_value.apply {
             text = day
             contentDescription = text

@@ -5,18 +5,10 @@
     <string name="weekly_view">Тиждень</string>
     <string name="monthly_view">Місяць</string>
     <string name="monthly_daily_view">Monthly + daily view</string>
-    <string name="yearly_view">Рік</string>
     <string name="simple_event_list">Список подій</string>
     <string name="no_upcoming_events">Здається, ви ще не запланували події.</string>
     <string name="go_to_today">Події сьогодні</string>
     <string name="go_to_date">Перегляд за датою</string>
-    <string name="upgraded_from_free">Привіт,
-\n
-\nздається, що ви оновили застарілий безкоштовний додаток. Вам доведеться перенести локально збережені події вручну, експортувавши їх у файл .ics, а потім імпортувавши. Кнопки експорту/імпорту знаходяться в головному меню.
-\n
-\nПотім ви можете видалити стару версію, яка містить кнопку \"Оновити до Pro\" у верхній частині налаштувань додатка. Нарешті вам необхідно скинути налаштування додатка.
-\n
-\nДякуємо!</string>
     <!-- Widget titles -->
     <string name="widget_monthly">Календар на місяць</string>
     <string name="widget_list">Календар списку подій</string>
@@ -273,7 +265,6 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Скасувати</string>
-    <string name="later">Пізніше</string>
     <string name="invalid_file_format">Недопустимий формат файлу</string>
     <string name="error">Error: %s</string>
     <string name="open_with">Відкрити за допомогою</string>
@@ -288,13 +279,11 @@
     <string name="never">Ніколи</string>
     <string name="label">Позначка</string>
     <string name="transparent">Прозорий</string>
-    <string name="download">Завантажити</string>
     <string name="notification">Повідомлення</string>
     <string name="email">E-mail</string>
     <string name="number">Номер</string>
     <string name="call_person">Телефонувати %s</string>
     <string name="value">Value</string>
-    <string name="app_corrupt">Застосунок пошкоджено</string>
     <string name="disclaimer">Застереження</string>
     <!-- Events -->
     <!-- Emails -->
@@ -400,23 +389,7 @@
         Це обмеження системи, тож якщо ви хочете використовувати віджети, вам треба перемістити додаток до внутрішньої пам\'яті.</string>
     <string name="wrong_folder_selected">Вибрано неправильну теку, будь ласка, виберіть \'%s\'</string>
     <!-- File properties -->
-    <string name="properties">Властивості</string>
     <string name="path">Шлях</string>
-    <string name="items_selected">Обрані елементи</string>
-    <string name="direct_children_count">Кількість вкладених елементів</string>
-    <string name="files_count">Загальна кількість файлів</string>
-    <string name="resolution">Роздільна здатність</string>
-    <string name="duration">Тривалість</string>
-    <string name="artist">Виконавець</string>
-    <string name="album">Альбом</string>
-    <string name="camera">Камера</string>
-    <string name="exif">EXIF</string>
-    <string name="song_title">Назва пісні</string>
-    <string name="gps_coordinates">GPS координати</string>
-    <string name="altitude">Висота над рівнем моря</string>
-    <string name="remove_exif">Видалити EXIF</string>
-    <string name="remove_exif_confirmation">Ви впевнені, що хочете видалити значення EXIF, як-от координати GPS, модель камери тощо\?</string>
-    <string name="exif_removed">Значення EXIF успішно видалено</string>
     <!-- Color customization -->
     <string name="use_default">Використовувати типово</string>
     <string name="theme">Тема</string>
@@ -424,8 +397,6 @@
     <string name="save">Зберегти</string>
     <string name="discard">Відмовитися</string>
     <string name="save_before_closing">Ви маєте незбережені зміни. Зберегти перед виходом?</string>
-    <string name="shared_theme_note">Зауважте, що хоча ви користуєтеся версією Pro додатка, вам необхідний додаток Просто Подяка з технічних причин. Він подбає про синхронізацію кольору.</string>
-    <string name="purchase_thank_you">Будь ласка, придбайте &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Просту Подяку&lt;/a&gt;, щоб розблокувати цю функцію і підтримати розробку. Дякую!</string>
     <!-- Themes -->
     <string name="light_theme">Світла</string>
     <string name="dark_theme">Темна</string>
@@ -447,10 +418,6 @@
     <string name="maximum_share_reached">Не можна поширити так багато контенту за раз</string>
     <string name="print">Друкувати</string>
     <!-- Sorting -->
-    <string name="name">Ім\'я</string>
-    <string name="size">Розмір</string>
-    <string name="last_modified">Остання зміна</string>
-    <string name="date_taken">Дата зйомки</string>
     <string name="title">Заголовок</string>
     <string name="extension">Розширення</string>
     <!-- Confirmation dialog -->
@@ -722,49 +689,22 @@
     <string name="saturday_short">Суб</string>
     <string name="sunday_short">Нед</string>
     <!-- Pro version -->
-    <string name="upgrade_to_pro_long">Ця версія додатку більше не буде оновлюватися. Please upgrade to the Pro version to receive new fixes and other improvements.</string>
     <string name="more_info">Більше інформації</string>
-    <string name="upgrade">Оновити</string>
     <!-- About -->
     <string name="about">Про додаток</string>
-    <string name="upgrade_to_pro">Оновити до версії Pro</string>
-    <string name="rate">Оцінити</string>
     <string name="support">Support</string>
     <string name="other">Other</string>
     <string name="version_placeholder">Версія %s</string>
     <string name="hello">Привіт :)</string>
     <string name="app_version">Версія додатка: %s</string>
     <string name="device_os">ОС пристрою: %s</string>
-    <string name="donate_short">Support us by purchasing &lt;a href=https://play.google.com/store/apps/details?id=com.production.planful.thankyou&gt;Simple Thank You&lt;/a&gt; please, it will also unlock all app features including color customization.</string>
     <string name="purchase">Придбати</string>
     <string name="update_thank_you">Будь ласка, оновіть \"Просту Подяку\" до останньої версії</string>
     <string name="before_asking_question_read_faq">Перш ніж запитувати, будь ласка, ознайомтесь із налаштуваннями додатка та прочитайте Часті Питання. Можливо, відповідь там.</string>
     <string name="make_sure_latest">Також переконайтеся, що ви користуєтеся найновішою версією додатка.</string>
     <string name="read_faq">Читати ЧаПи</string>
-    <string name="rate_us_prompt">Привіт,\n\nздається, ви вже давно користуєтесь цим додатком, і ми це високо цінуємо.\n\nЧи могли б ви зробити нам послугу і оцінити додаток в Google Play? Це дійсно дуже нам допоможе.\n\nНезалежно від того, що ви вирішите, ви не побачите знову це повідомлення.\n\nСпасибі!</string>
-    <string name="rate_our_app">Оцініть наш додаток :)</string>
-    <string name="thank_you">Подяка</string>
     <string name="features_locked">Ця функція заблокована, будь ласка, придбайте &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Просту Подяку&lt;/a&gt;, щоб розблокувати весь застосунок.&lt;br&gt;&lt;br&gt;Це лише одноразовий платіж, якщо ви не будете задоволені, ми зможемо повернути вам гроші.</string>
     <!-- New app (do not translate anything on the 4th line) -->
-    <string name="new_app">
-        <![CDATA[
-            Привіт,<br><br>
-            просто повідомляємо, що нещодавно випущено новий додаток:<br><br>
-            <a href="%1$s">%2$s</a><br><br>
-            <a href="%3$s">%4$s</a><br><br>
-            <a href="%5$s">%6$s</a><br><br>
-            Ви можете його завантажити, натиснувши на заголовок.<br><br>
-            Спасибі
-        ]]>
-    </string>
-    <string name="simple_dialer">Простий Телефон</string>
-    <string name="simple_sms_messenger">Прості SMS Повідомлення</string>
-    <string name="simple_voice_recorder">Простий диктофон</string>
-    <string name="sideloaded_app">
-        <![CDATA[
-            Схоже, що ваша версія додатка пошкоджена. Будь ласка, завантажте оригінальну версію <a href="%s">тут</a>.
-        ]]>
-    </string>
     <!-- FAQ -->
     <string name="frequently_asked_questions">Часті питання - ЧаПи</string>
     <string name="faq_1_title_commons">Чому я не бачу віджета цього додатка у списку віджетів?</string>
@@ -780,50 +720,6 @@
     <string name="faq_7_title_commons">Гроші списано з мого банківського рахунку, проте я не можу завантажити додаток. Що мені робити?</string>
     <string name="faq_7_text_commons">Сплатою рахунків цілком керує Google, у їхній системі трапляються збої час від часу. Для початку очистіть кеш додатка Google Play та перезапустіть ваш пристрій, потім спробуйте завантажити його знову.</string>
     <!-- Contributors -->
-    <string name="contributors">Помічники</string>
-    <string name="translation">Переклад</string>
-    <string name="development">Розробка</string>
-    <string name="contributors_label">У цьому списку є всі, хто помітно допоміг будь-якому додатку в наборі Simple Mobile Tools, не тільки цьому. Перекладами займаються волонтери. Якщо ви також хочете допомогти, то повідомте нас. Посібник з перекладу знаходиться на вебсайті &lt;a href=https://github.com/SimpleMobileTools/General-Discussion#how-can-i-suggest-an-edit-to-a-file&gt;за цією адресою&lt;/a&gt; або просто зв\'яжіться з нами через електронну пошту &lt;a href=mailto:hello@simplemobiletools.com&gt;hello@simplemobiletools.com&lt;/a&gt;, якщо у вас виникли запитання. Дякуємо всім помічникам та всім, хто підтримує!</string>
-    <string name="translation_arabic">Arabic</string>
-    <string name="translation_azerbaijani">Azerbaijani</string>
-    <string name="translation_bengali">Bengali</string>
-    <string name="translation_catalan">Catalan</string>
-    <string name="translation_czech">Czech</string>
-    <string name="translation_welsh">Welsh</string>
-    <string name="translation_danish">Danish</string>
-    <string name="translation_german">German</string>
-    <string name="translation_greek">Greek</string>
-    <string name="translation_spanish">Spanish</string>
-    <string name="translation_basque">Basque</string>
-    <string name="translation_persian">Persian</string>
-    <string name="translation_finnish">Finnish</string>
-    <string name="translation_french">French</string>
-    <string name="translation_galician">Galician</string>
-    <string name="translation_hindi">Hindi</string>
-    <string name="translation_croatian">Croatian</string>
-    <string name="translation_hungarian">Hungarian</string>
-    <string name="translation_indonesian">Indonesian</string>
-    <string name="translation_italian">Italian</string>
-    <string name="translation_hebrew">Hebrew</string>
-    <string name="translation_japanese">Japanese</string>
-    <string name="translation_korean">Korean</string>
-    <string name="translation_lithuanian">Lithuanian</string>
-    <string name="translation_nepali">Nepali</string>
-    <string name="translation_norwegian">Norwegian</string>
-    <string name="translation_dutch">Dutch</string>
-    <string name="translation_polish">Polish</string>
-    <string name="translation_portuguese">Portuguese</string>
-    <string name="translation_romanian">Romanian</string>
-    <string name="translation_russian">Russian</string>
-    <string name="translation_slovak">Slovak</string>
-    <string name="translation_slovenian">Slovenian</string>
-    <string name="translation_swedish">Swedish</string>
-    <string name="translation_tamil">Tamil</string>
-    <string name="translation_turkish">Turkish</string>
-    <string name="translation_ukrainian">Ukrainian</string>
-    <string name="translation_chinese_hk">Chinese (Hong Kong)</string>
-    <string name="translation_chinese_cn">Chinese (Simplified)</string>
-    <string name="translation_chinese_tw">Chinese (Traditional)</string>
     <!-- Pro comparison (shown in the deprecated free apps) -->
     <!-- Gallery Pro -->
     <!-- Calendar Pro -->

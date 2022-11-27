@@ -27,7 +27,7 @@
     </style>
 
     <style name="MonthStyle">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/blue_light_border</item>
     </style>
 
     <style name="AppTheme.Base" parent="Theme.Material3.Dark.NoActionBar">

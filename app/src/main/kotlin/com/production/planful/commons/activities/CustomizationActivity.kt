@@ -8,7 +8,6 @@ import android.os.Bundle
 import com.production.planful.R
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
 import com.production.planful.commons.dialogs.LineColorPickerDialog
-import com.production.planful.commons.dialogs.PurchaseThankYouDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
@@ -207,11 +206,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
 
         RadioGroupDialog(this@CustomizationActivity, items, curSelectedThemeId) {
-            if (it == THEME_SHARED && !isThankYouInstalled()) {
-                PurchaseThankYouDialog(this)
-                return@RadioGroupDialog
-            }
-
             updateColorTheme(it as Int, true)
             if (it != THEME_CUSTOM && it != THEME_SHARED && it != THEME_AUTO && it != THEME_SYSTEM && !baseConfig.wasCustomThemeSwitchDescriptionShown) {
                 baseConfig.wasCustomThemeSwitchDescriptionShown = true

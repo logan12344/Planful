@@ -5,18 +5,10 @@
     <string name="weekly_view">Неделя</string>
     <string name="monthly_view">Месяц</string>
     <string name="monthly_daily_view">Месяц и день</string>
-    <string name="yearly_view">Год</string>
     <string name="simple_event_list">Список событий</string>
     <string name="no_upcoming_events">Похоже, нет предстоящих событий.</string>
     <string name="go_to_today">Сегодня</string>
     <string name="go_to_date">Перейти к дате</string>
-    <string name="upgraded_from_free">Привет,
-\n
-\nпохоже, что вы обновились со старой бесплатной версии приложения. Вам придётся перенести локально сохранённые события вручную, экспортировав их в файл .ics, а затем импортировав. Кнопки экспорта/импорта находятся в главном меню.
-\n
-\nЗатем вы можете удалить старую версию, которая содержит кнопку \"Обновить до Pro\" в верхней части настроек приложения. Тогда вам нужно будет только сбросить настройки приложения.
-\n
-\nСпасибо!</string>
     <!-- Widget titles -->
     <string name="widget_monthly">Календарь на месяц</string>
     <string name="widget_list">Календарь событий</string>
@@ -273,7 +265,6 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
-    <string name="later">Позже</string>
     <string name="invalid_file_format">Неправильный формат файла</string>
     <string name="error">Error: %s</string>
     <string name="open_with">Открыть в…</string>
@@ -288,13 +279,11 @@
     <string name="never">Никогда</string>
     <string name="label">Метка</string>
     <string name="transparent">Прозрачный</string>
-    <string name="download">Загрузка</string>
     <string name="notification">Уведомление</string>
     <string name="email">Электронная почта</string>
     <string name="number">Номер</string>
     <string name="call_person">Вызов %s</string>
     <string name="value">Значение</string>
-    <string name="app_corrupt">Приложение повреждено</string>
     <string name="disclaimer">Отказ от ответственности</string>
     <!-- Events -->
     <!-- Emails -->
@@ -406,23 +395,7 @@
         Это системное ограничение, поэтому, если хотите использовать виджеты, вам нужно переместить приложение обратно во внутреннюю память.</string>
     <string name="wrong_folder_selected">Выбрана неправильная папка, выберите \"%s\"</string>
     <!-- File properties -->
-    <string name="properties">Свойства</string>
     <string name="path">Расположение</string>
-    <string name="items_selected">Выбрано элементов</string>
-    <string name="direct_children_count">Дочерних элементов</string>
-    <string name="files_count">Всего файлов внутри</string>
-    <string name="resolution">Разрешение</string>
-    <string name="duration">Длительность</string>
-    <string name="artist">Исполнитель</string>
-    <string name="album">Альбом</string>
-    <string name="camera">Камера</string>
-    <string name="exif">EXIF</string>
-    <string name="song_title">Название композиции</string>
-    <string name="gps_coordinates">Координаты GPS</string>
-    <string name="altitude">Высота над уровнем моря</string>
-    <string name="remove_exif">Удалить EXIF</string>
-    <string name="remove_exif_confirmation">Вы уверены, что хотите удалить записи EXIF, такие как координаты GPS, модель камеры и т.д.\?</string>
-    <string name="exif_removed">Записи EXIF удалены</string>
     <!-- Color customization -->
     <string name="use_default">Использовать по умолчанию</string>
     <string name="theme">Тема</string>
@@ -430,8 +403,6 @@
     <string name="save">Сохранить</string>
     <string name="discard">Нет</string>
     <string name="save_before_closing">У вас есть несохранённые изменения. Сохранить перед выходом?</string>
-    <string name="shared_theme_note">Обратите внимание, что даже если вы используете версию Pro, вам всё равно требуется приложение \"Простое спасибо\" по техническим причинам, т.к. оно обеспечивает синхронизацию цветов.</string>
-    <string name="purchase_thank_you">Пожалуйста, купите &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Простое спасибо&lt;/a&gt;, чтобы разблокировать эту функцию и поддержать разработку. Спасибо!</string>
     <!-- Themes -->
     <string name="light_theme">Светлая</string>
     <string name="dark_theme">Тёмная</string>
@@ -453,10 +424,6 @@
     <string name="maximum_share_reached">Слишком большой объём данных для функции \"Поделиться\"</string>
     <string name="print">Печать</string>
     <!-- Sorting -->
-    <string name="name">Имя</string>
-    <string name="size">Размер</string>
-    <string name="last_modified">Время изменения</string>
-    <string name="date_taken">Время создания</string>
     <string name="title">Название</string>
     <string name="extension">Расширение</string>
     <!-- Confirmation dialog -->
@@ -706,49 +673,22 @@
     <string name="saturday_short">сб</string>
     <string name="sunday_short">вс</string>
     <!-- Pro version -->
-    <string name="upgrade_to_pro_long">Ваша версия приложения больше не будет обновляться. Обновите её до версии Pro, чтобы получать исправления и улучшения.</string>
     <string name="more_info">Подробнее</string>
-    <string name="upgrade">Обновить</string>
     <!-- About -->
     <string name="about">О приложении</string>
-    <string name="upgrade_to_pro">Обновить до Pro</string>
-    <string name="rate">Оценить</string>
     <string name="support">Поддержка</string>
     <string name="other">Другое</string>
     <string name="version_placeholder">Версия %s</string>
     <string name="hello">Привет :)</string>
     <string name="app_version">Версия приложения: %s</string>
     <string name="device_os">ОС устройства: %s</string>
-    <string name="donate_short">Поддержите нас покупкой &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Просто спасибо&lt;/a&gt;, которая также разблокирует все функции приложения, включая настройку цвета.</string>
     <string name="purchase">Купить</string>
     <string name="update_thank_you">Обновите \"Простое спасибо\" до последней версии</string>
     <string name="before_asking_question_read_faq">Прежде чем задать вопрос, изучите настройки приложения и прочтите FAQ (часто задаваемые вопросы). Возможно, решение есть.</string>
     <string name="make_sure_latest">Также убедитесь, что используете последнюю версию приложения.</string>
     <string name="read_faq">Прочитать FAQ</string>
-    <string name="rate_us_prompt">Привет,\n\nпохоже, вы уже давно используете данное приложение и мы очень ценим это.\n\nНе могли бы вы оказать нам услугу и оценить его в Google Play? Это действительно очень нам поможет.\n\nНезависимо от вашего решения данное сообщение больше не появится.\n\nСпасибо!</string>
-    <string name="rate_our_app">Оцените приложение, пожалуйста :)</string>
-    <string name="thank_you">Спасибо</string>
     <string name="features_locked">Эта функция заблокирована, пожалуйста, купите &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Простое спасибо&lt;/a&gt; для разблокировки всех возможностей приложения.&lt;br&gt;&lt;br&gt;Это разовый платёж, и если вы не будете удовлетворены, возможен возврат денег.</string>
     <!-- New app (do not translate anything on the 4th line) -->
-    <string name="new_app">
-        <![CDATA[
-            Привет,<br><br>
-            просто сообщаю, что недавно были выпущены новые приложения:<br><br>
-            <a href="%1$s">%2$s</a><br><br>
-            <a href="%3$s">%4$s</a><br><br>
-            <a href="%5$s">%6$s</a><br><br>
-            Их можно скачать, нажимая на заголовок.<br><br>
-            Спасибо
-        ]]>
-    </string>
-    <string name="simple_dialer">Простой телефон</string>
-    <string name="simple_sms_messenger">Простой SMS-мессенджер</string>
-    <string name="simple_voice_recorder">Простой диктофон</string>
-    <string name="sideloaded_app">
-        <![CDATA[
-            Похоже, ваша версия приложения повреждена. Скачайте оригинальную версию <a href="%s">отсюда</a>.
-        ]]>
-    </string>
     <!-- FAQ -->
     <string name="frequently_asked_questions">Часто задаваемые вопросы</string>
     <string name="faq_1_title_commons">Почему я не вижу виджет этого приложения в списке виджетов?</string>
@@ -768,56 +708,6 @@
     <string name="faq_7_title_commons">Деньги были списаны с моего банковского счета, но я не могу загрузить приложение. Что можно сделать?</string>
     <string name="faq_7_text_commons">Платежи полностью обрабатываются Google, их система время от времени даёт сбои. Просто очистите кеш приложения Google Play и перезагрузите устройство, затем повторите попытку загрузки.</string>
     <!-- Contributors -->
-    <string name="contributors">Участники</string>
-    <string name="translation">Перевод</string>
-    <string name="development">Разработка</string>
-    <string name="contributors_label">
-        <![CDATA[
-            В данном списке перечислены все, кто заметно помог любому приложению из набора Simple Mobile Tools, а не только этому. Переводы выполняются волонтёрами,
-            дайте нам знать, если вы тоже хотите помочь. Руководство по переводу находится <a href="https://github.com/SimpleMobileTools/General-Discussion#how-can-i-suggest-an-edit-to-a-file">здесь</a>. Можно просто связаться с нами по электронной почте <a href="mailto:hello@simplemobiletools.com">hello@simplemobiletools.com</a>, если у вас есть какие-либо вопросы.
-            Спасибо всем участникам и другим помощникам!
-        ]]>
-    </string>
-    <string name="translation_arabic">Арабский</string>
-    <string name="translation_azerbaijani">Азербайджанский</string>
-    <string name="translation_bengali">Бенгальский</string>
-    <string name="translation_catalan">Каталанский</string>
-    <string name="translation_czech">Чешский</string>
-    <string name="translation_welsh">Валлийский</string>
-    <string name="translation_danish">Датский</string>
-    <string name="translation_german">Немецкий</string>
-    <string name="translation_greek">Греческий</string>
-    <string name="translation_spanish">Испанский</string>
-    <string name="translation_basque">Баскский</string>
-    <string name="translation_persian">Персидский</string>
-    <string name="translation_finnish">Финский</string>
-    <string name="translation_french">Французский</string>
-    <string name="translation_galician">Галицкий</string>
-    <string name="translation_hindi">Хинди</string>
-    <string name="translation_croatian">Хорватский</string>
-    <string name="translation_hungarian">Венгерский</string>
-    <string name="translation_indonesian">Индонезийский</string>
-    <string name="translation_italian">Итальянский</string>
-    <string name="translation_hebrew">Иврит</string>
-    <string name="translation_japanese">Японский</string>
-    <string name="translation_korean">Корейский</string>
-    <string name="translation_lithuanian">Литовский</string>
-    <string name="translation_nepali">Непальский</string>
-    <string name="translation_norwegian">Норвежский</string>
-    <string name="translation_dutch">Голландский</string>
-    <string name="translation_polish">Польский</string>
-    <string name="translation_portuguese">Португальский</string>
-    <string name="translation_romanian">Румынский</string>
-    <string name="translation_russian">Русский</string>
-    <string name="translation_slovak">Словацкий</string>
-    <string name="translation_slovenian">Словенский</string>
-    <string name="translation_swedish">Шведский</string>
-    <string name="translation_tamil">Тамильский</string>
-    <string name="translation_turkish">Турецкий</string>
-    <string name="translation_ukrainian">Украинский</string>
-    <string name="translation_chinese_hk">Китайский (Гонконг)</string>
-    <string name="translation_chinese_cn">Китайский (упрощённый)</string>
-    <string name="translation_chinese_tw">Китайский (традиционный)</string>
     <!-- Pro comparison (shown in the deprecated free apps) -->
     <!-- Gallery Pro -->
     <!-- Calendar Pro -->
