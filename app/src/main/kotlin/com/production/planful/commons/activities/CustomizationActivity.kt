@@ -7,7 +7,6 @@ import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import com.production.planful.R
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
-import com.production.planful.commons.dialogs.LineColorPickerDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
@@ -40,7 +39,6 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var isThankYou =
         false      // show "Apply colors to all Simple apps" in Simple Thank You itself even with "Hide Google relations" enabled
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
-    private var curPrimaryLineColorPicker: LineColorPickerDialog? = null
     private var storedSharedTheme: SharedTheme? = null
 
     override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
@@ -98,17 +96,11 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setTheme(getThemeId(getCurrentPrimaryColor()))
 
         if (!baseConfig.isUsingSystemTheme) {
             updateBackgroundColor(getCurrentBackgroundColor())
             updateActionbarColor(getCurrentStatusBarColor())
             updateNavigationBarColor(curNavigationBarColor)
-        }
-
-        curPrimaryLineColorPicker?.getSpecificColor()?.apply {
-            updateActionbarColor(this)
-            setTheme(getThemeId(this))
         }
     }
 
@@ -141,8 +133,6 @@ class CustomizationActivity : BaseSimpleActivity() {
             if (isSPlus()) {
                 put(THEME_SYSTEM, getSystemThemeColors())
             }
-
-            put(THEME_AUTO, getAutoThemeColors())
             put(
                 THEME_LIGHT,
                 MyTheme(
@@ -161,26 +151,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     R.color.theme_dark_background_color,
                     R.color.color_primary,
                     R.color.color_primary
-                )
-            )
-            put(
-                THEME_WHITE,
-                MyTheme(
-                    getString(R.string.white),
-                    R.color.dark_grey,
-                    android.R.color.white,
-                    android.R.color.white,
-                    R.color.color_primary
-                )
-            )
-            put(
-                THEME_BLACK_WHITE,
-                MyTheme(
-                    getString(R.string.black_white),
-                    android.R.color.white,
-                    android.R.color.black,
-                    android.R.color.black,
-                    R.color.md_grey_black
                 )
             )
 
@@ -229,7 +199,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     curAccentColor = baseConfig.customAccentColor
                     curNavigationBarColor = baseConfig.customNavigationBarColor
                     curAppIconColor = baseConfig.customAppIconColor
-                    setTheme(getThemeId(curPrimaryColor))
                     updateMenuItemColors(customization_toolbar.menu, true, curPrimaryColor)
                     setupToolbar(customization_toolbar, NavigationIcon.Cross, curPrimaryColor)
                 } else {
@@ -250,7 +219,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                         curAppIconColor = appIconColor
                         curNavigationBarColor = navigationBarColor
                     }
-                    setTheme(getThemeId(curPrimaryColor))
                     updateMenuItemColors(customization_toolbar.menu, true, curPrimaryColor)
                     setupToolbar(customization_toolbar, NavigationIcon.Cross, curPrimaryColor)
                 }
@@ -266,7 +234,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                 }
 
                 curNavigationBarColor = getThemeNavigationColor(curSelectedThemeId)
-                setTheme(getThemeId(getCurrentPrimaryColor()))
                 colorChanged()
                 updateMenuItemColors(customization_toolbar.menu, true, getCurrentStatusBarColor())
                 setupToolbar(

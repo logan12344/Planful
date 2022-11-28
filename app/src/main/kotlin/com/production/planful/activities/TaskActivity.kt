@@ -98,6 +98,7 @@ class TaskActivity : SimpleActivity() {
                 R.id.save -> saveCurrentTask()
                 R.id.delete -> deleteTask()
                 R.id.duplicate -> duplicateTask()
+                R.id.share -> shareEvents(arrayListOf(mTask.id!!))
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
@@ -203,7 +204,6 @@ class TaskActivity : SimpleActivity() {
             mOriginalStartTS = getLong(ORIGINAL_START_TS)
         }
 
-        updateEventType()
         updateTexts()
         setupMarkCompleteButton()
         checkRepeatTexts(mRepeatInterval)
@@ -254,7 +254,6 @@ class TaskActivity : SimpleActivity() {
 
         task_date.setOnClickListener { setupDate() }
         task_time.setOnClickListener { setupTime() }
-        task_type_holder.setOnClickListener { showEventTypeDialog() }
         task_repetition.setOnClickListener { showRepeatIntervalDialog() }
         task_repetition_rule_holder.setOnClickListener { showRepetitionRuleDialog() }
         task_repetition_limit_holder.setOnClickListener { showRepetitionTypePicker() }
@@ -278,7 +277,6 @@ class TaskActivity : SimpleActivity() {
         setupMarkCompleteButton()
 
         if (savedInstanceState == null) {
-            updateEventType()
             updateTexts()
         }
     }
@@ -736,43 +734,15 @@ class TaskActivity : SimpleActivity() {
         return reminders
     }
 
-    private fun showEventTypeDialog() {
-        hideKeyboard()
-        SelectEventTypeDialog(
-            activity = this,
-            currEventType = mEventTypeId,
-            showCalDAVCalendars = false,
-            showNewEventTypeOption = true,
-            addLastUsedOneAsFirstOption = false,
-            showOnlyWritable = true
-        ) {
-            mEventTypeId = it.id!!
-            updateEventType()
-        }
-    }
-
-    private fun updateEventType() {
-        ensureBackgroundThread {
-            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
-            if (eventType != null) {
-                runOnUiThread {
-                    task_type.text = eventType.title
-                    task_type_color.setFillWithStroke(eventType.color, getProperBackgroundColor())
-                }
-            }
-        }
-    }
-
     private fun updateColors() {
         updateTextColors(task_scrollview)
         val textColor = getProperTextColor()
         arrayOf(
-            task_time_image, task_reminder_image, task_type_image, task_repetition_image
+            task_time_image, task_reminder_image, task_repetition_image
         ).forEach {
             it.applyColorFilter(textColor)
         }
     }
-
 
     private fun showRepeatIntervalDialog() {
         showEventRepeatIntervalDialog(mRepeatInterval) {

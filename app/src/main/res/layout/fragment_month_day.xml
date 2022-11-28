@@ -43,7 +43,7 @@
             android:textSize="22sp"
             tools:text="November 19" />
 
-        <com.production.planful.commons.views.MyTextView
+        <LinearLayout
             android:id="@+id/month_day_no_events_placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,10 +53,30 @@
             android:gravity="center"
             android:paddingStart="@dimen/activity_margin"
             android:paddingEnd="@dimen/activity_margin"
-            android:text="@string/no_items_found"
-            android:textSize="@dimen/bigger_text_size"
-            android:textStyle="italic"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/checklist" />
+
+            <com.production.planful.commons.views.MyTextView
+                android:id="@+id/tvNoData1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/no_data_title"
+                android:textSize="17sp" />
+
+            <com.production.planful.commons.views.MyTextView
+                android:id="@+id/tvNoData2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_data_description"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <com.production.planful.commons.views.MyRecyclerView
             android:id="@+id/month_day_events_list"

@@ -3,9 +3,7 @@
     <string name="change_view">Change view</string>
     <string name="daily_view">Daily view</string>
     <string name="weekly_view">Weekly view</string>
-    <string name="monthly_view">Monthly view</string>
     <string name="monthly_daily_view">Monthly and daily view</string>
-    <string name="simple_event_list">Simple event list</string>
     <string name="no_upcoming_events">Seems like you don\'t have any upcoming events.</string>
     <string name="go_to_today">Go to today</string>
     <string name="go_to_date">Go to date</string>
@@ -24,14 +22,12 @@
     <string name="duplicate_event">Duplicate event</string>
     <string name="title_empty">Title cannot be empty</string>
     <string name="end_before_start">The event cannot end earlier than it starts</string>
-    <string name="filter_events_by_type">Filter events by type</string>
     <string name="please_fill_location">Please fill in a location to be shown on a map</string>
     <string name="public_event_notification_text">An event is upcoming</string>
     <string name="saving_filtered_out">Saving… But the selected event type is filtered out in the top Menu - Filter</string>
 
     <!-- Tasks -->
     <string name="task">Task</string>
-    <string name="tasks">Tasks</string>
     <string name="edit_task">Edit Task</string>
     <string name="new_task">New Task</string>
     <string name="duplicate_task">Duplicate task</string>
@@ -91,18 +87,10 @@
 
     <!-- Birthdays -->
     <string name="birthdays">Birthdays</string>
-    <string name="add_birthdays">Add contact birthdays</string>
-    <string name="no_birthdays">No birthdays have been found</string>
-    <string name="no_new_birthdays">No new birthdays have been found</string>
-    <string name="birthdays_added">Birthdays added successfully</string>
     <string name="add_birthdays_automatically">Add new birthdays automatically</string>
 
     <!-- Anniversaries -->
     <string name="anniversaries">Anniversaries</string>
-    <string name="add_anniversaries">Add contact anniversaries</string>
-    <string name="no_anniversaries">No anniversaries have been found</string>
-    <string name="no_new_anniversaries">No new anniversaries have been found</string>
-    <string name="anniversaries_added">Anniversaries added successfully</string>
     <string name="add_anniversaries_automatically">Add new anniversaries automatically</string>
 
     <!-- Event Reminders -->
@@ -123,13 +111,6 @@
     <string name="enter_a_country">Enter a country or time zone</string>
 
     <!-- Export / Import -->
-    <string name="import_events">Import events</string>
-    <string name="export_events">Export events</string>
-    <string name="default_event_type">Default event type</string>
-    <string name="export_past_events_too">Export past events too</string>
-    <string name="include_event_types">Include event types</string>
-    <string name="filename_without_ics">Filename (without .ics)</string>
-    <string name="ignore_event_types">Ignore event types in the file, always use the default one</string>
 
     <!-- Event details -->
     <string name="location">Location</string>
@@ -138,7 +119,6 @@
 
     <!-- Weekly view -->
     <string name="week">Week</string>
-    <string name="start_week_with_current_day">Start week with the current day</string>
 
     <!-- Event types -->
     <string name="event_types">Event types</string>
@@ -153,67 +133,25 @@
     <string name="unsync_caldav_calendar">To remove a CalDAV calendar you have to unsynchronize it</string>
 
     <!-- Holidays -->
-    <string name="holidays">Holidays</string>
-    <string name="add_holidays">Add holidays</string>
-    <string name="holidays_imported_successfully">Holidays have been successfully imported into the \"Holidays\" event type</string>
-    <string name="importing_some_holidays_failed">Importing some events failed</string>
-    <string name="importing_holidays_failed">Importing holidays failed</string>
 
     <!-- Settings -->
     <string name="manage_event_types">Manage event types</string>
-    <string name="start_day_at">Start day at</string>
-    <string name="midnight_spanning">Show events spanning across midnight at the top bar</string>
-    <string name="allow_customizing_day_count">Allow customizing day count</string>
-    <string name="week_numbers">Show week numbers</string>
     <string name="vibrate">Vibrate on reminder notification</string>
     <string name="reminder_sound">Reminder sound</string>
-    <string name="caldav_sync">CalDAV sync</string>
-    <string name="event_lists">Event lists</string>
-    <string name="display_past_events">Display events from the past</string>
-    <string name="replace_description_with_location">Replace event description with location</string>
-    <string name="display_description_or_location">Display description or location</string>
-    <string name="delete_all_events">Delete all events</string>
-    <string name="delete_all_events_confirmation">Are you sure you want to delete all events? This will leave your event types and other settings intact.</string>
-    <string name="show_a_grid">Show a grid</string>
     <string name="loop_reminders">Loop reminders until dismissed</string>
-    <string name="dim_past_events">Dim past events</string>
-    <string name="dim_completed_tasks">Dim completed tasks</string>
-    <string name="events">Events</string>
     <string name="reminder_stream">Audio stream used by reminders</string>
     <string name="system_stream">System</string>
     <string name="alarm_stream">Alarm</string>
     <string name="notification_stream">Notification</string>
     <string name="ring_stream">Ring</string>
-    <string name="use_last_event_reminders">Use the last events\' reminders as the default for new events</string>
-    <string name="default_reminder_1">Default reminder 1</string>
-    <string name="default_reminder_2">Default reminder 2</string>
-    <string name="default_reminder_3">Default reminder 3</string>
-    <string name="view_to_open_from_widget">View to open from the event list widget</string>
-    <string name="last_view">Last view</string>
-    <string name="new_events">New events</string>
-    <string name="default_start_time">Default start time</string>
-    <string name="next_full_hour">Next full hour</string>
-    <string name="current_time">Current time</string>
-    <string name="default_duration">Default duration</string>
     <string name="last_used_one">Last used one</string>
-    <string name="other_time">Other time</string>
-    <string name="highlight_weekends">Highlight weekends on some views</string>
-    <string name="highlight_weekends_color">Color of highlighted weekends</string>
-    <string name="allow_changing_time_zones">Allow changing event time zones</string>
-    <string name="manage_quick_filter_event_types">Manage quick filter event types</string>
-    <string name="allow_creating_tasks">Allow creating tasks</string>
 
     <!-- CalDAV sync -->
-    <string name="caldav">CalDAV</string>
     <string name="select_caldav_calendars">Select calendars to sync</string>
-    <string name="manage_synced_calendars">Manage synced calendars</string>
     <string name="store_locally_only">Store locally only</string>
-    <string name="refresh_caldav_calendars">Refresh CalDAV calendars</string>
     <string name="refreshing">Refreshing…</string>
     <string name="refreshing_complete">Refreshing complete</string>
     <string name="editing_calendar_failed">Editing calendar failed</string>
-    <string name="syncing">Syncing…</string>
-    <string name="synchronization_completed">Sync completed</string>
     <string name="select_a_different_caldav_color">Select a different color (might be applied locally only)</string>
     <string name="insufficient_permissions">You are not allowed to write in the selected calendar</string>
     <string name="caldav_event_not_found">Event not found. Please enable CalDAV sync for the appropriate calendar in the app settings.</string>
@@ -281,18 +219,13 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="invalid_file_format">Invalid file format</string>
     <string name="error">Error: %s</string>
-    <string name="open_with">Open with</string>
-    <string name="edit_with">Edit with</string>
     <string name="edit">Edit</string>
     <string name="no_app_found">No valid app found</string>
     <string name="no_browser_found">No browser found</string>
     <string name="no_email_client_found">No email client found</string>
-    <string name="set_as">Set as</string>
     <string name="copy_number_to_clipboard">Copy number to clipboard</string>
     <string name="value_copied_to_clipboard_show">Value copied to clipboard:\n%s</string>
-    <string name="never">Never</string>
     <string name="label">Label</string>
     <string name="transparent">Transparent</string>
     <string name="notification">Notification</string>
@@ -303,18 +236,9 @@
     <string name="disclaimer">Disclaimer</string>
 
     <!-- Blocked numbers -->
-    <string name="manage_blocked_numbers">Manage blocked numbers</string>
-    <string name="not_blocking_anyone">You are not blocking anyone.</string>
-    <string name="add_a_blocked_number">Add a blocked number</string>
     <string name="blocked_numbers">Blocked numbers</string>
     <string name="export_blocked_numbers">Export blocked numbers</string>
-    <string name="import_blocked_numbers">Import blocked numbers</string>
-    <string name="must_make_default_dialer">You have to make this app the default dialer app to make use of blocked numbers.</string>
-    <string name="set_as_default">Set as default</string>
-    <string name="block_unknown_calls">Block calls from not stored contacts</string>
-    <string name="block_unknown_messages">Block messages from not stored contacts</string>
     <string name="add_blocked_number_helper_text">Enter a number or a pattern (e.g. *12345*, +1*8888) to block all calls and messages from numbers matching the pattern.</string>
-    <string name="must_make_default_caller_id_app">Can\'t block unknown numbers without caller ID permission.</string>
 
     <!-- Favorites -->
     <string name="favorites">Favorites</string>
@@ -327,7 +251,6 @@
     <string name="no_items_found">No items found.</string>
 
     <!-- Permissions -->
-    <string name="no_contacts_permission">Contacts permission is required</string>
     <string name="no_post_notifications_permissions">Permission to post notifications is required</string>
 
     <!-- Renaming -->
@@ -357,7 +280,6 @@
     <string name="saving">Saving…</string>
     <string name="could_not_create_folder">Could not create folder %s</string>
     <string name="could_not_create_file">Could not create file %s</string>
-    <string name="no_new_items">No new items have been found</string>
     <string name="no_space">The destination does not have enough space available.\nRequired %1$s, available %2$s</string>
     <string name="system_service_disabled">System service for selecting files and folders is unavailable</string>
 
@@ -424,8 +346,6 @@
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
     <string name="auto_light_dark_theme">Auto light / dark</string>
-    <string name="white">White</string>
-    <string name="black_white">Black &amp; White</string>
     <string name="custom">Custom</string>
     <string name="shared">Shared</string>
     <string name="system_default">System default</string>
@@ -597,20 +517,14 @@
     <string name="general_settings">General</string>
     <string name="color_customization">Color customization</string>
     <string name="customize_colors">Customize colors</string>
-    <string name="feature_locked">Locked</string>
     <string name="customize_widget_colors">Customize widget colors</string>
     <string name="customize_notifications">Customize notifications</string>
-    <string name="use_english_language">Use English language</string>
-    <string name="language">Language</string>
-    <string name="font_size">Font size</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
     <string name="extra_large">Extra large</string>
-    <string name="enable_pull_to_refresh">Enable pull-to-refresh from the top</string>
     <string name="use_24_hour_time_format">Use 24-hour time format</string>
     <string name="sunday_first">Start week on Sunday</string>
-    <string name="widgets">Widgets</string>
     <string name="use_same_snooze">Always use same snooze time</string>
     <string name="snooze_time">Snooze time</string>
     <string name="export_settings">Export settings</string>
@@ -618,15 +532,8 @@
     <string name="settings_imported_successfully">Settings imported successfully</string>
 
     <!-- Import / Export -->
-    <string name="importing">Importing…</string>
     <string name="exporting">Exporting…</string>
-    <string name="importing_successful">Importing successful</string>
-    <string name="exporting_successful">Exporting successful</string>
-    <string name="exporting_failed">Exporting failed</string>
-    <string name="importing_some_entries_failed">Importing some entries failed</string>
-    <string name="exporting_some_entries_failed">Exporting some entries failed</string>
     <string name="no_entries_for_importing">No entries for importing have been found</string>
-    <string name="no_entries_for_exporting">No entries for exporting have been found</string>
 
     <!-- OTG devices -->
     <string name="usb">USB</string>
@@ -696,12 +603,10 @@
     <string name="hello">Hello :)</string>
     <string name="app_version">App version: %s</string>
     <string name="device_os">Device OS: %s</string>
-    <string name="purchase">Purchase</string>
     <string name="update_thank_you">Please update Simple Thank You to the latest version</string>
     <string name="before_asking_question_read_faq">Before you ask a question, please check the app settings and read the Frequently Asked Questions first. Maybe the solution is there.</string>
     <string name="make_sure_latest">Also make sure that you are using the latest app version.</string>
     <string name="read_faq">Read FAQ</string>
-    <string name="features_locked">This feature is locked, please purchase &lt;a href=https://play.google.com/store/apps/details?id=com.production.planful.thankyou&gt;Simple Thank You&lt;/a&gt; for unlocking the full app.&lt;br&gt;&lt;br&gt;It is a one time payment only and if you won\'t be satisfied, we can refund you.</string>
 
     <!-- New app (do not translate anything on the 4th line) -->
 

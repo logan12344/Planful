@@ -13,6 +13,7 @@ import com.production.planful.helpers.*
 import com.production.planful.models.Event
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun BaseSimpleActivity.shareEvents(ids: List<Long>) {
     ensureBackgroundThread {
@@ -22,7 +23,11 @@ fun BaseSimpleActivity.shareEvents(ids: List<Long>) {
             return@ensureBackgroundThread
         }
 
-        val events = eventsDB.getEventsWithIds(ids) as ArrayList<Event>
+        val events = ArrayList<Event>()
+        for (id in ids) {
+            eventsDB.getEventOrTaskWithId(id)?.let { events.add(it) }
+        }
+
         if (events.isEmpty()) {
             toast(R.string.no_items_found)
         }
