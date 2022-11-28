@@ -24,7 +24,6 @@
         android:gravity="center"
         android:paddingTop="@dimen/normal_margin"
         android:paddingBottom="@dimen/normal_margin"
-        android:layout_marginBottom="10dp"
         android:textSize="@dimen/month_text_size" />
 
     <ImageView

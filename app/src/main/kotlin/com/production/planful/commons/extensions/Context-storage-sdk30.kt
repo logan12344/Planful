@@ -276,3 +276,8 @@ fun Context.buildDocumentUriSdk30(fullPath: String): Uri {
     val documentId = "${storageId}:$relativePath"
     return DocumentsContract.buildDocumentUri(EXTERNAL_STORAGE_PROVIDER_AUTHORITY, documentId)
 }
+
+fun Context.getPicturesDirectoryPath(fullPath: String): String {
+    val basePath = fullPath.getBasePath(this)
+    return File(basePath, Environment.DIRECTORY_PICTURES).absolutePath
+}

@@ -20,5 +20,5 @@
         android:id="@+id/share"
         android:icon="@drawable/ic_share_vector"
         android:title="@string/share"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

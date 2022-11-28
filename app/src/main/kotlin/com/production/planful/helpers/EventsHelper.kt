@@ -189,6 +189,13 @@ class EventsHelper(val context: Context) {
         callback?.invoke()
     }
 
+    fun deleteAllEvents() {
+        ensureBackgroundThread {
+            val eventIds = eventsDB.getEventIds().toMutableList()
+            deleteEvents(eventIds, true)
+        }
+    }
+
     fun deleteEvent(id: Long, deleteFromCalDAV: Boolean) =
         deleteEvents(arrayListOf(id), deleteFromCalDAV)
 

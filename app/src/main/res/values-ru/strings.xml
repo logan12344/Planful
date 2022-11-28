@@ -3,7 +3,9 @@
     <string name="change_view">Режим</string>
     <string name="daily_view">День</string>
     <string name="weekly_view">Неделя</string>
+    <string name="monthly_view">Месяц</string>
     <string name="monthly_daily_view">Месяц и день</string>
+    <string name="simple_event_list">Список событий</string>
     <string name="no_upcoming_events">Похоже, нет предстоящих событий.</string>
     <string name="go_to_today">Сегодня</string>
     <string name="go_to_date">Перейти к дате</string>
@@ -19,11 +21,13 @@
     <string name="duplicate_event">Дублировать событие</string>
     <string name="title_empty">Заголовок не может быть пустым</string>
     <string name="end_before_start">Событие не может завершаться раньше, чем начинаться</string>
+    <string name="filter_events_by_type">Фильтровать события по типу</string>
     <string name="please_fill_location">Укажите место, которое будет показано на карте</string>
     <string name="public_event_notification_text">Предстоящее событие</string>
     <string name="saving_filtered_out">Сохранение… Однако выбранный тип события исключён в разделе \"Фильтр\" верхнего меню</string>
     <!-- Tasks -->
     <string name="task">Задача</string>
+    <string name="tasks">Задачи</string>
     <string name="edit_task">Редактировать задачу</string>
     <string name="new_task">Новая задача</string>
     <string name="duplicate_task">Дублировать задачу</string>
@@ -80,9 +84,17 @@
     <string name="last_f">последнюю</string>
     <!-- Birthdays -->
     <string name="birthdays">Дни рождения</string>
+    <string name="add_birthdays">Добавить дни рождения контактов</string>
+    <string name="no_birthdays">Дни рождения не найдены</string>
+    <string name="no_new_birthdays">Новых дней рождения не найдено</string>
+    <string name="birthdays_added">Дни рождения успешно добавлены</string>
     <string name="add_birthdays_automatically">Добавлять новые дни рождения автоматически</string>
     <!-- Anniversaries -->
     <string name="anniversaries">Годовщины</string>
+    <string name="add_anniversaries">Добавить годовщины контактов</string>
+    <string name="no_anniversaries">Годовщины не найдены</string>
+    <string name="no_new_anniversaries">Новых годовщин не найдено</string>
+    <string name="anniversaries_added">Годовщины успешно добавлены</string>
     <string name="add_anniversaries_automatically">Добавлять новые годовщины автоматически</string>
     <!-- Event Reminders -->
     <string name="reminder">Напоминание</string>
@@ -99,12 +111,20 @@
     <!-- Time zones -->
     <string name="enter_a_country">Введите страну или часовой пояс</string>
     <!-- Export / Import -->
+    <string name="import_events">Импорт событий</string>
+    <string name="export_events">Экспорт событий</string>
+    <string name="default_event_type">Тип события по умолчанию</string>
+    <string name="export_past_events_too">Экспортировать прошедшие события</string>
+    <string name="include_event_types">Включать типы событий</string>
+    <string name="filename_without_ics">Имя файла (без .ics)</string>
+    <string name="ignore_event_types">Игнорировать типы событий в файле, всегда использовать значение по умолчанию</string>
     <!-- Event details -->
     <string name="location">Место</string>
     <string name="description">Описание</string>
     <string name="all_day">Весь день</string>
     <!-- Weekly view -->
     <string name="week">Неделя</string>
+    <string name="start_week_with_current_day">Начало недели с текущего дня</string>
     <!-- Event types -->
     <string name="event_types">Типы событий</string>
     <string name="add_new_type">Добавить новый тип</string>
@@ -117,23 +137,65 @@
     <string name="remove_affected_events">Навсегда удалить затронутые события</string>
     <string name="unsync_caldav_calendar">Чтобы удалить календарь CalDAV, нужно отключить синхронизацию с ним</string>
     <!-- Holidays -->
+    <string name="holidays">Праздники</string>
+    <string name="add_holidays">Добавить праздники</string>
+    <string name="holidays_imported_successfully">Праздники были успешно импортированы в тип события \"Праздники\"</string>
+    <string name="importing_some_holidays_failed">Невозможно импортировать некоторые события</string>
+    <string name="importing_holidays_failed">Невозможно импортировать праздники</string>
     <!-- Settings -->
     <string name="manage_event_types">Управление типами событий</string>
+    <string name="start_day_at">Начало дня</string>
+    <string name="midnight_spanning">Показывать события за полночь на верхней панели</string>
+    <string name="allow_customizing_day_count">Разрешить менять количество дней</string>
+    <string name="week_numbers">Показывать номера недель</string>
     <string name="vibrate">Вибрация при напоминании</string>
     <string name="reminder_sound">Звук напоминания</string>
+    <string name="caldav_sync">Синхронизация по CalDAV</string>
+    <string name="event_lists">Списки событий</string>
+    <string name="display_past_events">Показывать прошедшие события</string>
+    <string name="replace_description_with_location">Заменять описание местоположением</string>
+    <string name="display_description_or_location">Показывать описание или местоположение</string>
+    <string name="delete_all_events">Удалить все события</string>
+    <string name="delete_all_events_confirmation">Удалить все события\? Это не затронет типы событий и другие настройки.</string>
+    <string name="show_a_grid">Показывать сетку</string>
     <string name="loop_reminders">Циклические напоминания до отключения</string>
+    <string name="dim_past_events">Показывать прошедшие события тусклыми</string>
+    <string name="dim_completed_tasks">Показывать выполненные задачи тусклыми</string>
+    <string name="events">События</string>
     <string name="reminder_stream">Аудиопоток, используемый напоминаниями</string>
     <string name="system_stream">Система</string>
     <string name="alarm_stream">Будильник</string>
     <string name="notification_stream">Уведомление</string>
     <string name="ring_stream">Звонок</string>
+    <string name="use_last_event_reminders">Использовать значения предыдущих напоминаний при создании нового</string>
+    <string name="default_reminder_1">Напоминание по умолчанию 1</string>
+    <string name="default_reminder_2">Напоминание по умолчанию 2</string>
+    <string name="default_reminder_3">Напоминание по умолчанию 3</string>
+    <string name="view_to_open_from_widget">Режим, открывающийся из виджета списка событий</string>
+    <string name="last_view">Последний использовавшийся</string>
+    <string name="new_events">Новые события</string>
+    <string name="default_start_time">Время начала по умолчанию</string>
+    <string name="next_full_hour">Следующий полный час</string>
+    <string name="current_time">Текущее время</string>
+    <string name="default_duration">Продолжительность по умолчанию</string>
     <string name="last_used_one">Последнее использованное</string>
+    <string name="other_time">Другое</string>
+    <string name="highlight_weekends">Выделять выходные дни в соответствующих режимах</string>
+    <string name="highlight_weekends_color">Цвет выделенных выходных дней</string>
+    <string name="allow_changing_time_zones">Разрешить изменение часового пояса событий</string>
+    <string name="manage_quick_filter_event_types">Управление типами событий быстрого фильтра</string>
+    <string name="allow_creating_tasks">Разрешить создание задач</string>
     <!-- CalDAV sync -->
+    <string name="caldav">CalDAV</string>
     <string name="select_caldav_calendars">Выберите календари для синхронизации</string>
+    <string name="manage_synced_calendars">Управление календарями для синхронизации</string>
     <string name="store_locally_only">Хранить только локально</string>
+    <string name="refresh_caldav_calendars">Обновить календари из CalDAV</string>
     <string name="refreshing">Обновление…</string>
     <string name="refreshing_complete">Обновление завершено</string>
     <string name="editing_calendar_failed">Невозможно изменить календарь</string>
+    <string name="syncing">Синхронизация…</string>
+    <string name="synchronization_completed">Синхронизация завершена</string>
     <string name="select_a_different_caldav_color">Выберите другой цвет (применяется локально)</string>
     <string name="insufficient_permissions">Запись в выбранный календарь запрещена</string>
     <string name="caldav_event_not_found">Событие не найдено. Включите синхронизацию по CalDAV для соответствующего календаря в настройках приложения.</string>
@@ -203,13 +265,18 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
+    <string name="invalid_file_format">Неправильный формат файла</string>
     <string name="error">Error: %s</string>
+    <string name="open_with">Открыть в…</string>
+    <string name="edit_with">Редактировать в…</string>
     <string name="edit">Редактировать</string>
     <string name="no_app_found">Приложение не найдено</string>
     <string name="no_browser_found">Браузер не найден</string>
     <string name="no_email_client_found">Клиент электронной почты не найден</string>
+    <string name="set_as">Установить как…</string>
     <string name="copy_number_to_clipboard">Копировать номер в буфер обмена</string>
     <string name="value_copied_to_clipboard_show">Скопировано в буфер обмена:\n%s</string>
+    <string name="never">Никогда</string>
     <string name="label">Метка</string>
     <string name="transparent">Прозрачный</string>
     <string name="notification">Уведомление</string>
@@ -223,9 +290,18 @@
     <!-- Phone numbers -->
     <!-- View types -->
     <!-- Blocked numbers -->
+    <string name="manage_blocked_numbers">Управление блокируемыми номерами</string>
+    <string name="not_blocking_anyone">Нет блокируемых номеров.</string>
+    <string name="add_a_blocked_number">Добавить блокируемый номер</string>
     <string name="blocked_numbers">Заблокированные номера</string>
     <string name="export_blocked_numbers">Экспорт заблокированных номеров</string>
+    <string name="import_blocked_numbers">Импорт заблокированных номеров</string>
+    <string name="must_make_default_dialer">Чтобы использовать блокировку, необходимо сделать \"Простые контакты\" приложением по умолчанию для набора номера.</string>
+    <string name="set_as_default">Установить по умолчанию</string>
+    <string name="block_unknown_calls">Блокировать вызовы от несохранённых контактов</string>
+    <string name="block_unknown_messages">Блокировать сообщения от несохранённых контактов</string>
     <string name="add_blocked_number_helper_text">Введите номер или шаблон (например: *12345*, +1*8888), чтобы блокировать все вызовы и сообщения с номеров, соответствующих шаблону.</string>
+    <string name="must_make_default_caller_id_app">Невозможно блокировать неизвестные номера без разрешения идентификации вызывающего абонента.</string>
     <!-- Favorites -->
     <string name="favorites">Избранное</string>
     <!-- Search -->
@@ -234,6 +310,7 @@
     <!-- Filters -->
     <string name="no_items_found">Ничего не найдено.</string>
     <!-- Permissions -->
+    <string name="no_contacts_permission">Требуется разрешение для доступа к контактам</string>
     <string name="no_post_notifications_permissions">Требуется разрешение на отображение уведомлений</string>
     <!-- Renaming -->
     <string name="filename_cannot_be_empty">Имя файла не может быть пустым</string>
@@ -267,6 +344,7 @@
     <string name="saving">Сохранение…</string>
     <string name="could_not_create_folder">Невозможно создать папку \"%s\"</string>
     <string name="could_not_create_file">Невозможно создать файл \"%s\"</string>
+    <string name="no_new_items">Ничего не найдено</string>
     <string name="no_space">По выбранному пути недостаточно свободного места.
 \nНеобходимо %1$s, доступно %2$s.</string>
     <string name="system_service_disabled">Системная служба для выбора файлов и папок недоступна</string>
@@ -329,6 +407,8 @@
     <string name="light_theme">Светлая</string>
     <string name="dark_theme">Тёмная</string>
     <string name="auto_light_dark_theme">Авто светлая/тёмная</string>
+    <string name="white">Белая</string>
+    <string name="black_white">Чёрно-белая</string>
     <string name="custom">Своя</string>
     <string name="shared">Общая</string>
     <string name="system_default">System default</string>
@@ -508,14 +588,20 @@
     <string name="general_settings">Основные</string>
     <string name="color_customization">Настройка цвета</string>
     <string name="customize_colors">Настройка интерфейса</string>
+    <string name="feature_locked">Заблокировано</string>
     <string name="customize_widget_colors">Настройка цветов виджета</string>
     <string name="customize_notifications">Настройка уведомлений</string>
+    <string name="use_english_language">Использовать английский язык</string>
+    <string name="language">Язык</string>
+    <string name="font_size">Размер шрифта</string>
     <string name="small">Мелкий</string>
     <string name="medium">Нормальный</string>
     <string name="large">Крупный</string>
     <string name="extra_large">Очень крупный</string>
+    <string name="enable_pull_to_refresh">Использовать жест \"потянуть для обновления\" в верхней части экрана</string>
     <string name="use_24_hour_time_format">24-часовой формат времени</string>
     <string name="sunday_first">Воскресенье — начало недели</string>
+    <string name="widgets">Виджеты</string>
     <string name="use_same_snooze">Всегда использовать один и тот же интервал повтора</string>
     <string name="snooze_time">Интервал повтора</string>
     <string name="export_settings">Экспорт настроек</string>
@@ -526,8 +612,15 @@
     <!-- Default tab to open -->
     <!-- Recycle Bin -->
     <!-- Import / Export -->
+    <string name="importing">Импорт…</string>
     <string name="exporting">Экспорт…</string>
+    <string name="importing_successful">Импортирование выполнено успешно</string>
+    <string name="exporting_successful">Экспортирование выполнено успешно</string>
+    <string name="exporting_failed">Ошибка при экспортировании</string>
+    <string name="importing_some_entries_failed">Ошибка при импортировании некоторых элементов</string>
+    <string name="exporting_some_entries_failed">Ошибка при экспортировании некоторых элементов</string>
     <string name="no_entries_for_importing">Нечего импортировать</string>
+    <string name="no_entries_for_exporting">Нечего экспортировать</string>
     <!-- OTG devices -->
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Выберите корневую папку USB-накопителя на следующем экране, чтобы предоставить к нему доступ</string>
@@ -589,10 +682,12 @@
     <string name="hello">Привет :)</string>
     <string name="app_version">Версия приложения: %s</string>
     <string name="device_os">ОС устройства: %s</string>
+    <string name="purchase">Купить</string>
     <string name="update_thank_you">Обновите \"Простое спасибо\" до последней версии</string>
     <string name="before_asking_question_read_faq">Прежде чем задать вопрос, изучите настройки приложения и прочтите FAQ (часто задаваемые вопросы). Возможно, решение есть.</string>
     <string name="make_sure_latest">Также убедитесь, что используете последнюю версию приложения.</string>
     <string name="read_faq">Прочитать FAQ</string>
+    <string name="features_locked">Эта функция заблокирована, пожалуйста, купите &lt;a href=https://play.google.com/store/apps/details\?id=com.production.planful.thankyou&gt;Простое спасибо&lt;/a&gt; для разблокировки всех возможностей приложения.&lt;br&gt;&lt;br&gt;Это разовый платёж, и если вы не будете удовлетворены, возможен возврат денег.</string>
     <!-- New app (do not translate anything on the 4th line) -->
     <!-- FAQ -->
     <string name="frequently_asked_questions">Часто задаваемые вопросы</string>
