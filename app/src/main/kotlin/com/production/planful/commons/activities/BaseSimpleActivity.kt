@@ -72,9 +72,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     abstract fun getAppLauncherName(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (useDynamicTheme) {
-            setTheme(getThemeId(showTransparentTop = showTransparentTop))
-        }
 
         super.onCreate(savedInstanceState)
         if (!packageName.startsWith("com.production.planful.", true)) {
@@ -92,7 +89,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (useDynamicTheme) {
-            setTheme(getThemeId(showTransparentTop = showTransparentTop))
 
             val backgroundColor = if (baseConfig.isUsingSystemTheme) {
                 resources.getColor(R.color.you_background_color, theme)
@@ -1096,42 +1092,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         if (!baseConfig.wasAppOnSDShown && isAppInstalledOnSDCard()) {
             baseConfig.wasAppOnSDShown = true
             ConfirmationDialog(this, "", R.string.app_on_sd_card, R.string.ok, 0) {}
-        }
-    }
-
-    fun exportSettings(configItems: LinkedHashMap<String, Any>) {
-        if (isQPlus()) {
-            configItemsToExport = configItems
-            ExportSettingsDialog(this, getExportSettingsFilename(), true) { path, filename ->
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TITLE, filename)
-                    addCategory(Intent.CATEGORY_OPENABLE)
-
-                    try {
-                        startActivityForResult(this, SELECT_EXPORT_SETTINGS_FILE_INTENT)
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                    } catch (e: Exception) {
-                        showErrorToast(e)
-                    }
-                }
-            }
-        } else {
-            handlePermission(PERMISSION_WRITE_STORAGE) {
-                if (it) {
-                    ExportSettingsDialog(
-                        this,
-                        getExportSettingsFilename(),
-                        false
-                    ) { path, filename ->
-                        val file = File(path)
-                        getFileOutputStream(file.toFileDirItem(this), true) {
-                            exportSettingsTo(it, configItems)
-                        }
-                    }
-                }
-            }
         }
     }
 

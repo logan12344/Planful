@@ -20,16 +20,6 @@
         android:title="@string/change_view"
         app:showAsAction="always" />
     <item
-        android:id="@+id/filter"
-        android:icon="@drawable/ic_filter_vector"
-        android:title="@string/filter_events_by_type"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/refresh_caldav_calendars"
-        android:icon="@drawable/ic_repeat_vector"
-        android:title="@string/refresh_caldav_calendars"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/go_to_date"
         android:showAsAction="never"
         android:title="@string/go_to_date"
@@ -38,21 +28,6 @@
         android:id="@+id/print"
         android:showAsAction="never"
         android:title="@string/print"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/add_holidays"
-        android:showAsAction="never"
-        android:title="@string/add_holidays"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/add_birthdays"
-        android:showAsAction="never"
-        android:title="@string/add_birthdays"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/add_anniversaries"
-        android:showAsAction="never"
-        android:title="@string/add_anniversaries"
         app:showAsAction="never" />
     <item
         android:id="@+id/about"

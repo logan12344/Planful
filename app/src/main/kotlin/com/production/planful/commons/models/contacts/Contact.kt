@@ -28,7 +28,6 @@ data class Contact(
     var thumbnailUri: String,
     var photo: Bitmap?,
     var notes: String,
-    var groups: ArrayList<Group>,
     var organization: Organization,
     var websites: ArrayList<String>,
     var IMs: ArrayList<IM>,
@@ -127,12 +126,6 @@ data class Contact(
         return firstId.compareTo(secondId)
     }
 
-    fun getBubbleText() = when {
-        sorting and SORT_BY_FIRST_NAME != 0 -> firstName
-        sorting and SORT_BY_MIDDLE_NAME != 0 -> middleName
-        else -> surname
-    }
-
     fun getNameToDisplay(): String {
         val firstMiddle = "$firstName $middleName".trim()
         val firstPart = if (startWithSurname) {
@@ -158,43 +151,6 @@ data class Contact(
         }
     }
 
-    // photos stored locally always have different hashcodes. Avoid constantly refreshing the contact lists as the app thinks something changed.
-    fun getHashWithoutPrivatePhoto(): Int {
-        val photoToUse = if (isPrivate()) null else photo
-        return copy(photo = photoToUse).hashCode()
-    }
-
-    fun getStringToCompare(): String {
-        val photoToUse = if (isPrivate()) null else photo
-        return copy(
-            id = 0,
-            prefix = "",
-            firstName = getNameToDisplay().lowercase(Locale.getDefault()),
-            middleName = "",
-            surname = "",
-            suffix = "",
-            nickname = "",
-            photoUri = "",
-            phoneNumbers = ArrayList(),
-            emails = ArrayList(),
-            events = ArrayList(),
-            source = "",
-            addresses = ArrayList(),
-            starred = 0,
-            contactId = 0,
-            thumbnailUri = "",
-            photo = photoToUse,
-            notes = "",
-            groups = ArrayList(),
-            websites = ArrayList(),
-            organization = Organization("", ""),
-            IMs = ArrayList(),
-            ringtone = ""
-        ).toString()
-    }
-
-    fun getHashToCompare() = getStringToCompare().hashCode()
-
     fun getFullCompany(): String {
         var fullOrganization =
             if (organization.company.isEmpty()) "" else "${organization.company}, "
@@ -202,24 +158,5 @@ data class Contact(
         return fullOrganization.trim().trimEnd(',')
     }
 
-    fun isABusinessContact() =
-        prefix.isEmpty() && firstName.isEmpty() && middleName.isEmpty() && surname.isEmpty() && suffix.isEmpty() && organization.isNotEmpty()
-
-    fun doesContainPhoneNumber(text: String, convertLetters: Boolean): Boolean {
-        return if (text.isNotEmpty()) {
-            val normalizedText = if (convertLetters) text.normalizePhoneNumber() else text
-            phoneNumbers.any {
-                PhoneNumberUtils.compare(it.normalizedNumber, normalizedText) ||
-                        it.value.contains(text) ||
-                        it.normalizedNumber.contains(normalizedText) ||
-                        it.value.normalizePhoneNumber().contains(normalizedText)
-            }
-        } else {
-            false
-        }
-    }
-
     fun isPrivate() = source == SMT_PRIVATE
-
-    fun getSignatureKey() = if (photoUri.isNotEmpty()) photoUri else hashCode()
 }

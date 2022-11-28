@@ -188,7 +188,8 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
         val textColor = requireContext().getProperTextColor()
         mHolder.apply {
             month_day_selected_day_label.setTextColor(textColor)
-            month_day_no_events_placeholder.setTextColor(textColor)
+            month_day_no_events_placeholder.tvNoData1.setTextColor(textColor)
+            month_day_no_events_placeholder.tvNoData2.setTextColor(textColor)
         }
     }
 
