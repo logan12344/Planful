@@ -64,19 +64,20 @@
                 app:layout_constraintEnd_toStartOf="@+id/calendar_fab"
                 app:layout_constraintTop_toTopOf="@+id/calendar_fab" />
 
-            <ImageView
+            <com.production.planful.commons.views.MyFloatingActionButton
                 android:id="@+id/fab_task_icon"
-                android:layout_width="@dimen/secondary_fab_size"
-                android:layout_height="@dimen/secondary_fab_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_margin"
-                android:alpha="0"
-                android:background="@drawable/circle_background"
                 android:padding="@dimen/medium_margin"
                 android:src="@drawable/ic_task_vector"
                 android:visibility="gone"
+                android:contentDescription="@string/task"
+                app:backgroundTint="@color/color_primary"
                 app:layout_constraintBottom_toTopOf="@+id/calendar_fab"
                 app:layout_constraintEnd_toEndOf="@+id/calendar_fab"
-                app:layout_constraintStart_toStartOf="@+id/calendar_fab" />
+                app:layout_constraintStart_toStartOf="@+id/calendar_fab"
+                app:rippleColor="@color/pressed_item_foreground"/>
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/fab_task_label"

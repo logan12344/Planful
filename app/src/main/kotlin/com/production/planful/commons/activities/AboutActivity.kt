@@ -69,58 +69,39 @@ class AboutActivity : BaseSimpleActivity() {
         }
 
         about_email_holder.setOnClickListener {
-            val msg =
-                "${getString(R.string.before_asking_question_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
-            if (intent.getBooleanExtra(
-                    SHOW_FAQ_BEFORE_MAIL,
-                    false
-                ) && !baseConfig.wasBeforeAskingShown
-            ) {
-                baseConfig.wasBeforeAskingShown = true
-                ConfirmationAdvancedDialog(
-                    this,
-                    msg,
-                    0,
-                    R.string.read_faq,
-                    R.string.skip
-                ) { success ->
-                    about_email_holder.performClick()
-                }
-            } else {
-                val appVersion = String.format(
-                    getString(
-                        R.string.app_version,
-                        intent.getStringExtra(APP_VERSION_NAME)
-                    )
+            val appVersion = String.format(
+                getString(
+                    R.string.app_version,
+                    intent.getStringExtra(APP_VERSION_NAME)
                 )
-                val deviceOS = String.format(getString(R.string.device_os), Build.VERSION.RELEASE)
-                val newline = "\n"
-                val separator = "------------------------------"
-                val body = "$appVersion$newline$deviceOS$newline$separator$newline$newline"
+            )
+            val deviceOS = String.format(getString(R.string.device_os), Build.VERSION.RELEASE)
+            val newline = "\n"
+            val separator = "------------------------------"
+            val body = "$appVersion$newline$deviceOS$newline$separator$newline$newline"
 
-                val address = getString(R.string.my_email)
-                val selectorIntent = Intent(ACTION_SENDTO)
-                    .setData("mailto:$address".toUri())
-                val emailIntent = Intent(ACTION_SEND).apply {
-                    putExtra(EXTRA_EMAIL, arrayOf(address))
-                    putExtra(EXTRA_SUBJECT, appName)
-                    putExtra(EXTRA_TEXT, body)
-                    selector = selectorIntent
-                }
+            val address = getString(R.string.my_email)
+            val selectorIntent = Intent(ACTION_SENDTO)
+                .setData("mailto:$address".toUri())
+            val emailIntent = Intent(ACTION_SEND).apply {
+                putExtra(EXTRA_EMAIL, arrayOf(address))
+                putExtra(EXTRA_SUBJECT, appName)
+                putExtra(EXTRA_TEXT, body)
+                selector = selectorIntent
+            }
 
-                try {
-                    startActivity(emailIntent)
-                } catch (e: ActivityNotFoundException) {
-                    toast(R.string.no_email_client_found)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
+            try {
+                startActivity(emailIntent)
+            } catch (e: ActivityNotFoundException) {
+                toast(R.string.no_email_client_found)
+            } catch (e: Exception) {
+                showErrorToast(e)
             }
         }
     }
 
     private fun setupVersion() {
-        var version = intent.getStringExtra(APP_VERSION_NAME) ?: ""
+        val version = intent.getStringExtra(APP_VERSION_NAME) ?: ""
 
         val fullVersion = String.format(getString(R.string.version_placeholder, version))
         about_version.text = fullVersion

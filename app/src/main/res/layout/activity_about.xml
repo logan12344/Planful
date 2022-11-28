@@ -51,6 +51,23 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_bottom_corners"
+                    android:padding="@dimen/medium_margin">
+
+                    <com.production.planful.commons.views.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/normal_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/support_description"
+                        android:textSize="@dimen/bigger_text_size" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/about_email_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

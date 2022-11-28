@@ -162,7 +162,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         fab_task_label.setTextColor(getProperTextColor())
 
         fab_task_icon.drawable.applyColorFilter(mStoredPrimaryColor.getContrastColor())
-        fab_task_icon.background.applyColorFilter(mStoredPrimaryColor)
 
         search_holder.background = ColorDrawable(getProperBackgroundColor())
         checkSwipeRefreshAvailability()
