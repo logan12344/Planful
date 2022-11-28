@@ -121,9 +121,6 @@ class AboutActivity : BaseSimpleActivity() {
 
     private fun setupVersion() {
         var version = intent.getStringExtra(APP_VERSION_NAME) ?: ""
-        if (baseConfig.appId.removeSuffix(".debug").endsWith(".pro")) {
-            version += " ${getString(R.string.pro)}"
-        }
 
         val fullVersion = String.format(getString(R.string.version_placeholder, version))
         about_version.text = fullVersion

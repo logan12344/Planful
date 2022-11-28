@@ -130,9 +130,6 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     private fun setupThemes() {
         predefinedThemes.apply {
-            if (isSPlus()) {
-                put(THEME_SYSTEM, getSystemThemeColors())
-            }
             put(
                 THEME_LIGHT,
                 MyTheme(
@@ -263,17 +260,6 @@ class CustomizationActivity : BaseSimpleActivity() {
             getString(R.string.auto_light_dark_theme),
             textColor,
             backgroundColor,
-            R.color.color_primary,
-            R.color.color_primary
-        )
-    }
-
-    // doesn't really matter what colors we use here, everything will be taken from the system. Use the default dark theme values here.
-    private fun getSystemThemeColors(): MyTheme {
-        return MyTheme(
-            "${getString(R.string.system_default)} (${getString(R.string.material_you)})",
-            R.color.theme_dark_text_color,
-            R.color.theme_dark_background_color,
             R.color.color_primary,
             R.color.color_primary
         )

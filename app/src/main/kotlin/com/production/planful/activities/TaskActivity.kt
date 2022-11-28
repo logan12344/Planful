@@ -88,6 +88,7 @@ class TaskActivity : SimpleActivity() {
             task_toolbar.menu.apply {
                 findItem(R.id.delete).isVisible = mTask.id != null
                 findItem(R.id.duplicate).isVisible = mTask.id != null
+                findItem(R.id.share).isVisible = mTask.id != null
             }
         }
     }

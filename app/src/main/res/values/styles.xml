@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
     <style name="DayView">
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/day_text_size</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/unineuebold</item>
     </style>
 
     <style name="MetaView" parent="DayView">
@@ -19,7 +19,7 @@
         <item name="android:gravity">top|center_horizontal</item>
         <item name="android:textSize">@dimen/day_monthly_text_size</item>
         <item name="android:textColor">@color/default_text_color</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/unineuebold</item>
     </style>
 
     <style name="ArrowStyle">
@@ -34,6 +34,7 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+        <item name="fontFamily">@font/unineuebold</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
         <item name="spinnerDropDownItemStyle">@style/SpinnerItem.DropDownItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerItem.DropDownItem</item>
@@ -62,8 +63,7 @@
         <item name="colorSurface">@color/you_dialog_background_color</item>
         <item name="colorOnSurface">@color/you_primary_color</item>
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
-        </item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.App.Button</item>
         <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
@@ -90,8 +90,6 @@
     <style name="ActionMenuOverflowIcon" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/md_grey_white</item>
     </style>
-
-    <!-- text color of top menu items appearing after pressing 3 dots -->
 
     <!-- contextual action mode -->
 
