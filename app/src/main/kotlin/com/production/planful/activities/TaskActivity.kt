@@ -273,7 +273,6 @@ class TaskActivity : SimpleActivity() {
         }
 
         task_reminder_2.setOnClickListener { showReminder2Dialog() }
-        task_reminder_3.setOnClickListener { showReminder3Dialog() }
         refreshMenuItems()
         setupMarkCompleteButton()
 
@@ -670,7 +669,6 @@ class TaskActivity : SimpleActivity() {
     private fun updateReminderTexts() {
         updateReminder1Text()
         updateReminder2Text()
-        updateReminder3Text()
     }
 
     private fun updateReminder1Text() {
@@ -690,19 +688,6 @@ class TaskActivity : SimpleActivity() {
         }
     }
 
-    private fun updateReminder3Text() {
-        task_reminder_3.apply {
-            beGoneIf(task_reminder_3.isGone() && (mReminder2Minutes == REMINDER_OFF || mReminder1Minutes == REMINDER_OFF))
-            if (mReminder3Minutes == REMINDER_OFF) {
-                text = resources.getString(R.string.add_another_reminder)
-                alpha = 0.4f
-            } else {
-                text = getFormattedMinutes(mReminder3Minutes)
-                alpha = 1f
-            }
-        }
-    }
-
     private fun showReminder1Dialog() {
         showPickSecondsDialogHelper(mReminder1Minutes) {
             mReminder1Minutes = if (it == -1 || it == 0) it else it / 60
@@ -713,13 +698,6 @@ class TaskActivity : SimpleActivity() {
     private fun showReminder2Dialog() {
         showPickSecondsDialogHelper(mReminder2Minutes) {
             mReminder2Minutes = if (it == -1 || it == 0) it else it / 60
-            updateReminderTexts()
-        }
-    }
-
-    private fun showReminder3Dialog() {
-        showPickSecondsDialogHelper(mReminder3Minutes) {
-            mReminder3Minutes = if (it == -1 || it == 0) it else it / 60
             updateReminderTexts()
         }
     }

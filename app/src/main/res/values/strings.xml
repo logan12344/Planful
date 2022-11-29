@@ -35,8 +35,8 @@
     <string name="mark_incomplete">Mark incomplete</string>
 
     <!-- Event Repetition -->
-    <string name="no_repetition">No repetition</string>
-    <string name="daily">Daily</string>
+    <string name="no_repetition">Once</string>
+    <string name="daily">Every day</string>
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
@@ -504,7 +504,7 @@
     <string name="alarm">Alarm</string>
     <string name="snooze">Snooze</string>
     <string name="no_reminder">No reminder</string>
-    <string name="at_start">At start</string>
+    <string name="at_start">Reminder</string>
     <string name="system_sounds">System sounds</string>
     <string name="your_sounds">Your sounds</string>
     <string name="add_new_sound">Add a new sound</string>
