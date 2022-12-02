@@ -18,10 +18,7 @@ import com.production.planful.commons.views.MyRecyclerView
 import com.production.planful.dialogs.DeleteEventDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
-import com.production.planful.models.ListEvent
-import com.production.planful.models.ListItem
-import com.production.planful.models.ListSectionDay
-import com.production.planful.models.ListSectionMonth
+import com.production.planful.models.*
 import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.event_list_section_day.view.*
 
@@ -205,6 +202,12 @@ class EventListAdapter(
             event_item_description.setTextColor(newTextColor)
             event_item_task_image.applyColorFilter(newTextColor)
             event_item_task_image.beVisibleIf(listEvent.isTask)
+            event_item_time_image.applyColorFilter(newTextColor)
+            toggle_mark_complete.beVisibleIf(listEvent.isTask)
+            toggle_mark_complete.isChecked = listEvent.isTaskCompleted
+            toggle_mark_complete.setOnClickListener{
+                setCompleted(view, listEvent)
+            }
 
             val startMargin = if (listEvent.isTask) {
                 0
@@ -213,6 +216,16 @@ class EventListAdapter(
             }
             (event_item_title.layoutParams as ConstraintLayout.LayoutParams).marginStart =
                 startMargin
+        }
+    }
+
+    private fun setCompleted(view: View, event: ListEvent) {
+        ensureBackgroundThread {
+            val originalEvent = view.context.eventsDB.getEventOrTaskWithId(event.id)
+            view.context.updateTaskCompletion(originalEvent!!, completed = !event.isTaskCompleted)
+            activity.runOnUiThread {
+                listener?.refreshItems()
+            }
         }
     }
 

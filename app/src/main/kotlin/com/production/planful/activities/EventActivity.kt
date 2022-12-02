@@ -158,6 +158,7 @@ class EventActivity : SimpleActivity() {
 
         if (savedInstanceState == null) {
             updateTexts()
+            updateEventType()
             updateCalDAVCalendar()
         }
 
@@ -168,6 +169,7 @@ class EventActivity : SimpleActivity() {
         event_end_time.setOnClickListener { setupEndTime() }
         event_time_zone.setOnClickListener { setupTimeZone() }
 
+        event_type_holder.setOnClickListener { showEventTypeDialog() }
         event_all_day.setOnCheckedChangeListener { _, isChecked -> toggleAllDay(isChecked) }
         event_repetition.setOnClickListener { showRepeatIntervalDialog() }
         event_repetition_rule_holder.setOnClickListener { showRepetitionRuleDialog() }
@@ -436,6 +438,7 @@ class EventActivity : SimpleActivity() {
         checkRepeatTexts(mRepeatInterval)
         checkRepeatRule()
         updateTexts()
+        updateEventType()
         updateCalDAVCalendar()
         checkAttendees()
         updateActionBarTitle()
@@ -880,6 +883,14 @@ class EventActivity : SimpleActivity() {
         else -> getRepeatXthDayInMonthString(false, mRepeatRule)
     }
 
+    private fun showEventTypeDialog() {
+        hideKeyboard()
+        SelectEventTypeDialog(this, mEventTypeId, false, true, false, true) {
+            mEventTypeId = it.id!!
+            updateEventType()
+        }
+    }
+
     private fun checkReminderTexts() {
         updateReminder1Text()
         updateReminder2Text()
@@ -979,6 +990,18 @@ class EventActivity : SimpleActivity() {
         event_repetition.text = getRepetitionText(mRepeatInterval)
     }
 
+    private fun updateEventType() {
+        ensureBackgroundThread {
+            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
+            if (eventType != null) {
+                runOnUiThread {
+                    event_type.text = eventType.title
+                    event_type_color.setFillWithStroke(eventType.color, getProperBackgroundColor())
+                }
+            }
+        }
+    }
+
     private fun updateCalDAVCalendar() {
         if (config.caldavSync) {
             event_caldav_calendar_image.beVisible()
@@ -998,6 +1021,10 @@ class EventActivity : SimpleActivity() {
             event_caldav_calendar_holder.setOnClickListener {
                 hideKeyboard()
                 SelectEventCalendarDialog(this, calendars, mEventCalendarId) {
+                    if (mEventCalendarId != STORED_LOCALLY_ONLY && it == STORED_LOCALLY_ONLY) {
+                        mEventTypeId = config.lastUsedLocalEventTypeId
+                        updateEventType()
+                    }
                     mWasCalendarChanged = true
                     mEventCalendarId = it
                     config.lastUsedCaldavCalendarId = it
@@ -1020,6 +1047,8 @@ class EventActivity : SimpleActivity() {
         calendars.firstOrNull { it.id == calendarId }
 
     private fun updateCurrentCalendarInfo(currentCalendar: CalDAVCalendar?) {
+        event_type_image.beVisibleIf(currentCalendar == null)
+        event_type_holder.beVisibleIf(currentCalendar == null)
         event_caldav_calendar_divider.beVisibleIf(currentCalendar == null)
         event_caldav_calendar_email.beGoneIf(currentCalendar == null)
         event_caldav_calendar_color.beGoneIf(currentCalendar == null)
@@ -1916,6 +1945,7 @@ class EventActivity : SimpleActivity() {
             event_time_zone_image,
             event_repetition_image,
             event_reminder_image,
+            event_type_image,
             event_caldav_calendar_image,
             event_reminder_1_type,
             event_reminder_2_type,

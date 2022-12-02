@@ -135,6 +135,7 @@ class DayEventsAdapter(
             event_item_title.setTextColor(newTextColor)
             event_item_description?.setTextColor(newTextColor)
             event_item_task_image.applyColorFilter(newTextColor)
+            event_item_time_image.applyColorFilter(newTextColor)
             event_item_task_image.beVisibleIf(event.isTask())
             toggle_mark_complete.beVisibleIf(event.isTask())
             toggle_mark_complete.isChecked = event.isTaskCompleted()

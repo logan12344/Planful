@@ -217,6 +217,7 @@ class TaskActivity : SimpleActivity() {
             mOriginalEndTS = getLong(ORIGINAL_END_TS)
         }
 
+        updateEventType()
         updateTexts()
         setupMarkCompleteButton()
         checkRepeatTexts(mRepeatInterval)
@@ -272,6 +273,7 @@ class TaskActivity : SimpleActivity() {
         task_repetition.setOnClickListener { showRepeatIntervalDialog() }
         task_repetition_rule_holder.setOnClickListener { showRepetitionRuleDialog() }
         task_repetition_limit_holder.setOnClickListener { showRepetitionTypePicker() }
+        task_type_holder.setOnClickListener { showEventTypeDialog() }
 
         task_reminder_1.setOnClickListener {
             handleNotificationAvailability {
@@ -291,6 +293,7 @@ class TaskActivity : SimpleActivity() {
         setupMarkCompleteButton()
 
         if (savedInstanceState == null) {
+            updateEventType()
             updateTexts()
         }
     }
@@ -863,6 +866,33 @@ class TaskActivity : SimpleActivity() {
         }
     }
 
+    private fun showEventTypeDialog() {
+        hideKeyboard()
+        SelectEventTypeDialog(
+            activity = this,
+            currEventType = mEventTypeId,
+            showCalDAVCalendars = false,
+            showNewEventTypeOption = true,
+            addLastUsedOneAsFirstOption = false,
+            showOnlyWritable = true
+        ) {
+            mEventTypeId = it.id!!
+            updateEventType()
+        }
+    }
+
+    private fun updateEventType() {
+        ensureBackgroundThread {
+            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
+            if (eventType != null) {
+                runOnUiThread {
+                    task_type.text = eventType.title
+                    task_type_color.setFillWithStroke(eventType.color, getProperBackgroundColor())
+                }
+            }
+        }
+    }
+
     private fun getReminders(): ArrayList<Reminder> {
         var reminders = arrayListOf(
             Reminder(mReminder1Minutes, mReminder1Type),
@@ -878,7 +908,7 @@ class TaskActivity : SimpleActivity() {
         updateTextColors(task_scrollview)
         val textColor = getProperTextColor()
         arrayOf(
-            task_time_image, task_reminder_image, task_repetition_image, task_start_date_image, task_end_date_image,
+            task_time_image, task_reminder_image, task_type_image, task_repetition_image, task_start_date_image, task_end_date_image,
         ).forEach {
             it.applyColorFilter(textColor)
         }
