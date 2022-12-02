@@ -19,8 +19,6 @@ import com.production.planful.commons.views.Breadcrumbs
 import kotlinx.android.synthetic.main.dialog_filepicker.view.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * The only filepicker constructor with a couple optional parameters

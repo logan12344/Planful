@@ -5,7 +5,9 @@ import android.app.DatePickerDialog
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.getAlertDialogBuilder
+import com.production.planful.commons.extensions.getDatePickerDialogTheme
+import com.production.planful.commons.extensions.setupDialogStuff
 import com.production.planful.extensions.config
 import com.production.planful.extensions.seconds
 import com.production.planful.helpers.Formatter
@@ -27,7 +29,6 @@ class RepeatLimitTypePickerDialog(
         view =
             activity.layoutInflater.inflate(R.layout.dialog_repeat_limit_type_picker, null).apply {
                 repeat_type_date.setOnClickListener { showRepetitionLimitDialog() }
-                repeat_type_count.setOnClickListener { dialog_radio_view.check(R.id.repeat_type_x_times) }
                 repeat_type_forever.setOnClickListener {
                     callback(0)
                     dialog?.dismiss()
@@ -49,20 +50,12 @@ class RepeatLimitTypePickerDialog(
                 activity.setupDialogStuff(view, this) { alertDialog ->
                     dialog = alertDialog
                     activity.currentFocus?.clearFocus()
-
-                    view.repeat_type_count.onTextChangeListener {
-                        view.dialog_radio_view.check(R.id.repeat_type_x_times)
-                    }
                 }
             }
     }
 
     private fun getCheckedItem() = when {
         repeatLimit > 0 -> R.id.repeat_type_till_date
-        repeatLimit < 0 -> {
-            view.repeat_type_count.setText((-repeatLimit).toString())
-            R.id.repeat_type_x_times
-        }
         else -> R.id.repeat_type_forever
     }
 
@@ -79,15 +72,6 @@ class RepeatLimitTypePickerDialog(
         when (view.dialog_radio_view.checkedRadioButtonId) {
             R.id.repeat_type_till_date -> callback(repeatLimit)
             R.id.repeat_type_forever -> callback(0)
-            else -> {
-                var count = view.repeat_type_count.value
-                count = if (count.isEmpty()) {
-                    "0"
-                } else {
-                    "-$count"
-                }
-                callback(count.toLong())
-            }
         }
         dialog?.dismiss()
     }

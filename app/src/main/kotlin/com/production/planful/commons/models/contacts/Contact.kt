@@ -1,13 +1,9 @@
 package com.production.planful.commons.models.contacts
 
 import android.graphics.Bitmap
-import android.telephony.PhoneNumberUtils
-import com.production.planful.commons.extensions.normalizePhoneNumber
 import com.production.planful.commons.extensions.normalizeString
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.PhoneNumber
-import java.util.*
-import kotlin.collections.ArrayList
 
 data class Contact(
     var id: Int,

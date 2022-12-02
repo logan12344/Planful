@@ -119,6 +119,9 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) :
             setVisibleIf(R.id.event_item_task_image, item.isTask)
             applyColorFilter(R.id.event_item_task_image, curTextColor)
 
+            setVisibleIf(R.id.toggle_mark_complete, item.isTask)
+            setChecked(R.id.toggle_mark_complete, item.isTaskCompleted)
+
             if (item.isTask) {
                 setViewPadding(R.id.event_item_title, 0, 0, smallMargin, 0)
             } else {

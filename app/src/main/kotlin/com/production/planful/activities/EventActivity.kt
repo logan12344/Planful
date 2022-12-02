@@ -74,6 +74,7 @@ class EventActivity : SimpleActivity() {
     private var mOriginalStartTS = 0L
     private var mOriginalEndTS = 0L
     private var mIsNewEvent = true
+    private var mEventCompleted = false
 
     private lateinit var mEventStartDateTime: DateTime
     private lateinit var mEventEndDateTime: DateTime
@@ -128,6 +129,7 @@ class EventActivity : SimpleActivity() {
         if (event != null) {
             mEvent = event
             mEventOccurrenceTS = intent.getLongExtra(EVENT_OCCURRENCE_TS, 0L)
+            mEventCompleted = intent.getBooleanExtra(IS_TASK_COMPLETED, false)
             if (savedInstanceState == null) {
                 setupEditEvent()
             }
@@ -1504,12 +1506,7 @@ class EventActivity : SimpleActivity() {
 
     private val endDateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            dateSet(
-                year,
-                monthOfYear,
-                dayOfMonth,
-                false
-            )
+            dateSet(year, monthOfYear, dayOfMonth, false)
         }
 
     private val endTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -1924,7 +1921,8 @@ class EventActivity : SimpleActivity() {
             event_reminder_2_type,
             event_reminder_3_type,
             event_attendees_image,
-            event_availability_image
+            event_availability_image,
+            event_start_date_image
         ).forEach {
             it.applyColorFilter(textColor)
         }

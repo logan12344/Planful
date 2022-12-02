@@ -9,15 +9,11 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.TransactionTooLargeException
-import android.provider.ContactsContract
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.telecom.PhoneAccountHandle
-import android.telecom.TelecomManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window

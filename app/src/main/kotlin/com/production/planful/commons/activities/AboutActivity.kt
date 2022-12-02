@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.core.net.toUri
 import com.production.planful.R
-import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import kotlinx.android.synthetic.main.activity_about.*

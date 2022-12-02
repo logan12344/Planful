@@ -30,71 +30,94 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.production.planful.commons.views.MyEditText
-                android:id="@+id/event_title"
+            <com.production.planful.commons.views.MyTextInputLayout
+                android:id="@+id/event_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginEnd="@dimen/activity_margin"
-                android:hint="@string/title"
-                android:inputType="textCapSentences"
-                android:maxLength="180"
-                android:maxLines="1"
-                android:minEms="20"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/day_text_size" />
+                android:hint="@string/title">
 
-            <com.production.planful.commons.views.MyEditText
-                android:id="@+id/event_location"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/day_text_size"
+                    android:inputType="textCapSentences"
+                    android:maxLength="180"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@null"
+                    android:minEms="20" />
+
+            </com.production.planful.commons.views.MyTextInputLayout>
+
+            <com.production.planful.commons.views.MyTextInputLayout
+                android:id="@+id/event_location_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/event_title"
+                android:layout_below="@+id/event_title_layout"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_toStartOf="@+id/event_show_on_map"
-                android:hint="@string/location"
-                android:inputType="textCapWords"
-                android:maxLength="180"
-                android:maxLines="1"
-                android:minEms="20"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/day_text_size" />
+                android:hint="@string/location">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/event_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:maxLength="180"
+                    android:maxLines="1"
+                    android:minEms="20"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/day_text_size" />
+
+            </com.production.planful.commons.views.MyTextInputLayout>
 
             <ImageView
                 android:id="@+id/event_show_on_map"
                 android:layout_width="@dimen/normal_icon_size"
                 android:layout_height="match_parent"
-                android:layout_alignTop="@+id/event_location"
-                android:layout_alignBottom="@+id/event_location"
+                android:layout_alignTop="@+id/event_location_layout"
+                android:layout_alignBottom="@+id/event_location_layout"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/small_margin"
                 android:src="@drawable/ic_place_vector" />
 
-            <com.production.planful.commons.views.MyEditText
-                android:id="@+id/event_description"
+            <com.production.planful.commons.views.MyTextInputLayout
+                android:id="@+id/event_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/event_location"
+                android:layout_below="@+id/event_location_layout"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginEnd="@dimen/activity_margin"
-                android:autoLink="all"
-                android:gravity="top"
-                android:hint="@string/description"
-                android:inputType="textCapSentences|textMultiLine"
-                android:linksClickable="true"
-                android:minEms="20"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/day_text_size" />
+                android:hint="@string/description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/event_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/day_text_size"
+                    android:linksClickable="true"
+                    android:autoLink="all"
+                    android:gravity="top"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="180"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@null"
+                    android:minEms="20" />
+
+            </com.production.planful.commons.views.MyTextInputLayout>
 
             <ImageView
                 android:id="@+id/event_description_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_below="@+id/event_description"
+                android:layout_below="@+id/event_description_layout"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:background="@color/divider_grey"
@@ -136,6 +159,17 @@
 
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/event_start_date_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/event_time_image"
+                android:layout_alignTop="@+id/event_start_date"
+                android:layout_alignBottom="@+id/event_start_date"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:padding="@dimen/medium_margin"
+                android:src="@drawable/calendar" />
+
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_start_date"
                 android:layout_width="wrap_content"
@@ -171,6 +205,7 @@
                 android:paddingEnd="@dimen/activity_margin"
                 android:paddingBottom="@dimen/activity_margin"
                 android:textSize="@dimen/day_text_size"
+                android:visibility="gone"
                 tools:text="January 1 1970" />
 
             <com.production.planful.commons.views.MyTextView
@@ -182,6 +217,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/activity_margin"
                 android:textSize="@dimen/day_text_size"
+                android:visibility="gone"
                 tools:text="00:00" />
 
             <ImageView
@@ -572,6 +608,7 @@
                 android:background="@color/divider_grey"
                 android:importantForAccessibility="no"
                 android:visibility="gone" />
+
         </RelativeLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

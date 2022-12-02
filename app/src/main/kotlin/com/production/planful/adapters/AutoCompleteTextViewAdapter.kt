@@ -77,7 +77,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            if (results?.count ?: -1 > 0) {
+            if ((results?.count ?: -1) > 0) {
                 notifyDataSetChanged()
             } else {
                 notifyDataSetInvalidated()

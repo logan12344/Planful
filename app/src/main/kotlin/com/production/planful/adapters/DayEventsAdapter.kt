@@ -108,19 +108,14 @@ class DayEventsAdapter(
                 if (!event.getIsAllDay()) {
                     val endTimeString = Formatter.getTimeFromTS(context, event.endTS)
                     val endDayString = if (endDayCode != dayCode) " ($endDate)" else ""
-                    event_item_time.text =
-                        "${event_item_time.text}$startDayString - $endTimeString$endDayString"
+                    event_item_time.text = "${event_item_time.text}$startDayString - $endTimeString$endDayString"
                 } else {
                     val endDayString = if (endDayCode != dayCode) " - ($endDate)" else ""
                     event_item_time.text = "${event_item_time.text}$startDayString$endDayString"
                 }
             }
 
-            event_item_description.text =
-                if (replaceDescriptionWithLocation) event.location else event.description.replace(
-                    "\n",
-                    " "
-                )
+            event_item_description.text = if (replaceDescriptionWithLocation) event.location else event.description.replace("\n", " ")
             event_item_description.beVisibleIf(displayDescription && event_item_description.text.isNotEmpty())
             event_item_color_bar.background.applyColorFilter(event.color)
 
@@ -141,6 +136,11 @@ class DayEventsAdapter(
             event_item_description?.setTextColor(newTextColor)
             event_item_task_image.applyColorFilter(newTextColor)
             event_item_task_image.beVisibleIf(event.isTask())
+            toggle_mark_complete.beVisibleIf(event.isTask())
+            toggle_mark_complete.isChecked = event.isTaskCompleted()
+            toggle_mark_complete.setOnClickListener{
+                setCompleted(view, event)
+            }
 
             val startMargin = if (event.isTask()) {
                 0
@@ -148,8 +148,16 @@ class DayEventsAdapter(
                 mediumMargin
             }
 
-            (event_item_title.layoutParams as ConstraintLayout.LayoutParams).marginStart =
-                startMargin
+            (event_item_title.layoutParams as ConstraintLayout.LayoutParams).marginStart = startMargin
+        }
+    }
+
+    private fun setCompleted(view: View, event: Event) {
+        ensureBackgroundThread {
+            view.context.updateTaskCompletion(event, completed = !event.isTaskCompleted())
+            activity.runOnUiThread {
+                notifyDataSetChanged()
+            }
         }
     }
 

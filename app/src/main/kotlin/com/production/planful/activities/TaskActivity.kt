@@ -27,7 +27,8 @@ import kotlin.math.pow
 
 class TaskActivity : SimpleActivity() {
     private var mEventTypeId = REGULAR_EVENT_TYPE_ID
-    private lateinit var mTaskDateTime: DateTime
+    private lateinit var mTaskStartDateTime: DateTime
+    private lateinit var mTaskEndDateTime: DateTime
     private lateinit var mTask: Event
 
     private var mReminder1Minutes = REMINDER_OFF
@@ -41,6 +42,7 @@ class TaskActivity : SimpleActivity() {
     private var mRepeatRule = 0
     private var mTaskOccurrenceTS = 0L
     private var mOriginalStartTS = 0L
+    private var mOriginalEndTS = 0L
     private var mTaskCompleted = false
     private var mLastSavePromptTS = 0L
     private var mIsNewTask = true
@@ -111,11 +113,17 @@ class TaskActivity : SimpleActivity() {
             return false
         }
 
-        val newStartTS: Long = mTaskDateTime.seconds()
+        var newStartTS: Long = mTaskStartDateTime.seconds()
+        var newEndTS: Long = mTaskEndDateTime.seconds()
+        getStartEndTimes().apply {
+            newStartTS = first
+            newEndTS = second
+        }
+        
         val hasTimeChanged = if (mOriginalStartTS == 0L) {
-            mTask.startTS != newStartTS
+            mTask.startTS != newStartTS || mTask.endTS != newEndTS
         } else {
-            mOriginalStartTS != newStartTS
+            mOriginalStartTS != newStartTS || mOriginalEndTS != newEndTS
         }
 
         val reminders = getReminders()
@@ -163,7 +171,8 @@ class TaskActivity : SimpleActivity() {
 
         outState.apply {
             putSerializable(TASK, mTask)
-            putLong(START_TS, mTaskDateTime.seconds())
+            putLong(START_TS, mTaskStartDateTime.seconds())
+            putLong(END_TS, mTaskEndDateTime.seconds())
             putLong(EVENT_TYPE_ID, mEventTypeId)
 
             putInt(REMINDER_1_MINUTES, mReminder1Minutes)
@@ -177,6 +186,7 @@ class TaskActivity : SimpleActivity() {
             putLong(EVENT_TYPE_ID, mEventTypeId)
             putBoolean(IS_NEW_EVENT, mIsNewTask)
             putLong(ORIGINAL_START_TS, mOriginalStartTS)
+            putLong(ORIGINAL_END_TS, mOriginalEndTS)
         }
     }
 
@@ -190,7 +200,8 @@ class TaskActivity : SimpleActivity() {
 
         savedInstanceState.apply {
             mTask = getSerializable(TASK) as Event
-            mTaskDateTime = Formatter.getDateTimeFromTS(getLong(START_TS))
+            mTaskStartDateTime = Formatter.getDateTimeFromTS(getLong(START_TS))
+            mTaskEndDateTime = Formatter.getDateTimeFromTS(getLong(END_TS))
             mEventTypeId = getLong(EVENT_TYPE_ID)
 
             mReminder1Minutes = getInt(REMINDER_1_MINUTES)
@@ -203,6 +214,7 @@ class TaskActivity : SimpleActivity() {
             mEventTypeId = getLong(EVENT_TYPE_ID)
             mIsNewTask = getBoolean(IS_NEW_EVENT)
             mOriginalStartTS = getLong(ORIGINAL_START_TS)
+            mOriginalEndTS = getLong(ORIGINAL_END_TS)
         }
 
         updateTexts()
@@ -253,8 +265,10 @@ class TaskActivity : SimpleActivity() {
             task_all_day.toggle()
         }
 
-        task_date.setOnClickListener { setupDate() }
-        task_time.setOnClickListener { setupTime() }
+        task_start_date.setOnClickListener { setupStartDate() }
+        task_start_time.setOnClickListener { setupStartTime() }
+        task_end_date.setOnClickListener { setupEndDate() }
+        task_end_time.setOnClickListener { setupEndTime() }
         task_repetition.setOnClickListener { showRepeatIntervalDialog() }
         task_repetition_rule_holder.setOnClickListener { showRepetitionRuleDialog() }
         task_repetition_limit_holder.setOnClickListener { showRepetitionTypePicker() }
@@ -284,8 +298,12 @@ class TaskActivity : SimpleActivity() {
     private fun setupEditTask() {
         mIsNewTask = false
         val realStart = if (mTaskOccurrenceTS == 0L) mTask.startTS else mTaskOccurrenceTS
+        val duration = mTask.endTS - mTask.startTS
         mOriginalStartTS = realStart
-        mTaskDateTime = Formatter.getDateTimeFromTS(realStart)
+        mOriginalEndTS = realStart + duration
+        
+        mTaskStartDateTime = Formatter.getDateTimeFromTS(realStart)
+        mTaskEndDateTime = Formatter.getDateTimeFromTS(realStart + duration)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         task_toolbar.title = getString(R.string.edit_task)
 
@@ -308,17 +326,26 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun setupNewTask() {
-        val startTS = intent.getLongExtra(NEW_EVENT_START_TS, 0L)
-        val dateTime = Formatter.getDateTimeFromTS(startTS)
-        mTaskDateTime = dateTime
+        val startTS = intent.getLongExtra("beginTime", System.currentTimeMillis()) / 1000L
+        mTaskStartDateTime = Formatter.getDateTimeFromTS(startTS)
+
+        val endTS = intent.getLongExtra("endTime", System.currentTimeMillis()) / 1000L
+        mTaskEndDateTime = Formatter.getDateTimeFromTS(endTS)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         task_title.requestFocus()
         task_toolbar.title = getString(R.string.new_task)
 
+        var newStartTS: Long
+        var newEndTS: Long
+        getStartEndTimes().apply {
+            newStartTS = first
+            newEndTS = second
+        }
+        
         mTask.apply {
-            this.startTS = mTaskDateTime.seconds()
-            this.endTS = mTaskDateTime.seconds()
+            this.startTS = newStartTS
+            this.endTS = newEndTS
             reminder1Minutes = mReminder1Minutes
             reminder1Type = mReminder1Type
             reminder2Minutes = mReminder2Minutes
@@ -354,6 +381,18 @@ class TaskActivity : SimpleActivity() {
             return
         }
 
+        var newStartTS: Long
+        var newEndTS: Long
+        getStartEndTimes().apply {
+            newStartTS = first
+            newEndTS = second
+        }
+
+        if (newStartTS > newEndTS) {
+            toast(R.string.end_task_before_start)
+            return
+        }
+
         val wasRepeatable = mTask.repeatInterval > 0
 
         val reminders = getReminders()
@@ -385,8 +424,8 @@ class TaskActivity : SimpleActivity() {
 
         config.lastUsedLocalEventTypeId = mEventTypeId
         mTask.apply {
-            startTS = mTaskDateTime.withSecondOfMinute(0).withMillisOfSecond(0).seconds()
-            endTS = startTS
+            startTS = mTaskStartDateTime.withSecondOfMinute(0).withMillisOfSecond(0).seconds()
+            endTS = mTaskEndDateTime.withSecondOfMinute(0).withMillisOfSecond(0).seconds()
             title = newTitle
             description = task_description.value
 
@@ -434,7 +473,7 @@ class TaskActivity : SimpleActivity() {
             eventsHelper.insertTask(mTask, true) {
                 hideKeyboard()
 
-                if (DateTime.now().isAfter(mTaskDateTime.millis)) {
+                if (DateTime.now().isAfter(mTaskStartDateTime.millis)) {
                     if (mTask.repeatInterval == 0 && mTask.getReminders()
                             .any { it.type == REMINDER_NOTIFICATION }
                     ) {
@@ -545,15 +584,15 @@ class TaskActivity : SimpleActivity() {
         }
     }
 
-    private fun setupDate() {
+    private fun setupStartDate() {
         hideKeyboard()
         val datePicker = DatePickerDialog(
             this,
             getDatePickerDialogTheme(),
-            dateSetListener,
-            mTaskDateTime.year,
-            mTaskDateTime.monthOfYear - 1,
-            mTaskDateTime.dayOfMonth
+            startDateSetListener,
+            mTaskStartDateTime.year,
+            mTaskStartDateTime.monthOfYear - 1,
+            mTaskStartDateTime.dayOfMonth
         )
 
         datePicker.datePicker.firstDayOfWeek =
@@ -561,41 +600,104 @@ class TaskActivity : SimpleActivity() {
         datePicker.show()
     }
 
-    private fun setupTime() {
+    private fun setupStartTime() {
         hideKeyboard()
         TimePickerDialog(
             this,
             getTimePickerDialogTheme(),
-            timeSetListener,
-            mTaskDateTime.hourOfDay,
-            mTaskDateTime.minuteOfHour,
+            startTimeSetListener,
+            mTaskStartDateTime.hourOfDay,
+            mTaskStartDateTime.minuteOfHour,
             config.use24HourFormat
         ).show()
     }
 
-    private val dateSetListener =
+    private fun setupEndDate() {
+        hideKeyboard()
+        val datepicker = DatePickerDialog(
+            this,
+            getDatePickerDialogTheme(),
+            endDateSetListener,
+            mTaskEndDateTime.year,
+            mTaskEndDateTime.monthOfYear - 1,
+            mTaskEndDateTime.dayOfMonth
+        )
+
+        datepicker.datePicker.firstDayOfWeek =
+            if (config.isSundayFirst) Calendar.SUNDAY else Calendar.MONDAY
+        datepicker.show()
+    }
+
+    private fun setupEndTime() {
+        hideKeyboard()
+        TimePickerDialog(
+            this,
+            getTimePickerDialogTheme(),
+            endTimeSetListener,
+            mTaskEndDateTime.hourOfDay,
+            mTaskEndDateTime.minuteOfHour,
+            config.use24HourFormat
+        ).show()
+    }
+
+    private val startDateSetListener =
         DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            dateSet(year, monthOfYear, dayOfMonth)
+            dateSet(year, monthOfYear, dayOfMonth, true)
         }
 
-    private val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-        timeSet(hourOfDay, minute)
+    private val startTimeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+        timeSet(hourOfDay, minute, true)
     }
 
-    private fun dateSet(year: Int, month: Int, day: Int) {
-        mTaskDateTime = mTaskDateTime.withDate(year, month + 1, day)
-        updateDateText()
-        checkRepeatRule()
+    private val endDateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            dateSet(year, monthOfYear, dayOfMonth, false)
+        }
+
+    private val endTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        timeSet(hourOfDay, minute, false)
     }
 
-    private fun timeSet(hours: Int, minutes: Int) {
-        mTaskDateTime = mTaskDateTime.withHourOfDay(hours).withMinuteOfHour(minutes)
-        updateTimeText()
+    private fun dateSet(year: Int, month: Int, day: Int, isStart: Boolean) {
+        if (isStart) {
+            val diff = mTaskEndDateTime.seconds() - mTaskStartDateTime.seconds()
+
+            mTaskStartDateTime = mTaskStartDateTime.withDate(year, month + 1, day)
+            updateStartDateText()
+            checkRepeatRule()
+
+            mTaskEndDateTime = mTaskStartDateTime.plusSeconds(diff.toInt())
+            updateEndTexts()
+        } else {
+            mTaskEndDateTime = mTaskEndDateTime.withDate(year, month + 1, day)
+            updateEndDateText()
+        }
+    }
+
+    private fun timeSet(hours: Int, minutes: Int, isStart: Boolean) {
+        try {
+            if (isStart) {
+                val diff = mTaskEndDateTime.seconds() - mTaskStartDateTime.seconds()
+
+                mTaskStartDateTime =
+                    mTaskStartDateTime.withHourOfDay(hours).withMinuteOfHour(minutes)
+                updateStartTimeText()
+
+                mTaskEndDateTime = mTaskStartDateTime.plusSeconds(diff.toInt())
+                updateEndTexts()
+            } else {
+                mTaskEndDateTime = mTaskEndDateTime.withHourOfDay(hours).withMinuteOfHour(minutes)
+                updateEndTimeText()
+            }
+        } catch (e: Exception) {
+            timeSet(hours + 1, minutes, isStart)
+            return
+        }
     }
 
     private fun updateTexts() {
-        updateDateText()
-        updateTimeText()
+        updateStartTexts()
+        updateEndTexts()
         updateReminderTexts()
         updateRepetitionText()
     }
@@ -604,7 +706,7 @@ class TaskActivity : SimpleActivity() {
         if (mRepeatInterval.isXWeeklyRepetition()) {
             val day = mRepeatRule
             if (day == MONDAY_BIT || day == TUESDAY_BIT || day == WEDNESDAY_BIT || day == THURSDAY_BIT || day == FRIDAY_BIT || day == SATURDAY_BIT || day == SUNDAY_BIT) {
-                setRepeatRule(2.0.pow((mTaskDateTime.dayOfWeek - 1).toDouble()).toInt())
+                setRepeatRule(2.0.pow((mTaskStartDateTime.dayOfWeek - 1).toDouble()).toInt())
             }
         } else if (mRepeatInterval.isXMonthlyRepetition() || mRepeatInterval.isXYearlyRepetition()) {
             if (mRepeatRule == REPEAT_LAST_DAY && !isLastDayOfTheMonth()) {
@@ -614,18 +716,66 @@ class TaskActivity : SimpleActivity() {
         }
     }
 
-
-    private fun updateDateText() {
-        task_date.text = Formatter.getDate(this, mTaskDateTime)
+    private fun updateStartTexts() {
+        updateStartDateText()
+        updateStartTimeText()
     }
 
-    private fun updateTimeText() {
-        task_time.text = Formatter.getTime(this, mTaskDateTime)
+    private fun updateStartDateText() {
+        task_start_date.text = Formatter.getDate(this, mTaskStartDateTime)
+        checkStartEndValidity()
+    }
+
+    private fun updateStartTimeText() {
+        task_start_time.text = Formatter.getTime(this, mTaskStartDateTime)
+        checkStartEndValidity()
+    }
+
+    private fun updateEndTexts() {
+        updateEndDateText()
+        updateEndTimeText()
+    }
+
+    private fun updateEndDateText() {
+        task_end_date.text = Formatter.getDate(this, mTaskEndDateTime)
+        checkStartEndValidity()
+    }
+
+    private fun updateEndTimeText() {
+        task_end_time.text = Formatter.getTime(this, mTaskEndDateTime)
+        checkStartEndValidity()
+    }
+
+    private fun checkStartEndValidity() {
+        val textColor =
+            if (mTaskStartDateTime.isAfter(mTaskEndDateTime)) resources.getColor(R.color.red_text) else getProperTextColor()
+        task_end_date.setTextColor(textColor)
+        task_end_time.setTextColor(textColor)
+    }
+
+    private fun resetTime() {
+        if (mTaskEndDateTime.isBefore(mTaskStartDateTime) &&
+            mTaskStartDateTime.dayOfMonth() == mTaskEndDateTime.dayOfMonth() &&
+            mTaskStartDateTime.monthOfYear() == mTaskEndDateTime.monthOfYear()
+        ) {
+
+            mTaskEndDateTime =
+                mTaskEndDateTime.withTime(
+                    mTaskStartDateTime.hourOfDay,
+                    mTaskStartDateTime.minuteOfHour,
+                    mTaskStartDateTime.secondOfMinute,
+                    0
+                )
+            updateEndTimeText()
+            checkStartEndValidity()
+        }
     }
 
     private fun toggleAllDay(isChecked: Boolean) {
         hideKeyboard()
-        task_time.beGoneIf(isChecked)
+        task_start_time.beGoneIf(isChecked)
+        task_end_time.beGoneIf(isChecked)
+        resetTime()
     }
 
     private fun setupMarkCompleteButton() {
@@ -643,8 +793,7 @@ class TaskActivity : SimpleActivity() {
 
     private fun updateTaskCompletedButton() {
         if (mTaskCompleted) {
-            toggle_mark_complete.background =
-                ContextCompat.getDrawable(this, R.drawable.button_background_stroke)
+            toggle_mark_complete.background = ContextCompat.getDrawable(this, R.drawable.button_background_stroke)
             toggle_mark_complete.setText(R.string.mark_incomplete)
             toggle_mark_complete.setTextColor(getProperTextColor())
         } else {
@@ -702,6 +851,18 @@ class TaskActivity : SimpleActivity() {
         }
     }
 
+    private fun getStartEndTimes(): Pair<Long, Long> {
+        return if (mTask.getIsAllDay()) {
+            val newStartTS = mTaskStartDateTime.withTimeAtStartOfDay().seconds()
+            val newEndTS = mTaskEndDateTime.withTimeAtStartOfDay().withHourOfDay(12).seconds()
+            Pair(newStartTS, newEndTS)
+        } else {
+            val newStartTS = mTaskStartDateTime.seconds()
+            val newEndTS = mTaskEndDateTime.seconds()
+            Pair(newStartTS, newEndTS)
+        }
+    }
+
     private fun getReminders(): ArrayList<Reminder> {
         var reminders = arrayListOf(
             Reminder(mReminder1Minutes, mReminder1Type),
@@ -717,7 +878,7 @@ class TaskActivity : SimpleActivity() {
         updateTextColors(task_scrollview)
         val textColor = getProperTextColor()
         arrayOf(
-            task_time_image, task_reminder_image, task_repetition_image
+            task_time_image, task_reminder_image, task_repetition_image, task_start_date_image, task_end_date_image,
         ).forEach {
             it.applyColorFilter(textColor)
         }
@@ -736,7 +897,7 @@ class TaskActivity : SimpleActivity() {
 
         when {
             mRepeatInterval.isXWeeklyRepetition() -> setRepeatRule(
-                2.0.pow((mTaskDateTime.dayOfWeek - 1).toDouble()).toInt()
+                2.0.pow((mTaskStartDateTime.dayOfWeek - 1).toDouble()).toInt()
             )
             mRepeatInterval.isXMonthlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
             mRepeatInterval.isXYearlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
@@ -753,7 +914,7 @@ class TaskActivity : SimpleActivity() {
 
     private fun showRepetitionTypePicker() {
         hideKeyboard()
-        RepeatLimitTypePickerDialog(this, mRepeatLimit, mTaskDateTime.seconds()) {
+        RepeatLimitTypePickerDialog(this, mRepeatLimit, mTaskStartDateTime.seconds()) {
             setRepeatLimit(it)
         }
     }
@@ -863,13 +1024,13 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun isLastDayOfTheMonth() =
-        mTaskDateTime.dayOfMonth == mTaskDateTime.dayOfMonth().withMaximumValue().dayOfMonth
+        mTaskStartDateTime.dayOfMonth == mTaskStartDateTime.dayOfMonth().withMaximumValue().dayOfMonth
 
     private fun isLastWeekDayOfMonth() =
-        mTaskDateTime.monthOfYear != mTaskDateTime.plusDays(7).monthOfYear
+        mTaskStartDateTime.monthOfYear != mTaskStartDateTime.plusDays(7).monthOfYear
 
     private fun getRepeatXthDayString(includeBase: Boolean, repeatRule: Int): String {
-        val dayOfWeek = mTaskDateTime.dayOfWeek
+        val dayOfWeek = mTaskStartDateTime.dayOfWeek
         val base = getBaseString(dayOfWeek)
         val order = getOrderString(repeatRule)
         val dayString = getDayString(dayOfWeek)
@@ -877,7 +1038,7 @@ class TaskActivity : SimpleActivity() {
             "$base $order $dayString"
         } else {
             val everyString =
-                getString(if (isMaleGender(mTaskDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
+                getString(if (isMaleGender(mTaskStartDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
             "$everyString $order $dayString"
         }
     }
@@ -895,13 +1056,13 @@ class TaskActivity : SimpleActivity() {
     private fun isMaleGender(day: Int) = day == 1 || day == 2 || day == 4 || day == 5
 
     private fun getOrderString(repeatRule: Int): String {
-        val dayOfMonth = mTaskDateTime.dayOfMonth
+        val dayOfMonth = mTaskStartDateTime.dayOfMonth
         var order = (dayOfMonth - 1) / 7 + 1
         if (isLastWeekDayOfMonth() && repeatRule == REPEAT_ORDER_WEEKDAY_USE_LAST) {
             order = -1
         }
 
-        val isMale = isMaleGender(mTaskDateTime.dayOfWeek)
+        val isMale = isMaleGender(mTaskStartDateTime.dayOfWeek)
         return getString(
             when (order) {
                 1 -> if (isMale) R.string.first_m else R.string.first_f
@@ -930,7 +1091,7 @@ class TaskActivity : SimpleActivity() {
 
     private fun getRepeatXthDayInMonthString(includeBase: Boolean, repeatRule: Int): String {
         val weekDayString = getRepeatXthDayString(includeBase, repeatRule)
-        val monthString = resources.getStringArray(R.array.in_months)[mTaskDateTime.monthOfYear - 1]
+        val monthString = resources.getStringArray(R.array.in_months)[mTaskStartDateTime.monthOfYear - 1]
         return "$weekDayString $monthString"
     }
 

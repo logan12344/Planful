@@ -10,7 +10,6 @@
     android:foreground="@drawable/selector">
 
     <RelativeLayout
-        android:id="@+id/event_type_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"

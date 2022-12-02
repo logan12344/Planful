@@ -21,6 +21,10 @@ fun RemoteViews.setVisibleIf(id: Int, beVisible: Boolean) {
     setViewVisibility(id, visibility)
 }
 
+fun RemoteViews.setChecked(id: Int, beCheck: Boolean) {
+    setBoolean(id, "setChecked", beCheck)
+}
+
 fun RemoteViews.applyColorFilter(id: Int, color: Int) {
     setInt(id, "setColorFilter", color)
     setInt(id, "setImageAlpha", Color.alpha(color))

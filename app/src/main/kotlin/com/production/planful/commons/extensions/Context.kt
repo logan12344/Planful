@@ -8,7 +8,6 @@ import android.app.role.RoleManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutManager
-import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.Point
@@ -21,8 +20,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.BaseColumns
 import android.provider.BlockedNumberContract.BlockedNumbers
-import android.provider.ContactsContract.CommonDataKinds.BaseTypes
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.DocumentsContract
 import android.provider.MediaStore.*
 import android.provider.OpenableColumns
@@ -31,8 +28,6 @@ import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager

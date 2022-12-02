@@ -13,7 +13,6 @@ import com.production.planful.helpers.*
 import com.production.planful.models.Event
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun BaseSimpleActivity.shareEvents(ids: List<Long>) {
     ensureBackgroundThread {

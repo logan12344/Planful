@@ -95,5 +95,15 @@
             app:layout_constraintTop_toBottomOf="@+id/event_item_time"
             tools:text="Event description" />
 
+        <CheckBox
+            android:id="@+id/toggle_mark_complete"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/event_item_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/event_item_title" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

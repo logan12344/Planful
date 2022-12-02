@@ -33,6 +33,7 @@
     <string name="duplicate_task">Duplicate task</string>
     <string name="mark_completed">Mark completed</string>
     <string name="mark_incomplete">Mark incomplete</string>
+    <string name="end_task_before_start">The task cannot end earlier than it starts</string>
 
     <!-- Event Repetition -->
     <string name="no_repetition">Once</string>
@@ -55,7 +56,6 @@
     <string name="update_this_and_future_occurrences">Update this and all future occurrences</string>
     <string name="update_all_occurrences">Update all occurrences</string>
     <string name="repeat_till_date">Repeat till a date</string>
-    <string name="stop_repeating_after_x">Stop repeating after x occurrences</string>
     <string name="repeat_forever">Repeat forever</string>
     <string name="times">times</string>
     <string name="repeat">Repeat</string>

@@ -17,7 +17,6 @@ import android.provider.DocumentsContract.Document
 import android.provider.MediaStore.*
 import android.text.TextUtils
 import androidx.annotation.RequiresApi
-import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.production.planful.R

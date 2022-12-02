@@ -30,43 +30,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.production.planful.commons.views.MyEditText
-                android:id="@+id/task_title"
+            <com.production.planful.commons.views.MyTextInputLayout
+                android:id="@+id/task_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginEnd="@dimen/activity_margin"
-                android:hint="@string/title"
-                android:inputType="textCapSentences"
-                android:maxLength="180"
-                android:maxLines="1"
-                android:minEms="20"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/day_text_size" />
+                android:hint="@string/title">
 
-            <com.production.planful.commons.views.MyEditText
-                android:id="@+id/task_description"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/task_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/day_text_size"
+                    android:inputType="textCapSentences"
+                    android:maxLength="180"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@null"
+                    android:minEms="20" />
+
+            </com.production.planful.commons.views.MyTextInputLayout>
+
+            <com.production.planful.commons.views.MyTextInputLayout
+                android:id="@+id/task_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/task_title"
+                android:layout_below="@+id/task_title_layout"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginEnd="@dimen/activity_margin"
-                android:autoLink="all"
-                android:gravity="top"
-                android:hint="@string/description"
-                android:inputType="textCapSentences|textMultiLine"
-                android:linksClickable="true"
-                android:minEms="20"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/day_text_size" />
+                android:hint="@string/description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/task_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/day_text_size"
+                    android:linksClickable="true"
+                    android:autoLink="all"
+                    android:gravity="top"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="180"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@null"
+                    android:minEms="20" />
+
+            </com.production.planful.commons.views.MyTextInputLayout>
 
             <ImageView
                 android:id="@+id/task_description_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_below="@+id/task_description"
+                android:layout_below="@+id/task_description_layout"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:background="@color/divider_grey"
@@ -109,8 +125,19 @@
 
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/task_start_date_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/task_time_image"
+                android:layout_alignTop="@+id/task_start_date"
+                android:layout_alignBottom="@+id/task_start_date"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:padding="@dimen/medium_margin"
+                android:src="@drawable/calendar" />
+
             <com.production.planful.commons.views.MyTextView
-                android:id="@+id/task_date"
+                android:id="@+id/task_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/task_time_image"
@@ -123,7 +150,7 @@
                 tools:text="January 1 1970" />
 
             <com.production.planful.commons.views.MyTextView
-                android:id="@+id/task_time"
+                android:id="@+id/task_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/task_time_image"
@@ -134,10 +161,45 @@
                 tools:text="00:00" />
 
             <ImageView
+                android:id="@+id/task_end_date_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/task_start_date"
+                android:layout_alignTop="@+id/task_end_date"
+                android:layout_alignBottom="@+id/task_end_date"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:padding="@dimen/medium_margin"
+                android:src="@drawable/calendar" />
+
+            <com.production.planful.commons.views.MyTextView
+                android:id="@+id/task_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_start_date"
+                android:layout_alignStart="@+id/task_all_day_holder"
+                android:background="?attr/selectableItemBackground"
+                android:paddingTop="@dimen/activity_margin"
+                android:paddingEnd="@dimen/activity_margin"
+                android:paddingBottom="@dimen/activity_margin"
+                android:textSize="@dimen/day_text_size"
+                tools:text="January 1 1970" />
+
+            <com.production.planful.commons.views.MyTextView
+                android:id="@+id/task_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_start_time"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/activity_margin"
+                android:textSize="@dimen/day_text_size"
+                tools:text="00:00" />
+
+            <ImageView
                 android:id="@+id/task_date_time_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_below="@+id/task_date"
+                android:layout_below="@+id/task_end_date"
                 android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginBottom="@dimen/medium_margin"
                 android:background="@color/divider_grey"

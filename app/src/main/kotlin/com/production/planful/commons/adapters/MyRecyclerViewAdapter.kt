@@ -336,9 +336,7 @@ abstract class MyRecyclerViewAdapter(
                 if (allowSingleClick) {
                     setOnClickListener { viewClicked(any) }
                     setOnLongClickListener {
-                        if (allowLongClick) viewLongClicked() else viewClicked(
-                            any
-                        ); true
+                        if (allowLongClick) viewLongClicked() else viewClicked(any); true
                     }
                 } else {
                     setOnClickListener(null)

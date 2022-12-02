@@ -1,31 +1,23 @@
 package com.production.planful.activities
 
 import android.app.Activity
-import android.app.TimePickerDialog
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.os.Bundle
-import android.widget.Toast
 import com.production.planful.R
-import com.production.planful.commons.dialogs.*
+import com.production.planful.commons.dialogs.RadioGroupDialog
+import com.production.planful.commons.dialogs.SelectAlarmSoundDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.AlarmSound
 import com.production.planful.commons.models.RadioItem
-import com.production.planful.dialogs.SelectCalendarsDialog
-import com.production.planful.dialogs.SelectEventTypeDialog
-import com.production.planful.dialogs.SelectQuickFilterEventTypesDialog
-import com.production.planful.extensions.*
+import com.production.planful.extensions.config
+import com.production.planful.extensions.eventsHelper
+import com.production.planful.extensions.updateWidgets
 import com.production.planful.helpers.*
-import com.production.planful.models.EventType
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.joda.time.DateTime
-import java.io.File
 import java.io.InputStream
-import java.util.*
-import kotlin.system.exitProcess
 
 class SettingsActivity : SimpleActivity() {
     private val GET_RINGTONE_URI = 1
