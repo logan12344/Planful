@@ -15,6 +15,7 @@ import android.widget.RelativeLayout
 import androidx.collection.LongSparseArray
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.google.android.flexbox.FlexboxLayout
 import com.production.planful.R
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
@@ -596,7 +597,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                         R.layout.week_event_marker,
                         null,
                         false
-                    ) as ConstraintLayout).apply {
+                    ) as FlexboxLayout).apply {
                         var backgroundColor = eventTypeColors.get(event.eventType, primaryColor)
                         var textColor = backgroundColor.getContrastColor()
                         val currentEventWeeklyView = eventTimeRanges[currentDayCode]!!.get(event.id)
