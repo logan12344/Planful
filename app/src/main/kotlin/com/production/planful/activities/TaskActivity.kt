@@ -329,10 +329,10 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun setupNewTask() {
-        val startTS = intent.getLongExtra("beginTime", System.currentTimeMillis()) / 1000L
+        val startTS = intent.getLongExtra(NEW_EVENT_START_TS, 0L)
         mTaskStartDateTime = Formatter.getDateTimeFromTS(startTS)
 
-        val endTS = intent.getLongExtra("endTime", System.currentTimeMillis()) / 1000L
+        val endTS = intent.getLongExtra(NEW_EVENT_START_TS, 0L)
         mTaskEndDateTime = Formatter.getDateTimeFromTS(endTS)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
