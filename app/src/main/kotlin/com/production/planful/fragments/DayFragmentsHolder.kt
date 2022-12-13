@@ -30,6 +30,7 @@ class DayFragmentsHolder : MyFragmentHolder(), NavigationListener {
     private var todayDayCode = ""
     private var currentDayCode = ""
     private var isGoToTodayVisible = false
+    private var percentage = -1
 
     override val viewType = DAILY_VIEW
 
@@ -55,6 +56,9 @@ class DayFragmentsHolder : MyFragmentHolder(), NavigationListener {
     private fun setupFragment() {
         val codes = getDays(currentDayCode)
         val dailyAdapter = MyDayPagerAdapter(requireActivity().supportFragmentManager, codes, this)
+        dailyAdapter.setPercentageListener {
+            percentage = it
+        }
         defaultDailyPage = codes.size / 2
 
 

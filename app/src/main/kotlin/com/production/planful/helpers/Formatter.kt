@@ -8,6 +8,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
+import java.util.*
 
 object Formatter {
     const val DAYCODE_PATTERN = "YYYYMMdd"
@@ -43,9 +44,9 @@ object Formatter {
     }
 
     fun getDayTitle(context: Context, dayCode: String, addDayOfWeek: Boolean = true): String {
-        val date = getDateFromCode(context, dayCode)
+        val date = getDateFromCode(context, dayCode, true)
         val dateTime = getDateTimeFromCode(dayCode)
-        val day = dateTime.toString(DAY_OF_WEEK_PATTERN)
+        val day = dateTime.toString(DAY_OF_WEEK_PATTERN, Locale("en", "US"))
         return if (addDayOfWeek)
             "$date ($day)"
         else

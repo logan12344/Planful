@@ -1,8 +1,12 @@
 package com.production.planful.fragments
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +34,12 @@ class DayFragment : Fragment() {
     private var lastHash = 0
 
     private lateinit var mHolder: RelativeLayout
+
+    private var percentageListener: ((Int) -> Unit)? = null
+
+    fun setPercentageListener(block: ((Int) -> Unit)) {
+        percentageListener = block
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -130,6 +140,15 @@ class DayFragment : Fragment() {
         if (events.size > 0) {
             mHolder.no_data.visibility = View.GONE
             mHolder.day_events.visibility = View.VISIBLE
+            val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
+            val day = Formatter.getDayTitle(requireContext(), mDayCode)
+            val spannable = SpannableString(day.plus(" $percent%"))
+            spannable.setSpan(
+                StyleSpan(Typeface.BOLD),
+                day.lastIndex + 1, spannable.lastIndex + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            mHolder.top_value.text = spannable
         } else {
             mHolder.no_data.visibility = View.VISIBLE
             mHolder.day_events.visibility = View.GONE
@@ -137,6 +156,17 @@ class DayFragment : Fragment() {
         DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
             editEvent(it as Event)
         }.apply {
+            this.setDataUpdatedListener {
+                val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
+                val day = Formatter.getDayTitle(requireContext(), mDayCode)
+                val spannable = SpannableString(day.plus(" $percent%"))
+                spannable.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    day.lastIndex + 1, spannable.lastIndex + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                mHolder.top_value.text = spannable
+            }
             mHolder.day_events.adapter = this
         }
 

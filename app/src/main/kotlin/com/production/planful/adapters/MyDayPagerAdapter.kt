@@ -17,6 +17,12 @@ class MyDayPagerAdapter(
     FragmentStatePagerAdapter(fm) {
     private val mFragments = SparseArray<DayFragment>()
 
+    private var percentageListener: ((Int) -> Unit)? = null
+
+    fun setPercentageListener(block: ((Int) -> Unit)) {
+        percentageListener = block
+    }
+
     override fun getCount() = mCodes.size
 
     override fun getItem(position: Int): Fragment {
@@ -25,6 +31,9 @@ class MyDayPagerAdapter(
         bundle.putString(DAY_CODE, code)
 
         val fragment = DayFragment()
+        fragment.setPercentageListener {
+            percentageListener?.invoke(it)
+        }
         fragment.arguments = bundle
         fragment.mListener = mListener
 
