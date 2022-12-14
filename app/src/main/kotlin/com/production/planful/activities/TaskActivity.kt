@@ -5,9 +5,14 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.production.planful.R
+import com.production.planful.adapters.ChecklistAdapter
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
@@ -17,11 +22,10 @@ import com.production.planful.dialogs.*
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.helpers.Formatter
-import com.production.planful.models.Event
-import com.production.planful.models.EventType
-import com.production.planful.models.Reminder
+import com.production.planful.models.*
 import kotlinx.android.synthetic.main.activity_task.*
 import org.joda.time.DateTime
+import org.json.JSONArray
 import java.util.*
 import kotlin.math.pow
 
@@ -30,7 +34,8 @@ class TaskActivity : SimpleActivity() {
     private lateinit var mTaskStartDateTime: DateTime
     private lateinit var mTaskEndDateTime: DateTime
     private lateinit var mTask: Event
-
+    private lateinit var checklistAdapter: ChecklistAdapter
+    private lateinit var checklistArray: ArrayList<ChecklistItem>
     private var mReminder1Minutes = REMINDER_OFF
     private var mReminder2Minutes = REMINDER_OFF
     private var mReminder3Minutes = REMINDER_OFF
@@ -46,6 +51,7 @@ class TaskActivity : SimpleActivity() {
     private var mTaskCompleted = false
     private var mLastSavePromptTS = 0L
     private var mIsNewTask = true
+    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +74,8 @@ class TaskActivity : SimpleActivity() {
                 return@ensureBackgroundThread
             }
 
-            val storedEventTypes =
-                eventTypesDB.getEventTypes().toMutableList() as ArrayList<EventType>
-            val localEventType =
-                storedEventTypes.firstOrNull { it.id == config.lastUsedLocalEventTypeId }
+            val storedEventTypes = eventTypesDB.getEventTypes().toMutableList() as ArrayList<EventType>
+            val localEventType = storedEventTypes.firstOrNull { it.id == config.lastUsedLocalEventTypeId }
             runOnUiThread {
                 if (!isDestroyed && !isFinishing) {
                     gotTask(savedInstanceState, localEventType, task)
@@ -261,9 +265,31 @@ class TaskActivity : SimpleActivity() {
             }
         }
 
+        ensureBackgroundThread {
+            val list = getChecklist(mTask)
+            checklistArray = ArrayList()
+            if (list != "") {
+                task_checklist.isChecked = isCheckListEnable(mTask)
+                checklistArray.addAll(gson.fromJson<ArrayList<ChecklistItem>>(list))
+            } else {
+                checklistArray.add(ChecklistItem("", false))
+            }
+            setupRecycle()
+        }
+
         task_all_day.setOnCheckedChangeListener { _, isChecked -> toggleAllDay(isChecked) }
         task_all_day_holder.setOnClickListener {
             task_all_day.toggle()
+        }
+
+        task_checklist.setOnCheckedChangeListener { _, isChecked -> toggleChecklist(isChecked) }
+        task_checklist_holder.setOnClickListener {
+            task_checklist.toggle()
+        }
+
+        checklist_complete.setOnClickListener {
+            checklistArray.add(ChecklistItem("", false))
+            checklistAdapter.notifyItemInserted(checklistArray.size)
         }
 
         task_start_date.setOnClickListener { setupStartDate() }
@@ -296,6 +322,12 @@ class TaskActivity : SimpleActivity() {
             updateEventType()
             updateTexts()
         }
+    }
+
+    private fun setupRecycle() {
+        checklistAdapter = ChecklistAdapter(this, recycle_checklist, checklistArray)
+        recycle_checklist.adapter = checklistAdapter
+        recycle_checklist.layoutManager = LinearLayoutManager(this)
     }
 
     private fun setupEditTask() {
@@ -439,6 +471,7 @@ class TaskActivity : SimpleActivity() {
                     updateTaskCompletion(copy(startTS = mOriginalStartTS), true)
                 }
             }
+
             flags = mTask.flags.addBitIf(task_all_day.isChecked, FLAG_ALL_DAY)
             lastUpdated = System.currentTimeMillis()
             eventType = mEventTypeId
@@ -497,6 +530,11 @@ class TaskActivity : SimpleActivity() {
                     finish()
                 }
             }
+        }
+        val jsonString = gson.convertToJsonString(checklistArray)
+        ensureBackgroundThread {
+            updateChecklistEnable(mTask.copy(startTS = mOriginalStartTS), task_checklist.isChecked)
+            updateChecklist(mTask.copy(startTS = mOriginalStartTS), jsonString)
         }
     }
 
@@ -779,6 +817,12 @@ class TaskActivity : SimpleActivity() {
         task_start_time.beGoneIf(isChecked)
         task_end_time.beGoneIf(isChecked)
         resetTime()
+    }
+
+    private fun toggleChecklist(isChecked: Boolean) {
+        hideKeyboard()
+        recycle_checklist.beVisibleIf(isChecked)
+        checklist_complete.beVisibleIf(isChecked)
     }
 
     private fun setupMarkCompleteButton() {

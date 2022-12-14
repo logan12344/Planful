@@ -12,5 +12,7 @@ data class ListEvent(
     var isPastEvent: Boolean,
     var isRepeatable: Boolean,
     var isTask: Boolean,
-    var isTaskCompleted: Boolean
+    var isTaskCompleted: Boolean,
+    var getChecklist: String,
+    var isCheckListEnable: Boolean
 ) : ListItem()

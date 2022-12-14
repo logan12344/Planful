@@ -14,7 +14,6 @@ const val EXTRA_SHOW_ADVANCED = "android.content.extra.SHOW_ADVANCED"
 
 const val APP_NAME = "app_name"
 const val APP_LICENSES = "app_licenses"
-const val APP_FAQ = "app_faq"
 const val APP_VERSION_NAME = "app_version_name"
 const val APP_ICON_IDS = "app_icon_ids"
 const val APP_ID = "app_id"
@@ -28,7 +27,6 @@ const val BLOCKED_NUMBERS_EXPORT_DELIMITER = ","
 const val BLOCKED_NUMBERS_EXPORT_EXTENSION = ".txt"
 const val NOMEDIA = ".nomedia"
 const val YOUR_ALARM_SOUNDS_MIN_ID = 1000
-const val SHOW_FAQ_BEFORE_MAIL = "show_faq_before_mail"
 const val INVALID_NAVIGATION_BAR_COLOR = -1
 const val CHOPPED_LIST_DEFAULT_SIZE = 50
 const val SAVE_DISCARD_PROMPT_INTERVAL = 1000L

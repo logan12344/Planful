@@ -251,7 +251,9 @@ class EventListWidgetAdapter(val context: Context, val intent: Intent) :
                     event.isPastEvent,
                     event.repeatInterval > 0,
                     event.isTask(),
-                    event.isTaskCompleted()
+                    event.isTaskCompleted(),
+                    event.getCheckList(),
+                    event.isCheckListEnable()
                 )
                 listItems.add(listEvent)
             }

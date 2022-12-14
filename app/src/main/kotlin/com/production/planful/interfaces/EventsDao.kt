@@ -120,6 +120,12 @@ interface EventsDao {
     @Query("UPDATE events SET flags = :newFlags WHERE id = :id")
     fun updateTaskCompletion(id: Long, newFlags: Int)
 
+    @Query("UPDATE events SET checklist = :checklist WHERE id = :id")
+    fun updateChecklist(id: Long, checklist: String)
+
+    @Query("UPDATE events SET checklistEnable = :checklistEnable WHERE id = :id")
+    fun updateChecklistEnable(id: Long, checklistEnable: Boolean)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(event: Event): Long
 

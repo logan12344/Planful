@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <com.production.planful.commons.views.MyTextInputLayout
+        android:id="@+id/checklist_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_margin"
+        android:layout_toStartOf="@+id/checklist_item_delete"
+        android:hint="@string/item_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/checklist_item_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:maxLength="180"
+            android:maxLines="1"
+            android:minEms="20"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/day_text_size" />
+
+    </com.production.planful.commons.views.MyTextInputLayout>
+
+    <ImageView
+        android:id="@+id/checklist_item_delete"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/checklist_item_layout"
+        android:layout_alignBottom="@+id/checklist_item_layout"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/small_margin"
+        android:src="@drawable/ic_delete_vector" />
+
+</RelativeLayout>

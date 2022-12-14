@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llBg"
+    android:layout_width="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="0dp"
+    android:layout_height="48dp">
+
+    <TextView
+        android:id="@+id/tvChecklistItemName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Item"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#000"
+        android:textSize="13sp"
+        android:textStyle="normal"/>
+
+    <CheckBox
+        android:id="@+id/cbChecklistItemDone"
+        android:layout_marginStart="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

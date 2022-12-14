@@ -262,11 +262,73 @@
                 android:background="@color/divider_grey"
                 android:importantForAccessibility="no" />
 
+            <LinearLayout
+                android:id="@+id/task_checklist_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:background="@drawable/checklist_bg"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/zero"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:layout_alignParentEnd="true">
+
+                <RelativeLayout
+                    android:id="@+id/task_checklist_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:background="?attr/selectableItemBackground">
+
+                    <com.production.planful.commons.views.MyAppCompatCheckbox
+                        android:id="@+id/task_checklist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:layoutDirection="rtl"
+                        android:text="@string/checklist"
+                        android:textSize="@dimen/day_text_size" />
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle_checklist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+
+                <android.widget.TextView
+                    android:id="@+id/checklist_complete"
+                    style="@style/ColoredButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginBottom="@dimen/activity_margin"
+                    android:text="@string/add_item"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/task_checklist_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/task_checklist_layout"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:background="@color/divider_grey"
+                android:importantForAccessibility="no" />
+
             <ImageView
                 android:id="@+id/task_repetition_image"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_below="@+id/task_checklist_divider"
                 android:layout_alignTop="@+id/task_repetition"
                 android:layout_alignBottom="@+id/task_repetition"
                 android:layout_marginStart="@dimen/normal_margin"
@@ -277,7 +339,7 @@
                 android:id="@+id/task_repetition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_below="@+id/task_checklist_divider"
                 android:layout_marginStart="@dimen/small_margin"
                 android:layout_toEndOf="@+id/task_repetition_image"
                 android:background="?attr/selectableItemBackground"

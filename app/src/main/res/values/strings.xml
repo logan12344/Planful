@@ -110,8 +110,6 @@
     <!-- Time zones -->
     <string name="enter_a_country">Enter a country or time zone</string>
 
-    <!-- Export / Import -->
-
     <!-- Event details -->
     <string name="location">Location</string>
     <string name="description">Description</string>
@@ -625,8 +623,10 @@
     <string name="faq_7_title_commons">The money has been deducted from my bank account, but I cannot download the app. What can I do?</string>
     <string name="faq_7_text_commons">Payments are fully handled by Google, their system glitches from time to time. Just clear your Google Play app cache and restart your device, then retry downloading it.</string>
 
-    <!-- Contributors -->
-
     <!-- License -->
     <string name="third_party_licences">Third party licences</string>
+    <string name="checklist">Checklist</string>
+    <string name="add_item">Add item</string>
+    <string name="item_name">Item name</string>
+    <string name="close">Close</string>
 </resources>

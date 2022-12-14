@@ -341,4 +341,8 @@
         <item name="android:paddingBottom">@dimen/bigger_margin</item>
     </style>
 
+    <style name="CustomAlertDialog">
+        <item name="android:windowBackground">@drawable/rounded_corner</item>
+    </style>
+
 </resources>

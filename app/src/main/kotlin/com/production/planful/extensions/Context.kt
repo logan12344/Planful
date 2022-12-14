@@ -16,6 +16,7 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -692,7 +693,9 @@ fun Context.getEventListItems(
                 it.isPastEvent,
                 it.repeatInterval > 0,
                 it.isTask(),
-                it.isTaskCompleted()
+                it.isTaskCompleted(),
+                it.getCheckList(),
+                it.isCheckListEnable()
             )
         listItems.add(listEvent)
     }
@@ -788,6 +791,26 @@ fun Context.getDatesWeekDateTime(date: DateTime): String {
     } else {
         date.withZone(DateTimeZone.UTC).toString()
     }
+}
+
+fun Context.isCheckListEnable(event: Event): Boolean {
+    if (event.id == null) return false
+    val originalEvent = eventsDB.getTaskWithId(event.id!!)
+    return originalEvent?.isCheckListEnable() ?: false
+}
+
+fun Context.updateChecklistEnable(event: Event, status: Boolean) {
+    eventsDB.updateChecklistEnable(event.id!!, status)
+}
+
+fun Context.getChecklist(event: Event): String {
+    if (event.id == null) return ""
+    val originalEvent = eventsDB.getTaskWithId(event.id!!)
+    return originalEvent?.getCheckList() ?: ""
+}
+
+fun Context.updateChecklist(event: Event, checklist: String) {
+    eventsDB.updateChecklist(event.id!!, checklist)
 }
 
 fun Context.isTaskCompleted(event: Event): Boolean {

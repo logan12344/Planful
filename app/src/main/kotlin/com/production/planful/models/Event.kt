@@ -40,7 +40,9 @@ data class Event(
     @ColumnInfo(name = "source") var source: String = SOURCE_SIMPLE_CALENDAR,
     @ColumnInfo(name = "availability") var availability: Int = 0,
     @ColumnInfo(name = "color") var color: Int = 0,
-    @ColumnInfo(name = "type") var type: Int = TYPE_EVENT
+    @ColumnInfo(name = "type") var type: Int = TYPE_EVENT,
+    @ColumnInfo(name = "checklistEnable") var checklistEnable: Boolean = false,
+    @ColumnInfo(name = "checklist") var checklist: String = ""
 ) : Serializable {
 
     companion object {
@@ -223,4 +225,8 @@ data class Event(
             DateTimeZone.getDefault().id
         }
     }
+
+    fun isCheckListEnable() = checklistEnable
+
+    fun getCheckList() = checklist
 }

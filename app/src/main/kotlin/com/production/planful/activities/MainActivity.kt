@@ -222,7 +222,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 R.id.go_to_today -> goToToday()
                 R.id.go_to_date -> showGoToDateDialog()
                 R.id.print -> printView()
-                R.id.about -> launchAbout()
+                R.id.about -> startAboutActivity(R.string.app_name, LICENSE_JODA, BuildConfig.VERSION_NAME)
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
@@ -750,33 +750,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private fun launchSettings() {
         hideKeyboard()
         startActivity(Intent(applicationContext, SettingsActivity::class.java))
-    }
-
-    private fun launchAbout() {
-        val licenses = LICENSE_JODA
-
-        val faqItems = arrayListOf(
-            FAQItem(
-                "${getString(R.string.faq_2_title)} ${getString(R.string.faq_2_title_extra)}",
-                R.string.faq_2_text
-            ),
-            FAQItem(R.string.faq_5_title, R.string.faq_5_text),
-            FAQItem(R.string.faq_3_title, R.string.faq_3_text),
-            FAQItem(R.string.faq_6_title, R.string.faq_6_text),
-            FAQItem(R.string.faq_1_title, R.string.faq_1_text),
-            FAQItem(R.string.faq_1_title_commons, R.string.faq_1_text_commons),
-            FAQItem(R.string.faq_4_title_commons, R.string.faq_4_text_commons),
-            FAQItem(R.string.faq_4_title, R.string.faq_4_text)
-        )
-
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            faqItems.add(FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons))
-            faqItems.add(FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons))
-            faqItems.add(FAQItem(R.string.faq_7_title_commons, R.string.faq_7_text_commons))
-
-        }
-
-        startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
     }
 
     private fun searchQueryChanged(text: String) {

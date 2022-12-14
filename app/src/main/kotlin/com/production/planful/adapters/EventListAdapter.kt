@@ -1,16 +1,21 @@
 package com.production.planful.adapters
 
+import android.graphics.Paint
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.commons.adapters.MyRecyclerViewAdapter
-import com.production.planful.commons.extensions.adjustAlpha
-import com.production.planful.commons.extensions.applyColorFilter
-import com.production.planful.commons.extensions.beVisibleIf
-import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
@@ -19,6 +24,7 @@ import com.production.planful.dialogs.DeleteEventDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.models.*
+import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.event_list_section_day.view.*
 
@@ -41,6 +47,7 @@ class EventListAdapter(
     private var currentItemsHash = listItems.hashCode()
     private var isPrintVersion = false
     private val mediumMargin = activity.resources.getDimension(R.dimen.medium_margin).toInt()
+    private val gson = Gson()
 
     init {
         setupDragListener(true)
@@ -163,8 +170,7 @@ class EventListAdapter(
                 val startCode = Formatter.getDayCodeFromTS(listEvent.startTS)
                 val endCode = Formatter.getDayCodeFromTS(listEvent.endTS)
                 if (startCode != endCode) {
-                    event_item_time.text =
-                        "${event_item_time.text} (${Formatter.getDateDayTitle(endCode)})"
+                    event_item_time.text = "${event_item_time.text} (${Formatter.getDateDayTitle(endCode)})"
                 }
             }
 
@@ -206,7 +212,55 @@ class EventListAdapter(
             toggle_mark_complete.beVisibleIf(listEvent.isTask)
             toggle_mark_complete.isChecked = listEvent.isTaskCompleted
             toggle_mark_complete.setOnClickListener{
-                setCompleted(view, listEvent)
+                if (listEvent.isCheckListEnable) {
+                    val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
+                    val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
+                    val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
+                    val tvTitleDate = view.findViewById<TextView>(R.id.tvTitleDate)
+                    val rvNestedInDialog = view.findViewById<RecyclerView>(R.id.rvNestedInDialog)
+                    val llClose = view.findViewById<TextView>(R.id.closeBtn)
+                    builder.setView(view)
+
+                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
+
+                    checklistArray.addAll(gson.fromJson<ArrayList<ChecklistItem>>(listEvent.getChecklist))
+                    tvTitle.text = listEvent.title
+                    tvTitleDate.text = event_item_time.text
+
+                    val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog )
+                    rvNestedInDialog.adapter = checklistAdapterForDialog
+                    rvNestedInDialog.layoutManager = LinearLayoutManager(context)
+
+                    llClose.setOnClickListener {
+                        builder.cancel()
+                    }
+
+                    builder.setCanceledOnTouchOutside(false)
+                    builder.setOnCancelListener {
+                        var i = 0;
+                        for(item in checklistArray) {
+                            if (!item.checked) {
+                                i++
+                            }
+                        }
+
+                        val jsonString = gson.convertToJsonString(checklistArray)
+                        ensureBackgroundThread {
+                            val originalEvent = view.context.eventsDB.getEventOrTaskWithId(listEvent.id)
+                            context.updateTaskCompletion(originalEvent!!, i == 0)
+                            context.updateChecklist(originalEvent!!, jsonString)
+                            activity.runOnUiThread {
+                                listener?.refreshItems()
+                            }
+                        }
+                    }
+                    builder.show()
+
+                    val displayMetrics = DisplayMetrics()
+                    context.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+                    builder.window?.setLayout((displayMetrics.widthPixels * 0.8).toInt(), -2)
+                } else setCompleted(view, listEvent)
             }
 
             val startMargin = if (listEvent.isTask) {

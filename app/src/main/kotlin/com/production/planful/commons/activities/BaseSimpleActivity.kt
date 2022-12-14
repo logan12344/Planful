@@ -540,9 +540,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     fun startAboutActivity(
         appNameId: Int,
         licenseMask: Long,
-        versionName: String,
-        faqItems: ArrayList<FAQItem>,
-        showFAQBeforeMail: Boolean
+        versionName: String
     ) {
         hideKeyboard()
         Intent(applicationContext, AboutActivity::class.java).apply {
@@ -551,8 +549,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             putExtra(APP_NAME, getString(appNameId))
             putExtra(APP_LICENSES, licenseMask)
             putExtra(APP_VERSION_NAME, versionName)
-            putExtra(APP_FAQ, faqItems)
-            putExtra(SHOW_FAQ_BEFORE_MAIL, showFAQBeforeMail)
             startActivity(this)
         }
     }
