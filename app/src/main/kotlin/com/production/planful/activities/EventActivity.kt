@@ -885,9 +885,12 @@ class EventActivity : SimpleActivity() {
 
     private fun showEventTypeDialog() {
         hideKeyboard()
-        SelectEventTypeDialog(this, mEventTypeId, false, true, false, true) {
-            mEventTypeId = it.id!!
-            updateEventType()
+        ensureBackgroundThread {
+            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
+            SelectEventTypeDialog(activity = this, eventType = eventType) {
+                mEventTypeId = it.id!!
+                updateEventType()
+            }
         }
     }
 

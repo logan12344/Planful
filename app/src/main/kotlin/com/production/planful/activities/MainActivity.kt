@@ -217,6 +217,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             }
 
             when (menuItem.itemId) {
+                R.id.share -> shareApp()
                 R.id.change_view -> showViewDialog()
                 R.id.go_to_today -> goToToday()
                 R.id.go_to_date -> showGoToDateDialog()
@@ -469,6 +470,10 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             shouldGoToTodayBeVisible = false
             refreshMenuItems()
         }
+    }
+
+    private fun shareApp() {
+        Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
     }
 
     private fun goToToday() {

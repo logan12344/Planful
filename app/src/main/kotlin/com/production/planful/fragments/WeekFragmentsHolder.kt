@@ -64,33 +64,11 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         return weekHolder
     }
 
-    override fun onResume() {
-        super.onResume()
-        context?.config?.allowCustomizeDayCount?.let { allow ->
-            weekHolder!!.week_view_days_count.beVisibleIf(allow)
-            weekHolder!!.week_view_seekbar.beVisibleIf(allow)
-        }
-        setupSeekbar()
-    }
-
     private fun setupFragment() {
         addHours()
         setupWeeklyViewPager()
 
         weekHolder!!.week_view_hours_scrollview.setOnTouchListener { view, motionEvent -> true }
-
-        weekHolder!!.week_view_seekbar.apply {
-            progress = context?.config?.weeklyViewDays ?: 7
-            max = MAX_SEEKBAR_VALUE
-
-            onSeekBarChangeListener {
-                if (it == 0) {
-                    progress = 1
-                }
-
-                updateWeeklyViewDays(progress)
-            }
-        }
 
         updateActionBarTitle()
     }
@@ -241,36 +219,6 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         setupFragment()
     }
 
-    private fun setupSeekbar() {
-        if (context?.config?.allowCustomizeDayCount != true) {
-            return
-        }
-
-        // avoid seekbar width changing if the days count changes to 1, 10 etc
-        weekHolder!!.week_view_days_count.onGlobalLayout {
-            if (weekHolder!!.week_view_seekbar.width != 0) {
-                weekHolder!!.week_view_seekbar.layoutParams.width =
-                    weekHolder!!.week_view_seekbar.width
-            }
-            (weekHolder!!.week_view_seekbar.layoutParams as RelativeLayout.LayoutParams).removeRule(
-                RelativeLayout.START_OF
-            )
-        }
-
-        updateDaysCount(context?.config?.weeklyViewDays ?: 7)
-    }
-
-    private fun updateWeeklyViewDays(days: Int) {
-        requireContext().config.weeklyViewDays = days
-        updateDaysCount(days)
-        setupWeeklyViewPager()
-    }
-
-    private fun updateDaysCount(cnt: Int) {
-        weekHolder!!.week_view_days_count.text =
-            requireContext().resources.getQuantityString(R.plurals.days, cnt, cnt)
-    }
-
     override fun refreshEvents() {
         (viewPager?.adapter as? MyWeekPagerAdapter)?.updateCalendars(viewPager!!.currentItem)
     }
@@ -319,14 +267,12 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         (viewPager!!.adapter as? MyWeekPagerAdapter)?.updateNotVisibleScaleLevel(viewPager!!.currentItem)
     }
 
-    override fun getFullFragmentHeight() =
-        weekHolder!!.week_view_holder.height - weekHolder!!.week_view_seekbar.height - weekHolder!!.week_view_days_count_divider.height
+    override fun getFullFragmentHeight(): Int {
+        return weekHolder!!.week_view_holder.height
+    }
 
     override fun printView() {
         weekHolder!!.apply {
-            week_view_days_count_divider.beGone()
-            week_view_seekbar.beGone()
-            week_view_days_count.beGone()
             addHours(resources.getColor(R.color.theme_light_text_color))
             background = ColorDrawable(Color.WHITE)
             (viewPager?.adapter as? MyWeekPagerAdapter)?.togglePrintMode(
@@ -337,9 +283,6 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
                 requireContext().printBitmap(weekHolder!!.week_view_holder.getViewBitmap())
 
                 Handler().postDelayed({
-                    week_view_days_count_divider.beVisible()
-                    week_view_seekbar.beVisible()
-                    week_view_days_count.beVisible()
                     addHours()
                     background = ColorDrawable(requireContext().getProperBackgroundColor())
                     (viewPager?.adapter as? MyWeekPagerAdapter)?.togglePrintMode(

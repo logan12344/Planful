@@ -74,8 +74,7 @@ abstract class EventsDatabase : RoomDatabase() {
         private fun insertRegularEventType(context: Context) {
             Executors.newSingleThreadScheduledExecutor().execute {
                 val regularEvent = context.resources.getString(R.string.regular_event)
-                val eventType =
-                    EventType(REGULAR_EVENT_TYPE_ID, regularEvent, context.getProperPrimaryColor())
+                val eventType = EventType(REGULAR_EVENT_TYPE_ID, regularEvent, context.getProperPrimaryColor())
                 db!!.EventTypesDao().insertOrUpdate(eventType)
                 context.config.addDisplayEventType(REGULAR_EVENT_TYPE_ID.toString())
             }

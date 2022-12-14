@@ -61,7 +61,6 @@ fun Activity.showEventRepeatIntervalDialog(curSeconds: Int, callback: (minutes: 
         add(DAY)
         add(WEEK)
         add(MONTH)
-        add(YEAR)
         add(curSeconds)
     }
 
@@ -75,8 +74,6 @@ fun Activity.showEventRepeatIntervalDialog(curSeconds: Int, callback: (minutes: 
         if (value == curSeconds)
             selectedIndex = index
     }
-
-    items.add(RadioItem(-1, getString(R.string.custom)))
 
     RadioGroupDialog(this, items, selectedIndex) {
         if (it == -1) {

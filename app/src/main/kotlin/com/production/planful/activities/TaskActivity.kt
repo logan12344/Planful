@@ -805,6 +805,7 @@ class TaskActivity : SimpleActivity() {
             } else {
                 getProperPrimaryColor()
             }
+            toggle_mark_complete.setText(R.string.mark_completed)
             toggle_mark_complete.setTextColor(markCompleteBgColor.getContrastColor())
         }
     }
@@ -868,16 +869,12 @@ class TaskActivity : SimpleActivity() {
 
     private fun showEventTypeDialog() {
         hideKeyboard()
-        SelectEventTypeDialog(
-            activity = this,
-            currEventType = mEventTypeId,
-            showCalDAVCalendars = false,
-            showNewEventTypeOption = true,
-            addLastUsedOneAsFirstOption = false,
-            showOnlyWritable = true
-        ) {
-            mEventTypeId = it.id!!
-            updateEventType()
+        ensureBackgroundThread {
+            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
+            SelectEventTypeDialog(activity = this, eventType = eventType) {
+                mEventTypeId = it.id!!
+                updateEventType()
+            }
         }
     }
 
