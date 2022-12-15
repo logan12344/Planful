@@ -21,7 +21,6 @@ class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val i
 
         var checklistText: TextInputLayout = itemView.findViewById(R.id.checklist_item_layout)
         var checklistDelete: ImageView = itemView.findViewById(R.id.checklist_item_delete)
-        var rootView: View = itemView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChecklistViewHolder {

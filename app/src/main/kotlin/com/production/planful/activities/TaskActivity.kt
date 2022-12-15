@@ -223,7 +223,7 @@ class TaskActivity : SimpleActivity() {
 
         updateEventType()
         updateTexts()
-        setupMarkCompleteButton()
+        //setupMarkCompleteButton()
         checkRepeatTexts(mRepeatInterval)
         checkRepeatRule()
         updateActionBarTitle()
@@ -318,7 +318,7 @@ class TaskActivity : SimpleActivity() {
 
         task_reminder_2.setOnClickListener { showReminder2Dialog() }
         refreshMenuItems()
-        setupMarkCompleteButton()
+        //setupMarkCompleteButton()
 
         if (savedInstanceState == null) {
             updateEventType()
@@ -915,12 +915,9 @@ class TaskActivity : SimpleActivity() {
 
     private fun showEventTypeDialog() {
         hideKeyboard()
-        ensureBackgroundThread {
-            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
-            SelectEventTypeDialog(activity = this, eventType = eventType) {
-                mEventTypeId = it.id!!
-                updateEventType()
-            }
+        EditEventTypeDialog(activity = this) {
+            mEventTypeId = it.id!!
+            updateEventType()
         }
     }
 
@@ -929,7 +926,6 @@ class TaskActivity : SimpleActivity() {
             val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
             if (eventType != null) {
                 runOnUiThread {
-                    task_type.text = eventType.title
                     task_type_color.setFillWithStroke(eventType.color, getProperBackgroundColor())
                 }
             }

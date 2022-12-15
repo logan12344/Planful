@@ -473,7 +473,11 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     }
 
     private fun shareApp() {
-        Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
+        val intend = Intent(Intent.ACTION_SEND)
+        intend.type = "text/plain"
+        intend.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL")
+        intend.putExtra(Intent.EXTRA_TEXT, "https://www.google.com.ua")
+        startActivity(Intent.createChooser(intend, "Share URL"))
     }
 
     private fun goToToday() {

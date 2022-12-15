@@ -7,7 +7,7 @@ import com.production.planful.commons.extensions.toast
 import com.production.planful.commons.extensions.updateTextColors
 import com.production.planful.commons.helpers.NavigationIcon
 import com.production.planful.commons.helpers.ensureBackgroundThread
-import com.production.planful.dialogs.SelectEventTypeDialog
+import com.production.planful.dialogs.EditEventTypeDialog
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.interfaces.DeleteEventTypesListener
 import com.production.planful.models.EventType
@@ -29,7 +29,7 @@ class ManageEventTypesActivity : SimpleActivity(), DeleteEventTypesListener {
     }
 
     private fun showEventTypeDialog(eventType: EventType? = null) {
-        SelectEventTypeDialog(this, eventType?.copy()) {
+        EditEventTypeDialog(this, eventType?.copy()) {
             getEventTypes()
         }
     }

@@ -885,12 +885,9 @@ class EventActivity : SimpleActivity() {
 
     private fun showEventTypeDialog() {
         hideKeyboard()
-        ensureBackgroundThread {
-            val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
-            SelectEventTypeDialog(activity = this, eventType = eventType) {
-                mEventTypeId = it.id!!
-                updateEventType()
-            }
+        EditEventTypeDialog(activity = this) {
+            mEventTypeId = it.id!!
+            updateEventType()
         }
     }
 
@@ -998,7 +995,6 @@ class EventActivity : SimpleActivity() {
             val eventType = eventTypesDB.getEventTypeWithId(mEventTypeId)
             if (eventType != null) {
                 runOnUiThread {
-                    event_type.text = eventType.title
                     event_type_color.setFillWithStroke(eventType.color, getProperBackgroundColor())
                 }
             }
