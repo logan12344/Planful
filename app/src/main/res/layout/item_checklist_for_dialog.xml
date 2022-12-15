@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="0dp"
-    android:layout_height="48dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvChecklistItemName"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="#000"
-        android:textSize="13sp"
-        android:textStyle="normal"/>
+        android:padding="10dp"
+        android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/cbChecklistItemDone"
-        android:layout_marginStart="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvChecklistItemName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Item"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="normal"/>
+
+        <CheckBox
+            android:id="@+id/cbChecklistItemDone"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/color_primary"/>
 
 </LinearLayout>

@@ -5,9 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
-import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -25,7 +23,6 @@ import com.production.planful.helpers.Formatter
 import com.production.planful.models.*
 import kotlinx.android.synthetic.main.activity_task.*
 import org.joda.time.DateTime
-import org.json.JSONArray
 import java.util.*
 import kotlin.math.pow
 

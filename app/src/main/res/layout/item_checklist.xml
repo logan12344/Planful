@@ -26,8 +26,8 @@
 
     <ImageView
         android:id="@+id/checklist_item_delete"
-        android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/color_sample_size"
+        android:layout_height="@dimen/color_sample_size"
         android:layout_alignTop="@+id/checklist_item_layout"
         android:layout_alignBottom="@+id/checklist_item_layout"
         android:layout_alignParentEnd="true"

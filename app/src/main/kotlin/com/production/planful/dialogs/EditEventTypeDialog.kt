@@ -1,14 +1,12 @@
 package com.production.planful.dialogs
 
 import android.app.Activity
-import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.commons.dialogs.ColorPickerDialog
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.toast
 import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.eventsHelper
-import com.production.planful.helpers.OTHER_EVENT
 import com.production.planful.models.EventType
 
 

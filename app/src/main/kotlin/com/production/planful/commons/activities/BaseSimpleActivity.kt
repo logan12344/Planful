@@ -37,7 +37,6 @@ import com.production.planful.commons.dialogs.WritePermissionDialog.Mode
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.interfaces.CopyMoveListener
-import com.production.planful.commons.models.FAQItem
 import com.production.planful.commons.models.FileDirItem
 import java.io.File
 import java.io.OutputStream

@@ -36,11 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <View
-        android:background="@color/md_grey_black"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
     <android.widget.TextView
         android:id="@+id/closeBtn"
         style="@style/ColoredButtonStyle"

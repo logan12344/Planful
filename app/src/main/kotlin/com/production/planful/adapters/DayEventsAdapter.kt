@@ -1,7 +1,6 @@
 package com.production.planful.adapters
 
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,8 @@ import com.production.planful.extensions.*
 import com.production.planful.helpers.Formatter
 import com.production.planful.models.ChecklistItem
 import com.production.planful.models.Event
-import com.production.planful.models.convertToJsonString
-import com.production.planful.models.fromJson
+import com.production.planful.extensions.convertToJsonString
+import com.production.planful.extensions.fromJson
 import kotlinx.android.synthetic.main.event_list_item.view.*
 
 class DayEventsAdapter(

@@ -23,7 +23,6 @@ import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
-import com.production.planful.commons.models.FAQItem
 import com.production.planful.commons.models.RadioItem
 import com.production.planful.databases.EventsDatabase
 import com.production.planful.extensions.*

@@ -1,11 +1,9 @@
 package com.production.planful.adapters
 
-import android.graphics.Paint
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +22,6 @@ import com.production.planful.dialogs.DeleteEventDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.models.*
-import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.event_list_section_day.view.*
 

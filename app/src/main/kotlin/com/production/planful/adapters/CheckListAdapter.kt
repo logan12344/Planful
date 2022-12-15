@@ -12,7 +12,6 @@ import com.production.planful.R
 import com.production.planful.commons.extensions.applyColorFilter
 import com.production.planful.commons.extensions.getProperPrimaryColor
 import com.production.planful.models.ChecklistItem
-import kotlinx.android.synthetic.main.activity_event.*
 
 class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val items: ArrayList<ChecklistItem>) :
     RecyclerView.Adapter<ChecklistAdapter.ChecklistViewHolder>() {
