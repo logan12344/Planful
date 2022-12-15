@@ -799,6 +799,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         updateViewPager(dayCode)
     }
 
+    @SuppressLint("BatteryLife")
     private fun batteryOptimizationRequest() {
         val intent = Intent()
         val packageName = applicationContext.packageName
@@ -806,7 +807,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
             intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
             intent.data = Uri.parse("package:$packageName")
-            intent.putExtra("skipBattery", true)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             applicationContext.startActivity(intent)
         }
