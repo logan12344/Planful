@@ -49,9 +49,9 @@ class SelectEventTypeDialog(
     }
 
     private fun eventTypeConfirmed() {
-        eventType!!.title = activity.getString(R.string.regular_event)
+        eventType!!.title = eventType!!.id?.plus(eventType!!.color.toLong()).toString()
         if (eventType!!.caldavCalendarId != 0) {
-            eventType!!.caldavDisplayName = activity.getString(R.string.regular_event)
+            eventType!!.caldavDisplayName = eventType!!.id?.plus(eventType!!.color.toLong()).toString()
         }
 
         eventType!!.id = activity.eventsHelper.insertOrUpdateEventTypeSync(eventType!!)

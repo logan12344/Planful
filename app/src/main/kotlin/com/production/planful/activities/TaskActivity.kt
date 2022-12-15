@@ -274,7 +274,9 @@ class TaskActivity : SimpleActivity() {
             } else {
                 checklistArray.add(ChecklistItem("", false))
             }
-            setupRecycle()
+            runOnUiThread {
+                setupRecycle()
+            }
         }
 
         task_all_day.setOnCheckedChangeListener { _, isChecked -> toggleAllDay(isChecked) }
