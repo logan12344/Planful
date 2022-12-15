@@ -1,5 +1,6 @@
 package com.production.planful.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class ChecklistAdapterForDialog(private val items: ArrayList<ChecklistItem>, val
 
     override fun onBindViewHolder(holder: ChecklistViewHolder, position: Int) {
         val item = items[position]
+
         holder.tvChecklistItemName.text = item.name
         holder.cbChecklistItemDone.isChecked = item.checked
 

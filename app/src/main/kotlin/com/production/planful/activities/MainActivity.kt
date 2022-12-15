@@ -8,9 +8,12 @@ import android.content.pm.ShortcutInfo
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.PowerManager
 import android.provider.ContactsContract.*
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -124,7 +127,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             checkCalDAVUpdateListener()
         }
 
-        addBirthdaysAnniversariesAtStart()
+        batteryOptimizationRequest()
     }
 
     override fun onResume() {
@@ -542,15 +545,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         }
     }
 
-    private fun addBirthdaysAnniversariesAtStart() {
-        if ((!config.addBirthdaysAutomatically && !config.addAnniversariesAutomatically) || !hasPermission(
-                PERMISSION_READ_CONTACTS
-            )
-        ) {
-            return
-        }
-    }
-
     private fun updateView(view: Int) {
         calendar_fab.beVisibleIf(view != YEARLY_VIEW && view != WEEKLY_VIEW)
         val dateCode = getDateCodeToDisplay(view)
@@ -804,4 +798,18 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         config.storedView = DAILY_VIEW
         updateViewPager(dayCode)
     }
+
+    private fun batteryOptimizationRequest() {
+        val intent = Intent()
+        val packageName = applicationContext.packageName
+        val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            intent.data = Uri.parse("package:$packageName")
+            intent.putExtra("skipBattery", true)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            applicationContext.startActivity(intent)
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.production.planful.adapters
 
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -119,8 +120,7 @@ class DayEventsAdapter(
                 if (!event.getIsAllDay()) {
                     val endTimeString = Formatter.getTimeFromTS(context, event.endTS)
                     val endDayString = if (endDayCode != dayCode) " ($endDate)" else ""
-                    event_item_time.text =
-                        "${event_item_time.text}$startDayString - $endTimeString$endDayString"
+                    event_item_time.text = "${event_item_time.text}$startDayString - $endTimeString$endDayString"
                 } else {
                     val endDayString = if (endDayCode != dayCode) " - ($endDate)" else ""
                     event_item_time.text = "${event_item_time.text}$startDayString$endDayString"
@@ -169,11 +169,34 @@ class DayEventsAdapter(
                     tvTitleDate.text = event_item_time.text
 
                     val checklistArray: ArrayList<ChecklistItem> = ArrayList()
+                    var jsonArray: ArrayList<Pair<String, ArrayList<ChecklistItem>>> = ArrayList()
                     ensureBackgroundThread {
-                        val list = gson.fromJson<ArrayList<ChecklistItem>>(context.getChecklist(event))
-                        checklistArray.addAll(list)
+                        jsonArray = gson.fromJson(context.getChecklist(event))
+
+                        var ifDayExist = false
+
+                        for (item in jsonArray) {
+                            if (item.first == dayCode) {
+                                ifDayExist = true
+                                checklistArray.addAll(item.second)
+                                jsonArray.remove(item)
+                                break
+                            }
+                        }
+
+                        if (!ifDayExist) {
+                            for (item in jsonArray) {
+                                val listAccountCloned = ArrayList(item.second)
+                                for (arrayItem in listAccountCloned) {
+                                    arrayItem.checked = false
+                                }
+                                checklistArray.addAll(listAccountCloned)
+                                break
+                            }
+                        }
+
                         activity.runOnUiThread {
-                            val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog )
+                            val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
                             rvNestedInDialog.adapter = checklistAdapterForDialog
                             rvNestedInDialog.layoutManager = LinearLayoutManager(context)
                         }
@@ -187,12 +210,11 @@ class DayEventsAdapter(
                     builder.setOnCancelListener {
                         var i = 0;
                         for (item in checklistArray) {
-                            if (!item.checked) {
-                                i++
-                            }
+                            if (!item.checked) i++
                         }
 
-                        val jsonString = gson.convertToJsonString(checklistArray)
+                        jsonArray.add(Pair(dayCode, checklistArray))
+                        val jsonString = gson.convertToJsonString(jsonArray)
                         ensureBackgroundThread {
                             context.updateChecklist(event, jsonString)
                             context.updateTaskCompletion(event, i == 0)

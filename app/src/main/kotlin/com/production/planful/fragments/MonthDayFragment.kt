@@ -149,8 +149,7 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
         val listItems =
             requireActivity().getEventListItems(filtered, mSelectedDayCode.isEmpty(), false)
         if (mSelectedDayCode.isNotEmpty()) {
-            mHolder.month_day_selected_day_label.text =
-                Formatter.getDateFromCode(requireActivity(), mSelectedDayCode, false)
+            mHolder.month_day_selected_day_label.text = Formatter.getDateFromCode(requireActivity(), mSelectedDayCode, false)
         }
 
         activity?.runOnUiThread {

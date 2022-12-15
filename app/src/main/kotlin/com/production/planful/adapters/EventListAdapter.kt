@@ -48,8 +48,7 @@ class EventListAdapter(
 
     init {
         setupDragListener(true)
-        val firstNonPastSectionIndex =
-            listItems.indexOfFirst { it is ListSectionDay && !it.isPastSection }
+        val firstNonPastSectionIndex = listItems.indexOfFirst { it is ListSectionDay && !it.isPastSection }
         if (firstNonPastSectionIndex != -1) {
             activity.runOnUiThread {
                 recyclerView.scrollToPosition(firstNonPastSectionIndex)
@@ -209,7 +208,7 @@ class EventListAdapter(
             toggle_mark_complete.beVisibleIf(listEvent.isTask)
             toggle_mark_complete.isChecked = listEvent.isTaskCompleted
             toggle_mark_complete.setOnClickListener{
-                if (listEvent.isCheckListEnable) {
+                /*if (listEvent.isCheckListEnable) {
                     val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
                     val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
                     val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
@@ -218,15 +217,42 @@ class EventListAdapter(
                     val llClose = view.findViewById<TextView>(R.id.closeBtn)
                     builder.setView(view)
 
-                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
-
-                    checklistArray.addAll(gson.fromJson<ArrayList<ChecklistItem>>(listEvent.getChecklist))
                     tvTitle.text = listEvent.title
                     tvTitleDate.text = event_item_time.text
 
-                    val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog )
-                    rvNestedInDialog.adapter = checklistAdapterForDialog
-                    rvNestedInDialog.layoutManager = LinearLayoutManager(context)
+                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
+                    var jsonArray: ArrayList<Pair<String, ArrayList<ChecklistItem>>> = ArrayList()
+                    ensureBackgroundThread {
+                        jsonArray = gson.fromJson(listEvent.getChecklist)
+
+                        var ifDayExist = false
+
+                        for (item in jsonArray) {
+                            if (item.first == dayCode) {
+                                ifDayExist = true
+                                checklistArray.addAll(item.second)
+                                jsonArray.remove(item)
+                                break
+                            }
+                        }
+
+                        if (!ifDayExist) {
+                            for (item in jsonArray) {
+                                val listAccountCloned = ArrayList(item.second)
+                                for (arrayItem in listAccountCloned) {
+                                    arrayItem.checked = false
+                                }
+                                checklistArray.addAll(listAccountCloned)
+                                break
+                            }
+                        }
+
+                        activity.runOnUiThread {
+                            val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
+                            rvNestedInDialog.adapter = checklistAdapterForDialog
+                            rvNestedInDialog.layoutManager = LinearLayoutManager(context)
+                        }
+                    }
 
                     llClose.setOnClickListener {
                         builder.cancel()
@@ -235,13 +261,12 @@ class EventListAdapter(
                     builder.setCanceledOnTouchOutside(false)
                     builder.setOnCancelListener {
                         var i = 0;
-                        for(item in checklistArray) {
-                            if (!item.checked) {
-                                i++
-                            }
+                        for (item in checklistArray) {
+                            if (!item.checked) i++
                         }
 
-                        val jsonString = gson.convertToJsonString(checklistArray)
+                        jsonArray.add(Pair(dayCode, checklistArray))
+                        val jsonString = gson.convertToJsonString(jsonArray)
                         ensureBackgroundThread {
                             val originalEvent = view.context.eventsDB.getEventOrTaskWithId(listEvent.id)
                             context.updateTaskCompletion(originalEvent!!, i == 0)
@@ -257,7 +282,7 @@ class EventListAdapter(
                     context.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
                     builder.window?.setLayout((displayMetrics.widthPixels * 0.8).toInt(), -2)
-                } else setCompleted(view, listEvent)
+                } else*/ setCompleted(view, listEvent)
             }
 
             val startMargin = if (listEvent.isTask) {

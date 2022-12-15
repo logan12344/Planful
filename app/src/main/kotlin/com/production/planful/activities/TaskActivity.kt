@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.production.planful.models.*
 import kotlinx.android.synthetic.main.activity_task.*
 import org.joda.time.DateTime
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.pow
 
 class TaskActivity : SimpleActivity() {
@@ -33,6 +35,7 @@ class TaskActivity : SimpleActivity() {
     private lateinit var mTask: Event
     private lateinit var checklistAdapter: ChecklistAdapter
     private lateinit var checklistArray: ArrayList<ChecklistItem>
+    private lateinit var jsonArray: ArrayList<Pair<String, ArrayList<ChecklistItem>>>
     private var mReminder1Minutes = REMINDER_OFF
     private var mReminder2Minutes = REMINDER_OFF
     private var mReminder3Minutes = REMINDER_OFF
@@ -265,9 +268,13 @@ class TaskActivity : SimpleActivity() {
         ensureBackgroundThread {
             val list = getChecklist(mTask)
             checklistArray = ArrayList()
+            jsonArray = ArrayList()
             if (list != "") {
                 task_checklist.isChecked = isCheckListEnable(mTask)
-                checklistArray.addAll(gson.fromJson<ArrayList<ChecklistItem>>(list))
+                jsonArray = gson.fromJson(list)
+                for (item in jsonArray) {
+                    if (item.first == Formatter.getTodayCode()) checklistArray.addAll(item.second)
+                }
             } else {
                 checklistArray.add(ChecklistItem("", false))
             }
@@ -530,7 +537,9 @@ class TaskActivity : SimpleActivity() {
                 }
             }
         }
-        val jsonString = gson.convertToJsonString(checklistArray)
+
+        jsonArray.add(Pair(Formatter.getTodayCode(), checklistArray))
+        val jsonString = gson.convertToJsonString(jsonArray)
         ensureBackgroundThread {
             updateChecklistEnable(mTask.copy(startTS = mOriginalStartTS), task_checklist.isChecked)
             updateChecklist(mTask.copy(startTS = mOriginalStartTS), jsonString)
