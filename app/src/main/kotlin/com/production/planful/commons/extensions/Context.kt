@@ -15,18 +15,15 @@ import android.media.MediaMetadataRetriever
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.BaseColumns
 import android.provider.BlockedNumberContract.BlockedNumbers
-import android.provider.DocumentsContract
 import android.provider.MediaStore.*
 import android.provider.OpenableColumns
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
-import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -46,10 +43,10 @@ import com.production.planful.commons.models.BlockedNumber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
-fun Context.getSharedPrefs() = getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
-
-val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+fun Context.getSharedPrefs(): SharedPreferences = getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
 
 val Context.areSystemAnimationsEnabled: Boolean
     get() = Settings.Global.getFloat(
@@ -71,7 +68,7 @@ fun Context.toast(msg: String, length: Int = Toast.LENGTH_SHORT) {
                 doToast(this, msg, length)
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -98,28 +95,12 @@ val Context.sdCardPath: String get() = baseConfig.sdCardPath
 val Context.internalStoragePath: String get() = baseConfig.internalStoragePath
 val Context.otgPath: String get() = baseConfig.OTGPath
 
-fun Context.isFingerPrintSensorAvailable() = isMarshmallowPlus() && Reprint.isHardwarePresent()
+fun isFingerPrintSensorAvailable() = isMarshmallowPlus() && Reprint.isHardwarePresent()
 
 fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this)
     .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
     BiometricManager.BIOMETRIC_SUCCESS, BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> true
     else -> false
-}
-
-fun Context.getLatestMediaId(uri: Uri = Files.getContentUri("external")): Long {
-    val projection = arrayOf(
-        BaseColumns._ID
-    )
-    try {
-        val cursor = queryCursorDesc(uri, projection, BaseColumns._ID, 1)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getLongValue(BaseColumns._ID)
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-    return 0
 }
 
 private fun Context.queryCursorDesc(
@@ -141,68 +122,6 @@ private fun Context.queryCursorDesc(
     }
 }
 
-fun Context.getLatestMediaByDateId(uri: Uri = Files.getContentUri("external")): Long {
-    val projection = arrayOf(
-        BaseColumns._ID
-    )
-    try {
-        val cursor = queryCursorDesc(uri, projection, Images.ImageColumns.DATE_TAKEN, 1)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getLongValue(BaseColumns._ID)
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-    return 0
-}
-
-// some helper functions were taken from https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
-fun Context.getRealPathFromURI(uri: Uri): String? {
-    if (uri.scheme == "file") {
-        return uri.path
-    }
-
-    if (isDownloadsDocument(uri)) {
-        val id = DocumentsContract.getDocumentId(uri)
-        if (id.areDigitsOnly()) {
-            val newUri = ContentUris.withAppendedId(
-                Uri.parse("content://downloads/public_downloads"),
-                id.toLong()
-            )
-            val path = getDataColumn(newUri)
-            if (path != null) {
-                return path
-            }
-        }
-    } else if (isExternalStorageDocument(uri)) {
-        val documentId = DocumentsContract.getDocumentId(uri)
-        val parts = documentId.split(":")
-        if (parts[0].equals("primary", true)) {
-            return "${Environment.getExternalStorageDirectory().absolutePath}/${parts[1]}"
-        }
-    } else if (isMediaDocument(uri)) {
-        val documentId = DocumentsContract.getDocumentId(uri)
-        val split = documentId.split(":").dropLastWhile { it.isEmpty() }.toTypedArray()
-        val type = split[0]
-
-        val contentUri = when (type) {
-            "video" -> Video.Media.EXTERNAL_CONTENT_URI
-            "audio" -> Audio.Media.EXTERNAL_CONTENT_URI
-            else -> Images.Media.EXTERNAL_CONTENT_URI
-        }
-
-        val selection = "_id=?"
-        val selectionArgs = arrayOf(split[1])
-        val path = getDataColumn(contentUri, selection, selectionArgs)
-        if (path != null) {
-            return path
-        }
-    }
-
-    return getDataColumn(uri)
-}
-
 fun Context.getDataColumn(
     uri: Uri,
     selection: String? = null,
@@ -219,25 +138,17 @@ fun Context.getDataColumn(
                 }
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
     return null
 }
-
-private fun isMediaDocument(uri: Uri) = uri.authority == "com.android.providers.media.documents"
-
-private fun isDownloadsDocument(uri: Uri) =
-    uri.authority == "com.android.providers.downloads.documents"
-
-private fun isExternalStorageDocument(uri: Uri) =
-    uri.authority == "com.android.externalstorage.documents"
 
 fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(
     this,
     getPermissionString(permId)
 ) == PackageManager.PERMISSION_GRANTED
 
-fun Context.getPermissionString(id: Int) = when (id) {
+fun getPermissionString(id: Int) = when (id) {
     PERMISSION_READ_STORAGE -> Manifest.permission.READ_EXTERNAL_STORAGE
     PERMISSION_WRITE_STORAGE -> Manifest.permission.WRITE_EXTERNAL_STORAGE
     PERMISSION_CAMERA -> Manifest.permission.CAMERA
@@ -309,7 +220,7 @@ fun Context.getMediaContent(path: String, uri: Uri): Uri? {
                 return Uri.withAppendedPath(uri, id)
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
     return null
 }
@@ -352,7 +263,7 @@ fun Context.getMimeTypeFromUri(uri: Uri): String {
     if (mimetype.isEmpty()) {
         try {
             mimetype = contentResolver.getType(uri) ?: ""
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
         }
     }
     return mimetype
@@ -394,7 +305,7 @@ fun Context.getFilenameFromContentUri(uri: Uri): String? {
                 return cursor.getStringValue(OpenableColumns.DISPLAY_NAME)
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
     return null
 }
@@ -408,7 +319,7 @@ fun Context.getSizeFromContentUri(uri: Uri): Long {
                 return cursor.getLongValue(OpenableColumns.SIZE)
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
     return 0L
 }
@@ -432,7 +343,7 @@ fun Context.getMyContactsCursor(favoritesOnly: Boolean, withPhoneNumbersOnly: Bo
     null
 }
 
-fun Context.getCurrentFormattedDateTime(): String {
+fun getCurrentFormattedDateTime(): String {
     val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
     return simpleDateFormat.format(Date(System.currentTimeMillis()))
 }
@@ -546,7 +457,7 @@ fun Context.formatSecondsToTimeString(totalSeconds: Int): String {
 fun Context.getFormattedMinutes(minutes: Int, showBefore: Boolean = true) =
     getFormattedSeconds(if (minutes == -1) minutes else minutes * 60, showBefore)
 
-fun Context.`getFormattedSeconds`(seconds: Int, showBefore: Boolean = true) = when (seconds) {
+fun Context.getFormattedSeconds(seconds: Int, showBefore: Boolean = true) = when (seconds) {
     -1 -> getString(R.string.no_reminder)
     0 -> getString(R.string.at_start)
     else -> {
@@ -658,7 +569,7 @@ fun Context.saveImageRotation(path: String, degrees: Int): Boolean {
     return false
 }
 
-fun Context.saveExifRotation(exif: ExifInterface, degrees: Int) {
+fun saveExifRotation(exif: ExifInterface, degrees: Int) {
     val orientation =
         exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
     val orientationDegrees = (orientation.degreesFromOrientation() + degrees) % 360
@@ -753,7 +664,7 @@ fun Context.getDuration(path: String): Int? {
         val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
         cursor?.use {
             if (cursor.moveToFirst()) {
-                return Math.round(cursor.getIntValue(MediaColumns.DURATION) / 1000.toDouble())
+                return (cursor.getIntValue(MediaColumns.DURATION) / 1000.toDouble()).roundToLong()
                     .toInt()
             }
         }
@@ -763,127 +674,11 @@ fun Context.getDuration(path: String): Int? {
     return try {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(path)
-        Math.round(
-            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
-                .toInt() / 1000f
-        )
+        (retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!.toInt() / 1000f).roundToInt()
     } catch (ignored: Exception) {
         null
     }
 }
-
-fun Context.getTitle(path: String): String? {
-    val projection = arrayOf(
-        MediaColumns.TITLE
-    )
-
-    val uri = getFileUri(path)
-    val selection =
-        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs =
-        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getStringValue(MediaColumns.TITLE)
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-
-    return try {
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(path)
-        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-    } catch (ignored: Exception) {
-        null
-    }
-}
-
-fun Context.getArtist(path: String): String? {
-    val projection = arrayOf(
-        Audio.Media.ARTIST
-    )
-
-    val uri = getFileUri(path)
-    val selection =
-        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs =
-        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getStringValue(Audio.Media.ARTIST)
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-
-    return try {
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(path)
-        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-    } catch (ignored: Exception) {
-        null
-    }
-}
-
-fun Context.getAlbum(path: String): String? {
-    val projection = arrayOf(
-        Audio.Media.ALBUM
-    )
-
-    val uri = getFileUri(path)
-    val selection =
-        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
-    val selectionArgs =
-        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getStringValue(Audio.Media.ALBUM)
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-
-    return try {
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(path)
-        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
-    } catch (ignored: Exception) {
-        null
-    }
-}
-
-fun Context.getMediaStoreLastModified(path: String): Long {
-    val projection = arrayOf(
-        MediaColumns.DATE_MODIFIED
-    )
-
-    val uri = getFileUri(path)
-    val selection = "${BaseColumns._ID} = ?"
-    val selectionArgs = arrayOf(path.substringAfterLast("/"))
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                return cursor.getLongValue(MediaColumns.DATE_MODIFIED) * 1000
-            }
-        }
-    } catch (ignored: Exception) {
-    }
-    return 0
-}
-
-fun Context.getStringsPackageName() = getString(R.string.package_name)
 
 fun Context.getFontSizeText() = getString(
     when (baseConfig.fontSize) {
@@ -974,8 +769,8 @@ fun Context.getBlockedNumbers(): ArrayList<BlockedNumber> {
 
     queryCursor(uri, projection) { cursor ->
         val id = cursor.getLongValue(BlockedNumbers.COLUMN_ID)
-        val number = cursor.getStringValue(BlockedNumbers.COLUMN_ORIGINAL_NUMBER) ?: ""
-        val normalizedNumber = cursor.getStringValue(BlockedNumbers.COLUMN_E164_NUMBER) ?: number
+        val number = cursor.getStringValue(BlockedNumbers.COLUMN_ORIGINAL_NUMBER)
+        val normalizedNumber = cursor.getStringValue(BlockedNumbers.COLUMN_E164_NUMBER)
         val comparableNumber = normalizedNumber.trimToComparableNumber()
         val blockedNumber = BlockedNumber(id, number, normalizedNumber, comparableNumber)
         blockedNumbers.add(blockedNumber)

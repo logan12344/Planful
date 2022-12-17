@@ -2,9 +2,9 @@ package com.production.planful.commons.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 
-class MyButton : Button {
+class MyButton : AppCompatButton {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

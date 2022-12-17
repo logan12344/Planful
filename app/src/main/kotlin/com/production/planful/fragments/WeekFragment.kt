@@ -106,7 +106,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         this.inflater = inflater
 
         val fullHeight = requireContext().getWeeklyViewItemHeight().toInt() * 24
@@ -270,13 +270,14 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initGrid() {
         (0 until config.weeklyViewDays).mapNotNull { dayColumns.getOrNull(it) }
             .forEachIndexed { index, layout ->
                 layout.removeAllViews()
                 val gestureDetector = getViewGestureDetector(layout, index)
 
-                layout.setOnTouchListener { view, motionEvent ->
+                layout.setOnTouchListener { _, motionEvent ->
                     gestureDetector.onTouchEvent(motionEvent)
                     true
                 }
@@ -600,7 +601,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                     ) as FlexboxLayout).apply {
                         var backgroundColor = eventTypeColors.get(event.eventType, primaryColor)
                         var textColor = backgroundColor.getContrastColor()
-                        val currentEventWeeklyView = eventTimeRanges[currentDayCode]!!.get(event.id)
+                        val currentEventWeeklyView = eventTimeRanges[currentDayCode]!![event.id]
 
                         val adjustAlpha = if (event.isTask()) {
                             dimCompletedTasks && event.isTaskCompleted()

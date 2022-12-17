@@ -116,7 +116,7 @@ class SecurityDialog(
         return if (isRPlus()) {
             activity.isBiometricIdAvailable()
         } else {
-            activity.isFingerPrintSensorAvailable()
+            isFingerPrintSensorAvailable()
         }
     }
 }

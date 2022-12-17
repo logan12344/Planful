@@ -205,7 +205,7 @@ class DayEventsAdapter(
 
                     builder.setCanceledOnTouchOutside(false)
                     builder.setOnCancelListener {
-                        var i = 0;
+                        var i = 0
                         for (item in checklistArray) {
                             if (!item.checked) i++
                         }
@@ -260,7 +260,7 @@ class DayEventsAdapter(
 
         val hasRepeatableEvent = eventsToDelete.any { it.repeatInterval > 0 }
         DeleteEventDialog(activity, eventIds, hasRepeatableEvent) { it ->
-            events.removeAll(eventsToDelete)
+            events.removeAll(eventsToDelete.toSet())
 
             ensureBackgroundThread {
                 val nonRepeatingEventIDs =

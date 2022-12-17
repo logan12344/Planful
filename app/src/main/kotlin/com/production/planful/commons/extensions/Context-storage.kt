@@ -37,7 +37,7 @@ val Context.recycleBinPath: String get() = filesDir.absolutePath
 // http://stackoverflow.com/a/40582634/1967672
 fun Context.getSDCardPath(): String {
     val directories = getStorageDirectories().filter {
-        !it.equals(getInternalStoragePath()) && !it.equals(
+        it != getInternalStoragePath() && !it.equals(
             "/storage/emulated/0",
             true
         ) && (baseConfig.OTGPartition.isEmpty() || !it.endsWith(baseConfig.OTGPartition))
@@ -65,7 +65,7 @@ fun Context.getSDCardPath(): String {
                     sdCardPath = "/storage/${it.name}"
                 }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -142,14 +142,13 @@ fun Context.getHumanReadablePath(path: String): String {
 
 fun Context.humanizePath(path: String): String {
     val trimmedPath = path.trimEnd('/')
-    val basePath = path.getBasePath(this)
-    return when (basePath) {
+    return when (val basePath = path.getBasePath(this)) {
         "/" -> "${getHumanReadablePath(basePath)}$trimmedPath"
         else -> trimmedPath.replaceFirst(basePath, getHumanReadablePath(basePath))
     }
 }
 
-fun Context.getInternalStoragePath() =
+fun getInternalStoragePath() =
     if (File("/storage/emulated/0").exists()) "/storage/emulated/0" else Environment.getExternalStorageDirectory().absolutePath.trimEnd(
         '/'
     )
@@ -349,20 +348,8 @@ fun Context.getDocumentFile(path: String): DocumentFile? {
 
 fun Context.getSomeDocumentFile(path: String) = getFastDocumentFile(path) ?: getDocumentFile(path)
 
-fun Context.scanFileRecursively(file: File, callback: (() -> Unit)? = null) {
-    scanFilesRecursively(arrayListOf(file), callback)
-}
-
 fun Context.scanPathRecursively(path: String, callback: (() -> Unit)? = null) {
     scanPathsRecursively(arrayListOf(path), callback)
-}
-
-fun Context.scanFilesRecursively(files: List<File>, callback: (() -> Unit)? = null) {
-    val allPaths = ArrayList<String>()
-    for (file in files) {
-        allPaths.addAll(getPaths(file))
-    }
-    rescanPaths(allPaths, callback)
 }
 
 fun Context.scanPathsRecursively(paths: List<String>, callback: (() -> Unit)? = null) {
@@ -410,7 +397,7 @@ fun getPaths(file: File): ArrayList<String> {
     return paths
 }
 
-fun Context.getFileUri(path: String) = when {
+fun getFileUri(path: String): Uri = when {
     path.isImageSlow() -> Images.Media.EXTERNAL_CONTENT_URI
     path.isVideoSlow() -> Video.Media.EXTERNAL_CONTENT_URI
     path.isAudioSlow() -> Audio.Media.EXTERNAL_CONTENT_URI
@@ -447,7 +434,7 @@ fun Context.rescanAndDeletePath(path: String, callback: () -> Unit) {
         scanFileHandler.removeCallbacksAndMessages(null)
         try {
             applicationContext.contentResolver.delete(uri, null, null)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         callback()
     }
@@ -823,17 +810,6 @@ fun Context.getAndroidSAFFileSize(path: String): Long {
     return getFileSize(treeUri, documentId)
 }
 
-fun Context.getAndroidSAFFileCount(path: String, countHidden: Boolean): Int {
-    val treeUri = getAndroidTreeUri(path).toUri()
-    if (treeUri == Uri.EMPTY) {
-        return 0
-    }
-
-    val documentId = createAndroidSAFDocumentId(path)
-    val rootDocId = getStorageRootIdForAndroidDir(path)
-    return getProperChildrenCount(rootDocId, treeUri, documentId, countHidden)
-}
-
 fun Context.getAndroidSAFDirectChildrenCount(path: String, countHidden: Boolean): Int {
     val treeUri = getAndroidTreeUri(path).toUri()
     if (treeUri == Uri.EMPTY) {
@@ -843,24 +819,6 @@ fun Context.getAndroidSAFDirectChildrenCount(path: String, countHidden: Boolean)
     val documentId = createAndroidSAFDocumentId(path)
     val rootDocId = getStorageRootIdForAndroidDir(path)
     return getDirectChildrenCount(rootDocId, treeUri, documentId, countHidden)
-}
-
-fun Context.getAndroidSAFLastModified(path: String): Long {
-    val treeUri = getAndroidTreeUri(path).toUri()
-    if (treeUri == Uri.EMPTY) {
-        return 0L
-    }
-
-    val documentId = createAndroidSAFDocumentId(path)
-    val projection = arrayOf(Document.COLUMN_LAST_MODIFIED)
-    val documentUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, documentId)
-    return contentResolver.query(documentUri, projection, null, null, null)?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            cursor.getLongValue(Document.COLUMN_LAST_MODIFIED)
-        } else {
-            0L
-        }
-    } ?: 0L
 }
 
 fun Context.deleteAndroidSAFDirectory(
@@ -986,12 +944,12 @@ fun Context.getFolderLastModifieds(folder: String): HashMap<String, Long> {
                             val name = cursor.getStringValue(Images.Media.DISPLAY_NAME)
                             lastModifieds["$folder/$name"] = lastModified
                         }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                     }
                 } while (cursor.moveToNext())
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 
     return lastModifieds
@@ -1054,10 +1012,10 @@ fun getMediaStoreIds(context: Context): HashMap<String, Long> {
                     val path = cursor.getStringValue(Images.Media.DATA)
                     ids[path] = id
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 
     return ids

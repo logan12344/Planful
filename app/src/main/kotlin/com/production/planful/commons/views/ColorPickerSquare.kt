@@ -16,7 +16,7 @@ class ColorPickerSquare(context: Context, attrs: AttributeSet) : View(context, a
         measuredHeight.toFloat(),
         Color.WHITE,
         Color.BLACK,
-        Shader.TileMode.CLAMP
+        TileMode.CLAMP
     )
     val color = floatArrayOf(1f, 1f, 1f)
 

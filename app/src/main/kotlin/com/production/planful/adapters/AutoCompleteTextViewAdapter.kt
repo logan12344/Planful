@@ -49,7 +49,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
 
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val filterResults = Filter.FilterResults()
+            val filterResults = FilterResults()
             if (constraint != null) {
                 resultList.clear()
                 val searchString = constraint.toString().normalizeString()

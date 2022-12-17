@@ -114,7 +114,7 @@ fun Context.getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
     }
 }
 
-fun Context.getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
+fun getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
     val cursor = cursorLoader.loadInBackground()
     cursor?.use {
         if (cursor.moveToFirst()) {
@@ -137,7 +137,7 @@ fun Context.getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
                     lastUpdatedTS,
                     accentColor
                 )
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
         }
     }
@@ -173,7 +173,7 @@ fun Context.toggleAppIconColor(appId: String, colorIndex: Int, color: Int, enabl
         if (enable) {
             baseConfig.lastIconColor = color
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 

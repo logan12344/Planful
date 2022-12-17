@@ -1,5 +1,6 @@
 package com.production.planful.commons.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.view.MotionEvent
@@ -20,6 +21,7 @@ import java.util.*
 private const val RECENT_COLORS_NUMBER = 5
 
 // forked from https://github.com/yukuku/ambilwarna
+@SuppressLint("ClickableViewAccessibility")
 class ColorPickerDialog(
     val activity: Activity,
     color: Int,
@@ -74,7 +76,7 @@ class ColorPickerDialog(
             setupRecentColors()
         }
 
-        viewHue.setOnTouchListener(OnTouchListener { v, event ->
+        viewHue.setOnTouchListener(OnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 isHueBeingDragged = true
             }

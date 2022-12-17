@@ -41,8 +41,6 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
     private var storedSharedTheme: SharedTheme? = null
 
-    override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
-
     override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -248,21 +246,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateActionbarColor(getCurrentStatusBarColor())
         updateNavigationBarColor(curNavigationBarColor, true)
         updateApplyToAllColors(getCurrentPrimaryColor())
-    }
-
-    private fun getAutoThemeColors(): MyTheme {
-        val isUsingSystemDarkTheme = isUsingSystemDarkTheme()
-        val textColor =
-            if (isUsingSystemDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color
-        val backgroundColor =
-            if (isUsingSystemDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color
-        return MyTheme(
-            getString(R.string.auto_light_dark_theme),
-            textColor,
-            backgroundColor,
-            R.color.color_primary,
-            R.color.color_primary
-        )
     }
 
     private fun getCurrentThemeId(): Int {

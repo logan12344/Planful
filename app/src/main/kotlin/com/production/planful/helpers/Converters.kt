@@ -24,5 +24,5 @@ class Converters {
     }
 
     @TypeConverter
-    fun stringListToJson(list: ArrayList<String>) = gson.toJson(list)
+    fun stringListToJson(list: ArrayList<String>): String = gson.toJson(list)
 }

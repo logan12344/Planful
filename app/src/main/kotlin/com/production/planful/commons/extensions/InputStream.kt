@@ -1,6 +1,5 @@
 package com.production.planful.commons.extensions
 
-import com.production.planful.commons.helpers.MD5
 import java.io.InputStream
 import java.security.MessageDigest
 
@@ -18,4 +17,3 @@ fun InputStream.getDigest(algorithm: String): String {
     }
 }
 
-fun InputStream.md5(): String = this.getDigest(MD5)

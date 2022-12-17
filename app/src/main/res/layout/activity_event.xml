@@ -85,7 +85,8 @@
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/small_margin"
-                android:src="@drawable/ic_place_vector" />
+                android:src="@drawable/ic_place_vector"
+                android:contentDescription="@string/location" />
 
             <com.production.planful.commons.views.MyTextInputLayout
                 android:id="@+id/event_description_layout"
@@ -132,7 +133,8 @@
                 android:layout_alignBottom="@+id/event_all_day_holder"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_clock_vector" />
+                android:src="@drawable/ic_clock_vector"
+                android:contentDescription="@string/all_day" />
 
             <RelativeLayout
                 android:id="@+id/event_all_day_holder"
@@ -276,7 +278,8 @@
                 android:layout_alignBottom="@+id/event_reminder_1"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_bell_vector" />
+                android:src="@drawable/ic_bell_vector"
+                android:contentDescription="@string/reminder" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_reminder_1"
@@ -305,7 +308,8 @@
                 android:layout_marginStart="@dimen/small_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/activity_margin"
-                android:src="@drawable/ic_bell_vector" />
+                android:src="@drawable/ic_bell_vector"
+                android:contentDescription="@string/reminder" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_reminder_2"
@@ -336,7 +340,8 @@
                 android:layout_marginStart="@dimen/small_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/activity_margin"
-                android:src="@drawable/ic_bell_vector" />
+                android:src="@drawable/ic_bell_vector"
+                android:contentDescription="@string/reminder" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_reminder_3"
@@ -367,7 +372,8 @@
                 android:layout_marginStart="@dimen/small_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/activity_margin"
-                android:src="@drawable/ic_bell_vector" />
+                android:src="@drawable/ic_bell_vector"
+                android:contentDescription="@string/reminder" />
 
             <ImageView
                 android:id="@+id/event_reminder_divider"
@@ -388,7 +394,8 @@
                 android:layout_alignBottom="@+id/event_repetition"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_repeat_vector" />
+                android:src="@drawable/ic_repeat_vector"
+                android:contentDescription="@string/repeat" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_repetition"
@@ -513,7 +520,8 @@
                 android:layout_alignBottom="@+id/event_availability"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_event_busy_vector" />
+                android:src="@drawable/ic_event_busy_vector"
+                android:contentDescription="@string/status_busy" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/event_availability"
@@ -618,7 +626,8 @@
                 android:layout_alignBottom="@+id/event_type_holder"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/color" />
+                android:src="@drawable/color"
+                android:contentDescription="@string/regular_event" />
 
             <RelativeLayout
                 android:id="@+id/event_type_holder"
@@ -631,7 +640,6 @@
                 android:background="?attr/selectableItemBackground">
 
                 <com.production.planful.commons.views.MyTextView
-                    android:id="@+id/event_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small_margin"
@@ -649,7 +657,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/activity_margin"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:contentDescription="@string/regular_event" />
 
             </RelativeLayout>
 

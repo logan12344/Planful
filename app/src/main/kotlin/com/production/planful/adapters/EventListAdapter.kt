@@ -40,7 +40,6 @@ class EventListAdapter(
     private val dimPastEvents = activity.config.dimPastEvents
     private val dimCompletedTasks = activity.config.dimCompletedTasks
     private val now = getNowSeconds()
-    private var use24HourFormat = activity.config.use24HourFormat
     private var currentItemsHash = listItems.hashCode()
     private var isPrintVersion = false
     private val mediumMargin = activity.resources.getDimension(R.dimen.medium_margin).toInt()
@@ -67,7 +66,7 @@ class EventListAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = listItems.filter { it is ListEvent }.size
+    override fun getSelectableItemCount() = listItems.filterIsInstance<ListEvent>().size
 
     override fun getIsItemSelectable(position: Int) = listItems[position] is ListEvent
 
@@ -255,7 +254,7 @@ class EventListAdapter(
 
                     builder.setCanceledOnTouchOutside(false)
                     builder.setOnCancelListener {
-                        var i = 0;
+                        var i = 0
                         for (item in checklistArray) {
                             if (!item.checked) i++
                         }
@@ -330,11 +329,10 @@ class EventListAdapter(
 
         val hasRepeatableEvent = eventsToDelete.any { it.isRepeatable }
         DeleteEventDialog(activity, eventIds, hasRepeatableEvent) {
-            listItems.removeAll(eventsToDelete)
+            listItems.removeAll(eventsToDelete.toSet())
 
             ensureBackgroundThread {
-                val nonRepeatingEventIDs =
-                    eventsToDelete.filter { !it.isRepeatable }.mapNotNull { it.id }.toMutableList()
+                val nonRepeatingEventIDs = eventsToDelete.filter { !it.isRepeatable }.map { it.id }.toMutableList()
                 activity.eventsHelper.deleteEvents(nonRepeatingEventIDs, true)
 
                 val repeatingEventIDs = eventsToDelete.filter { it.isRepeatable }.map { it.id }

@@ -36,7 +36,7 @@ class YearFragment : Fragment(), YearlyCalendar {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mView = inflater.inflate(R.layout.fragment_year, container, false)
         mYear = requireArguments().getInt(YEAR_LABEL)
         requireContext().updateTextColors(mView.calendar_holder)

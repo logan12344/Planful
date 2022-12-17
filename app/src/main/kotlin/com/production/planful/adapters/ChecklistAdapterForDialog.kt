@@ -16,7 +16,6 @@ class ChecklistAdapterForDialog(private val items: ArrayList<ChecklistItem>, val
 
         var tvChecklistItemName: TextView = itemView.findViewById(R.id.tvChecklistItemName)
         var cbChecklistItemDone: CheckBox = itemView.findViewById(R.id.cbChecklistItemDone)
-        var rootView: View = itemView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChecklistViewHolder {

@@ -104,17 +104,6 @@ fun String.areDigitsOnly() = matches(Regex("[0-9]+"))
 
 fun String.getParentPath() = removeSuffix("/${getFilenameFromPath()}")
 
-fun String.getFileKey(lastModified: Long? = null): String {
-    val file = File(this)
-    val modified = if (lastModified != null && lastModified > 0) {
-        lastModified
-    } else {
-        file.lastModified()
-    }
-
-    return "${file.absolutePath}$modified"
-}
-
 fun String.getAvailableStorageB(): Long {
     return try {
         val stat = StatFs(this)
@@ -141,7 +130,7 @@ fun String.getNameLetter() =
     normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault())
         ?: "A"
 
-fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
+fun String.normalizePhoneNumber(): String = PhoneNumberUtils.normalizeNumber(this)
 
 fun String.getMimeType(): String {
     val typesMap = HashMap<String, String>().apply {

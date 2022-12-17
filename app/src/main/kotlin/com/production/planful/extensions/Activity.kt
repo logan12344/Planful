@@ -35,7 +35,7 @@ fun BaseSimpleActivity.shareEvents(ids: List<Long>) {
         }
 
         getFileOutputStream(file.toFileDirItem(this), true) {
-            IcsExporter().exportEvents(this, it, events, false) {
+            IcsExporter().exportEvents(this, it, events, false) { it ->
                 if (it == IcsExporter.ExportResult.EXPORT_OK) {
                     sharePathIntent(file.absolutePath, BuildConfig.APPLICATION_ID)
                 }
@@ -80,7 +80,7 @@ fun Activity.showEventRepeatIntervalDialog(curSeconds: Int, callback: (minutes: 
 
     RadioGroupDialog(this, items, selectedIndex) {
         if (it == -1) {
-            CustomEventRepeatIntervalDialog(this) {
+            CustomEventRepeatIntervalDialog(this) { it ->
                 callback(it)
             }
         } else {

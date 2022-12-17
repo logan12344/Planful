@@ -11,6 +11,7 @@ import com.production.planful.helpers.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.io.Serializable
+import kotlin.math.roundToInt
 
 @Entity(tableName = "events", indices = [(Index(value = ["id"], unique = true))])
 data class Event(
@@ -191,8 +192,7 @@ data class Event(
             .withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
         val currentWeekNumber = Formatter.getDateTimeFromTS(startTS)
             .withTimeAtStartOfDay().millis / (7 * 24 * 60 * 60 * 1000f)
-        return (Math.round(initialWeekNumber) - Math.round(currentWeekNumber)) % (repeatInterval / WEEK) == 0
-    }
+        return (initialWeekNumber.roundToInt() - currentWeekNumber.roundToInt()) % (repeatInterval / WEEK) == 0}
 
     fun updateIsPastEvent() {
         val endTSToCheck = if (startTS < getNowSeconds() && getIsAllDay()) {

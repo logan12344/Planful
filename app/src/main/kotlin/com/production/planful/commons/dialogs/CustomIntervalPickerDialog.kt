@@ -72,7 +72,7 @@ class CustomIntervalPickerDialog(
     private fun confirmReminder() {
         val value = view.dialog_custom_interval_value.value
         val multiplier = getMultiplier(view.dialog_radio_view.checkedRadioButtonId)
-        val minutes = Integer.valueOf(if (value.isEmpty()) "0" else value)
+        val minutes = Integer.valueOf(value.ifEmpty { "0" })
         callback(minutes * multiplier)
         activity.hideKeyboard()
         dialog?.dismiss()

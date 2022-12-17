@@ -19,7 +19,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -76,8 +75,6 @@ fun Activity.appLaunched(appId: String) {
             baseConfig.lastIconColor = primaryColor
         }
     }
-
-    baseConfig.appRunCount++
 
     if (baseConfig.navigationBarColor == INVALID_NAVIGATION_BAR_COLOR && (window.attributes.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN == 0)) {
         baseConfig.defaultNavigationBarColor = window.navigationBarColor
@@ -303,8 +300,6 @@ fun BaseSimpleActivity.showOTGPermissionDialog(path: String) {
         }
     }
 }
-
-fun Activity.launchViewIntent(id: Int) = launchViewIntent(getString(id))
 
 fun Activity.launchViewIntent(url: String) {
     hideKeyboard()
@@ -750,7 +745,7 @@ private fun BaseSimpleActivity.renameCasually(
     }
 }
 
-fun Activity.createTempFile(file: File): File? {
+fun createTempFile(file: File): File? {
     return if (file.isDirectory) {
         createTempDir("temp", "${System.currentTimeMillis()}", file.parentFile)
     } else {
@@ -782,12 +777,6 @@ fun Activity.hideKeyboardSync() {
     inputMethodManager.hideSoftInputFromWindow((currentFocus ?: View(this)).windowToken, 0)
     window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     currentFocus?.clearFocus()
-}
-
-fun Activity.showKeyboard(et: EditText) {
-    et.requestFocus()
-    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 }
 
 fun Activity.hideKeyboard(view: View) {
@@ -1240,7 +1229,7 @@ fun Activity.showPickSecondsDialog(
     ) {
         when (it) {
             -2 -> {
-                CustomIntervalPickerDialog(this, showSeconds = showSecondsAtCustomDialog) {
+                CustomIntervalPickerDialog(this, showSeconds = showSecondsAtCustomDialog) { it ->
                     callback(it)
                 }
             }

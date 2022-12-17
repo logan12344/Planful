@@ -87,7 +87,7 @@ class CalDAVHelper(val context: Context) {
             val displayName = cursor.getStringValue(Calendars.CALENDAR_DISPLAY_NAME)
             val accountName = cursor.getStringValue(Calendars.ACCOUNT_NAME)
             val accountType = cursor.getStringValue(Calendars.ACCOUNT_TYPE)
-            val ownerName = cursor.getStringValue(Calendars.OWNER_ACCOUNT) ?: ""
+            val ownerName = cursor.getStringValue(Calendars.OWNER_ACCOUNT)
             val color = cursor.getIntValue(Calendars.CALENDAR_COLOR)
             val accessLevel = cursor.getIntValue(Calendars.CALENDAR_ACCESS_LEVEL)
             val calendar = CalDAVCalendar(
@@ -122,7 +122,7 @@ class CalDAVHelper(val context: Context) {
         try {
             context.contentResolver.update(uri, values, null, null)
             context.eventTypesDB.insertOrUpdate(eventType)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
         } catch (e: SecurityException) {
             context.showErrorToast(e)
         }
@@ -206,7 +206,7 @@ class CalDAVHelper(val context: Context) {
             }
 
             val id = cursor.getLongValue(Events._ID)
-            val title = cursor.getStringValue(Events.TITLE) ?: ""
+            val title = cursor.getStringValue(Events.TITLE)
 
             if (errorFetchingLocalEvents) {
                 context.toast(
@@ -216,12 +216,12 @@ class CalDAVHelper(val context: Context) {
                 return
             }
 
-            val description = cursor.getStringValue(Events.DESCRIPTION) ?: ""
+            val description = cursor.getStringValue(Events.DESCRIPTION)
             val startTS = cursor.getLongValue(Events.DTSTART) / 1000L
             var endTS = cursor.getLongValue(Events.DTEND) / 1000L
             val allDay = cursor.getIntValue(Events.ALL_DAY)
-            val rrule = cursor.getStringValue(Events.RRULE) ?: ""
-            val location = cursor.getStringValue(Events.EVENT_LOCATION) ?: ""
+            val rrule = cursor.getStringValue(Events.RRULE)
+            val location = cursor.getStringValue(Events.EVENT_LOCATION)
             val originalId = cursor.getStringValue(Events.ORIGINAL_ID)
             val originalInstanceTime = cursor.getLongValue(Events.ORIGINAL_INSTANCE_TIME)
             val reminders = getCalDAVEventReminders(id)
@@ -229,7 +229,7 @@ class CalDAVHelper(val context: Context) {
             val availability = cursor.getIntValue(Events.AVAILABILITY)
 
             if (endTS == 0L) {
-                val duration = cursor.getStringValue(Events.DURATION) ?: ""
+                val duration = cursor.getStringValue(Events.DURATION)
                 endTS = startTS + Parser().parseDurationSeconds(duration)
             }
 
@@ -238,7 +238,6 @@ class CalDAVHelper(val context: Context) {
             val reminder3 = reminders.getOrNull(2)
             val importId = getCalDAVEventImportId(calendarId, id)
             val eventTimeZone = cursor.getStringValue(Events.EVENT_TIMEZONE)
-                ?: cursor.getStringValue(Events.CALENDAR_TIME_ZONE) ?: DateTimeZone.getDefault().id
 
             val source = "$CALDAV-$calendarId"
             val repeatRule = Parser().parseRepeatInterval(rrule, startTS)
@@ -300,7 +299,7 @@ class CalDAVHelper(val context: Context) {
 
             // some calendars add repeatable event exceptions with using the "exdate" field, not by creating a child event that is an exception
             // exdate can be stored as "20190216T230000Z", but also as "Europe/Madrid;20201208T000000Z"
-            val exdate = cursor.getStringValue(Events.EXDATE) ?: ""
+            val exdate = cursor.getStringValue(Events.EXDATE)
             if (exdate.length > 8) {
                 val lines = exdate.split("\n")
                 for (line in lines) {
@@ -498,12 +497,6 @@ class CalDAVHelper(val context: Context) {
         }
     }
 
-    fun deleteCalDAVCalendarEvents(calendarId: Long) {
-        val eventIds =
-            context.eventsDB.getCalDAVCalendarEvents("$CALDAV-$calendarId").toMutableList()
-        eventsHelper.deleteEvents(eventIds, false)
-    }
-
     fun deleteCalDAVEvent(event: Event) {
         val uri = Events.CONTENT_URI
         val contentUri = ContentUris.withAppendedId(uri, event.getCalDAVEventId())
@@ -571,8 +564,8 @@ class CalDAVHelper(val context: Context) {
         )
         val selection = "${Attendees.EVENT_ID} = $eventId"
         context.queryCursor(uri, projection, selection) { cursor ->
-            val name = cursor.getStringValue(Attendees.ATTENDEE_NAME) ?: ""
-            val email = cursor.getStringValue(Attendees.ATTENDEE_EMAIL) ?: ""
+            val name = cursor.getStringValue(Attendees.ATTENDEE_NAME)
+            val email = cursor.getStringValue(Attendees.ATTENDEE_EMAIL)
             val status = cursor.getIntValue(Attendees.ATTENDEE_STATUS)
             val relationship = cursor.getIntValue(Attendees.ATTENDEE_RELATIONSHIP)
             val attendee = Attendee(0, name, email, status, "", false, relationship)

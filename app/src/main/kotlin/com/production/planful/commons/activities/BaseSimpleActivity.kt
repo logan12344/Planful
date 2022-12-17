@@ -8,12 +8,10 @@ import android.app.role.RoleManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
@@ -66,23 +64,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         var funAfterManageMediaPermission: (() -> Unit)? = null
     }
 
-    abstract fun getAppIconIDs(): ArrayList<Int>
-
     abstract fun getAppLauncherName(): String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
-        if (!packageName.startsWith("com.production.planful.", true)) {
-            if ((0..50).random() == 10 || baseConfig.appRunCount % 100 == 0) {
-                val label =
-                    "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent("https://play.google.com/store/apps/dev?id=9070296388022589266")
-                }
-            }
-        }
-    }
 
     @SuppressLint("NewApi")
     override fun onResume() {
@@ -110,7 +92,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             updateActionbarColor(color)
         }
 
-        updateRecentsAppIcon()
         updateNavigationBarColor()
     }
 
@@ -196,24 +177,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                 }
             } catch (ignored: Exception) {
             }
-        }
-    }
-
-    fun updateRecentsAppIcon() {
-        if (baseConfig.isUsingModifiedAppIcon) {
-            val appIconIDs = getAppIconIDs()
-            val currentAppIconColorIndex = getCurrentAppIconColorIndex()
-            if (appIconIDs.size - 1 < currentAppIconColorIndex) {
-                return
-            }
-
-            val recentsIcon =
-                BitmapFactory.decodeResource(resources, appIconIDs[currentAppIconColorIndex])
-            val title = getAppLauncherName()
-            val color = baseConfig.primaryColor
-
-            val description = ActivityManager.TaskDescription(title, recentsIcon, color)
-            setTaskDescription(description)
         }
     }
 
@@ -543,7 +506,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     ) {
         hideKeyboard()
         Intent(applicationContext, AboutActivity::class.java).apply {
-            putExtra(APP_ICON_IDS, getAppIconIDs())
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             putExtra(APP_NAME, getString(appNameId))
             putExtra(APP_LICENSES, licenseMask)
@@ -554,7 +516,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     fun startCustomizationActivity() {
         Intent(applicationContext, CustomizationActivity::class.java).apply {
-            putExtra(APP_ICON_IDS, getAppIconIDs())
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             startActivity(this)
         }

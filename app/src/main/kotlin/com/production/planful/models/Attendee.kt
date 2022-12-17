@@ -18,7 +18,7 @@ data class Attendee(
     var isMe: Boolean,
     var relationship: Int
 ) {
-    fun getPublicName() = if (name.isNotEmpty()) name else email
+    fun getPublicName() = name.ifEmpty { email }
 
     fun updateImage(context: Context, imageView: ImageView, placeholder: Drawable) {
         if (photoUri.isEmpty()) {

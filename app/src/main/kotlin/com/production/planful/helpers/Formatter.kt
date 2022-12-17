@@ -9,6 +9,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.util.*
+import kotlin.math.min
 
 object Formatter {
     const val DAYCODE_PATTERN = "YYYYMMdd"
@@ -32,7 +33,7 @@ object Formatter {
         val monthIndex = Integer.valueOf(dayCode.substring(4, 6))
         var month = getMonthName(context, monthIndex)
         if (shortMonth) {
-            month = month.substring(0, Math.min(month.length, 3))
+            month = month.substring(0, min(month.length, 3))
         }
 
         var date = "$month $day"
@@ -72,7 +73,7 @@ object Formatter {
         return date
     }
 
-    fun getLongestDate(ts: Long) = getDateTimeFromTS(ts).toString(LONGEST_PATTERN)
+    fun getLongestDate(ts: Long): String = getDateTimeFromTS(ts).toString(LONGEST_PATTERN)
 
     fun getDate(context: Context, dateTime: DateTime, addDayOfWeek: Boolean = true) =
         getDayTitle(context, getDayCodeFromDateTime(dateTime), addDayOfWeek)
@@ -87,18 +88,18 @@ object Formatter {
 
     fun getTodayCode() = getDayCodeFromTS(getNowSeconds())
 
-    fun getTodayDayNumber() = getDateTimeFromTS(getNowSeconds()).toString(DAY_PATTERN)
+    fun getTodayDayNumber(): String = getDateTimeFromTS(getNowSeconds()).toString(DAY_PATTERN)
 
-    fun getCurrentMonthShort() = getDateTimeFromTS(getNowSeconds()).toString(MONTH_PATTERN)
+    fun getCurrentMonthShort(): String = getDateTimeFromTS(getNowSeconds()).toString(MONTH_PATTERN)
 
-    fun getHours(context: Context, dateTime: DateTime) = dateTime.toString(getHourPattern(context))
+    fun getHours(context: Context, dateTime: DateTime): String = dateTime.toString(getHourPattern(context))
 
-    fun getTime(context: Context, dateTime: DateTime) = dateTime.toString(getTimePattern(context))
+    fun getTime(context: Context, dateTime: DateTime): String = dateTime.toString(getTimePattern(context))
 
-    fun getDateTimeFromCode(dayCode: String) =
+    fun getDateTimeFromCode(dayCode: String): DateTime =
         DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.UTC).parseDateTime(dayCode)
 
-    fun getLocalDateTimeFromCode(dayCode: String) =
+    fun getLocalDateTimeFromCode(dayCode: String): DateTime =
         DateTimeFormat.forPattern(DAYCODE_PATTERN).withZone(DateTimeZone.getDefault())
             .parseLocalDate(dayCode).toDateTimeAtStartOfDay()
 
@@ -109,7 +110,7 @@ object Formatter {
     fun getDayEndTS(dayCode: String) =
         getLocalDateTimeFromCode(dayCode).plusDays(1).minusMinutes(1).seconds()
 
-    fun getDayCodeFromDateTime(dateTime: DateTime) = dateTime.toString(DAYCODE_PATTERN)
+    fun getDayCodeFromDateTime(dateTime: DateTime): String = dateTime.toString(DAYCODE_PATTERN)
 
     fun getDateFromTS(ts: Long) = LocalDate(ts * 1000L, DateTimeZone.getDefault())
 
@@ -118,7 +119,7 @@ object Formatter {
     fun getUTCDateTimeFromTS(ts: Long) = DateTime(ts * 1000L, DateTimeZone.UTC)
 
     // use manually translated month names, as DateFormat and Joda have issues with a lot of languages
-    fun getMonthName(context: Context, id: Int) =
+    fun getMonthName(context: Context, id: Int): String =
         context.resources.getStringArray(R.array.months)[id - 1]
 
     fun getHourPattern(context: Context) =
@@ -141,9 +142,9 @@ object Formatter {
         }
     }
 
-    fun getUTCDayCodeFromTS(ts: Long) = getUTCDateTimeFromTS(ts).toString(DAYCODE_PATTERN)
+    fun getUTCDayCodeFromTS(ts: Long): String = getUTCDateTimeFromTS(ts).toString(DAYCODE_PATTERN)
 
-    fun getYearFromDayCode(dayCode: String) = getDateTimeFromCode(dayCode).toString(YEAR_PATTERN)
+    fun getYearFromDayCode(dayCode: String): String = getDateTimeFromCode(dayCode).toString(YEAR_PATTERN)
 
     fun getShiftedTS(dateTime: DateTime, toZone: DateTimeZone) =
         dateTime.withTimeAtStartOfDay().withZoneRetainFields(toZone).seconds()

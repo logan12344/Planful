@@ -9,7 +9,10 @@ import android.os.Handler
 import androidx.core.net.toUri
 import com.production.planful.R
 import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.*
+import com.production.planful.commons.helpers.APP_LAUNCHER_NAME
+import com.production.planful.commons.helpers.APP_NAME
+import com.production.planful.commons.helpers.APP_VERSION_NAME
+import com.production.planful.commons.helpers.NavigationIcon
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : BaseSimpleActivity() {
@@ -20,8 +23,6 @@ class AboutActivity : BaseSimpleActivity() {
     private var clicksSinceFirstClick = 0
     private val EASTER_EGG_TIME_LIMIT = 3000L
     private val EASTER_EGG_REQUIRED_CLICKS = 7
-
-    override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
 
     override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 

@@ -18,10 +18,6 @@ open class SimpleActivity : BaseSimpleActivity() {
     val calDAVRefreshHandler = Handler()
     var calDAVRefreshCallback: (() -> Unit)? = null
 
-    override fun getAppIconIDs() = arrayListOf(
-        R.mipmap.ic_launcher
-    )
-
     override fun getAppLauncherName() = getString(R.string.app_launcher_name)
 
     fun Context.syncCalDAVCalendars(callback: () -> Unit) {

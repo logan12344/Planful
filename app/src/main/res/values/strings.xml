@@ -18,7 +18,6 @@
     <string name="event">Event</string>
     <string name="edit_event">Edit Event</string>
     <string name="new_event">New Event</string>
-    <string name="create_new_event">Create a new event</string>
     <string name="duplicate_event">Duplicate event</string>
     <string name="title_empty">Title cannot be empty</string>
     <string name="end_before_start">The event cannot end earlier than it starts</string>
@@ -32,7 +31,6 @@
     <string name="new_task">New Task</string>
     <string name="duplicate_task">Duplicate task</string>
     <string name="mark_completed">Mark completed</string>
-    <string name="mark_incomplete">Mark incomplete</string>
     <string name="end_task_before_start">The task cannot end earlier than it starts</string>
 
     <!-- Event Repetition -->
@@ -87,16 +85,13 @@
 
     <!-- Birthdays -->
     <string name="birthdays">Birthdays</string>
-    <string name="add_birthdays_automatically">Add new birthdays automatically</string>
 
     <!-- Anniversaries -->
     <string name="anniversaries">Anniversaries</string>
-    <string name="add_anniversaries_automatically">Add new anniversaries automatically</string>
 
     <!-- Event Reminders -->
     <string name="reminder">Reminder</string>
     <string name="add_another_reminder">Add another reminder</string>
-    <string name="event_reminders">Event reminders</string>
     <string name="reminders">Reminders</string>
 
     <!-- Event attendees -->
@@ -141,7 +136,6 @@
     <string name="ring_stream">Ring</string>
 
     <!-- CalDAV sync -->
-    <string name="select_caldav_calendars">Select calendars to sync</string>
     <string name="store_locally_only">Store locally only</string>
     <string name="refreshing">Refreshing…</string>
     <string name="refreshing_complete">Refreshing complete</string>
@@ -149,7 +143,6 @@
     <string name="select_a_different_caldav_color">Select a different color (might be applied locally only)</string>
     <string name="insufficient_permissions">You are not allowed to write in the selected calendar</string>
     <string name="caldav_event_not_found">Event not found. Please enable CalDAV sync for the appropriate calendar in the app settings.</string>
-    <string name="no_synchronized_calendars">No synchronizable calendars have been found</string>
     <string name="status_free">Free</string>
     <string name="status_busy">Busy</string>
     <string name="fetching_event_failed">Fetching event %s failed</string>
@@ -201,22 +194,17 @@
     <string name="no_app_found">No valid app found</string>
     <string name="no_browser_found">No browser found</string>
     <string name="no_email_client_found">No email client found</string>
-    <string name="copy_number_to_clipboard">Copy number to clipboard</string>
     <string name="value_copied_to_clipboard_show">Value copied to clipboard:\n%s</string>
     <string name="label">Label</string>
     <string name="transparent">Transparent</string>
     <string name="notification">Notification</string>
     <string name="email">Email</string>
-    <string name="call_person">Call %s</string>
     <string name="value">Value</string>
     <string name="disclaimer">Disclaimer</string>
 
     <!-- Blocked numbers -->
-    <string name="blocked_numbers">Blocked numbers</string>
-    <string name="export_blocked_numbers">Export blocked numbers</string>
 
     <!-- Favorites -->
-    <string name="favorites">Favorites</string>
 
     <!-- Search -->
     <string name="search">Search</string>
@@ -229,16 +217,6 @@
     <string name="no_post_notifications_permissions">Permission to post notifications is required</string>
 
     <!-- Renaming -->
-    <string name="filename_cannot_be_empty">Filename cannot be empty</string>
-    <string name="filename_invalid_characters">Filename contains invalid characters</string>
-    <string name="source_file_doesnt_exist">Source file %s doesn\'t exist</string>
-    <string name="prepend_filenames">Prepend filenames</string>
-    <string name="append_filenames">Append filenames</string>
-    <string name="simple_renaming">Simple renaming</string>
-    <string name="pattern_renaming">Pattern</string>
-    <string name="string_to_add">String to add</string>
-    <string name="rename_date_time_pattern">%Y - year\n%M - month\n%D - day\n%h - hour\n%m - minute\n%s - second\n%i - number increasing from 1</string>
-    <string name="filename_without_txt">Filename (without .txt)</string>
 
     <!-- Copy / Move -->
     <string name="invalid_destination">Could not write to the selected destination</string>
@@ -268,19 +246,15 @@
 
     <!-- File operation conflicts -->
     <string name="file_already_exists">File \"%s\" already exists</string>
-    <string name="file_already_exists_overwrite">File \"%s\" already exists. Overwrite?</string>
     <string name="folder_already_exists">Folder \"%s\" already exists</string>
     <string name="merge">Merge</string>
     <string name="keep_both">Keep both</string>
     <string name="overwrite">Overwrite</string>
     <string name="skip">Skip</string>
     <string name="apply_to_all">Apply to all</string>
-    <string name="system_folder_restriction">The system does not allow the operation in this folder, please pick another one</string>
     <string name="cannot_rename_folder">Cannot rename this folder</string>
 
     <!-- File picker -->
-    <string name="select_folder">Select a folder</string>
-    <string name="select_file">Select a file</string>
     <string name="confirm_storage_access_title">Confirm external storage access</string>
     <string name="confirm_folder_access_title">Confirm folder access</string>
     <string name="confirm_storage_access_text">Please choose the top folder of the SD card on the next screen, to grant write access</string>
@@ -288,7 +262,6 @@
     <string name="confirm_storage_access_android_text">Please allow the app accessing the selected storage on the next screen by pressing \'Use this folder\' at the bottom.</string>
     <string name="confirm_storage_access_android_text_specific">Please allow accessing \'&lt;b&gt;%s&lt;/b&gt;\' on the next screen by pressing \'&lt;b&gt;Use this folder&lt;/b&gt;\' at the bottom.</string>
     <string name="confirm_create_doc_for_new_folder_text">Please press \'&lt;b&gt;Save&lt;/b&gt;\' at the bottom of the next screen to create the new folder.</string>
-    <string name="loading">Loading…</string>
 
     <plurals name="items">
         <item quantity="one">%d item</item>
@@ -307,7 +280,6 @@
     <string name="wrong_folder_selected">Wrong folder selected, please select path \'%s\'</string>
 
     <!-- File properties -->
-    <string name="path">Path</string>
 
     <!-- Color customization -->
     <string name="use_default">Use default</string>
@@ -320,19 +292,15 @@
     <!-- Themes -->
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
-    <string name="auto_light_dark_theme">Auto light / dark</string>
     <string name="custom">Custom</string>
     <string name="shared">Shared</string>
     <string name="system_default">System default</string>
 
     <!-- What's new -->
-    <string name="whats_new">What\'s new</string>
-    <string name="whats_new_disclaimer">* only the bigger updates are listed here, there are always some smaller improvements too</string>
 
     <!-- Actionbar items -->
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
-    <string name="rename">Rename</string>
     <string name="share">Share</string>
     <string name="share_via">Share via</string>
     <string name="maximum_share_reached">You cannot share this much content at once</string>
@@ -340,7 +308,6 @@
 
     <!-- Sorting -->
     <string name="title">Title</string>
-    <string name="extension">Extension</string>
 
     <!-- Confirmation dialog -->
     <string name="proceed_with_deletion">Are you sure you want to proceed with the deletion?</string>
@@ -369,7 +336,6 @@
     <string name="authentication_blocked">Authentication blocked, please try again in a moment</string>
     <string name="no_fingerprints_registered">You have no fingerprints registered, please add some in the Settings of your device</string>
     <string name="go_to_settings">Go to Settings</string>
-    <string name="lock_folder_notice">This protection works in this app only, it is not supposed to replace a real systemwide folder encryption.</string>
 
     <!-- Times -->
     <string name="tomorrow">Tomorrow</string>
@@ -498,11 +464,9 @@
     <string name="medium">Medium</string>
     <string name="large">Large</string>
     <string name="extra_large">Extra large</string>
-    <string name="use_24_hour_time_format">Use 24-hour time format</string>
     <string name="sunday_first">Start week on Sunday</string>
     <string name="use_same_snooze">Always use same snooze time</string>
     <string name="snooze_time">Snooze time</string>
-    <string name="export_settings">Export settings</string>
     <string name="settings_exported_successfully">Settings exported successfully</string>
     <string name="settings_imported_successfully">Settings imported successfully</string>
 

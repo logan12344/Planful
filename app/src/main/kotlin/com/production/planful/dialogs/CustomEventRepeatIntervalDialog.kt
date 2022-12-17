@@ -38,7 +38,7 @@ class CustomEventRepeatIntervalDialog(
     private fun confirmRepeatInterval() {
         val value = view.dialog_custom_repeat_interval_value.value
         val multiplier = getMultiplier(view.dialog_radio_view.checkedRadioButtonId)
-        val days = Integer.valueOf(if (value.isEmpty()) "0" else value)
+        val days = Integer.valueOf(value.ifEmpty { "0" })
         callback(days * multiplier)
         activity.hideKeyboard()
         dialog?.dismiss()

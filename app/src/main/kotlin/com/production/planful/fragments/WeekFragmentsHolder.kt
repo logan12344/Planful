@@ -1,5 +1,6 @@
 package com.production.planful.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -27,7 +28,6 @@ import org.joda.time.DateTime
 
 class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
     private val PREFILLED_WEEKS = 151
-    private val MAX_SEEKBAR_VALUE = 14
 
     private var viewPager: MyViewPager? = null
     private var weekHolder: ViewGroup? = null
@@ -63,11 +63,12 @@ class WeekFragmentsHolder : MyFragmentHolder(), WeekFragmentListener {
         return weekHolder
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupFragment() {
         addHours()
         setupWeeklyViewPager()
 
-        weekHolder!!.week_view_hours_scrollview.setOnTouchListener { view, motionEvent -> true }
+        weekHolder!!.week_view_hours_scrollview.setOnTouchListener { _, motionEvent -> true }
 
         updateActionBarTitle()
     }

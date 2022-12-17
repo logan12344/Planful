@@ -39,10 +39,8 @@ class CustomPeriodPickerDialog(val activity: Activity, val callback: (value: Int
     private fun confirmReminder() {
         val value = view.dialog_custom_period_value.value
         val type = view.dialog_radio_view.checkedRadioButtonId
-        val periodValue = if (value.isEmpty()) {
+        val periodValue = value.ifEmpty {
             "0"
-        } else {
-            value
         }
 
         val period = calculatePeriod(Integer.valueOf(periodValue), type)

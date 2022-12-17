@@ -184,7 +184,7 @@ class ManageEventTypesAdapter(
 
         if (listener?.deleteEventTypes(eventTypesToDelete, deleteEvents) == true) {
             val positions = getSelectedItemPositions()
-            eventTypes.removeAll(eventTypesToDelete)
+            eventTypes.removeAll(eventTypesToDelete.toSet())
             removeSelectedItems(positions)
         }
     }

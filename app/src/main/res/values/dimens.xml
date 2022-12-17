@@ -16,7 +16,6 @@
     <dimen name="repeat_type_margin_start">40dp</dimen>
 
     <dimen name="yearly_month_padding">0dp</dimen>
-    <dimen name="endless_scroll_move_height">24dp</dimen>
 
     <dimen name="day_monthly_text_size">11sp</dimen>
     <dimen name="meta_text_size">14sp</dimen>
@@ -30,10 +29,6 @@
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="avatar_status_size">16dp</dimen>
 
-    <dimen name="quick_filter_height">48dp</dimen>
-    <dimen name="quick_filter_min_width">88dp</dimen>
-    <dimen name="quick_filter_active_line_size">6dp</dimen>
-    <dimen name="quick_filter_inactive_line_size">2dp</dimen>
     <dimen name="zero">0dp</dimen>
 
     <dimen name="one_dp">1dp</dimen>
@@ -48,7 +43,6 @@
     <dimen name="material_dialog_corner_radius">28dp</dimen>
     <dimen name="material_button_corner_radius">24dp</dimen>
     <dimen name="color_sample_size">34dp</dimen>
-    <dimen name="shortcut_size">64dp</dimen>
     <dimen name="colorpicker_size">240dp</dimen>
     <dimen name="colorpicker_size_with_padding">272dp</dimen>
     <dimen name="colorpicker_hue_width">30dp</dimen>
@@ -57,13 +51,10 @@
 
     <dimen name="normal_icon_size">48dp</dimen>
     <dimen name="fingerprint_icon_size">72dp</dimen>
-    <dimen name="fab_size">56dp</dimen>
-    <dimen name="secondary_fab_bottom_margin">76dp</dimen>
     <dimen name="file_picker_icon_size">54dp</dimen>
     <dimen name="rounded_corner_radius_small">4dp</dimen>
     <dimen name="bottom_sheet_corner_radius">24dp</dimen>
     <dimen name="breadcrumbs_layout_height">48dp</dimen>
-    <dimen name="simple_list_item_height">56dp</dimen>
 
     <dimen name="dragselect_hotspot_height">56dp</dimen>
     <dimen name="widget_colorpicker_size">50dp</dimen>

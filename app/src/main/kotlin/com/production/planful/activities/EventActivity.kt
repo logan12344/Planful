@@ -42,10 +42,10 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.math.pow
 
 class EventActivity : SimpleActivity() {
-    private val LAT_LON_PATTERN =
-        "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)([,;])\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)\$"
+    private val LAT_LON_PATTERN = "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)([,;])\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)\$"
     private val SELECT_TIME_ZONE_INTENT = 1
 
     private var mIsAllDayEvent = false
@@ -634,10 +634,7 @@ class EventActivity : SimpleActivity() {
 
         when {
             mRepeatInterval.isXWeeklyRepetition() -> setRepeatRule(
-                Math.pow(
-                    2.0,
-                    (mEventStartDateTime.dayOfWeek - 1).toDouble()
-                ).toInt()
+                2.0.pow((mEventStartDateTime.dayOfWeek - 1).toDouble()).toInt()
             )
             mRepeatInterval.isXMonthlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
             mRepeatInterval.isXYearlyRepetition() -> setRepeatRule(REPEAT_SAME_DAY)
@@ -1590,7 +1587,7 @@ class EventActivity : SimpleActivity() {
         if (mRepeatInterval.isXWeeklyRepetition()) {
             val day = mRepeatRule
             if (day == MONDAY_BIT || day == TUESDAY_BIT || day == WEDNESDAY_BIT || day == THURSDAY_BIT || day == FRIDAY_BIT || day == SATURDAY_BIT || day == SUNDAY_BIT) {
-                setRepeatRule(Math.pow(2.0, (mEventStartDateTime.dayOfWeek - 1).toDouble()).toInt())
+                setRepeatRule(2.0.pow((mEventStartDateTime.dayOfWeek - 1).toDouble()).toInt())
             }
         } else if (mRepeatInterval.isXMonthlyRepetition() || mRepeatInterval.isXYearlyRepetition()) {
             if (mRepeatRule == REPEAT_LAST_DAY && !isLastDayOfTheMonth()) {
@@ -1883,12 +1880,12 @@ class EventActivity : SimpleActivity() {
 
         queryCursor(uri, projection, selection, selectionArgs) { cursor ->
             val id = cursor.getIntValue(Data.CONTACT_ID)
-            val prefix = cursor.getStringValue(StructuredName.PREFIX) ?: ""
-            val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME) ?: ""
-            val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME) ?: ""
-            val surname = cursor.getStringValue(StructuredName.FAMILY_NAME) ?: ""
-            val suffix = cursor.getStringValue(StructuredName.SUFFIX) ?: ""
-            val photoUri = cursor.getStringValue(StructuredName.PHOTO_THUMBNAIL_URI) ?: ""
+            val prefix = cursor.getStringValue(StructuredName.PREFIX)
+            val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME)
+            val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME)
+            val surname = cursor.getStringValue(StructuredName.FAMILY_NAME)
+            val suffix = cursor.getStringValue(StructuredName.SUFFIX)
+            val photoUri = cursor.getStringValue(StructuredName.PHOTO_THUMBNAIL_URI)
 
             val names = arrayListOf(prefix, firstName, middleName, surname, suffix).filter {
                 it.trim().isNotEmpty()
@@ -1920,7 +1917,7 @@ class EventActivity : SimpleActivity() {
 
         queryCursor(uri, projection) { cursor ->
             val id = cursor.getIntValue(Data.CONTACT_ID)
-            val email = cursor.getStringValue(CommonDataKinds.Email.DATA) ?: return@queryCursor
+            val email = cursor.getStringValue(CommonDataKinds.Email.DATA)
             val contact = Attendee(
                 id,
                 "",

@@ -1,6 +1,7 @@
 package com.production.planful.commons.helpers
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.text.format.DateFormat
 import com.production.planful.R
 import com.production.planful.commons.extensions.getInternalStoragePath
@@ -10,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 open class BaseConfig(val context: Context) {
-    protected val prefs = context.getSharedPrefs()
+    protected val prefs: SharedPreferences = context.getSharedPrefs()
 
     companion object {
         fun newInstance(context: Context) = BaseConfig(context)
@@ -19,10 +20,6 @@ open class BaseConfig(val context: Context) {
     var appRunCount: Int
         get() = prefs.getInt(APP_RUN_COUNT, 0)
         set(appRunCount) = prefs.edit().putInt(APP_RUN_COUNT, appRunCount).apply()
-
-    var lastVersion: Int
-        get() = prefs.getInt(LAST_VERSION, 0)
-        set(lastVersion) = prefs.edit().putInt(LAST_VERSION, lastVersion).apply()
 
     var primaryAndroidDataTreeUri: String
         get() = prefs.getString(PRIMARY_ANDROID_DATA_TREE_URI, "")!!
@@ -77,7 +74,7 @@ open class BaseConfig(val context: Context) {
             .putString(INTERNAL_STORAGE_PATH, internalStoragePath).apply()
 
     private fun getDefaultInternalPath() =
-        if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else context.getInternalStoragePath()
+        if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else getInternalStoragePath()
 
     var textColor: Int
         get() = prefs.getInt(TEXT_COLOR, context.resources.getColor(R.color.theme_light_text_color))
@@ -229,7 +226,7 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {
             wasUseEnglishToggled = true
-            prefs.edit().putBoolean(USE_ENGLISH, useEnglish).commit()
+            prefs.edit().putBoolean(USE_ENGLISH, useEnglish).apply()
         }
 
     var wasUseEnglishToggled: Boolean
@@ -536,11 +533,6 @@ open class BaseConfig(val context: Context) {
     var favorites: MutableSet<String>
         get() = prefs.getStringSet(FAVORITES, HashSet())!!
         set(favorites) = prefs.edit().remove(FAVORITES).putStringSet(FAVORITES, favorites).apply()
-
-    var showCallConfirmation: Boolean
-        get() = prefs.getBoolean(SHOW_CALL_CONFIRMATION, false)
-        set(showCallConfirmation) = prefs.edit()
-            .putBoolean(SHOW_CALL_CONFIRMATION, showCallConfirmation).apply()
 
     // color picker last used colors
     internal var colorPickerRecentColors: LinkedList<Int>

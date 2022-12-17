@@ -41,7 +41,6 @@ const val REMINDER_DEFAULT_VALUE = "${REMINDER_OFF},${REMINDER_OFF},${REMINDER_O
 const val OTHER_EVENT = 0
 const val BIRTHDAY_EVENT = 1
 const val ANNIVERSARY_EVENT = 2
-const val HOLIDAY_EVENT = 3
 
 const val ITEM_EVENT = 0
 const val ITEM_SECTION_DAY = 1
@@ -70,7 +69,6 @@ const val WEEK_NUMBERS = "week_numbers"
 const val START_WEEKLY_AT = "start_weekly_at"
 const val START_WEEK_WITH_CURRENT_DAY = "start_week_with_current_day"
 const val SHOW_MIDNIGHT_SPANNING_EVENTS_AT_TOP = "show_midnight_spanning_events_at_top"
-const val ALLOW_CUSTOMIZE_DAY_COUNT = "allow_customise_day_count"
 const val VIBRATE = "vibrate"
 const val REMINDER_SOUND_URI = "reminder_sound_uri"
 const val REMINDER_SOUND_TITLE = "reminder_sound_title"
@@ -109,7 +107,6 @@ const val ADD_BIRTHDAYS_AUTOMATICALLY = "add_birthdays_automatically"
 const val ADD_ANNIVERSARIES_AUTOMATICALLY = "add_anniversaries_automatically"
 const val BIRTHDAY_REMINDERS = "birthday_reminders"
 const val ANNIVERSARY_REMINDERS = "anniversary_reminders"
-const val LAST_EXPORT_PATH = "last_export_path"
 const val EXPORT_PAST_EVENTS = "export_past_events"
 const val WEEKLY_VIEW_ITEM_HEIGHT_MULTIPLIER = "weekly_view_item_height_multiplier"
 const val WEEKLY_VIEW_DAYS = "weekly_view_days"
@@ -146,7 +143,6 @@ const val DTSTART = "DTSTART"
 const val DTEND = "DTEND"
 const val LAST_MODIFIED = "LAST-MODIFIED"
 const val DTSTAMP = "DTSTAMP:"
-const val DURATION = "DURATION:"
 const val SUMMARY = "SUMMARY"
 const val DESCRIPTION = "DESCRIPTION:"
 const val UID = "UID:"
@@ -163,12 +159,9 @@ const val BYDAY = "BYDAY"
 const val BYMONTHDAY = "BYMONTHDAY"
 const val BYMONTH = "BYMONTH"
 const val LOCATION = "LOCATION"
-const val RECURRENCE_ID = "RECURRENCE-ID"
-const val SEQUENCE = "SEQUENCE"
 
 // this tag isn't a standard ICS tag, but there's no official way of adding a category color in an ics file
 const val CATEGORY_COLOR = "X-SMT-CATEGORY-COLOR:"
-const val CATEGORY_COLOR_LEGACY = "CATEGORY_COLOR:"
 const val MISSING_YEAR = "X-SMT-MISSING-YEAR:"
 
 const val DISPLAY = "DISPLAY"

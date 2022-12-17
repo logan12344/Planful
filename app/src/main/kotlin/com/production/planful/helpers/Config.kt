@@ -10,7 +10,6 @@ import com.production.planful.commons.helpers.DAY_MINUTES
 import com.production.planful.commons.helpers.YEAR_SECONDS
 import com.production.planful.extensions.config
 import com.production.planful.extensions.scheduleCalDAVSync
-import java.util.*
 
 class Config(context: Context) : BaseConfig(context) {
     companion object {
@@ -34,10 +33,6 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_MIDNIGHT_SPANNING_EVENTS_AT_TOP, true)
         set(midnightSpanning) = prefs.edit()
             .putBoolean(SHOW_MIDNIGHT_SPANNING_EVENTS_AT_TOP, midnightSpanning).apply()
-
-    var allowCustomizeDayCount: Boolean
-        get() = prefs.getBoolean(ALLOW_CUSTOMIZE_DAY_COUNT, true)
-        set(allow) = prefs.edit().putBoolean(ALLOW_CUSTOMIZE_DAY_COUNT, allow).apply()
 
     var vibrateOnReminder: Boolean
         get() = prefs.getBoolean(VIBRATE, false)
@@ -91,17 +86,17 @@ class Config(context: Context) : BaseConfig(context) {
         set(displayPastEvents) = prefs.edit().putInt(DISPLAY_PAST_EVENTS, displayPastEvents).apply()
 
     var displayEventTypes: Set<String>
-        get() = prefs.getStringSet(DISPLAY_EVENT_TYPES, HashSet<String>())!!
+        get() = prefs.getStringSet(DISPLAY_EVENT_TYPES, HashSet())!!
         set(displayEventTypes) = prefs.edit().remove(DISPLAY_EVENT_TYPES)
             .putStringSet(DISPLAY_EVENT_TYPES, displayEventTypes).apply()
 
     var quickFilterEventTypes: Set<String>
-        get() = prefs.getStringSet(QUICK_FILTER_EVENT_TYPES, HashSet<String>())!!
+        get() = prefs.getStringSet(QUICK_FILTER_EVENT_TYPES, HashSet())!!
         set(quickFilterEventTypes) = prefs.edit().remove(QUICK_FILTER_EVENT_TYPES)
             .putStringSet(QUICK_FILTER_EVENT_TYPES, quickFilterEventTypes).apply()
 
     fun addQuickFilterEventType(type: String) {
-        val currQuickFilterEventTypes = HashSet<String>(quickFilterEventTypes)
+        val currQuickFilterEventTypes = HashSet(quickFilterEventTypes)
         currQuickFilterEventTypes.add(type)
         quickFilterEventTypes = currQuickFilterEventTypes
     }
@@ -174,17 +169,17 @@ class Config(context: Context) : BaseConfig(context) {
         displayEventTypes.map { it.toLong() }.toMutableList() as ArrayList<Long>
 
     fun addDisplayEventType(type: String) {
-        addDisplayEventTypes(HashSet<String>(Arrays.asList(type)))
+        addDisplayEventTypes(HashSet(listOf(type)))
     }
 
     private fun addDisplayEventTypes(types: Set<String>) {
-        val currDisplayEventTypes = HashSet<String>(displayEventTypes)
+        val currDisplayEventTypes = HashSet(displayEventTypes)
         currDisplayEventTypes.addAll(types)
         displayEventTypes = currDisplayEventTypes
     }
 
     fun removeDisplayEventTypes(types: Set<String>) {
-        val currDisplayEventTypes = HashSet<String>(displayEventTypes)
+        val currDisplayEventTypes = HashSet(displayEventTypes)
         currDisplayEventTypes.removeAll(types)
         displayEventTypes = currDisplayEventTypes
     }
@@ -232,32 +227,6 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(ALLOW_CHANGING_TIME_ZONES, false)
         set(allowChangingTimeZones) = prefs.edit()
             .putBoolean(ALLOW_CHANGING_TIME_ZONES, allowChangingTimeZones).apply()
-
-    var addBirthdaysAutomatically: Boolean
-        get() = prefs.getBoolean(ADD_BIRTHDAYS_AUTOMATICALLY, false)
-        set(addBirthdaysAutomatically) = prefs.edit()
-            .putBoolean(ADD_BIRTHDAYS_AUTOMATICALLY, addBirthdaysAutomatically).apply()
-
-    var addAnniversariesAutomatically: Boolean
-        get() = prefs.getBoolean(ADD_ANNIVERSARIES_AUTOMATICALLY, false)
-        set(addAnniversariesAutomatically) = prefs.edit()
-            .putBoolean(ADD_ANNIVERSARIES_AUTOMATICALLY, addAnniversariesAutomatically).apply()
-
-    var birthdayReminders: ArrayList<Int>
-        get() = prefs.getString(BIRTHDAY_REMINDERS, REMINDER_DEFAULT_VALUE)!!.split(",")
-            .map { it.toInt() }.toMutableList() as ArrayList<Int>
-        set(birthdayReminders) = prefs.edit()
-            .putString(BIRTHDAY_REMINDERS, birthdayReminders.joinToString(",")).apply()
-
-    var anniversaryReminders: ArrayList<Int>
-        get() = prefs.getString(ANNIVERSARY_REMINDERS, REMINDER_DEFAULT_VALUE)!!.split(",")
-            .map { it.toInt() }.toMutableList() as ArrayList<Int>
-        set(anniversaryReminders) = prefs.edit()
-            .putString(ANNIVERSARY_REMINDERS, anniversaryReminders.joinToString(",")).apply()
-
-    var lastExportPath: String
-        get() = prefs.getString(LAST_EXPORT_PATH, "")!!
-        set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
 
     var exportPastEvents: Boolean
         get() = prefs.getBoolean(EXPORT_PAST_EVENTS, false)

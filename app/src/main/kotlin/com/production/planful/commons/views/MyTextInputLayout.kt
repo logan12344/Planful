@@ -60,7 +60,7 @@ class MyTextInputLayout : TextInputLayout {
                 this,
                 ColorStateList(arrayOf(intArrayOf(0)), intArrayOf(defaultHintTextColor))
             )
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 }

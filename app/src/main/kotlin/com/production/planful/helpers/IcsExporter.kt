@@ -14,6 +14,8 @@ import com.production.planful.models.Event
 import java.io.BufferedWriter
 import java.io.OutputStream
 import java.io.OutputStreamWriter
+import kotlin.math.abs
+import kotlin.math.min
 
 class IcsExporter {
     enum class ExportResult {
@@ -150,7 +152,7 @@ class IcsExporter {
                 }
 
                 val sign = if (reminder.minutes < -1) "" else "-"
-                writeLn("$TRIGGER:$sign${Parser().getDurationCode(Math.abs(reminder.minutes.toLong()))}")
+                writeLn("$TRIGGER:$sign${Parser().getDurationCode(abs(reminder.minutes.toLong()))}")
                 writeLn(END_ALARM)
             }
         }
@@ -168,7 +170,7 @@ class IcsExporter {
 
         while (index < description.length) {
             val substring =
-                description.substring(index, Math.min(index + MAX_LINE_LENGTH, description.length))
+                description.substring(index, min(index + MAX_LINE_LENGTH, description.length))
             if (isFirstLine) {
                 out.writeLn("$DESCRIPTION$substring")
             } else {

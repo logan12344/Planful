@@ -97,7 +97,8 @@
                 android:layout_alignBottom="@+id/task_all_day_holder"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_clock_vector" />
+                android:src="@drawable/ic_clock_vector"
+                android:contentDescription="@string/all_day" />
 
             <RelativeLayout
                 android:id="@+id/task_all_day_holder"
@@ -214,7 +215,8 @@
                 android:layout_alignBottom="@+id/task_reminder_1"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_bell_vector" />
+                android:src="@drawable/ic_bell_vector"
+                android:contentDescription="@string/reminder" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/task_reminder_1"
@@ -333,7 +335,8 @@
                 android:layout_alignBottom="@+id/task_repetition"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_repeat_vector" />
+                android:src="@drawable/ic_repeat_vector"
+                android:contentDescription="@string/repeat"/>
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/task_repetition"
@@ -429,7 +432,8 @@
                 android:layout_alignBottom="@+id/task_type_holder"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/color" />
+                android:src="@drawable/color"
+                android:contentDescription="@string/regular_event" />
 
             <RelativeLayout
                 android:id="@+id/task_type_holder"
@@ -442,7 +446,6 @@
                 android:background="?attr/selectableItemBackground">
 
                 <com.production.planful.commons.views.MyTextView
-                    android:id="@+id/task_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small_margin"
@@ -460,28 +463,17 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/activity_margin"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:contentDescription="@string/regular_event" />
 
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/task_type_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/task_type_holder"
                 android:background="@color/divider_grey"
                 android:importantForAccessibility="no" />
-
-            <android.widget.TextView
-                android:id="@+id/toggle_mark_complete"
-                style="@style/ColoredButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/task_type_divider"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginBottom="@dimen/activity_margin"
-                android:visibility="gone"/>
 
         </RelativeLayout>
     </ScrollView>

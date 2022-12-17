@@ -334,7 +334,7 @@ class EventsHelper(val context: Context) {
                         eventsDB.getOneTimeEventsFromToWithTypes(toTS, fromTS, typesList)
                             .toMutableList() as ArrayList<Event>
                     )
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
         } else {

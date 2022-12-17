@@ -3,10 +3,8 @@ package com.production.planful.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.production.planful.R
@@ -224,8 +222,6 @@ class TaskActivity : SimpleActivity() {
         }
 
         updateEventType()
-        updateTexts()
-        //setupMarkCompleteButton()
         checkRepeatTexts(mRepeatInterval)
         checkRepeatRule()
         updateActionBarTitle()
@@ -254,12 +250,9 @@ class TaskActivity : SimpleActivity() {
         } else {
             mTask = Event(null)
             config.apply {
-                mReminder1Minutes =
-                    if (usePreviousEventReminders && lastEventReminderMinutes1 >= -1) lastEventReminderMinutes1 else defaultReminder1
-                mReminder2Minutes =
-                    if (usePreviousEventReminders && lastEventReminderMinutes2 >= -1) lastEventReminderMinutes2 else defaultReminder2
-                mReminder3Minutes =
-                    if (usePreviousEventReminders && lastEventReminderMinutes3 >= -1) lastEventReminderMinutes3 else defaultReminder3
+                mReminder1Minutes = if (usePreviousEventReminders && lastEventReminderMinutes1 >= -1) lastEventReminderMinutes1 else defaultReminder1
+                mReminder2Minutes = if (usePreviousEventReminders && lastEventReminderMinutes2 >= -1) lastEventReminderMinutes2 else defaultReminder2
+                mReminder3Minutes = if (usePreviousEventReminders && lastEventReminderMinutes3 >= -1) lastEventReminderMinutes3 else defaultReminder3
             }
 
             if (savedInstanceState == null) {
@@ -329,7 +322,6 @@ class TaskActivity : SimpleActivity() {
 
         task_reminder_2.setOnClickListener { showReminder2Dialog() }
         refreshMenuItems()
-        //setupMarkCompleteButton()
 
         if (savedInstanceState == null) {
             updateEventType()
@@ -707,11 +699,11 @@ class TaskActivity : SimpleActivity() {
     }
 
     private val endDateSetListener =
-        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             dateSet(year, monthOfYear, dayOfMonth, false)
         }
 
-    private val endTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+    private val endTimeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         timeSet(hourOfDay, minute, false)
     }
 
@@ -840,44 +832,6 @@ class TaskActivity : SimpleActivity() {
         task_checklist.isChecked = isChecked
         recycle_checklist.beVisibleIf(isChecked)
         checklist_complete.beVisibleIf(isChecked)
-    }
-
-    private fun setupMarkCompleteButton() {
-        toggle_mark_complete.setOnClickListener { toggleCompletion() }
-        toggle_mark_complete.beVisibleIf(mTask.id != null)
-        updateTaskCompletedButton()
-        ensureBackgroundThread {
-            // the stored value might be incorrect so update it (e.g. user completed the task via notification action before editing)
-            mTaskCompleted = isTaskCompleted(mTask.copy(startTS = mOriginalStartTS))
-            runOnUiThread {
-                updateTaskCompletedButton()
-            }
-        }
-    }
-
-    private fun updateTaskCompletedButton() {
-        if (mTaskCompleted) {
-            toggle_mark_complete.background = ContextCompat.getDrawable(this, R.drawable.button_background_stroke)
-            toggle_mark_complete.setText(R.string.mark_incomplete)
-            toggle_mark_complete.setTextColor(getProperTextColor())
-        } else {
-            val markCompleteBgColor = if (isWhiteTheme()) {
-                Color.WHITE
-            } else {
-                getProperPrimaryColor()
-            }
-            toggle_mark_complete.setText(R.string.mark_completed)
-            toggle_mark_complete.setTextColor(markCompleteBgColor.getContrastColor())
-        }
-    }
-
-    private fun toggleCompletion() {
-        ensureBackgroundThread {
-            val task = mTask.copy(startTS = mOriginalStartTS)
-            updateTaskCompletion(task, completed = !mTaskCompleted)
-            hideKeyboard()
-            finish()
-        }
     }
 
     private fun updateReminderTexts() {

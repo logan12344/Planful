@@ -5,22 +5,11 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
-import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.*
 import android.provider.ContactsContract.Data
-import android.provider.ContactsContract.PhoneLookup
 import android.text.TextUtils
 import android.util.SparseArray
-import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.production.planful.R
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.models.PhoneNumber
@@ -133,14 +122,14 @@ class SimpleContactsHelper(val context: Context) {
             val rawId = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val contactId = cursor.getIntValue(Data.CONTACT_ID)
             val mimetype = cursor.getStringValue(Data.MIMETYPE)
-            val photoUri = cursor.getStringValue(StructuredName.PHOTO_THUMBNAIL_URI) ?: ""
+            val photoUri = cursor.getStringValue(StructuredName.PHOTO_THUMBNAIL_URI)
             val isPerson = mimetype == StructuredName.CONTENT_ITEM_TYPE
             if (isPerson) {
-                val prefix = cursor.getStringValue(StructuredName.PREFIX) ?: ""
-                val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME) ?: ""
-                val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME) ?: ""
-                val familyName = cursor.getStringValue(StructuredName.FAMILY_NAME) ?: ""
-                val suffix = cursor.getStringValue(StructuredName.SUFFIX) ?: ""
+                val prefix = cursor.getStringValue(StructuredName.PREFIX)
+                val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME)
+                val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME)
+                val familyName = cursor.getStringValue(StructuredName.FAMILY_NAME)
+                val suffix = cursor.getStringValue(StructuredName.SUFFIX)
                 if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
                     val names = if (startNameWithSurname) {
                         arrayOf(
@@ -176,8 +165,8 @@ class SimpleContactsHelper(val context: Context) {
 
             val isOrganization = mimetype == Organization.CONTENT_ITEM_TYPE
             if (isOrganization) {
-                val company = cursor.getStringValue(Organization.COMPANY) ?: ""
-                val jobTitle = cursor.getStringValue(Organization.TITLE) ?: ""
+                val company = cursor.getStringValue(Organization.COMPANY)
+                val jobTitle = cursor.getStringValue(Organization.TITLE)
                 if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
                     val fullName = "$company $jobTitle".trim()
                     val contact = SimpleContact(
@@ -212,13 +201,12 @@ class SimpleContactsHelper(val context: Context) {
         val selection = if (favoritesOnly) "${Data.STARRED} = 1" else null
 
         context.queryCursor(uri, projection, selection) { cursor ->
-            val normalizedNumber = cursor.getStringValue(Phone.NORMALIZED_NUMBER)
-                ?: cursor.getStringValue(Phone.NUMBER)?.normalizePhoneNumber() ?: return@queryCursor
+            val normalizedNumber = cursor.getStringValue(Phone.NORMALIZED_NUMBER) ?: return@queryCursor
 
             val rawId = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val contactId = cursor.getIntValue(Data.CONTACT_ID)
             val type = cursor.getIntValue(Phone.TYPE)
-            val label = cursor.getStringValue(Phone.LABEL) ?: ""
+            val label = cursor.getStringValue(Phone.LABEL)
             val isPrimary = cursor.getIntValue(Phone.IS_PRIMARY) != 0
 
             if (contacts.firstOrNull { it.rawId == rawId } == null) {
@@ -249,7 +237,7 @@ class SimpleContactsHelper(val context: Context) {
 
         context.queryCursor(uri, projection, selection, selectionArgs) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
-            val startDate = cursor.getStringValue(Event.START_DATE) ?: return@queryCursor
+            val startDate = cursor.getStringValue(Event.START_DATE)
 
             if (eventDates[id] == null) {
                 eventDates.put(id, ArrayList())
@@ -259,77 +247,6 @@ class SimpleContactsHelper(val context: Context) {
         }
 
         return eventDates
-    }
-
-    fun getNameFromPhoneNumber(number: String): String {
-        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
-            return number
-        }
-
-        val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
-        val projection = arrayOf(
-            PhoneLookup.DISPLAY_NAME
-        )
-
-        try {
-            val cursor = context.contentResolver.query(uri, projection, null, null, null)
-            cursor.use {
-                if (cursor?.moveToFirst() == true) {
-                    return cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
-                }
-            }
-        } catch (ignored: Exception) {
-        }
-
-        return number
-    }
-
-    fun getPhotoUriFromPhoneNumber(number: String): String {
-        if (!context.hasPermission(PERMISSION_READ_CONTACTS)) {
-            return ""
-        }
-
-        val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
-        val projection = arrayOf(
-            PhoneLookup.PHOTO_URI
-        )
-
-        try {
-            val cursor = context.contentResolver.query(uri, projection, null, null, null)
-            cursor.use {
-                if (cursor?.moveToFirst() == true) {
-                    return cursor.getStringValue(PhoneLookup.PHOTO_URI) ?: ""
-                }
-            }
-        } catch (ignored: Exception) {
-        }
-
-        return ""
-    }
-
-    fun loadContactImage(
-        path: String,
-        imageView: ImageView,
-        placeholderName: String,
-        placeholderImage: Drawable? = null
-    ) {
-        val placeholder = placeholderImage ?: BitmapDrawable(
-            context.resources,
-            getContactLetterIcon(placeholderName)
-        )
-
-        val options = RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .error(placeholder)
-            .centerCrop()
-
-        Glide.with(context)
-            .load(path)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .placeholder(placeholder)
-            .apply(options)
-            .apply(RequestOptions.circleCropTransform())
-            .into(imageView)
     }
 
     fun getContactLetterIcon(name: String): Bitmap {
@@ -362,72 +279,6 @@ class SimpleContactsHelper(val context: Context) {
         canvas.drawText(letter, xPos, yPos, textPaint)
         view.draw(canvas)
         return bitmap
-    }
-
-    fun getColoredGroupIcon(title: String): Drawable {
-        val icon = context.resources.getDrawable(R.drawable.ic_group_circle_bg)
-        val bgColor =
-            letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
-        (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background)
-            .applyColorFilter(bgColor)
-        return icon
-    }
-
-    fun getContactLookupKey(contactId: String): String {
-        val uri = Data.CONTENT_URI
-        val projection = arrayOf(Data.CONTACT_ID, Data.LOOKUP_KEY)
-        val selection = "${Data.MIMETYPE} = ? AND ${Data.RAW_CONTACT_ID} = ?"
-        val selectionArgs = arrayOf(StructuredName.CONTENT_ITEM_TYPE, contactId)
-
-        val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                val id = cursor.getIntValue(Data.CONTACT_ID)
-                val lookupKey = cursor.getStringValue(Data.LOOKUP_KEY)
-                return "$lookupKey/$id"
-            }
-        }
-
-        return ""
-    }
-
-    fun deleteContactRawIDs(ids: ArrayList<Int>, callback: () -> Unit) {
-        ensureBackgroundThread {
-            val uri = Data.CONTENT_URI
-            ids.chunked(30).forEach { chunk ->
-                val selection = "${Data.RAW_CONTACT_ID} IN (${getQuestionMarks(chunk.size)})"
-                val selectionArgs = chunk.map { it.toString() }.toTypedArray()
-                context.contentResolver.delete(uri, selection, selectionArgs)
-            }
-            callback()
-        }
-    }
-
-    fun getShortcutImage(path: String, placeholderName: String, callback: (image: Bitmap) -> Unit) {
-        ensureBackgroundThread {
-            val placeholder =
-                BitmapDrawable(context.resources, getContactLetterIcon(placeholderName))
-            try {
-                val options = RequestOptions()
-                    .format(DecodeFormat.PREFER_ARGB_8888)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .error(placeholder)
-                    .centerCrop()
-
-                val size = context.resources.getDimension(R.dimen.shortcut_size).toInt()
-                val bitmap = Glide.with(context).asBitmap()
-                    .load(path)
-                    .placeholder(placeholder)
-                    .apply(options)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(size, size)
-                    .get()
-
-                callback(bitmap)
-            } catch (ignored: Exception) {
-                callback(placeholder.bitmap)
-            }
-        }
     }
 
     fun exists(number: String, privateCursor: Cursor?, callback: (Boolean) -> Unit) {

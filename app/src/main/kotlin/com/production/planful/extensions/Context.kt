@@ -276,9 +276,8 @@ fun Context.notifyEvent(originalEvent: Event) {
     val pendingIntent = getPendingIntent(applicationContext, event)
     val startTime = Formatter.getTimeFromTS(applicationContext, event.startTS)
     val endTime = Formatter.getTimeFromTS(applicationContext, event.endTS)
-    val startDate = Formatter.getDateFromTS(event.startTS)
 
-    val displayedStartDate = when (startDate) {
+    val displayedStartDate = when (Formatter.getDateFromTS(event.startTS)) {
         LocalDate.now() -> ""
         LocalDate.now().plusDays(1) -> getString(R.string.tomorrow)
         else -> "${Formatter.getDateFromCode(this, Formatter.getDayCodeFromTS(event.startTS))},"
@@ -537,9 +536,6 @@ fun Context.getNewEventTimestampFromCode(dayCode: String, allowChangingDay: Bool
     }
 }
 
-fun Context.getSyncedCalDAVCalendars() =
-    calDAVHelper.getCalDAVCalendars(config.caldavSyncedCalendarIds, false)
-
 fun Context.recheckCalDAVCalendars(scheduleNextCalDAVSync: Boolean, callback: () -> Unit) {
     if (config.caldavSync) {
         ensureBackgroundThread {
@@ -790,12 +786,6 @@ fun Context.getDatesWeekDateTime(date: DateTime): String {
     } else {
         date.withZone(DateTimeZone.UTC).toString()
     }
-}
-
-fun Context.isCheckListEnable(event: Event): Boolean {
-    if (event.id == null) return false
-    val originalEvent = eventsDB.getTaskWithId(event.id!!)
-    return originalEvent?.isCheckListEnable() ?: false
 }
 
 fun Context.updateChecklistEnable(event: Event, status: Boolean) {

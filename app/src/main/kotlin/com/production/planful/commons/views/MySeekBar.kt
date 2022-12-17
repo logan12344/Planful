@@ -2,10 +2,10 @@ package com.production.planful.commons.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.SeekBar
+import androidx.appcompat.widget.AppCompatSeekBar
 import com.production.planful.commons.extensions.applyColorFilter
 
-class MySeekBar : SeekBar {
+class MySeekBar : AppCompatSeekBar {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

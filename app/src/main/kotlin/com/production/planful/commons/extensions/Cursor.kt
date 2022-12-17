@@ -2,7 +2,7 @@ package com.production.planful.commons.extensions
 
 import android.database.Cursor
 
-fun Cursor.getStringValue(key: String) = getString(getColumnIndex(key))
+fun Cursor.getStringValue(key: String): String = getString(getColumnIndex(key))
 
 fun Cursor.getIntValue(key: String) = getInt(getColumnIndex(key))
 

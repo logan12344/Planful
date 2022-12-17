@@ -9,9 +9,9 @@ class MyContentProvider {
         private const val AUTHORITY = "com.production.planful.commons.provider"
         const val SHARED_THEME_ACTIVATED = "com.production.planful.commons.SHARED_THEME_ACTIVATED"
         const val SHARED_THEME_UPDATED = "com.production.planful.commons.SHARED_THEME_UPDATED"
-        val MY_CONTENT_URI = Uri.parse("content://$AUTHORITY/themes")
+        val MY_CONTENT_URI: Uri = Uri.parse("content://$AUTHORITY/themes")
 
-        const val COL_ID = "_id"    // used in Simple Thank You
+        const val COL_ID = "_id"
         const val COL_TEXT_COLOR = "text_color"
         const val COL_BACKGROUND_COLOR = "background_color"
         const val COL_PRIMARY_COLOR = "primary_color"

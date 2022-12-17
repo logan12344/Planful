@@ -700,7 +700,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             supportFragmentManager.beginTransaction().add(R.id.fragments_holder, fragment)
                 .commitNow()
             showBackNavigationArrow()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 

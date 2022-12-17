@@ -14,9 +14,8 @@ import com.production.planful.commons.models.SimpleContact
 class MyContactsContentProvider {
     companion object {
         private const val AUTHORITY = "com.production.planful.commons.contactsprovider"
-        val CONTACTS_CONTENT_URI = Uri.parse("content://$AUTHORITY/contacts")
+        val CONTACTS_CONTENT_URI: Uri = Uri.parse("content://$AUTHORITY/contacts")
 
-        const val FAVORITES_ONLY = "favorites_only"
         const val COL_RAW_ID = "raw_id"
         const val COL_CONTACT_ID = "contact_id"
         const val COL_NAME = "name"

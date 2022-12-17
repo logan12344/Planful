@@ -1,5 +1,6 @@
 package com.production.planful.commons.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
@@ -26,12 +27,13 @@ class PatternTab(context: Context, attrs: AttributeSet) : RelativeLayout(context
     private var scrollView: MyScrollView? = null
     lateinit var hashListener: HashListener
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
         super.onFinishInflate()
         val textColor = context.getProperTextColor()
         context.updateTextColors(pattern_lock_holder)
 
-        pattern_lock_view.setOnTouchListener { v, event ->
+        pattern_lock_view.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> scrollView?.isScrollable = false
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> scrollView?.isScrollable = true
