@@ -146,14 +146,14 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
             }
         }
 
-        val listItems =
-            requireActivity().getEventListItems(filtered, mSelectedDayCode.isEmpty(), false)
+        val listItems = requireActivity().getEventListItems(filtered, mSelectedDayCode.isEmpty(), false)
         if (mSelectedDayCode.isNotEmpty()) {
             mHolder.month_day_selected_day_label.text = Formatter.getDateFromCode(requireActivity(), mSelectedDayCode, false)
         }
 
         activity?.runOnUiThread {
             if (activity != null) {
+
                 mHolder.month_day_events_list.beVisibleIf(listItems.isNotEmpty())
                 mHolder.month_day_no_events_placeholder.beVisibleIf(listItems.isEmpty())
 
@@ -194,7 +194,7 @@ class MonthDayFragment : Fragment(), MonthlyCalendar, RefreshRecyclerViewListene
 
     fun printCurrentView() {}
 
-    fun getNewEventDayCode() = if (mSelectedDayCode.isEmpty()) null else mSelectedDayCode
+    fun getNewEventDayCode() = mSelectedDayCode.ifEmpty { null }
 
     private fun getMonthLabel(shownMonthDateTime: DateTime): String {
         var month = Formatter.getMonthName(requireActivity(), shownMonthDateTime.monthOfYear)

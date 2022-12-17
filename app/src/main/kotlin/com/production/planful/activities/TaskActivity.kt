@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,11 +20,13 @@ import com.production.planful.dialogs.*
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.helpers.Formatter
-import com.production.planful.models.*
+import com.production.planful.models.ChecklistItem
+import com.production.planful.models.Event
+import com.production.planful.models.EventType
+import com.production.planful.models.Reminder
 import kotlinx.android.synthetic.main.activity_task.*
 import org.joda.time.DateTime
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.pow
 
 class TaskActivity : SimpleActivity() {
@@ -51,6 +52,7 @@ class TaskActivity : SimpleActivity() {
     private var mTaskCompleted = false
     private var mLastSavePromptTS = 0L
     private var mIsNewTask = true
+    private var dayCode = Formatter.getTodayCode()
     private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,8 +119,8 @@ class TaskActivity : SimpleActivity() {
             return false
         }
 
-        var newStartTS: Long = mTaskStartDateTime.seconds()
-        var newEndTS: Long = mTaskEndDateTime.seconds()
+        var newStartTS: Long
+        var newEndTS: Long
         getStartEndTimes().apply {
             newStartTS = first
             newEndTS = second
@@ -265,15 +267,20 @@ class TaskActivity : SimpleActivity() {
             }
         }
 
+        dayCode = Formatter.getDayCodeFromTS(mTaskOccurrenceTS)
+
         ensureBackgroundThread {
             val list = getChecklist(mTask)
             checklistArray = ArrayList()
             jsonArray = ArrayList()
             if (list != "") {
-                task_checklist.isChecked = isCheckListEnable(mTask)
                 jsonArray = gson.fromJson(list)
                 for (item in jsonArray) {
-                    if (item.first == Formatter.getTodayCode()) checklistArray.addAll(item.second)
+                    if (item.first == dayCode) {
+                        checklistArray.addAll(item.second)
+                        jsonArray.remove(item)
+                        break
+                    }
                 }
             } else {
                 checklistArray.add(ChecklistItem("", false))
@@ -363,6 +370,7 @@ class TaskActivity : SimpleActivity() {
         task_description.setText(mTask.description)
         task_all_day.isChecked = mTask.getIsAllDay()
         toggleAllDay(mTask.getIsAllDay())
+        toggleChecklist(mTask.isCheckListEnable())
         checkRepeatTexts(mRepeatInterval)
     }
 
@@ -538,7 +546,7 @@ class TaskActivity : SimpleActivity() {
             }
         }
 
-        jsonArray.add(Pair(Formatter.getTodayCode(), checklistArray))
+        jsonArray.add(Pair(dayCode, checklistArray))
         val jsonString = gson.convertToJsonString(jsonArray)
         ensureBackgroundThread {
             updateChecklistEnable(mTask.copy(startTS = mOriginalStartTS), task_checklist.isChecked)
@@ -829,6 +837,7 @@ class TaskActivity : SimpleActivity() {
 
     private fun toggleChecklist(isChecked: Boolean) {
         hideKeyboard()
+        task_checklist.isChecked = isChecked
         recycle_checklist.beVisibleIf(isChecked)
         checklist_complete.beVisibleIf(isChecked)
     }
