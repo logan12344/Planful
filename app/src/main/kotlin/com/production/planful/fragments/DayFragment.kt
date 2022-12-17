@@ -140,24 +140,9 @@ class DayFragment : Fragment() {
         if (events.size > 0) {
             mHolder.no_data.visibility = View.GONE
             mHolder.day_events.visibility = View.VISIBLE
-            val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
-            val day = Formatter.getDayTitle(requireContext(), mDayCode)
-            val spannable = SpannableString(day.plus(" $percent%"))
-            spannable.setSpan(
-                StyleSpan(Typeface.BOLD),
-                day.lastIndex + 1, spannable.lastIndex + 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            mHolder.top_value.text = spannable
-        } else {
-            mHolder.no_data.visibility = View.VISIBLE
-            mHolder.day_events.visibility = View.GONE
-        }
-        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
-            editEvent(it as Event)
-        }.apply {
-            this.setDataUpdatedListener {
-                val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
+            val tasksCount = events.count { it.isTask() }
+            if (tasksCount != 0) {
+                val percent = 100 * events.count { it.isTaskCompleted() } / tasksCount
                 val day = Formatter.getDayTitle(requireContext(), mDayCode)
                 val spannable = SpannableString(day.plus(" $percent%"))
                 spannable.setSpan(
@@ -166,6 +151,28 @@ class DayFragment : Fragment() {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 mHolder.top_value.text = spannable
+            }
+        } else {
+            mHolder.no_data.visibility = View.VISIBLE
+            mHolder.day_events.visibility = View.GONE
+        }
+
+        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
+            editEvent(it as Event)
+        }.apply {
+            this.setDataUpdatedListener {
+                val tasksCount = events.count { it.isTask() }
+                if (tasksCount != 0) {
+                    val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
+                    val day = Formatter.getDayTitle(requireContext(), mDayCode)
+                    val spannable = SpannableString(day.plus(" $percent%"))
+                    spannable.setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        day.lastIndex + 1, spannable.lastIndex + 1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    mHolder.top_value.text = spannable
+                }
             }
             mHolder.day_events.adapter = this
         }

@@ -117,11 +117,6 @@ class EventListAdapter(
         else -> ITEM_SECTION_MONTH
     }
 
-    fun toggle24HourFormat(use24HourFormat: Boolean) {
-        this.use24HourFormat = use24HourFormat
-        notifyDataSetChanged()
-    }
-
     fun updateListItems(newListItems: ArrayList<ListItem>) {
         if (newListItems.hashCode() != currentItemsHash) {
             currentItemsHash = newListItems.hashCode()

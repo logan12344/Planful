@@ -127,7 +127,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             checkCalDAVUpdateListener()
         }
 
-        batteryOptimizationRequest()
+        //batteryOptimizationRequest()
     }
 
     override fun onResume() {
@@ -709,7 +709,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         MONTHLY_VIEW -> MonthFragmentsHolder()
         MONTHLY_DAILY_VIEW -> MonthDayFragmentsHolder()
         YEARLY_VIEW -> YearFragmentsHolder()
-        EVENTS_LIST_VIEW -> EventListFragment()
         else -> WeekFragmentsHolder()
     }
 
@@ -758,8 +757,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                     search_results_list.beVisibleIf(events.isNotEmpty())
                     search_placeholder.beVisibleIf(events.isEmpty())
                     val listItems = getEventListItems(events)
-                    val eventsAdapter =
-                        EventListAdapter(this, listItems, true, this, search_results_list) {
+                    val eventsAdapter = EventListAdapter(this, listItems, true, this, search_results_list) {
                             hideKeyboard()
                             if (it is ListEvent) {
                                 Intent(applicationContext, getActivityToOpen(it.isTask)).apply {
