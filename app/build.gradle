@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.timfreiheit.resourceplaceholders'
 
-def canonicalVersionCode = 264
+def canonicalVersionCode = 265
 def canonicalVersionName = "1.0.11"
 
 def postFixSize = 10
@@ -41,11 +41,12 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".release"
+            applicationIdSuffix ".debug"
         }
         release {
             applicationIdSuffix = '.release'
-            debuggable = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
         }
     }
 
@@ -70,13 +71,8 @@ android {
         abortOnError false
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    packagingOptions {
-        exclude 'META-INF/library_release.kotlin_module'
+    resourcePlaceholders {
+        files = ['xml/shortcuts.xml']
     }
 }
 
