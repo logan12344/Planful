@@ -63,7 +63,10 @@ class ManageEventTypesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eventType = eventTypes[position]
-        holder.bindView(eventType, true, true) { itemView, layoutPosition ->
+        holder.bindView(eventType,
+            allowSingleClick = true,
+            allowLongClick = true
+        ) { itemView, layoutPosition ->
             setupView(itemView, eventType)
         }
         bindViewHolder(holder)

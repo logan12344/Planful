@@ -4,10 +4,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.production.planful.R
-import com.production.planful.commons.overloads.times
 
 const val EXTERNAL_STORAGE_PROVIDER_AUTHORITY = "com.android.externalstorage.documents"
 const val EXTRA_SHOW_ADVANCED = "android.content.extra.SHOW_ADVANCED"
@@ -17,13 +15,7 @@ const val APP_LICENSES = "app_licenses"
 const val APP_VERSION_NAME = "app_version_name"
 const val APP_ID = "app_id"
 const val APP_LAUNCHER_NAME = "app_launcher_name"
-const val REAL_FILE_PATH = "real_file_path_2"
-const val IS_FROM_GALLERY = "is_from_gallery"
-const val BROADCAST_REFRESH_MEDIA = "com.production.planful.REFRESH_MEDIA"
-const val REFRESH_PATH = "refresh_path"
 const val IS_CUSTOMIZING_COLORS = "is_customizing_colors"
-const val BLOCKED_NUMBERS_EXPORT_DELIMITER = ","
-const val BLOCKED_NUMBERS_EXPORT_EXTENSION = ".txt"
 const val NOMEDIA = ".nomedia"
 const val YOUR_ALARM_SOUNDS_MIN_ID = 1000
 const val INVALID_NAVIGATION_BAR_COLOR = -1
@@ -32,7 +24,7 @@ const val SAVE_DISCARD_PROMPT_INTERVAL = 1000L
 const val SD_OTG_PATTERN = "^/storage/[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SD_OTG_SHORT = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SHORT_ANIMATION_DURATION = 150L
-val DARK_GREY = 0xFF333333.toInt()
+const val DARK_GREY = 0xFF333333.toInt()
 
 const val LOWER_ALPHA = 0.25f
 const val MEDIUM_ALPHA = 0.5f
@@ -54,7 +46,6 @@ const val YEAR_SECONDS = YEAR_MINUTES * 60
 // shared preferences
 const val PREFS_KEY = "Prefs"
 const val APP_RUN_COUNT = "app_run_count"
-const val LAST_VERSION = "last_version"
 const val SD_TREE_URI = "tree_uri_2"
 const val PRIMARY_ANDROID_DATA_TREE_URI = "primary_android_data_tree_uri_2"
 const val OTG_ANDROID_DATA_TREE_URI = "otg_android_data_tree__uri_2"

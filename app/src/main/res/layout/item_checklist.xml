@@ -33,6 +33,7 @@
         android:layout_alignParentEnd="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/small_margin"
-        android:src="@drawable/ic_delete_vector" />
+        android:src="@drawable/ic_delete_vector"
+        android:contentDescription="@string/delete" />
 
 </RelativeLayout>

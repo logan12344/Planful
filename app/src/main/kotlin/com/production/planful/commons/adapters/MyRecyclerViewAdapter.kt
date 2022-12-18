@@ -11,6 +11,8 @@ import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.interfaces.MyActionModeCallback
 import com.production.planful.commons.views.MyRecyclerView
+import kotlin.math.max
+import kotlin.math.min
 
 abstract class MyRecyclerViewAdapter(
     val activity: BaseSimpleActivity,
@@ -155,7 +157,7 @@ abstract class MyRecyclerViewAdapter(
 
     private fun updateTitle() {
         val selectableItemCount = getSelectableItemCount()
-        val selectedCount = Math.min(selectedKeys.size, selectableItemCount)
+        val selectedCount = min(selectedKeys.size, selectableItemCount)
         val oldTitle = actBarTextView?.text
         val newTitle = "$selectedCount / $selectableItemCount"
         if (oldTitle != newTitle) {
@@ -169,8 +171,8 @@ abstract class MyRecyclerViewAdapter(
         lastLongPressedItem = if (lastLongPressedItem == -1) {
             position
         } else {
-            val min = Math.min(lastLongPressedItem, position)
-            val max = Math.max(lastLongPressedItem, position)
+            val min = min(lastLongPressedItem, position)
+            val max = max(lastLongPressedItem, position)
             for (i in min..max) {
                 toggleItemSelection(true, i, false)
             }
@@ -219,8 +221,8 @@ abstract class MyRecyclerViewAdapter(
                 ) {
                     selectItemRange(
                         initialSelection,
-                        Math.max(0, lastDraggedIndex - positionOffset),
-                        Math.max(0, minReached - positionOffset),
+                        max(0, lastDraggedIndex - positionOffset),
+                        max(0, minReached - positionOffset),
                         maxReached - positionOffset
                     )
                     if (minReached != maxReached) {

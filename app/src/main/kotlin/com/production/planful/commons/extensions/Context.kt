@@ -26,12 +26,10 @@ import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
-import androidx.exifinterface.media.ExifInterface
 import androidx.loader.content.CursorLoader
 import com.github.ajalt.reprint.core.Reprint
 import com.google.gson.Gson
@@ -533,31 +531,6 @@ fun Context.storeNewYourAlarmSound(resultData: Intent): AlarmSound {
     contentResolver.takePersistableUriPermission(uri, takeFlags)
 
     return newAlarmSound
-}
-
-@RequiresApi(Build.VERSION_CODES.N)
-fun Context.saveImageRotation(path: String, degrees: Int): Boolean {
-    if (!needsStupidWritePermissions(path)) {
-        saveExifRotation(ExifInterface(path), degrees)
-        return true
-    } else if (isNougatPlus()) {
-        val documentFile = getSomeDocumentFile(path)
-        if (documentFile != null) {
-            val parcelFileDescriptor = contentResolver.openFileDescriptor(documentFile.uri, "rw")
-            val fileDescriptor = parcelFileDescriptor!!.fileDescriptor
-            saveExifRotation(ExifInterface(fileDescriptor), degrees)
-            return true
-        }
-    }
-    return false
-}
-
-fun saveExifRotation(exif: ExifInterface, degrees: Int) {
-    val orientation =
-        exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-    val orientationDegrees = (orientation.degreesFromOrientation() + degrees) % 360
-    exif.setAttribute(ExifInterface.TAG_ORIENTATION, orientationDegrees.orientationFromDegrees())
-    exif.saveAttributes()
 }
 
 fun Context.getLaunchIntent() = packageManager.getLaunchIntentForPackage(baseConfig.appId)

@@ -78,7 +78,10 @@ class DayEventsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = events[position]
-        holder.bindView(event, true, true) { itemView, layoutPosition ->
+        holder.bindView(event,
+            allowSingleClick = true,
+            allowLongClick = true
+        ) { itemView, layoutPosition ->
             setupView(itemView, event)
         }
         bindViewHolder(holder)

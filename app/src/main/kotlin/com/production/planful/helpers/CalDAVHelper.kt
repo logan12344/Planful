@@ -578,6 +578,5 @@ class CalDAVHelper(val context: Context) {
     private fun getCalDAVEventImportId(calendarId: Int, eventId: Long) =
         "$CALDAV-$calendarId-$eventId"
 
-    private fun refreshCalDAVCalendar(event: Event) =
-        context.refreshCalDAVCalendars(event.getCalDAVCalendarId().toString(), false)
+    private fun refreshCalDAVCalendar(event: Event) = context.refreshCalDAVCalendars(event.getCalDAVCalendarId().toString(), false)
 }

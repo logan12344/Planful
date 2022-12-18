@@ -744,7 +744,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
                 return@handleSAFDialog
             }
 
-            handleSAFDialogSdk30(destination) {
+            handleSAFDialogSdk30(destination) { it ->
                 if (!it) {
                     copyMoveListener.copyFailed()
                     return@handleSAFDialogSdk30

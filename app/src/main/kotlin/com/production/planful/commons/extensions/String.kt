@@ -121,16 +121,9 @@ fun String.normalizeString() =
 // if we are comparing phone numbers, compare just the last 9 digits
 fun String.trimToComparableNumber(): String {
     val normalizedNumber = this.normalizeString()
-    val startIndex = Math.max(0, normalizedNumber.length - 9)
+    val startIndex = kotlin.math.max(0, normalizedNumber.length - 9)
     return normalizedNumber.substring(startIndex)
 }
-
-// get the contact names first letter at showing the placeholder without image
-fun String.getNameLetter() =
-    normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault())
-        ?: "A"
-
-fun String.normalizePhoneNumber(): String = PhoneNumberUtils.normalizeNumber(this)
 
 fun String.getMimeType(): String {
     val typesMap = HashMap<String, String>().apply {

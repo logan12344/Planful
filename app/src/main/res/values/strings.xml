@@ -185,10 +185,8 @@
     <string name="error">Error: %s</string>
     <string name="edit">Edit</string>
     <string name="no_app_found">No valid app found</string>
-    <string name="no_browser_found">No browser found</string>
     <string name="no_email_client_found">No email client found</string>
     <string name="value_copied_to_clipboard_show">Value copied to clipboard:\n%s</string>
-    <string name="label">Label</string>
     <string name="transparent">Transparent</string>
     <string name="notification">Notification</string>
     <string name="email">Email</string>
@@ -230,11 +228,6 @@
     <string name="system_service_disabled">System service for selecting files and folders is unavailable</string>
 
     <!-- Create new -->
-    <string name="folder">Folder</string>
-    <string name="create_new_folder">Create new folder</string>
-    <string name="name_taken">A file or folder with that name already exists</string>
-    <string name="invalid_name">The name contains invalid characters</string>
-    <string name="empty_name">Please enter a name</string>
     <string name="unknown_error_occurred">An unknown error occurred</string>
 
     <!-- File operation conflicts -->
@@ -256,13 +249,7 @@
     <string name="confirm_storage_access_android_text_specific">Please allow accessing \'&lt;b&gt;%s&lt;/b&gt;\' on the next screen by pressing \'&lt;b&gt;Use this folder&lt;/b&gt;\' at the bottom.</string>
     <string name="confirm_create_doc_for_new_folder_text">Please press \'&lt;b&gt;Save&lt;/b&gt;\' at the bottom of the next screen to create the new folder.</string>
 
-    <plurals name="items">
-        <item quantity="one">%d item</item>
-        <item quantity="other">%d items</item>
-    </plurals>
-
     <!-- Storages -->
-    <string name="select_storage">Select storage</string>
     <string name="internal">Internal</string>
     <string name="sd_card">SD Card</string>
     <string name="root">Root</string>
@@ -339,30 +326,33 @@
     <string name="days_raw">days</string>
     <string name="days">Days</string>
     <string name="custom_days_count">Every specific days</string>
-
-    <plurals name="seconds">
-        <item quantity="one">Every %d second</item>
-        <item quantity="other">Every %d seconds</item>
-    </plurals>
-    <plurals name="minutes">
-        <item quantity="one">Every %d minute</item>
-        <item quantity="other">Every %d minutes</item>
-    </plurals>
-    <plurals name="hours">
-        <item quantity="one">Every %d hour</item>
-        <item quantity="other">Every %d hours</item>
-    </plurals>
-    <plurals name="days">
+    <plurals name="custom_days">
         <item quantity="one">Every %d day</item>
         <item quantity="other">Every %d days</item>
     </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
     <plurals name="weeks">
-        <item quantity="one">Every %d week</item>
+        <item quantity="one">%d week</item>
         <item quantity="other">%d weeks</item>
     </plurals>
     <plurals name="months">
-        <item quantity="one">Every %d month</item>
-        <item quantity="other">Every %d months</item>
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
     </plurals>
     <plurals name="years">
         <item quantity="one">%d year</item>

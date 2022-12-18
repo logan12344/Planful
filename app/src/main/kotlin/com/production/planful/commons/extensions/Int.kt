@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.media.ExifInterface
 import com.production.planful.commons.helpers.DARK_GREY
 import java.util.*
+import kotlin.math.roundToInt
 
 fun Int.getContrastColor(): Int {
     val y = (299 * Color.red(this) + 587 * Color.green(this) + 114 * Color.blue(this)) / 1000
@@ -13,7 +14,7 @@ fun Int.getContrastColor(): Int {
 fun Int.toHex() = String.format("#%06X", 0xFFFFFF and this).uppercase(Locale.getDefault())
 
 fun Int.adjustAlpha(factor: Float): Int {
-    val alpha = Math.round(Color.alpha(this) * factor)
+    val alpha = (Color.alpha(this) * factor).roundToInt()
     val red = Color.red(this)
     val green = Color.green(this)
     val blue = Color.blue(this)

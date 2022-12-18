@@ -301,21 +301,6 @@ fun BaseSimpleActivity.showOTGPermissionDialog(path: String) {
     }
 }
 
-fun Activity.launchViewIntent(url: String) {
-    hideKeyboard()
-    ensureBackgroundThread {
-        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            try {
-                startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_browser_found)
-            } catch (e: Exception) {
-                showErrorToast(e)
-            }
-        }
-    }
-}
-
 fun Activity.sharePathIntent(path: String, applicationId: String) {
     ensureBackgroundThread {
         val newUri = getFinalUriFromPath(path, applicationId) ?: return@ensureBackgroundThread
@@ -463,124 +448,6 @@ fun Activity.rescanPath(path: String, callback: (() -> Unit)? = null) {
 
 fun Activity.rescanPaths(paths: List<String>, callback: (() -> Unit)? = null) {
     applicationContext.rescanPaths(paths, callback)
-}
-
-fun BaseSimpleActivity.renameFile(
-    oldPath: String,
-    newPath: String,
-    isRenamingMultipleFiles: Boolean,
-    callback: ((success: Boolean, android30RenameFormat: Android30RenameFormat) -> Unit)? = null
-) {
-    if (isRestrictedSAFOnlyRoot(oldPath)) {
-        handleAndroidSAFDialog(oldPath) {
-            if (!it) {
-                runOnUiThread {
-                    callback?.invoke(false, Android30RenameFormat.NONE)
-                }
-                return@handleAndroidSAFDialog
-            }
-
-            try {
-                ensureBackgroundThread {
-                    val success = renameAndroidSAFDocument(oldPath, newPath)
-                    runOnUiThread {
-                        callback?.invoke(success, Android30RenameFormat.NONE)
-                    }
-                }
-            } catch (e: Exception) {
-                showErrorToast(e)
-                runOnUiThread {
-                    callback?.invoke(false, Android30RenameFormat.NONE)
-                }
-            }
-        }
-    } else if (isAccessibleWithSAFSdk30(oldPath)) {
-        if (canManageMedia() && !File(oldPath).isDirectory && isPathOnInternalStorage(oldPath)) {
-            renameCasually(oldPath, newPath, isRenamingMultipleFiles, callback)
-        } else {
-            handleSAFDialogSdk30(oldPath) {
-                if (!it) {
-                    return@handleSAFDialogSdk30
-                }
-
-                try {
-                    ensureBackgroundThread {
-                        val success = renameDocumentSdk30(oldPath, newPath)
-                        if (success) {
-                            updateInMediaStore(oldPath, newPath)
-                            rescanPath(newPath) {
-                                runOnUiThread {
-                                    callback?.invoke(true, Android30RenameFormat.NONE)
-                                }
-                                if (!oldPath.equals(newPath, true)) {
-                                    deleteFromMediaStore(oldPath)
-                                }
-                                scanPathRecursively(newPath)
-                            }
-                        } else {
-                            runOnUiThread {
-                                callback?.invoke(false, Android30RenameFormat.NONE)
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                    runOnUiThread {
-                        callback?.invoke(false, Android30RenameFormat.NONE)
-                    }
-                }
-            }
-        }
-    } else if (needsStupidWritePermissions(newPath)) {
-        handleSAFDialog(newPath) {
-            if (!it) {
-                return@handleSAFDialog
-            }
-
-            val document = getSomeDocumentFile(oldPath)
-            if (document == null || (File(oldPath).isDirectory != document.isDirectory)) {
-                runOnUiThread {
-                    toast(R.string.unknown_error_occurred)
-                    callback?.invoke(false, Android30RenameFormat.NONE)
-                }
-                return@handleSAFDialog
-            }
-
-            try {
-                ensureBackgroundThread {
-                    try {
-                        DocumentsContract.renameDocument(
-                            applicationContext.contentResolver,
-                            document.uri,
-                            newPath.getFilenameFromPath()
-                        )
-                    } catch (ignored: FileNotFoundException) {
-                        // FileNotFoundException is thrown in some weird cases, but renaming works just fine
-                    } catch (e: Exception) {
-                        showErrorToast(e)
-                        callback?.invoke(false, Android30RenameFormat.NONE)
-                        return@ensureBackgroundThread
-                    }
-
-                    updateInMediaStore(oldPath, newPath)
-                    rescanPaths(arrayListOf(oldPath, newPath)) {
-                        if (!baseConfig.keepLastModified) {
-                            updateLastModified(newPath, System.currentTimeMillis())
-                        }
-                        deleteFromMediaStore(oldPath)
-                        runOnUiThread {
-                            callback?.invoke(true, Android30RenameFormat.NONE)
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                showErrorToast(e)
-                runOnUiThread {
-                    callback?.invoke(false, Android30RenameFormat.NONE)
-                }
-            }
-        }
-    } else renameCasually(oldPath, newPath, isRenamingMultipleFiles, callback)
 }
 
 private fun BaseSimpleActivity.renameCasually(
@@ -997,36 +864,6 @@ fun Activity.showBiometricPrompt(
                 }
             }
         )
-}
-
-fun Activity.handleHiddenFolderPasswordProtection(callback: () -> Unit) {
-    if (baseConfig.isHiddenPasswordProtectionOn) {
-        SecurityDialog(
-            this,
-            baseConfig.hiddenPasswordHash,
-            baseConfig.hiddenProtectionType
-        ) { _, _, success ->
-            if (success) {
-                callback()
-            }
-        }
-    } else {
-        callback()
-    }
-}
-
-fun Activity.handleLockedFolderOpening(path: String, callback: (success: Boolean) -> Unit) {
-    if (baseConfig.isFolderProtected(path)) {
-        SecurityDialog(
-            this,
-            baseConfig.getFolderProtectionHash(path),
-            baseConfig.getFolderProtectionType(path)
-        ) { _, _, success ->
-            callback(success)
-        }
-    } else {
-        callback(true)
-    }
 }
 
 fun BaseSimpleActivity.createDirectorySync(directory: String): Boolean {

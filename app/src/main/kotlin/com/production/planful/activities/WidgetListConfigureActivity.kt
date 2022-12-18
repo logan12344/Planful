@@ -241,7 +241,7 @@ class WidgetListConfigureActivity : SimpleActivity() {
         var dateTime = DateTime.now().withTime(0, 0, 0, 0).plusDays(1)
         var code = Formatter.getDayCodeFromTS(dateTime.seconds())
         var day = Formatter.getDateDayTitle(code)
-        listItems.add(ListSectionDay(day, code, false, false))
+        listItems.add(ListSectionDay(day, code, isToday = false, isPastSection = false))
 
         var time = dateTime.withHourOfDay(7)
         listItems.add(
@@ -254,12 +254,12 @@ class WidgetListConfigureActivity : SimpleActivity() {
                 false,
                 getProperPrimaryColor(),
                 "",
-                false,
-                false,
-                false,
-                false,
-                "",
-                false
+                isPastEvent = false,
+                isRepeatable = false,
+                isTask = false,
+                isTaskCompleted = false,
+                getChecklist = "",
+                isCheckListEnable = false
             )
         )
         time = dateTime.withHourOfDay(8)
@@ -273,19 +273,19 @@ class WidgetListConfigureActivity : SimpleActivity() {
                 false,
                 getProperPrimaryColor(),
                 "",
-                false,
-                false,
-                false,
-                false,
-                "",
-                false
+                isPastEvent = false,
+                isRepeatable = false,
+                isTask = false,
+                isTaskCompleted = false,
+                getChecklist = "",
+                isCheckListEnable = false
             )
         )
 
         dateTime = dateTime.plusDays(1)
         code = Formatter.getDayCodeFromTS(dateTime.seconds())
         day = Formatter.getDateDayTitle(code)
-        listItems.add(ListSectionDay(day, code, false, false))
+        listItems.add(ListSectionDay(day, code, isToday = false, isPastSection = false))
 
         time = dateTime.withHourOfDay(8)
         listItems.add(
@@ -298,12 +298,12 @@ class WidgetListConfigureActivity : SimpleActivity() {
                 false,
                 getProperPrimaryColor(),
                 "",
-                false,
-                false,
-                false,
-                false,
-                "",
-                false
+                isPastEvent = false,
+                isRepeatable = false,
+                isTask = false,
+                isTaskCompleted = false,
+                getChecklist = "",
+                isCheckListEnable = false
             )
         )
         time = dateTime.withHourOfDay(13)
@@ -317,12 +317,12 @@ class WidgetListConfigureActivity : SimpleActivity() {
                 false,
                 getProperPrimaryColor(),
                 "",
-                false,
-                false,
-                false,
-                false,
-                "",
-                false
+                isPastEvent = false,
+                isRepeatable = false,
+                isTask = false,
+                isTaskCompleted = false,
+                getChecklist = "",
+                isCheckListEnable = false
             )
         )
         time = dateTime.withHourOfDay(18)
@@ -336,12 +336,12 @@ class WidgetListConfigureActivity : SimpleActivity() {
                 false,
                 getProperPrimaryColor(),
                 "",
-                false,
-                false,
-                false,
-                false,
-                "",
-                false
+                isPastEvent = false,
+                isRepeatable = false,
+                isTask = false,
+                isTaskCompleted = false,
+                getChecklist = "",
+                isCheckListEnable = false
             )
         )
 

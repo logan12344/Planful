@@ -11,6 +11,7 @@ import com.production.planful.models.EventRepetition
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import kotlin.math.floor
+import kotlin.math.pow
 
 class Parser {
     // from RRULE:FREQ=DAILY;COUNT=5 to Daily, 5x...
@@ -32,7 +33,7 @@ class Parser {
                 repeatInterval = getFrequencySeconds(value)
                 if (value == WEEKLY) {
                     val start = Formatter.getDateTimeFromTS(startTS)
-                    repeatRule = Math.pow(2.0, (start.dayOfWeek - 1).toDouble()).toInt()
+                    repeatRule = 2.0.pow((start.dayOfWeek - 1).toDouble()).toInt()
                 } else if (value == MONTHLY || value == YEARLY) {
                     repeatRule = REPEAT_SAME_DAY
                 } else if (value == DAILY && fullString.contains(INTERVAL)) {
@@ -40,7 +41,7 @@ class Parser {
                     // properly handle events repeating by 14 days or so, just add a repeat rule to specify a day of the week
                     if (interval.areDigitsOnly() && interval.toInt() % 7 == 0) {
                         val dateTime = Formatter.getDateTimeFromTS(startTS)
-                        repeatRule = Math.pow(2.0, (dateTime.dayOfWeek - 1).toDouble()).toInt()
+                        repeatRule = 2.0.pow((dateTime.dayOfWeek - 1).toDouble()).toInt()
                     } else if (fullString.contains("BYDAY")) {
                         // some services use weekly repetition for repeating on specific week days, some use daily
                         // make these produce the same result

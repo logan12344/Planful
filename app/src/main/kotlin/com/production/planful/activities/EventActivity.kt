@@ -52,10 +52,6 @@ class EventActivity : SimpleActivity() {
     private var mEventCalendarId = STORED_LOCALLY_ONLY
     private var mWasContactsPermissionChecked = false
     private var mWasCalendarChanged = false
-    private var mAttendees = ArrayList<Attendee>()
-    private var mAttendeeAutoCompleteViews = ArrayList<MyAutoCompleteTextView>()
-    private var mAvailableContacts = ArrayList<Attendee>()
-    private var mSelectedContacts = ArrayList<Attendee>()
     private var mAvailability = Attendees.AVAILABILITY_BUSY
     private var mStoredEventTypes = ArrayList<EventType>()
     private var mOriginalTimeZone = DateTimeZone.getDefault().id
@@ -410,10 +406,6 @@ class EventActivity : SimpleActivity() {
             mRepeatRule = getInt(REPEAT_RULE)
             mRepeatLimit = getLong(REPEAT_LIMIT)
 
-            val token = object : TypeToken<List<Attendee>>() {}.type
-            mAttendees =
-                Gson().fromJson<ArrayList<Attendee>>(getString(ATTENDEES), token) ?: ArrayList()
-
             mEventTypeId = getLong(EVENT_TYPE_ID)
             mEventCalendarId = getInt(EVENT_CALENDAR_ID)
             mIsNewEvent = getBoolean(IS_NEW_EVENT)
@@ -494,9 +486,6 @@ class EventActivity : SimpleActivity() {
         mEventTypeId = mEvent.eventType
         mEventCalendarId = mEvent.getCalDAVCalendarId()
         mAvailability = mEvent.availability
-
-        val token = object : TypeToken<List<Attendee>>() {}.type
-        mAttendees = Gson().fromJson<ArrayList<Attendee>>(mEvent.attendees, token) ?: ArrayList()
 
         checkRepeatTexts(mRepeatInterval)
     }
@@ -1344,7 +1333,7 @@ class EventActivity : SimpleActivity() {
                             repeatLimit = 0
                         }
 
-                        eventsHelper.insertEvent(mEvent, true, true) {
+                        eventsHelper.insertEvent(mEvent, addToCalDAV = true, showToasts = true) {
                             finish()
                         }
                     }

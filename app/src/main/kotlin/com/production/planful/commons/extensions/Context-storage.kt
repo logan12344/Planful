@@ -473,78 +473,6 @@ fun Context.updateLastModified(path: String, lastModified: Long) {
     }
 }
 
-fun Context.getOTGItems(
-    path: String,
-    shouldShowHidden: Boolean,
-    getProperFileSize: Boolean,
-    callback: (ArrayList<FileDirItem>) -> Unit
-) {
-    val items = ArrayList<FileDirItem>()
-    val OTGTreeUri = baseConfig.OTGTreeUri
-    var rootUri = try {
-        DocumentFile.fromTreeUri(applicationContext, Uri.parse(OTGTreeUri))
-    } catch (e: Exception) {
-        showErrorToast(e)
-        baseConfig.OTGPath = ""
-        baseConfig.OTGTreeUri = ""
-        baseConfig.OTGPartition = ""
-        null
-    }
-
-    if (rootUri == null) {
-        callback(items)
-        return
-    }
-
-    val parts = path.split("/").dropLastWhile { it.isEmpty() }
-    for (part in parts) {
-        if (path == otgPath) {
-            break
-        }
-
-        if (part == "otg:" || part == "") {
-            continue
-        }
-
-        val file = rootUri!!.findFile(part)
-        if (file != null) {
-            rootUri = file
-        }
-    }
-
-    val files = rootUri!!.listFiles().filter { it.exists() }
-
-    val basePath = "${baseConfig.OTGTreeUri}/document/${baseConfig.OTGPartition}%3A"
-    for (file in files) {
-        val name = file.name ?: continue
-        if (!shouldShowHidden && name.startsWith(".")) {
-            continue
-        }
-
-        val isDirectory = file.isDirectory
-        val filePath = file.uri.toString().substring(basePath.length)
-        val decodedPath = otgPath + "/" + URLDecoder.decode(filePath, "UTF-8")
-        val fileSize = when {
-            getProperFileSize -> file.getItemSize(shouldShowHidden)
-            isDirectory -> 0L
-            else -> file.length()
-        }
-
-        val childrenCount = if (isDirectory) {
-            file.listFiles().size
-        } else {
-            0
-        }
-
-        val lastModified = file.lastModified()
-        val fileDirItem =
-            FileDirItem(decodedPath, name, isDirectory, childrenCount, fileSize, lastModified)
-        items.add(fileDirItem)
-    }
-
-    callback(items)
-}
-
 @RequiresApi(Build.VERSION_CODES.O)
 fun Context.getAndroidSAFFileItems(
     path: String,
@@ -655,36 +583,6 @@ fun Context.getDirectChildrenCount(
     }
 }
 
-fun Context.getProperChildrenCount(
-    rootDocId: String,
-    treeUri: Uri,
-    documentId: String,
-    shouldShowHidden: Boolean
-): Int {
-    val projection = arrayOf(Document.COLUMN_DOCUMENT_ID, Document.COLUMN_MIME_TYPE)
-    val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, documentId)
-    val rawCursor = contentResolver.query(childrenUri, projection, null, null, null)!!
-    val cursor = ExternalStorageProviderHack.transformQueryResult(rootDocId, childrenUri, rawCursor)
-    return if (cursor.count > 0) {
-        var count = 0
-        cursor.use {
-            while (cursor.moveToNext()) {
-                val docId = cursor.getStringValue(Document.COLUMN_DOCUMENT_ID)
-                val mimeType = cursor.getStringValue(Document.COLUMN_MIME_TYPE)
-                if (mimeType == Document.MIME_TYPE_DIR) {
-                    count++
-                    count += getProperChildrenCount(rootDocId, treeUri, docId, shouldShowHidden)
-                } else if (!docId.getFilenameFromPath().startsWith('.') || shouldShowHidden) {
-                    count++
-                }
-            }
-        }
-        count
-    } else {
-        1
-    }
-}
-
 fun Context.getFileSize(treeUri: Uri, documentId: String): Long {
     val projection = arrayOf(Document.COLUMN_SIZE)
     val documentUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, documentId)
@@ -731,9 +629,6 @@ fun Context.getAndroidSAFDocument(path: String): DocumentFile? {
         null
     }
 }
-
-fun Context.getSomeAndroidSAFDocument(path: String): DocumentFile? =
-    getFastAndroidSAFDocument(path) ?: getAndroidSAFDocument(path)
 
 fun Context.getFastAndroidSAFDocument(path: String): DocumentFile? {
     val treeUri = getAndroidTreeUri(path)
@@ -919,40 +814,6 @@ fun Context.getIsPathDirectory(path: String): Boolean {
         isPathOnOTG(path) -> getOTGFastDocumentFile(path)?.isDirectory ?: false
         else -> File(path).isDirectory
     }
-}
-
-fun Context.getFolderLastModifieds(folder: String): HashMap<String, Long> {
-    val lastModifieds = HashMap<String, Long>()
-    val projection = arrayOf(
-        Images.Media.DISPLAY_NAME,
-        Images.Media.DATE_MODIFIED
-    )
-
-    val uri = Files.getContentUri("external")
-    val selection =
-        "${Images.Media.DATA} LIKE ? AND ${Images.Media.DATA} NOT LIKE ? AND ${Images.Media.MIME_TYPE} IS NOT NULL" // avoid selecting folders
-    val selectionArgs = arrayOf("$folder/%", "$folder/%/%")
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                do {
-                    try {
-                        val lastModified = cursor.getLongValue(Images.Media.DATE_MODIFIED) * 1000
-                        if (lastModified != 0L) {
-                            val name = cursor.getStringValue(Images.Media.DISPLAY_NAME)
-                            lastModifieds["$folder/$name"] = lastModified
-                        }
-                    } catch (_: Exception) {
-                    }
-                } while (cursor.moveToNext())
-            }
-        }
-    } catch (_: Exception) {
-    }
-
-    return lastModifieds
 }
 
 // avoid these being set as SD card paths

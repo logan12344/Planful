@@ -60,14 +60,6 @@ fun Context.isRestrictedWithSAFSdk30(path: String): Boolean {
     return isRPlus() && (isInvalidName || (isDirectory && isARestrictedDirectory))
 }
 
-fun Context.isInDownloadDir(path: String): Boolean {
-    if (path.startsWith(recycleBinPath)) {
-        return false
-    }
-    val firstParentDir = path.getFirstParentDirName(this, 0)
-    return firstParentDir.equals(DOWNLOAD_DIR, true)
-}
-
 fun Context.isInSubFolderInDownloadDir(path: String): Boolean {
     if (path.startsWith(recycleBinPath)) {
         return false
@@ -190,9 +182,6 @@ fun Context.getDoesFilePathExistSdk30(path: String): Boolean {
         else -> File(path).exists()
     }
 }
-
-fun Context.getSomeDocumentSdk30(path: String): DocumentFile? =
-    getFastDocumentSdk30(path) ?: getDocumentSdk30(path)
 
 fun Context.getFastDocumentSdk30(path: String): DocumentFile? {
     val uri = createDocumentUriUsingFirstParentTreeUri(path)

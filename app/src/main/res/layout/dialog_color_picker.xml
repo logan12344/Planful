@@ -56,13 +56,15 @@
                 android:layout_marginStart="@dimen/medium_margin"
                 android:layout_toEndOf="@id/color_picker_square"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_color_picker_hue" />
+                android:src="@drawable/img_color_picker_hue"
+                android:contentDescription="@string/customize_colors" />
 
             <ImageView
                 android:id="@+id/color_picker_hue_cursor"
                 android:layout_width="8dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_right_unpadded_vector" />
+                android:src="@drawable/ic_chevron_right_unpadded_vector"
+                android:contentDescription="@string/customize_colors" />
 
             <ImageView
                 android:id="@+id/color_picker_cursor"
@@ -70,7 +72,8 @@
                 android:layout_height="@dimen/activity_margin"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/color_picker_circle" />
+                android:src="@drawable/color_picker_circle"
+                android:contentDescription="@string/customize_colors" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -98,7 +101,8 @@
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_arrow_right_vector" />
+                android:src="@drawable/ic_arrow_right_vector"
+                android:contentDescription="@string/customize_colors" />
 
             <com.production.planful.commons.views.MyTextView
                 android:id="@+id/color_picker_new_hex_label"
@@ -138,7 +142,8 @@
                 android:layout_width="@dimen/colorpicker_items_height"
                 android:layout_height="@dimen/colorpicker_items_height"
                 android:layout_toStartOf="@+id/color_picker_arrow"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"
+                android:contentDescription="@string/customize_colors" />
 
             <ImageView
                 android:id="@+id/color_picker_arrow"
@@ -148,14 +153,16 @@
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_arrow_right_vector" />
+                android:src="@drawable/ic_arrow_right_vector"
+                android:contentDescription="@string/customize_colors" />
 
             <ImageView
                 android:id="@+id/color_picker_new_color"
                 android:layout_width="@dimen/colorpicker_items_height"
                 android:layout_height="@dimen/colorpicker_items_height"
                 android:layout_toEndOf="@+id/color_picker_arrow"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"
+                android:contentDescription="@string/customize_colors" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

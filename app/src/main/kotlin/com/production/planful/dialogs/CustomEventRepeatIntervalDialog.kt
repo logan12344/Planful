@@ -1,15 +1,11 @@
 package com.production.planful.dialogs
 
 import android.app.Activity
-import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
 import com.production.planful.commons.extensions.*
 import com.production.planful.helpers.DAY
-import com.production.planful.helpers.MONTH
-import com.production.planful.helpers.WEEK
-import com.production.planful.helpers.YEAR
 import kotlinx.android.synthetic.main.dialog_custom_event_repeat_interval.view.*
 
 class CustomEventRepeatIntervalDialog(
@@ -27,7 +23,7 @@ class CustomEventRepeatIntervalDialog(
                 activity.setupDialogStuff(view, this) { alertDialog ->
                     view.dialog_custom_repeat_interval_value.onTextChangeListener {
                         view.dialog_custom_repeat_interval_holder.hint =
-                            if (it.isEmpty()) view.resources.getString(R.string.days) else view.resources.getQuantityString(R.plurals.days, it.toInt(), it.toInt())
+                            if (it.isEmpty()) view.resources.getString(R.string.days) else view.resources.getQuantityString(R.plurals.custom_days, it.toInt(), it.toInt())
                     }
                     dialog = alertDialog
                     alertDialog.showKeyboard(view.dialog_custom_repeat_interval_value)

@@ -17,29 +17,4 @@ data class Attendee(
     var photoUri: String,
     var isMe: Boolean,
     var relationship: Int
-) {
-    fun getPublicName() = name.ifEmpty { email }
-
-    fun updateImage(context: Context, imageView: ImageView, placeholder: Drawable) {
-        if (photoUri.isEmpty()) {
-            imageView.setImageDrawable(placeholder)
-        } else {
-            val options = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .error(placeholder)
-                .centerCrop()
-
-            Glide.with(context)
-                .load(photoUri)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(placeholder)
-                .apply(options)
-                .apply(RequestOptions.circleCropTransform())
-                .into(imageView)
-        }
-    }
-
-    fun showStatusImage() = status == CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED ||
-            status == CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED ||
-            status == CalendarContract.Attendees.ATTENDEE_STATUS_TENTATIVE
-}
+)

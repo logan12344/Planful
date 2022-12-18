@@ -7,8 +7,6 @@ import java.io.File
 
 fun File.isMediaFile() = absolutePath.isMediaFile()
 
-fun File.getMimeType() = absolutePath.getMimeType()
-
 fun File.getProperSize(countHiddenItems: Boolean): Long {
     return if (isDirectory) {
         getDirectorySize(this, countHiddenItems)
@@ -34,14 +32,6 @@ private fun getDirectorySize(dir: File, countHiddenItems: Boolean): Long {
     return size
 }
 
-fun File.getFileCount(countHiddenItems: Boolean): Int {
-    return if (isDirectory) {
-        getDirectoryFileCount(this, countHiddenItems)
-    } else {
-        1
-    }
-}
-
 private fun getDirectoryFileCount(dir: File, countHiddenItems: Boolean): Int {
     var count = -1
     if (dir.exists()) {
@@ -62,25 +52,6 @@ private fun getDirectoryFileCount(dir: File, countHiddenItems: Boolean): Int {
     return count
 }
 
-fun File.getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
-    val fileCount = if (context.isRestrictedSAFOnlyRoot(path)) {
-        context.getAndroidSAFDirectChildrenCount(
-            path,
-            countHiddenItems
-        )
-    } else {
-        listFiles()?.filter {
-            if (countHiddenItems) {
-                true
-            } else {
-                !it.name.startsWith('.')
-            }
-        }?.size ?: 0
-    }
-
-    return fileCount
-}
-
 fun File.toFileDirItem(context: Context) = FileDirItem(
     absolutePath,
     name,
@@ -98,37 +69,3 @@ fun File.containsNoMedia(): Boolean {
     }
 }
 
-fun File.doesThisOrParentHaveNoMedia(
-    folderNoMediaStatuses: HashMap<String, Boolean>,
-    callback: ((path: String, hasNoMedia: Boolean) -> Unit)?
-): Boolean {
-    var curFile = this
-    while (true) {
-        val noMediaPath = "${curFile.absolutePath}/$NOMEDIA"
-        val hasNoMedia = if (folderNoMediaStatuses.keys.contains(noMediaPath)) {
-            folderNoMediaStatuses[noMediaPath]!!
-        } else {
-            val contains = curFile.containsNoMedia()
-            callback?.invoke(curFile.absolutePath, contains)
-            contains
-        }
-
-        if (hasNoMedia) {
-            return true
-        }
-
-        curFile = curFile.parentFile ?: break
-        if (curFile.absolutePath == "/") {
-            break
-        }
-    }
-    return false
-}
-
-fun File.getDigest(algorithm: String): String? {
-    return try {
-        inputStream().getDigest(algorithm)
-    } catch (e: Exception) {
-        null
-    }
-}

@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.week_event_marker.view.*
 import org.joda.time.DateTime
 import org.joda.time.Days
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -403,7 +404,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                         newFactor = scrollView.height / 24f / defaultRowHeight
                     }
 
-                    if (Math.abs(newFactor - prevScaleFactor) > MIN_SCALE_DIFFERENCE) {
+                    if (abs(newFactor - prevScaleFactor) > MIN_SCALE_DIFFERENCE) {
                         prevScaleFactor = newFactor
                         config.weeklyViewItemHeightMultiplier = newFactor
                         updateViewScale()

@@ -134,12 +134,8 @@ object Formatter {
     }
 
     fun getDayCodeFromTS(ts: Long): String {
-        val daycode = getDateTimeFromTS(ts).toString(DAYCODE_PATTERN)
-        return if (daycode.isNotEmpty()) {
-            daycode
-        } else {
-            "0"
-        }
+        val dayCode = getDateTimeFromTS(ts).toString(DAYCODE_PATTERN)
+        return dayCode.ifEmpty { "0" }
     }
 
     fun getUTCDayCodeFromTS(ts: Long): String = getUTCDateTimeFromTS(ts).toString(DAYCODE_PATTERN)

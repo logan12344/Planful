@@ -70,7 +70,8 @@
             android:layout_width="@dimen/widget_colorpicker_size"
             android:layout_height="@dimen/widget_colorpicker_size"
             android:layout_above="@+id/config_text_color"
-            android:layout_margin="@dimen/tiny_margin" />
+            android:layout_margin="@dimen/tiny_margin"
+            android:contentDescription="@string/customize_colors" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -96,7 +97,8 @@
             android:layout_width="@dimen/widget_colorpicker_size"
             android:layout_height="@dimen/widget_colorpicker_size"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/tiny_margin" />
+            android:layout_margin="@dimen/tiny_margin"
+            android:contentDescription="@string/customize_colors" />
 
         <Button
             android:id="@+id/config_save"

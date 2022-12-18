@@ -235,7 +235,7 @@ fun Context.getRepetitionText(seconds: Int) = when (seconds) {
                 seconds / WEEK,
                 seconds / WEEK
             )
-            else -> resources.getQuantityString(R.plurals.days, seconds / DAY, seconds / DAY)
+            else -> resources.getQuantityString(R.plurals.custom_days, seconds / DAY, seconds / DAY)
         }
     }
 }
