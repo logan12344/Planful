@@ -262,26 +262,7 @@ class TaskActivity : SimpleActivity() {
 
         dayCode = Formatter.getDayCodeFromTS(mTaskOccurrenceTS)
 
-        ensureBackgroundThread {
-            val list = getChecklist(mTask)
-            checklistArray = ArrayList()
-            jsonArray = ArrayList()
-            if (list != "") {
-                jsonArray = gson.fromJson(list)
-                for (item in jsonArray) {
-                    if (item.first == dayCode) {
-                        checklistArray.addAll(item.second)
-                        jsonArray.remove(item)
-                        break
-                    }
-                }
-            } else {
-                checklistArray.add(ChecklistItem("", false))
-            }
-            runOnUiThread {
-                setupRecycle()
-            }
-        }
+        setupRecycle()
 
         task_all_day.setOnCheckedChangeListener { _, isChecked -> toggleAllDay(isChecked) }
         task_all_day_holder.setOnClickListener {
@@ -330,6 +311,36 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun setupRecycle() {
+        checklistArray = ArrayList()
+        jsonArray = ArrayList()
+        if (mTask.getCheckList() != "") {
+            jsonArray = gson.fromJson(mTask.getCheckList())
+
+            var ifDayExist = false
+
+            for (item in jsonArray) {
+                if (item.first == dayCode) {
+                    ifDayExist = true
+                    checklistArray.addAll(item.second)
+                    jsonArray.remove(item)
+                    break
+                }
+            }
+
+            if (!ifDayExist) {
+                for (item in jsonArray) {
+                    val listAccountCloned = ArrayList(item.second)
+                    for (arrayItem in listAccountCloned) {
+                        arrayItem.checked = false
+                    }
+                    checklistArray.addAll(listAccountCloned)
+                    break
+                }
+            }
+        } else {
+            checklistArray.add(ChecklistItem("", false))
+        }
+
         checklistAdapter = ChecklistAdapter(this, recycle_checklist, checklistArray)
         recycle_checklist.adapter = checklistAdapter
         recycle_checklist.layoutManager = LinearLayoutManager(this)

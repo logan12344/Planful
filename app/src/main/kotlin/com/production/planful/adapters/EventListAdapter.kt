@@ -203,6 +203,30 @@ class EventListAdapter(
             toggle_mark_complete.isChecked = listEvent.isTaskCompleted
             toggle_mark_complete.setOnClickListener{
                 if (listEvent.isCheckListEnable) {
+                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
+                    val jsonArray = gson.fromJson<ArrayList<Pair<String, ArrayList<ChecklistItem>>>>(listEvent.getChecklist)
+                    var ifDayExist = false
+
+                    for (item in jsonArray) {
+                        if (item.first == startCode) {
+                            ifDayExist = true
+                            checklistArray.addAll(item.second)
+                            jsonArray.remove(item)
+                            break
+                        }
+                    }
+
+                    if (!ifDayExist) {
+                        for (item in jsonArray) {
+                            val listAccountCloned = ArrayList(item.second)
+                            for (arrayItem in listAccountCloned) {
+                                arrayItem.checked = false
+                            }
+                            checklistArray.addAll(listAccountCloned)
+                            break
+                        }
+                    }
+
                     val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
                     val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
                     val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
@@ -214,39 +238,9 @@ class EventListAdapter(
                     tvTitle.text = listEvent.title
                     tvTitleDate.text = event_item_time.text
 
-                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
-                    var jsonArray: ArrayList<Pair<String, ArrayList<ChecklistItem>>> = ArrayList()
-                    ensureBackgroundThread {
-                        jsonArray = gson.fromJson(listEvent.getChecklist)
-
-                        var ifDayExist = false
-
-                        for (item in jsonArray) {
-                            if (item.first == startCode) {
-                                ifDayExist = true
-                                checklistArray.addAll(item.second)
-                                jsonArray.remove(item)
-                                break
-                            }
-                        }
-
-                        if (!ifDayExist) {
-                            for (item in jsonArray) {
-                                val listAccountCloned = ArrayList(item.second)
-                                for (arrayItem in listAccountCloned) {
-                                    arrayItem.checked = false
-                                }
-                                checklistArray.addAll(listAccountCloned)
-                                break
-                            }
-                        }
-
-                        activity.runOnUiThread {
-                            val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
-                            rvNestedInDialog.adapter = checklistAdapterForDialog
-                            rvNestedInDialog.layoutManager = LinearLayoutManager(context)
-                        }
-                    }
+                    val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
+                    rvNestedInDialog.adapter = checklistAdapterForDialog
+                    rvNestedInDialog.layoutManager = LinearLayoutManager(context)
 
                     llClose.setOnClickListener {
                         builder.cancel()
