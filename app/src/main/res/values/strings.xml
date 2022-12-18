@@ -36,12 +36,11 @@
     <!-- Event Repetition -->
     <string name="no_repetition">Once</string>
     <string name="daily">Every day</string>
-    <string name="weekly">Weekly</string>
+    <string name="weekly">Some days of the week</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
     <string name="weeks_raw">weeks</string>
     <string name="months_raw">months</string>
-    <string name="years_raw">years</string>
     <string name="repeat_till">Repeat till</string>
     <string name="forever">Forever</string>
     <string name="event_is_repeatable">The event is repeatable</string>
@@ -95,12 +94,6 @@
     <string name="reminders">Reminders</string>
 
     <!-- Event attendees -->
-    <string name="add_another_attendee">Add another attendee</string>
-    <string name="my_status">My status:</string>
-    <string name="going">Going</string>
-    <string name="not_going">Not going</string>
-    <string name="maybe_going">Maybe going</string>
-    <string name="invited">Invited</string>
 
     <!-- Time zones -->
     <string name="enter_a_country">Enter a country or time zone</string>
@@ -344,37 +337,37 @@
     <string name="minutes_raw">minutes</string>
     <string name="hours_raw">hours</string>
     <string name="days_raw">days</string>
+    <string name="days">Days</string>
+    <string name="custom_days_count">Every specific days</string>
 
     <plurals name="seconds">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">Every %d second</item>
+        <item quantity="other">Every %d seconds</item>
     </plurals>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">Every %d minute</item>
+        <item quantity="other">Every %d minutes</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">Every %d hour</item>
+        <item quantity="other">Every %d hours</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">Every %d day</item>
+        <item quantity="other">Every %d days</item>
     </plurals>
     <plurals name="weeks">
-        <item quantity="one">%d week</item>
+        <item quantity="one">Every %d week</item>
         <item quantity="other">%d weeks</item>
     </plurals>
     <plurals name="months">
-        <item quantity="one">%d month</item>
-        <item quantity="other">%d months</item>
+        <item quantity="one">Every %d month</item>
+        <item quantity="other">Every %d months</item>
     </plurals>
     <plurals name="years">
         <item quantity="one">%d year</item>
         <item quantity="other">%d years</item>
     </plurals>
-
-    <!-- For example: I will be there in 5 minutes -->
 
     <!-- For example: Event reminder: 3 minutes before -->
     <plurals name="seconds_before">

@@ -26,9 +26,6 @@
 
     <dimen name="event_color_bar_width">16dp</dimen>
 
-    <dimen name="avatar_size">40dp</dimen>
-    <dimen name="avatar_status_size">16dp</dimen>
-
     <dimen name="zero">0dp</dimen>
 
     <dimen name="one_dp">1dp</dimen>

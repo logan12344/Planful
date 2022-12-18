@@ -31,14 +31,6 @@ const val CHOPPED_LIST_DEFAULT_SIZE = 50
 const val SAVE_DISCARD_PROMPT_INTERVAL = 1000L
 const val SD_OTG_PATTERN = "^/storage/[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SD_OTG_SHORT = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
-const val KEY_PHONE = "phone"
-const val KEY_MAILTO = "mailto"
-const val CONTACT_ID = "contact_id"
-const val IS_PRIVATE = "is_private"
-const val SMT_PRIVATE =
-    "smt_private"   // used at the contact source of local contacts hidden from other apps
-const val FIRST_GROUP_ID = 10000L
-const val MD5 = "MD5"
 const val SHORT_ANIMATION_DURATION = 150L
 val DARK_GREY = 0xFF333333.toInt()
 
@@ -525,12 +517,6 @@ fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String)
         CONFLICT_SKIP
     }
 }
-
-val proPackages = arrayListOf("draw", "gallery", "filemanager", "contacts", "notes", "calendar")
-
-fun mydebug(message: String) = Log.e("DEBUG", message)
-
-fun getQuestionMarks(size: Int) = ("?," * size).trimEnd(',')
 
 fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
     val fileDrawables = HashMap<String, Drawable>()

@@ -77,8 +77,7 @@ class RepeatLimitTypePickerDialog(
     }
 
     private fun showRepetitionLimitDialog() {
-        val repeatLimitDateTime =
-            Formatter.getDateTimeFromTS(if (repeatLimit != 0L) repeatLimit else getNowSeconds())
+        val repeatLimitDateTime = Formatter.getDateTimeFromTS(if (repeatLimit != 0L) repeatLimit else getNowSeconds())
         val datepicker = DatePickerDialog(
             activity,
             activity.getDatePickerDialogTheme(),
@@ -95,8 +94,7 @@ class RepeatLimitTypePickerDialog(
 
     private val repetitionLimitDateSetListener =
         DatePickerDialog.OnDateSetListener { v, year, monthOfYear, dayOfMonth ->
-            val repeatLimitDateTime =
-                DateTime().withDate(year, monthOfYear + 1, dayOfMonth).withTime(23, 59, 59, 0)
+            val repeatLimitDateTime = DateTime().withDate(year, monthOfYear + 1, dayOfMonth).withTime(23, 59, 59, 0)
             repeatLimit = if (repeatLimitDateTime.seconds() < startTS) {
                 0
             } else {

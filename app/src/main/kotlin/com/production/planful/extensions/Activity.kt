@@ -78,6 +78,8 @@ fun Activity.showEventRepeatIntervalDialog(curSeconds: Int, callback: (minutes: 
             selectedIndex = index
     }
 
+    items.add(RadioItem(-1, getString(R.string.custom_days_count)))
+
     RadioGroupDialog(this, items, selectedIndex) {
         if (it == -1) {
             CustomEventRepeatIntervalDialog(this) { it ->

@@ -12,9 +12,10 @@
         android:paddingEnd="@dimen/activity_margin">
 
         <com.production.planful.commons.views.MyTextInputLayout
+            android:id="@+id/dialog_custom_repeat_interval_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/value">
+            android:hint="@string/days">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/dialog_custom_repeat_interval_value"
@@ -27,45 +28,5 @@
                 android:textSize="@dimen/bigger_text_size" />
 
         </com.production.planful.commons.views.MyTextInputLayout>
-
-        <RadioGroup
-            android:id="@+id/dialog_radio_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/normal_margin">
-
-            <com.production.planful.commons.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_days"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/normal_margin"
-                android:paddingBottom="@dimen/normal_margin"
-                android:text="@string/days_raw" />
-
-            <com.production.planful.commons.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_weeks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/normal_margin"
-                android:paddingBottom="@dimen/normal_margin"
-                android:text="@string/weeks_raw" />
-
-            <com.production.planful.commons.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_months"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/normal_margin"
-                android:paddingBottom="@dimen/normal_margin"
-                android:text="@string/months_raw" />
-
-            <com.production.planful.commons.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_years"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/normal_margin"
-                android:paddingBottom="@dimen/normal_margin"
-                android:text="@string/years_raw" />
-
-        </RadioGroup>
     </LinearLayout>
 </ScrollView>

@@ -1061,11 +1061,9 @@ class TaskActivity : SimpleActivity() {
         return items
     }
 
-    private fun isLastDayOfTheMonth() =
-        mTaskStartDateTime.dayOfMonth == mTaskStartDateTime.dayOfMonth().withMaximumValue().dayOfMonth
+    private fun isLastDayOfTheMonth() = mTaskStartDateTime.dayOfMonth == mTaskStartDateTime.dayOfMonth().withMaximumValue().dayOfMonth
 
-    private fun isLastWeekDayOfMonth() =
-        mTaskStartDateTime.monthOfYear != mTaskStartDateTime.plusDays(7).monthOfYear
+    private fun isLastWeekDayOfMonth() = mTaskStartDateTime.monthOfYear != mTaskStartDateTime.plusDays(7).monthOfYear
 
     private fun getRepeatXthDayString(includeBase: Boolean, repeatRule: Int): String {
         val dayOfWeek = mTaskStartDateTime.dayOfWeek
@@ -1075,8 +1073,7 @@ class TaskActivity : SimpleActivity() {
         return if (includeBase) {
             "$base $order $dayString"
         } else {
-            val everyString =
-                getString(if (isMaleGender(mTaskStartDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
+            val everyString = getString(if (isMaleGender(mTaskStartDateTime.dayOfWeek)) R.string.every_m else R.string.every_f)
             "$everyString $order $dayString"
         }
     }

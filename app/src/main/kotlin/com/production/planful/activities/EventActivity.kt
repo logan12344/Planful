@@ -4,26 +4,15 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract.Attendees
-import android.provider.ContactsContract.CommonDataKinds
-import android.provider.ContactsContract.CommonDataKinds.StructuredName
-import android.provider.ContactsContract.Data
-import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.production.planful.R
-import com.production.planful.adapters.AutoCompleteTextViewAdapter
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
@@ -37,7 +26,6 @@ import com.production.planful.helpers.Formatter
 import com.production.planful.models.*
 import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.activity_event.view.*
-import kotlinx.android.synthetic.main.item_attendee.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.util.*
@@ -384,8 +372,6 @@ class EventActivity : SimpleActivity() {
             putInt(REPEAT_RULE, mRepeatRule)
             putLong(REPEAT_LIMIT, mRepeatLimit)
 
-            putString(ATTENDEES, getAllAttendees(false))
-
             putInt(AVAILABILITY, mAvailability)
 
             putLong(EVENT_TYPE_ID, mEventTypeId)
@@ -440,7 +426,6 @@ class EventActivity : SimpleActivity() {
         updateTexts()
         updateEventType()
         updateCalDAVCalendar()
-        checkAttendees()
         updateActionBarTitle()
     }
 
@@ -514,7 +499,6 @@ class EventActivity : SimpleActivity() {
         mAttendees = Gson().fromJson<ArrayList<Attendee>>(mEvent.attendees, token) ?: ArrayList()
 
         checkRepeatTexts(mRepeatInterval)
-        checkAttendees()
     }
 
     private fun setupNewEvent() {
@@ -569,7 +553,6 @@ class EventActivity : SimpleActivity() {
             mEventEndDateTime = mEventStartDateTime.plusMinutes(addMinutes)
         }
         addDefValuesToNewEvent()
-        checkAttendees()
     }
 
     private fun addDefValuesToNewEvent() {
@@ -590,13 +573,6 @@ class EventActivity : SimpleActivity() {
             reminder3Minutes = mReminder3Minutes
             reminder3Type = mReminder3Type
             eventType = mEventTypeId
-        }
-    }
-
-    private fun checkAttendees() {
-        ensureBackgroundThread {
-            fillAvailableContacts()
-            updateAttendees()
         }
     }
 
@@ -1292,7 +1268,6 @@ class EventActivity : SimpleActivity() {
             flags = mEvent.flags.addBitIf(event_all_day.isChecked, FLAG_ALL_DAY)
             repeatLimit = if (repeatInterval == 0) 0 else mRepeatLimit
             repeatRule = mRepeatRule
-            attendees = if (mEventCalendarId == STORED_LOCALLY_ONLY) "" else getAllAttendees(true)
             eventType = newEventType
             lastUpdated = System.currentTimeMillis()
             source = newSource
@@ -1595,342 +1570,6 @@ class EventActivity : SimpleActivity() {
             }
             checkRepetitionRuleText()
         }
-    }
-
-    private fun fillAvailableContacts() {
-        mAvailableContacts = getEmails()
-
-        val names = getNames()
-        mAvailableContacts.forEach {
-            val contactId = it.contactId
-            val contact = names.firstOrNull { it.contactId == contactId }
-            val name = contact?.name
-            if (name != null) {
-                it.name = name
-            }
-
-            val photoUri = contact?.photoUri
-            if (photoUri != null) {
-                it.photoUri = photoUri
-            }
-        }
-    }
-
-    private fun updateAttendees() {
-        val currentCalendar =
-            calDAVHelper.getCalDAVCalendars("", true).firstOrNull { it.id == mEventCalendarId }
-        mAttendees.forEach {
-            it.isMe = it.email == currentCalendar?.accountName
-        }
-
-        mAttendees.sortWith(compareBy<Attendee>
-        { it.isMe }.thenBy
-        { it.status == Attendees.ATTENDEE_STATUS_ACCEPTED }.thenBy
-        { it.status == Attendees.ATTENDEE_STATUS_DECLINED }.thenBy
-        { it.status == Attendees.ATTENDEE_STATUS_TENTATIVE }.thenBy
-        { it.status })
-        mAttendees.reverse()
-
-        runOnUiThread {
-            mAttendees.forEach {
-                val attendee = it
-                val deviceContact =
-                    mAvailableContacts.firstOrNull { it.email.isNotEmpty() && it.email == attendee.email && it.photoUri.isNotEmpty() }
-                if (deviceContact != null) {
-                    attendee.photoUri = deviceContact.photoUri
-                }
-                addAttendee(attendee)
-            }
-            addAttendee()
-
-            val imageHeight = event_repetition_image.height
-            if (imageHeight > 0) {
-                event_attendees_image.layoutParams.height = imageHeight
-            } else {
-                event_repetition_image.onGlobalLayout {
-                    event_attendees_image.layoutParams.height = event_repetition_image.height
-                }
-            }
-        }
-    }
-
-    private fun addAttendee(attendee: Attendee? = null) {
-        val attendeeHolder = layoutInflater.inflate(
-            R.layout.item_attendee,
-            event_attendees_holder,
-            false
-        ) as RelativeLayout
-        val autoCompleteView = attendeeHolder.event_attendee
-        val selectedAttendeeHolder = attendeeHolder.event_contact_attendee
-        val selectedAttendeeDismiss = attendeeHolder.event_contact_dismiss
-
-        mAttendeeAutoCompleteViews.add(autoCompleteView)
-        autoCompleteView.onTextChangeListener {
-            if (mWasContactsPermissionChecked) {
-                checkNewAttendeeField()
-            } else {
-                handlePermission(PERMISSION_READ_CONTACTS) {
-                    checkNewAttendeeField()
-                    mWasContactsPermissionChecked = true
-                }
-            }
-        }
-
-        event_attendees_holder.addView(attendeeHolder)
-
-        val textColor = getProperTextColor()
-        autoCompleteView.setColors(textColor, getProperPrimaryColor(), getProperBackgroundColor())
-        selectedAttendeeHolder.event_contact_name.setColors(
-            textColor,
-            getProperPrimaryColor(),
-            getProperBackgroundColor()
-        )
-        selectedAttendeeHolder.event_contact_me_status.setColors(
-            textColor,
-            getProperPrimaryColor(),
-            getProperBackgroundColor()
-        )
-        selectedAttendeeDismiss.applyColorFilter(textColor)
-
-        selectedAttendeeDismiss.setOnClickListener {
-            attendeeHolder.beGone()
-            mSelectedContacts =
-                mSelectedContacts.filter { it.toString() != selectedAttendeeDismiss.tag }
-                    .toMutableList() as ArrayList<Attendee>
-        }
-
-        val adapter = AutoCompleteTextViewAdapter(this, mAvailableContacts)
-        autoCompleteView.setAdapter(adapter)
-        autoCompleteView.imeOptions = EditorInfo.IME_ACTION_NEXT
-        autoCompleteView.setOnItemClickListener { parent, view, position, id ->
-            val currAttendees = (autoCompleteView.adapter as AutoCompleteTextViewAdapter).resultList
-            val selectedAttendee = currAttendees[position]
-            addSelectedAttendee(selectedAttendee, autoCompleteView, selectedAttendeeHolder)
-        }
-
-        if (attendee != null) {
-            addSelectedAttendee(attendee, autoCompleteView, selectedAttendeeHolder)
-        }
-    }
-
-    private fun addSelectedAttendee(
-        attendee: Attendee,
-        autoCompleteView: MyAutoCompleteTextView,
-        selectedAttendeeHolder: RelativeLayout
-    ) {
-        mSelectedContacts.add(attendee)
-
-        autoCompleteView.beGone()
-        autoCompleteView.focusSearch(View.FOCUS_DOWN)?.requestFocus()
-
-        selectedAttendeeHolder.apply {
-            beVisible()
-
-            val attendeeStatusBackground =
-                resources.getDrawable(R.drawable.attendee_status_circular_background)
-            (attendeeStatusBackground as LayerDrawable).findDrawableByLayerId(R.id.attendee_status_circular_background)
-                .applyColorFilter(getProperBackgroundColor())
-            event_contact_status_image.apply {
-                background = attendeeStatusBackground
-                setImageDrawable(getAttendeeStatusImage(attendee))
-                beVisibleIf(attendee.showStatusImage())
-            }
-
-            event_contact_name.text =
-                if (attendee.isMe) getString(R.string.my_status) else attendee.getPublicName()
-            if (attendee.isMe) {
-                (event_contact_name.layoutParams as RelativeLayout.LayoutParams).addRule(
-                    RelativeLayout.START_OF,
-                    event_contact_me_status.id
-                )
-            }
-
-            val placeholder = BitmapDrawable(
-                resources,
-                SimpleContactsHelper(context).getContactLetterIcon(event_contact_name.value)
-            )
-            event_contact_image.apply {
-                attendee.updateImage(this@EventActivity, this, placeholder)
-                beVisible()
-            }
-
-            event_contact_dismiss.apply {
-                tag = attendee.toString()
-                beGoneIf(attendee.isMe)
-            }
-
-            if (attendee.isMe) {
-                updateAttendeeMe(this, attendee)
-            }
-
-            event_contact_me_status.apply {
-                beVisibleIf(attendee.isMe)
-            }
-
-            if (attendee.isMe) {
-                event_contact_attendee.setOnClickListener {
-                    val items = arrayListOf(
-                        RadioItem(Attendees.ATTENDEE_STATUS_ACCEPTED, getString(R.string.going)),
-                        RadioItem(
-                            Attendees.ATTENDEE_STATUS_DECLINED,
-                            getString(R.string.not_going)
-                        ),
-                        RadioItem(
-                            Attendees.ATTENDEE_STATUS_TENTATIVE,
-                            getString(R.string.maybe_going)
-                        )
-                    )
-
-                    RadioGroupDialog(this@EventActivity, items, attendee.status) {
-                        attendee.status = it as Int
-                        updateAttendeeMe(this, attendee)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getAttendeeStatusImage(attendee: Attendee): Drawable {
-        return resources.getDrawable(
-            when (attendee.status) {
-                Attendees.ATTENDEE_STATUS_ACCEPTED -> R.drawable.ic_check_green
-                Attendees.ATTENDEE_STATUS_DECLINED -> R.drawable.ic_cross_red
-                else -> R.drawable.ic_question_yellow
-            }
-        )
-    }
-
-    private fun updateAttendeeMe(holder: RelativeLayout, attendee: Attendee) {
-        holder.apply {
-            event_contact_me_status.text = getString(
-                when (attendee.status) {
-                    Attendees.ATTENDEE_STATUS_ACCEPTED -> R.string.going
-                    Attendees.ATTENDEE_STATUS_DECLINED -> R.string.not_going
-                    Attendees.ATTENDEE_STATUS_TENTATIVE -> R.string.maybe_going
-                    else -> R.string.invited
-                }
-            )
-
-            event_contact_status_image.apply {
-                beVisibleIf(attendee.showStatusImage())
-                setImageDrawable(getAttendeeStatusImage(attendee))
-            }
-
-            mAttendees.firstOrNull { it.isMe }?.status = attendee.status
-        }
-    }
-
-    private fun checkNewAttendeeField() {
-        if (mAttendeeAutoCompleteViews.none { it.isVisible() && it.value.isEmpty() }) {
-            addAttendee()
-        }
-    }
-
-    private fun getAllAttendees(isSavingEvent: Boolean): String {
-        var attendees = ArrayList<Attendee>()
-        mSelectedContacts.forEach {
-            attendees.add(it)
-        }
-
-        val customEmails = mAttendeeAutoCompleteViews.filter { it.isVisible() }.map { it.value }
-            .filter { it.isNotEmpty() }.toMutableList() as ArrayList<String>
-        customEmails.mapTo(attendees) {
-            Attendee(
-                0,
-                "",
-                it,
-                Attendees.ATTENDEE_STATUS_INVITED,
-                "",
-                false,
-                Attendees.RELATIONSHIP_NONE
-            )
-        }
-        attendees = attendees.distinctBy { it.email }.toMutableList() as ArrayList<Attendee>
-
-        if (mEvent.id == null && isSavingEvent && attendees.isNotEmpty()) {
-            val currentCalendar =
-                calDAVHelper.getCalDAVCalendars("", true).firstOrNull { it.id == mEventCalendarId }
-            mAvailableContacts.firstOrNull { it.email == currentCalendar?.accountName }?.apply {
-                attendees = attendees.filter { it.email != currentCalendar?.accountName }
-                    .toMutableList() as ArrayList<Attendee>
-                status = Attendees.ATTENDEE_STATUS_ACCEPTED
-                relationship = Attendees.RELATIONSHIP_ORGANIZER
-                attendees.add(this)
-            }
-        }
-
-        return Gson().toJson(attendees)
-    }
-
-    private fun getNames(): List<Attendee> {
-        val contacts = ArrayList<Attendee>()
-        val uri = Data.CONTENT_URI
-        val projection = arrayOf(
-            Data.CONTACT_ID,
-            StructuredName.PREFIX,
-            StructuredName.GIVEN_NAME,
-            StructuredName.MIDDLE_NAME,
-            StructuredName.FAMILY_NAME,
-            StructuredName.SUFFIX,
-            StructuredName.PHOTO_THUMBNAIL_URI
-        )
-
-        val selection = "${Data.MIMETYPE} = ?"
-        val selectionArgs = arrayOf(StructuredName.CONTENT_ITEM_TYPE)
-
-        queryCursor(uri, projection, selection, selectionArgs) { cursor ->
-            val id = cursor.getIntValue(Data.CONTACT_ID)
-            val prefix = cursor.getStringValue(StructuredName.PREFIX)
-            val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME)
-            val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME)
-            val surname = cursor.getStringValue(StructuredName.FAMILY_NAME)
-            val suffix = cursor.getStringValue(StructuredName.SUFFIX)
-            val photoUri = cursor.getStringValue(StructuredName.PHOTO_THUMBNAIL_URI)
-
-            val names = arrayListOf(prefix, firstName, middleName, surname, suffix).filter {
-                it.trim().isNotEmpty()
-            }
-            val fullName = TextUtils.join(" ", names).trim()
-            if (fullName.isNotEmpty() || photoUri.isNotEmpty()) {
-                val contact = Attendee(
-                    id,
-                    fullName,
-                    "",
-                    Attendees.ATTENDEE_STATUS_NONE,
-                    photoUri,
-                    false,
-                    Attendees.RELATIONSHIP_NONE
-                )
-                contacts.add(contact)
-            }
-        }
-        return contacts
-    }
-
-    private fun getEmails(): ArrayList<Attendee> {
-        val contacts = ArrayList<Attendee>()
-        val uri = CommonDataKinds.Email.CONTENT_URI
-        val projection = arrayOf(
-            Data.CONTACT_ID,
-            CommonDataKinds.Email.DATA
-        )
-
-        queryCursor(uri, projection) { cursor ->
-            val id = cursor.getIntValue(Data.CONTACT_ID)
-            val email = cursor.getStringValue(CommonDataKinds.Email.DATA)
-            val contact = Attendee(
-                id,
-                "",
-                email,
-                Attendees.ATTENDEE_STATUS_NONE,
-                "",
-                false,
-                Attendees.RELATIONSHIP_NONE
-            )
-            contacts.add(contact)
-        }
-
-        return contacts
     }
 
     private fun updateIconColors() {

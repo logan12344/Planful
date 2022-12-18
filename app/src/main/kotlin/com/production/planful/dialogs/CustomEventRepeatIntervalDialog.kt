@@ -1,6 +1,7 @@
 package com.production.planful.dialogs
 
 import android.app.Activity
+import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.production.planful.R
@@ -16,19 +17,18 @@ class CustomEventRepeatIntervalDialog(
     val callback: (seconds: Int) -> Unit
 ) {
     private var dialog: AlertDialog? = null
-    private var view = activity.layoutInflater.inflate(
-        R.layout.dialog_custom_event_repeat_interval,
-        null
-    ) as ViewGroup
+    private var view = activity.layoutInflater.inflate(R.layout.dialog_custom_event_repeat_interval, null) as ViewGroup
 
     init {
-        view.dialog_radio_view.check(R.id.dialog_radio_days)
-
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok) { dialogInterface, i -> confirmRepeatInterval() }
+            .setPositiveButton(R.string.ok) { _, i -> confirmRepeatInterval() }
             .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(view, this) { alertDialog ->
+                    view.dialog_custom_repeat_interval_value.onTextChangeListener {
+                        view.dialog_custom_repeat_interval_holder.hint =
+                            if (it.isEmpty()) view.resources.getString(R.string.days) else view.resources.getQuantityString(R.plurals.days, it.toInt(), it.toInt())
+                    }
                     dialog = alertDialog
                     alertDialog.showKeyboard(view.dialog_custom_repeat_interval_value)
                 }
@@ -37,17 +37,9 @@ class CustomEventRepeatIntervalDialog(
 
     private fun confirmRepeatInterval() {
         val value = view.dialog_custom_repeat_interval_value.value
-        val multiplier = getMultiplier(view.dialog_radio_view.checkedRadioButtonId)
         val days = Integer.valueOf(value.ifEmpty { "0" })
-        callback(days * multiplier)
+        callback(days * DAY)
         activity.hideKeyboard()
         dialog?.dismiss()
-    }
-
-    private fun getMultiplier(id: Int) = when (id) {
-        R.id.dialog_radio_weeks -> WEEK
-        R.id.dialog_radio_months -> MONTH
-        R.id.dialog_radio_years -> YEAR
-        else -> DAY
     }
 }

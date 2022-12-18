@@ -51,7 +51,6 @@
                 android:text="@string/weeks_raw" />
 
             <com.production.planful.commons.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_months"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_margin"

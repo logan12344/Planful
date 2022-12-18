@@ -7,6 +7,7 @@ import com.production.planful.commons.extensions.setupDialogStuff
 import com.production.planful.commons.views.MyAppCompatCheckbox
 import com.production.planful.extensions.config
 import kotlinx.android.synthetic.main.dialog_vertical_linear_layout.view.*
+import kotlin.math.pow
 
 class RepeatRuleWeeklyDialog(
     val activity: Activity,
@@ -19,10 +20,8 @@ class RepeatRuleWeeklyDialog(
         val days = activity.resources.getStringArray(R.array.week_days)
         val checkboxes = ArrayList<MyAppCompatCheckbox>(7)
         for (i in 0..6) {
-            val pow = Math.pow(2.0, i.toDouble()).toInt()
-            (activity.layoutInflater.inflate(
-                R.layout.my_checkbox,
-                null
+            val pow = 2.0.pow(i.toDouble()).toInt()
+            (activity.layoutInflater.inflate(R.layout.my_checkbox, null
             ) as MyAppCompatCheckbox).apply {
                 isChecked = curRepeatRule and pow != 0
                 text = days[i]
