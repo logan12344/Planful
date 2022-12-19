@@ -156,9 +156,11 @@ class StatisticsEventsAdapter(
             } else {
                 val daysLimit = Formatter.getTodayCode().toInt().minus(startDayCode.toInt())
                 val daysTodayLimit = endDayCode.toInt().minus(startDayCode.toInt())
-                if (daysLimit > daysTodayLimit) "$daysLimit/$daysLimit" else "$daysLimit/$daysTodayLimit"
+                if (daysLimit > daysTodayLimit) "$daysTodayLimit/$daysTodayLimit" else {
+                    if (daysLimit < 0) "0/$daysTodayLimit"
+                    else "$daysLimit/$daysTodayLimit"
+                }
             }
-
             event_item_days_count.text = daysCount
 
             val daysPercents: Int = if (endDayCode.toInt().minus(startDayCode.toInt()) < 0) {
@@ -166,7 +168,10 @@ class StatisticsEventsAdapter(
             } else {
                 val daysLimit = Formatter.getTodayCode().toInt().minus(startDayCode.toInt())
                 val daysTodayLimit = endDayCode.toInt().minus(startDayCode.toInt())
-                if (daysLimit > daysTodayLimit) 100 else daysLimit.times(100).div(daysTodayLimit)
+                if (daysLimit > daysTodayLimit) 100 else {
+                    if (daysLimit < 0) 0
+                    else daysLimit.times(100).div(daysTodayLimit)
+                }
             }
             event_item_progress.setProgressWithAnimation(daysPercents.toFloat(), 1000)
 
