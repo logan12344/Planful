@@ -31,7 +31,7 @@
         android:allowBackup="true"
         android:appCategory="productivity"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_launcher_name"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -123,6 +123,12 @@
             android:exported="false"
             android:label="@string/customize_colors"
             android:parentActivityName=".activities.SettingsActivity" />
+
+        <activity
+            android:name="com.production.planful.activities.StatisticsActivity"
+            android:exported="false"
+            android:label="@string/statistics"
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.EventActivity"

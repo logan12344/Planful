@@ -1,6 +1,7 @@
 package com.production.planful.adapters
 
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.production.planful.R
 import com.production.planful.activities.SimpleActivity
+import com.production.planful.activities.StatisticsActivity
 import com.production.planful.commons.adapters.MyRecyclerViewAdapter
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.MEDIUM_ALPHA
@@ -23,19 +25,22 @@ import com.production.planful.helpers.Formatter
 import com.production.planful.models.ChecklistItem
 import com.production.planful.models.Event
 import kotlinx.android.synthetic.main.event_list_item.view.*
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_color_bar
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_description
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_holder
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_task_image
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_time
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_time_image
+import kotlinx.android.synthetic.main.event_list_item.view.event_item_title
+import kotlinx.android.synthetic.main.event_statistics_item.view.*
 
-class DayEventsAdapter(
-    activity: SimpleActivity,
+class StatisticsEventsAdapter(
+    activity: StatisticsActivity,
     val events: ArrayList<Event>,
     recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit
 ) :
     MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
-
-    private var dataUpdatedListener: ((Unit) -> Unit)? = null
-    fun setDataUpdatedListener(block: (Unit) -> Unit) {
-        dataUpdatedListener = block
-    }
 
     private val allDayString = resources.getString(R.string.all_day)
     private val displayDescription = activity.config.displayDescription
@@ -73,7 +78,7 @@ class DayEventsAdapter(
     override fun onActionModeDestroyed() {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        createViewHolder(R.layout.event_list_item, parent)
+        createViewHolder(R.layout.event_statistics_item, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = events[position]
@@ -102,17 +107,12 @@ class DayEventsAdapter(
     private fun setupView(view: View, event: Event) {
         view.apply {
             val startDayCode = Formatter.getDayCodeFromTS(event.startTS)
+            val endDayCode = Formatter.getDayCodeFromTS(event.endTS)
             event_item_holder.isSelected = selectedKeys.contains(event.id?.toInt())
             event_item_holder.background.applyColorFilter(textColor)
             event_item_title.text = event.title
-            event_item_title.checkViewStrikeThrough(event.isTaskCompleted())
-            event_item_time.text =
-                if (event.getIsAllDay()) allDayString else Formatter.getTimeFromTS(
-                    context,
-                    event.startTS
-                )
+            event_item_time.text = if (event.getIsAllDay()) allDayString else Formatter.getTimeFromTS(context, event.startTS)
             if (event.startTS != event.endTS) {
-                val endDayCode = Formatter.getDayCodeFromTS(event.endTS)
                 val startDate = Formatter.getDayTitle(activity, startDayCode, false)
                 val endDate = Formatter.getDayTitle(activity, endDayCode, false)
                 val startDayString = " ($startDate)"
@@ -144,84 +144,31 @@ class DayEventsAdapter(
 
             event_item_time.setTextColor(newTextColor)
             event_item_title.setTextColor(newTextColor)
+            event_item_days_count.setTextColor(newTextColor)
+            event_item_progress.textColor = newTextColor
             event_item_description?.setTextColor(newTextColor)
             event_item_task_image.applyColorFilter(newTextColor)
             event_item_time_image.applyColorFilter(newTextColor)
             event_item_task_image.beVisibleIf(event.isTask())
-            toggle_mark_complete.beVisibleIf(event.isTask())
-            toggle_mark_complete.isChecked = event.isTaskCompleted()
-            toggle_mark_complete.setOnClickListener {
-                if (event.isCheckListEnable()) {
-                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
-                    val jsonArray = gson.fromJson<ArrayList<Pair<String, ArrayList<ChecklistItem>>>>(event.getCheckList())
 
-                    var ifDayExist = false
-
-                    for (item in jsonArray) {
-                        if (item.first == startDayCode) {
-                            ifDayExist = true
-                            checklistArray.addAll(item.second)
-                            jsonArray.remove(item)
-                            break
-                        }
-                    }
-
-                    if (!ifDayExist) {
-                        for (item in jsonArray) {
-                            val listAccountCloned = ArrayList(item.second)
-                            for (arrayItem in listAccountCloned) {
-                                arrayItem.checked = false
-                            }
-                            checklistArray.addAll(listAccountCloned)
-                            break
-                        }
-                    }
-
-                    val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
-                    val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
-                    val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
-                    val tvTitleDate = view.findViewById<TextView>(R.id.tvTitleDate)
-                    val rvNestedInDialog = view.findViewById<RecyclerView>(R.id.rvNestedInDialog)
-                    val llClose = view.findViewById<TextView>(R.id.closeBtn)
-                    builder.setView(view)
-
-                    tvTitle.text = event.title
-                    tvTitleDate.text = event_item_time.text
-
-                    val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
-                    rvNestedInDialog.adapter = checklistAdapterForDialog
-                    rvNestedInDialog.layoutManager = LinearLayoutManager(context)
-
-                    llClose.setOnClickListener {
-                        builder.cancel()
-                    }
-
-                    builder.setCanceledOnTouchOutside(false)
-                    builder.setOnCancelListener {
-                        var i = 0
-                        for (item in checklistArray) {
-                            if (!item.checked) i++
-                        }
-
-                        jsonArray.add(Pair(startDayCode, checklistArray))
-                        val jsonString = gson.convertToJsonString(jsonArray)
-                        ensureBackgroundThread {
-                            context.updateChecklist(event, jsonString)
-                            context.updateTaskCompletion(event, i == 0)
-                            activity.runOnUiThread {
-                                notifyDataSetChanged()
-                                dataUpdatedListener?.invoke(Unit)
-                            }
-                        }
-                    }
-                    builder.show()
-
-                    val displayMetrics = DisplayMetrics()
-                    context.windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                    builder.window?.setLayout((displayMetrics.widthPixels * 0.8).toInt(), -2)
-                } else setCompleted(view, event)
+            val daysCount: String = if (endDayCode.toInt().minus(startDayCode.toInt()) < 0) {
+                "0/1"
+            } else {
+                val daysLimit = Formatter.getTodayCode().toInt().minus(startDayCode.toInt())
+                val daysTodayLimit = endDayCode.toInt().minus(startDayCode.toInt())
+                if (daysLimit > daysTodayLimit) "$daysLimit/$daysLimit" else "$daysLimit/$daysTodayLimit"
             }
+
+            event_item_days_count.text = daysCount
+
+            val daysPercents: Int = if (endDayCode.toInt().minus(startDayCode.toInt()) < 0) {
+                0
+            } else {
+                val daysLimit = Formatter.getTodayCode().toInt().minus(startDayCode.toInt())
+                val daysTodayLimit = endDayCode.toInt().minus(startDayCode.toInt())
+                if (daysLimit > daysTodayLimit) 100 else daysLimit.times(100).div(daysTodayLimit)
+            }
+            event_item_progress.setProgressWithAnimation(daysPercents.toFloat(), 1000)
 
             val startMargin = if (event.isTask()) {
                 0
@@ -230,16 +177,6 @@ class DayEventsAdapter(
             }
 
             (event_item_title.layoutParams as ConstraintLayout.LayoutParams).marginStart = startMargin
-        }
-    }
-
-    private fun setCompleted(view: View, event: Event) {
-        ensureBackgroundThread {
-            view.context.updateTaskCompletion(event, completed = !event.isTaskCompleted())
-            activity.runOnUiThread {
-                notifyDataSetChanged()
-                dataUpdatedListener?.invoke(Unit)
-            }
         }
     }
 

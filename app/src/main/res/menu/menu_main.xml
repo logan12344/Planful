@@ -30,6 +30,12 @@
         android:title="@string/go_to_date"
         app:showAsAction="never" />
     <item
+        android:id="@+id/statistics"
+        android:icon="@drawable/ic_track_target"
+        android:showAsAction="never"
+        android:title="@string/statistics"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/print"
         android:showAsAction="never"
         android:title="@string/print"

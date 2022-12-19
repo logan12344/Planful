@@ -18,7 +18,7 @@ class SharedThemeReceiver : BroadcastReceiver() {
                     isUsingSharedTheme = true
                     wasSharedThemeEverActivated = true
 
-                    context.getSharedTheme {
+                    getSharedTheme {
                         if (it != null) {
                             textColor = it.textColor
                             backgroundColor = it.backgroundColor
@@ -32,7 +32,7 @@ class SharedThemeReceiver : BroadcastReceiver() {
                 }
             } else if (intent.action == MyContentProvider.SHARED_THEME_UPDATED) {
                 if (isUsingSharedTheme) {
-                    context.getSharedTheme {
+                    getSharedTheme {
                         if (it != null) {
                             textColor = it.textColor
                             backgroundColor = it.backgroundColor

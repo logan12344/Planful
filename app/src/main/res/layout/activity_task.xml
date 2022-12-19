@@ -15,7 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
             app:menu="@menu/menu_task"
-            app:title="@string/app_launcher_name"
+            app:title="@string/app_name"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -264,11 +264,59 @@
                 android:background="@color/divider_grey"
                 android:importantForAccessibility="no" />
 
+            <ImageView
+                android:id="@+id/task_target_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_alignTop="@+id/task_target_holder"
+                android:layout_alignBottom="@+id/task_target_holder"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:padding="@dimen/medium_margin"
+                android:src="@drawable/ic_track_target"
+                android:contentDescription="@string/track_target" />
+
+            <RelativeLayout
+                android:id="@+id/task_target_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_toEndOf="@+id/task_target_image"
+                android:background="?attr/selectableItemBackground"
+                android:paddingStart="@dimen/zero"
+                android:paddingEnd="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin">
+
+                <com.production.planful.commons.views.MyAppCompatCheckbox
+                    android:id="@+id/task_target"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:layoutDirection="rtl"
+                    android:text="@string/track_target"
+                    android:textSize="@dimen/day_text_size" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/task_target_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/task_target_holder"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:background="@color/divider_grey"
+                android:importantForAccessibility="no" />
+
             <LinearLayout
                 android:id="@+id/task_checklist_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/task_caldav_calendar_divider"
+                android:layout_below="@+id/task_target_divider"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:background="@drawable/checklist_bg"
@@ -310,8 +358,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:layout_marginBottom="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/medium_margin"
                     android:text="@string/add_item"
                     android:visibility="gone"/>
             </LinearLayout>

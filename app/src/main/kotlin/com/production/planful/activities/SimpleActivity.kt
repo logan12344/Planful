@@ -18,7 +18,7 @@ open class SimpleActivity : BaseSimpleActivity() {
     val calDAVRefreshHandler = Handler()
     var calDAVRefreshCallback: (() -> Unit)? = null
 
-    override fun getAppLauncherName() = getString(R.string.app_launcher_name)
+    override fun getAppLauncherName() = getString(R.string.app_name)
 
     fun Context.syncCalDAVCalendars(callback: () -> Unit) {
         calDAVRefreshCallback = callback

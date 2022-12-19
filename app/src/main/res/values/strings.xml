@@ -102,6 +102,7 @@
     <string name="location">Location</string>
     <string name="description">Description</string>
     <string name="all_day">All-day</string>
+    <string name="track_target">Track target</string>
 
     <!-- Weekly view -->
     <string name="week">Week</string>
@@ -285,6 +286,7 @@
     <string name="share_via">Share via</string>
     <string name="maximum_share_reached">You cannot share this much content at once</string>
     <string name="print">Print</string>
+    <string name="statistics">Statistics</string>
 
     <!-- Sorting -->
     <string name="title">Title</string>
@@ -513,8 +515,6 @@
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
     <string name="sunday_short">Sun</string>
-
-    <!-- Pro version -->
 
     <!-- About -->
     <string name="about">About</string>

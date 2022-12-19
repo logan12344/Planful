@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.util.Pair
 import com.google.android.material.appbar.MaterialToolbar
 import com.production.planful.R
+import com.production.planful.activities.StatisticsActivity
 import com.production.planful.commons.asynctasks.CopyMoveTask
 import com.production.planful.commons.dialogs.*
 import com.production.planful.commons.dialogs.WritePermissionDialog.Mode
@@ -501,14 +502,12 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     fun startAboutActivity(
         appNameId: Int,
-        licenseMask: Long,
         versionName: String
     ) {
         hideKeyboard()
         Intent(applicationContext, AboutActivity::class.java).apply {
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             putExtra(APP_NAME, getString(appNameId))
-            putExtra(APP_LICENSES, licenseMask)
             putExtra(APP_VERSION_NAME, versionName)
             startActivity(this)
         }
@@ -516,6 +515,13 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     fun startCustomizationActivity() {
         Intent(applicationContext, CustomizationActivity::class.java).apply {
+            putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
+            startActivity(this)
+        }
+    }
+
+    fun startStatisticsActivity() {
+        Intent(applicationContext, StatisticsActivity::class.java).apply {
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             startActivity(this)
         }

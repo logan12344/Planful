@@ -43,7 +43,8 @@ data class Event(
     @ColumnInfo(name = "color") var color: Int = 0,
     @ColumnInfo(name = "type") var type: Int = TYPE_EVENT,
     @ColumnInfo(name = "checklistEnable") var checklistEnable: Boolean = false,
-    @ColumnInfo(name = "checklist") var checklist: String = ""
+    @ColumnInfo(name = "checklist") var checklist: String = "",
+    @ColumnInfo(name = "track_target") var trackTarget: Boolean = false
 ) : Serializable {
 
     companion object {
@@ -229,4 +230,6 @@ data class Event(
     fun isCheckListEnable() = checklistEnable
 
     fun getCheckList() = checklist
+
+    fun isTrackTargetEnable() = trackTarget
 }

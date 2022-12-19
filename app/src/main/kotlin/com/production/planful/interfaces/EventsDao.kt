@@ -15,6 +15,9 @@ interface EventsDao {
     @Query("SELECT * FROM events WHERE event_type IN (:eventTypeIds) AND type = $TYPE_EVENT")
     fun getAllEventsWithTypes(eventTypeIds: List<Long>): List<Event>
 
+    @Query("SELECT * FROM events WHERE track_target = :trackTarget AND type = $TYPE_TASK")
+    fun getAllTasksWithTrack(trackTarget: Boolean): List<Event>
+
     @Query("SELECT * FROM events WHERE id = :id AND type = $TYPE_EVENT")
     fun getEventWithId(id: Long): Event?
 
@@ -125,6 +128,9 @@ interface EventsDao {
 
     @Query("UPDATE events SET checklistEnable = :checklistEnable WHERE id = :id")
     fun updateChecklistEnable(id: Long, checklistEnable: Boolean)
+
+    @Query("UPDATE events SET track_target = :trackTarget WHERE id = :id")
+    fun updateTrackTargetEnable(id: Long, trackTarget: Boolean)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(event: Event): Long

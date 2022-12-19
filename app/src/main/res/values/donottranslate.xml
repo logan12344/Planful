@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Planful</string>
-    <string name="app_launcher_name">@string/app_name</string>
-    <!-- Release notes -->
-
-    <string name="simple_commons">Simple Commons</string>
-
     <!-- About -->
     <string name="my_email">planful.info@gmail.com</string>
     <string name="support_description">If you have any problems, or a suggestion on how to make our app more attractive to you, email us, we\'ll do our best to help you.</string>
-
-    <!-- License -->
-
-    <!-- Message digest algorithms -->
 
     <string-array name="months">
         <item>@string/january</item>

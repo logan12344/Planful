@@ -224,7 +224,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 R.id.go_to_today -> goToToday()
                 R.id.go_to_date -> showGoToDateDialog()
                 R.id.print -> printView()
-                R.id.about -> startAboutActivity(R.string.app_name, LICENSE_JODA, BuildConfig.VERSION_NAME)
+                R.id.about -> startAboutActivity(R.string.app_name, BuildConfig.VERSION_NAME)
+                R.id.statistics -> startStatisticsActivity()
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
@@ -495,7 +496,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     }
 
     private fun resetActionBarTitle() {
-        main_toolbar.title = getString(R.string.app_launcher_name)
+        main_toolbar.title = getString(R.string.app_name)
         main_toolbar.subtitle = ""
     }
 

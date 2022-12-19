@@ -36,8 +36,6 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var lastSavePromptTS = 0L
     private var curNavigationBarColor = INVALID_NAVIGATION_BAR_COLOR
     private var hasUnsavedChanges = false
-    private var isThankYou =
-        false      // show "Apply colors to all Simple apps" in Simple Thank You itself even with "Hide Google relations" enabled
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
     private var storedSharedTheme: SharedTheme? = null
 
@@ -55,32 +53,10 @@ class CustomizationActivity : BaseSimpleActivity() {
 
         setupOptionsMenu()
         refreshMenuItems()
-        isThankYou = packageName.removeSuffix(".debug") == "com.production.planful.thankyou"
         initColorVariables()
 
-        if (isThankYouInstalled()) {
-            val cursorLoader = getMyContentProviderCursorLoader()
-            ensureBackgroundThread {
-                try {
-                    storedSharedTheme = getSharedThemeSync(cursorLoader)
-                    if (storedSharedTheme == null) {
-                        baseConfig.isUsingSharedTheme = false
-                    } else {
-                        baseConfig.wasSharedThemeEverActivated = true
-                    }
-
-                    runOnUiThread {
-                        setupThemes()
-                    }
-                } catch (e: Exception) {
-                    toast(R.string.update_thank_you)
-                    finish()
-                }
-            }
-        } else {
-            setupThemes()
-            baseConfig.isUsingSharedTheme = false
-        }
+        setupThemes()
+        baseConfig.isUsingSharedTheme = false
 
         val textColor = if (baseConfig.isUsingSystemTheme) {
             getProperTextColor()

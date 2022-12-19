@@ -63,18 +63,12 @@ class AboutActivity : BaseSimpleActivity() {
     }
 
     private fun setupEmail() {
-
         if (resources.getBoolean(R.bool.hide_all_external_links)) {
             about_email_holder.beGone()
         }
 
         about_email_holder.setOnClickListener {
-            val appVersion = String.format(
-                getString(
-                    R.string.app_version,
-                    intent.getStringExtra(APP_VERSION_NAME)
-                )
-            )
+            val appVersion = String.format(getString(R.string.app_version, intent.getStringExtra(APP_VERSION_NAME)))
             val deviceOS = String.format(getString(R.string.device_os), Build.VERSION.RELEASE)
             val newline = "\n"
             val separator = "------------------------------"

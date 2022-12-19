@@ -11,10 +11,9 @@ const val EXTERNAL_STORAGE_PROVIDER_AUTHORITY = "com.android.externalstorage.doc
 const val EXTRA_SHOW_ADVANCED = "android.content.extra.SHOW_ADVANCED"
 
 const val APP_NAME = "app_name"
-const val APP_LICENSES = "app_licenses"
 const val APP_VERSION_NAME = "app_version_name"
 const val APP_ID = "app_id"
-const val APP_LAUNCHER_NAME = "app_launcher_name"
+const val APP_LAUNCHER_NAME = "app_name"
 const val IS_CUSTOMIZING_COLORS = "is_customizing_colors"
 const val NOMEDIA = ".nomedia"
 const val YOUR_ALARM_SOUNDS_MIN_ID = 1000

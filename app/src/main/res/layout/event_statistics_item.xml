@@ -58,7 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/event_item_task_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/toggle_mark_complete"
+            app:layout_constraintEnd_toStartOf="@+id/event_item_days_count"
             tools:text="Event title" />
 
         <LinearLayout
@@ -71,7 +71,7 @@
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/event_item_color_bar"
             app:layout_constraintTop_toBottomOf="@+id/event_item_title"
-            app:layout_constraintEnd_toStartOf="@+id/toggle_mark_complete">
+            app:layout_constraintEnd_toStartOf="@+id/event_item_days_count">
 
             <ImageView
                 android:id="@+id/event_item_time_image"
@@ -113,18 +113,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/event_item_color_bar"
             app:layout_constraintTop_toBottomOf="@+id/event_item_time_layout"
-            app:layout_constraintEnd_toStartOf="@+id/toggle_mark_complete"
+            app:layout_constraintEnd_toStartOf="@+id/event_item_days_count"
             tools:text="Event description" />
 
-        <CheckBox
-            android:id="@+id/toggle_mark_complete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <android.widget.TextView
+            android:id="@+id/event_item_days_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_text_size"
             android:layout_marginEnd="@dimen/normal_margin"
             android:contentDescription="@null"
             app:layout_constraintBottom_toBottomOf="@+id/event_item_description"
+            app:layout_constraintEnd_toStartOf="@+id/event_item_progress"
+            app:layout_constraintTop_toTopOf="@id/event_item_title"
+            tools:text="3/100"/>
+
+        <com.eralp.circleprogressview.CircleProgressView
+            android:id="@+id/event_item_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_marginEnd="@dimen/normal_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/event_item_title" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:cpv_circle_color="@color/md_red_400_dark"
+            app:cpv_circle_width="5dp"
+            app:cpv_background_circle_width="5dp"
+            app:cpv_background_circle_color="@color/color_primary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

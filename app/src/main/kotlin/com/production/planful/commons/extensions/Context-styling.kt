@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.view.ViewGroup
-import androidx.loader.content.CursorLoader
 import com.production.planful.R
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.SharedTheme
@@ -103,45 +102,8 @@ fun Context.getDatePickerDialogTheme() = when {
     else -> R.style.MyDialogTheme
 }
 
-fun Context.getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
-    if (!isThankYouInstalled()) {
-        callback(null)
-    } else {
-        val cursorLoader = getMyContentProviderCursorLoader()
-        ensureBackgroundThread {
-            callback(getSharedThemeSync(cursorLoader))
-        }
-    }
-}
-
-fun getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
-    val cursor = cursorLoader.loadInBackground()
-    cursor?.use {
-        if (cursor.moveToFirst()) {
-            try {
-                val textColor = cursor.getIntValue(MyContentProvider.COL_TEXT_COLOR)
-                val backgroundColor = cursor.getIntValue(MyContentProvider.COL_BACKGROUND_COLOR)
-                val primaryColor = cursor.getIntValue(MyContentProvider.COL_PRIMARY_COLOR)
-                val accentColor = cursor.getIntValue(MyContentProvider.COL_ACCENT_COLOR)
-                val appIconColor = cursor.getIntValue(MyContentProvider.COL_APP_ICON_COLOR)
-                val navigationBarColor =
-                    cursor.getIntValueOrNull(MyContentProvider.COL_NAVIGATION_BAR_COLOR)
-                        ?: INVALID_NAVIGATION_BAR_COLOR
-                val lastUpdatedTS = cursor.getIntValue(MyContentProvider.COL_LAST_UPDATED_TS)
-                return SharedTheme(
-                    textColor,
-                    backgroundColor,
-                    primaryColor,
-                    appIconColor,
-                    navigationBarColor,
-                    lastUpdatedTS,
-                    accentColor
-                )
-            } catch (_: Exception) {
-            }
-        }
-    }
-    return null
+fun getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
+    callback(null)
 }
 
 fun Context.checkAppIconColor() {

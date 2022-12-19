@@ -22,7 +22,7 @@ import com.production.planful.models.Task
 import com.production.planful.models.Widget
 import java.util.concurrent.Executors
 
-@Database(entities = [Event::class, EventType::class, Widget::class, Task::class], version = 10)
+@Database(entities = [Event::class, EventType::class, Widget::class, Task::class], version = 11)
 @TypeConverters(Converters::class)
 abstract class EventsDatabase : RoomDatabase() {
 
@@ -61,6 +61,7 @@ abstract class EventsDatabase : RoomDatabase() {
                             .addMigrations(MIGRATION_7_8)
                             .addMigrations(MIGRATION_8_9)
                             .addMigrations(MIGRATION_9_10)
+                            .addMigrations(MIGRATION_10_11)
                             .build()
                         db!!.openHelper.setWriteAheadLoggingEnabled(true)
                     }
@@ -155,6 +156,14 @@ abstract class EventsDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.apply {
                     execSQL("ALTER TABLE events ADD COLUMN checklist STRING DEFAULT NULL")
+                }
+            }
+        }
+
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.apply {
+                    execSQL("ALTER TABLE events ADD COLUMN track_target INTEGER NOT NULL DEFAULT 0")
                 }
             }
         }

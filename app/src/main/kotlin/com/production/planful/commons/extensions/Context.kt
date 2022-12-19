@@ -347,20 +347,6 @@ fun Context.getUriMimeType(path: String, newUri: Uri): String {
     return mimeType
 }
 
-fun Context.isThankYouInstalled() = isPackageInstalled("com.production.planful.thankyou")
-
-fun Context.isOrWasThankYouInstalled(): Boolean {
-    return when {
-        resources.getBoolean(R.bool.pretend_thank_you_installed) -> true
-        baseConfig.hadThankYouInstalled -> true
-        isThankYouInstalled() -> {
-            baseConfig.hadThankYouInstalled = true
-            true
-        }
-        else -> false
-    }
-}
-
 fun Context.isPackageInstalled(pkgName: String): Boolean {
     return try {
         packageManager.getPackageInfo(pkgName, 0)
@@ -772,7 +758,7 @@ fun Context.isNumberBlockedByPattern(
 }
 
 fun Context.copyToClipboard(text: String) {
-    val clip = ClipData.newPlainText(getString(R.string.simple_commons), text)
+    val clip = ClipData.newPlainText(getString(R.string.app_name), text)
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
     val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
     toast(toastText)

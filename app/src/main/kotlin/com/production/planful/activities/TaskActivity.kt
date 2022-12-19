@@ -269,6 +269,11 @@ class TaskActivity : SimpleActivity() {
             task_all_day.toggle()
         }
 
+        task_target.setOnCheckedChangeListener { _, isChecked -> toggleTarget(isChecked) }
+        task_target_holder.setOnClickListener {
+            task_target.toggle()
+        }
+
         task_checklist.setOnCheckedChangeListener { _, isChecked -> toggleChecklist(isChecked) }
         task_checklist_holder.setOnClickListener {
             task_checklist.toggle()
@@ -373,6 +378,7 @@ class TaskActivity : SimpleActivity() {
         task_description.setText(mTask.description)
         task_all_day.isChecked = mTask.getIsAllDay()
         toggleAllDay(mTask.getIsAllDay())
+        toggleTarget(mTask.isTrackTargetEnable())
         toggleChecklist(mTask.isCheckListEnable())
         checkRepeatTexts(mRepeatInterval)
     }
@@ -554,6 +560,7 @@ class TaskActivity : SimpleActivity() {
         ensureBackgroundThread {
             updateChecklistEnable(mTask.copy(startTS = mOriginalStartTS), task_checklist.isChecked)
             updateChecklist(mTask.copy(startTS = mOriginalStartTS), jsonString)
+            updateTrackTargetEnable(mTask.copy(startTS = mOriginalStartTS), task_target.isChecked)
         }
     }
 
@@ -807,8 +814,7 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun checkStartEndValidity() {
-        val textColor =
-            if (mTaskStartDateTime.isAfter(mTaskEndDateTime)) resources.getColor(R.color.red_text) else getProperTextColor()
+        val textColor = if (mTaskStartDateTime.isAfter(mTaskEndDateTime)) resources.getColor(R.color.red_text) else getProperTextColor()
         task_end_date.setTextColor(textColor)
         task_end_time.setTextColor(textColor)
     }
@@ -836,6 +842,11 @@ class TaskActivity : SimpleActivity() {
         task_start_time.beGoneIf(isChecked)
         task_end_time.beGoneIf(isChecked)
         resetTime()
+    }
+
+    private fun toggleTarget(isChecked: Boolean) {
+        hideKeyboard()
+        task_target.isChecked = isChecked
     }
 
     private fun toggleChecklist(isChecked: Boolean) {
@@ -928,6 +939,7 @@ class TaskActivity : SimpleActivity() {
         val textColor = getProperTextColor()
         arrayOf(
             task_time_image, task_reminder_image, task_type_image, task_repetition_image, task_start_date_image, task_end_date_image,
+            task_target_image
         ).forEach {
             it.applyColorFilter(textColor)
         }

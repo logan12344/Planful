@@ -612,4 +612,8 @@ class EventsHelper(val context: Context) {
         events = events.distinctBy { it.id } as ArrayList<Event>
         return events
     }
+
+    fun getTasksWithTrack(trackTarget: Boolean): List<Event> {
+        return eventsDB.getAllTasksWithTrack(trackTarget)
+    }
 }

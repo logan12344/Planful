@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.timfreiheit.resourceplaceholders'
 
-def canonicalVersionCode = 265
-def canonicalVersionName = "1.0.12"
+def canonicalVersionCode = 266
+def canonicalVersionName = "1.0.13"
 
 def postFixSize = 10
 def abiPostFix =
@@ -111,4 +111,5 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     annotationProcessor "androidx.room:room-compiler:2.4.3"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation 'com.github.eralpyucel:CircleProgressView:v1.1'
 }
