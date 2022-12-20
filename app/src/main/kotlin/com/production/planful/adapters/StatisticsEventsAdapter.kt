@@ -1,18 +1,10 @@
 package com.production.planful.adapters
 
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.production.planful.R
-import com.production.planful.activities.SimpleActivity
 import com.production.planful.activities.StatisticsActivity
 import com.production.planful.commons.adapters.MyRecyclerViewAdapter
 import com.production.planful.commons.extensions.*
@@ -20,11 +12,12 @@ import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.commons.views.MyRecyclerView
 import com.production.planful.dialogs.DeleteEventDialog
-import com.production.planful.extensions.*
+import com.production.planful.extensions.config
+import com.production.planful.extensions.eventsHelper
+import com.production.planful.extensions.handleEventDeleting
+import com.production.planful.extensions.shareEvents
 import com.production.planful.helpers.Formatter
-import com.production.planful.models.ChecklistItem
 import com.production.planful.models.Event
-import kotlinx.android.synthetic.main.event_list_item.view.*
 import kotlinx.android.synthetic.main.event_list_item.view.event_item_color_bar
 import kotlinx.android.synthetic.main.event_list_item.view.event_item_description
 import kotlinx.android.synthetic.main.event_list_item.view.event_item_holder
@@ -49,7 +42,7 @@ class StatisticsEventsAdapter(
     private val dimCompletedTasks = activity.config.dimCompletedTasks
     private var isPrintVersion = false
     private val mediumMargin = activity.resources.getDimension(R.dimen.medium_margin).toInt()
-    private val gson = Gson()
+
     init {
         setupDragListener(true)
     }

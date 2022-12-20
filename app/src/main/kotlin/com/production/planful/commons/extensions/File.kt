@@ -1,7 +1,6 @@
 package com.production.planful.commons.extensions
 
 import android.content.Context
-import com.production.planful.commons.helpers.NOMEDIA
 import com.production.planful.commons.models.FileDirItem
 import java.io.File
 
@@ -32,26 +31,6 @@ private fun getDirectorySize(dir: File, countHiddenItems: Boolean): Long {
     return size
 }
 
-private fun getDirectoryFileCount(dir: File, countHiddenItems: Boolean): Int {
-    var count = -1
-    if (dir.exists()) {
-        val files = dir.listFiles()
-        if (files != null) {
-            count++
-            for (i in files.indices) {
-                val file = files[i]
-                if (file.isDirectory) {
-                    count++
-                    count += getDirectoryFileCount(file, countHiddenItems)
-                } else if (!file.name.startsWith('.') || countHiddenItems) {
-                    count++
-                }
-            }
-        }
-    }
-    return count
-}
-
 fun File.toFileDirItem(context: Context) = FileDirItem(
     absolutePath,
     name,
@@ -60,12 +39,4 @@ fun File.toFileDirItem(context: Context) = FileDirItem(
     length(),
     lastModified()
 )
-
-fun File.containsNoMedia(): Boolean {
-    return if (!isDirectory) {
-        false
-    } else {
-        File(this, NOMEDIA).exists()
-    }
-}
 

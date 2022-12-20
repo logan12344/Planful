@@ -3,7 +3,6 @@ package com.production.planful.commons.models
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import com.bumptech.glide.signature.ObjectKey
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import java.io.File
@@ -73,18 +72,6 @@ open class FileDirItem(
 
     fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
 
-    fun getBubbleText(context: Context, dateFormat: String? = null, timeFormat: String? = null) =
-        when {
-            sorting and SORT_BY_SIZE != 0 -> size.formatSize()
-            sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
-                context,
-                dateFormat,
-                timeFormat
-            )
-            sorting and SORT_BY_EXTENSION != 0 -> getExtension().lowercase(Locale.getDefault())
-            else -> name
-        }
-
     fun getProperSize(context: Context, countHidden: Boolean): Long {
         return when {
             context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileSize(path)
@@ -113,8 +100,6 @@ open class FileDirItem(
 
         return "$path-$lastModified-$size"
     }
-
-    fun getKey() = ObjectKey(getSignature())
 
     fun assembleContentUri(): Uri {
         val uri = when {

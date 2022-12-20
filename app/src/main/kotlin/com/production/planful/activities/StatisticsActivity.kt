@@ -1,31 +1,25 @@
 package com.production.planful.activities
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.StyleSpan
 import android.view.View
-import androidx.core.net.toUri
 import com.production.planful.R
-import com.production.planful.adapters.DayEventsAdapter
 import com.production.planful.adapters.StatisticsEventsAdapter
 import com.production.planful.commons.activities.BaseSimpleActivity
 import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.*
+import com.production.planful.commons.helpers.APP_LAUNCHER_NAME
+import com.production.planful.commons.helpers.NavigationIcon
+import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
-import com.production.planful.helpers.*
+import com.production.planful.helpers.EVENT_ID
+import com.production.planful.helpers.EVENT_OCCURRENCE_TS
+import com.production.planful.helpers.IS_TASK_COMPLETED
+import com.production.planful.helpers.getActivityToOpen
 import com.production.planful.models.Event
-import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.activity_about.about_nested_scrollview
 import kotlinx.android.synthetic.main.activity_statistics.*
 import kotlinx.android.synthetic.main.fragment_day.view.*
-import kotlinx.android.synthetic.main.top_navigation.view.*
 
 class StatisticsActivity : BaseSimpleActivity() {
     private var primaryColor = 0

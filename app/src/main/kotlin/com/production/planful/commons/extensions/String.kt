@@ -3,7 +3,6 @@ package com.production.planful.commons.extensions
 import android.content.Context
 import android.os.StatFs
 import android.provider.MediaStore
-import android.telephony.PhoneNumberUtils
 import com.production.planful.commons.helpers.*
 import java.io.File
 import java.text.Normalizer
@@ -54,23 +53,6 @@ fun String.getFirstParentPath(context: Context, level: Int): String {
         basePath
     }
 }
-
-fun String.isAValidFilename(): Boolean {
-    val ILLEGAL_CHARACTERS =
-        charArrayOf('/', '\n', '\r', '\t', '\u0000', '`', '?', '*', '\\', '<', '>', '|', '\"', ':')
-    ILLEGAL_CHARACTERS.forEach {
-        if (contains(it))
-            return false
-    }
-    return true
-}
-
-fun String.getOTGPublicPath(context: Context) =
-    "${context.baseConfig.OTGTreeUri}/document/${context.baseConfig.OTGPartition}%3A${
-        substring(
-            context.baseConfig.OTGPath.length
-        ).replace("/", "%2F")
-    }"
 
 fun String.isMediaFile() =
     isImageFast() || isVideoFast() || isGif() || isRawFast() || isSvg() || isPortrait()

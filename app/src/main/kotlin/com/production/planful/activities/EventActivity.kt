@@ -10,15 +10,12 @@ import android.provider.CalendarContract.Attendees
 import android.text.method.LinkMovementMethod
 import android.view.WindowManager
 import android.widget.ImageView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.production.planful.R
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.RadioItem
-import com.production.planful.commons.views.MyAutoCompleteTextView
 import com.production.planful.dialogs.*
 import com.production.planful.extensions.*
 import com.production.planful.helpers.*

@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.production.planful.R
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.baseConfig
+import com.production.planful.commons.extensions.checkAppSideloading
+import com.production.planful.commons.extensions.isUsingSystemDarkTheme
 import com.production.planful.commons.helpers.SIDELOADING_UNCHECKED
 
 abstract class BaseSplashActivity : AppCompatActivity() {
