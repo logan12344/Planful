@@ -91,16 +91,6 @@ open class FileDirItem(
 
     fun getParentPath() = path.getParentPath()
 
-    fun getSignature(): String {
-        val lastModified = if (modified > 1) {
-            modified
-        } else {
-            File(path).lastModified()
-        }
-
-        return "$path-$lastModified-$size"
-    }
-
     fun assembleContentUri(): Uri {
         val uri = when {
             path.isImageFast() -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI

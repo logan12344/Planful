@@ -7,9 +7,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
 import com.production.planful.activities.StatisticsActivity
-import com.production.planful.commons.extensions.*
-import com.production.planful.commons.helpers.MEDIUM_ALPHA
-import com.production.planful.commons.views.MyRecyclerView
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.beVisibleIf
+import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.extensions.config
 import com.production.planful.helpers.Formatter
 import com.production.planful.models.Event
@@ -33,9 +33,7 @@ class StatisticsEventsAdapter(
     private val replaceDescriptionWithLocation = activity.config.replaceDescription
     private val mediumMargin = activity.resources.getDimension(R.dimen.medium_margin).toInt()
 
-    inner class StatisticsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    }
+    inner class StatisticsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatisticsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.event_statistics_item, parent, false)

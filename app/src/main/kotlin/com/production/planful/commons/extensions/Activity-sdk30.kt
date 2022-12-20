@@ -2,56 +2,7 @@ package com.production.planful.commons.extensions
 
 import android.content.ContentValues
 import android.provider.MediaStore
-import com.production.planful.R
 import com.production.planful.commons.activities.BaseSimpleActivity
-import com.production.planful.commons.models.FileDirItem
-import java.io.File
-import java.io.InputStream
-import java.io.OutputStream
-
-fun BaseSimpleActivity.copySingleFileSdk30(source: FileDirItem, destination: FileDirItem): Boolean {
-    val directory = destination.getParentPath()
-    if (!createDirectorySync(directory)) {
-        val error = String.format(getString(R.string.could_not_create_folder), directory)
-        showErrorToast(error)
-        return false
-    }
-
-    var inputStream: InputStream? = null
-    var out: OutputStream? = null
-    try {
-
-        out = getFileOutputStreamSync(destination.path, source.path.getMimeType())
-        inputStream = getFileInputStreamSync(source.path)!!
-
-        var copiedSize = 0L
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        var bytes = inputStream.read(buffer)
-        while (bytes >= 0) {
-            out!!.write(buffer, 0, bytes)
-            copiedSize += bytes
-            bytes = inputStream.read(buffer)
-        }
-
-        out?.flush()
-
-        return if (source.size == copiedSize && getDoesFilePathExist(destination.path)) {
-            if (baseConfig.keepLastModified) {
-                copyOldLastModified(source.path, destination.path)
-                val lastModified = File(source.path).lastModified()
-                if (lastModified != 0L) {
-                    File(destination.path).setLastModified(lastModified)
-                }
-            }
-            true
-        } else {
-            false
-        }
-    } finally {
-        inputStream?.close()
-        out?.close()
-    }
-}
 
 fun BaseSimpleActivity.copyOldLastModified(sourcePath: String, destinationPath: String) {
     val projection =

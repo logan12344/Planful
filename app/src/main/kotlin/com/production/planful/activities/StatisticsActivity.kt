@@ -1,8 +1,6 @@
 package com.production.planful.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.production.planful.R
 import com.production.planful.adapters.StatisticsEventsAdapter
@@ -13,13 +11,12 @@ import com.production.planful.commons.helpers.NavigationIcon
 import com.production.planful.commons.helpers.ensureBackgroundThread
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.seconds
-import com.production.planful.helpers.*
+import com.production.planful.helpers.Formatter
 import com.production.planful.models.Event
 import com.production.planful.models.TrackTargetItem
 import kotlinx.android.synthetic.main.activity_about.about_nested_scrollview
 import kotlinx.android.synthetic.main.activity_statistics.*
-import kotlinx.android.synthetic.main.fragment_day.view.tvNoData1
-import kotlinx.android.synthetic.main.fragment_day.view.tvNoData2
+import kotlinx.android.synthetic.main.fragment_day.view.*
 
 class StatisticsActivity : BaseSimpleActivity() {
     private var primaryColor = 0

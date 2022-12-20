@@ -13,7 +13,7 @@
         android:fillColor="#F29C1F"
         android:pathData="M48.037 56H7.963C7.155 56 6.5 55.345 6.5 54.537V39h43v15.537c0 0.808-0.655 1.463-1.463 1.463z" />
     <path
-        android:fillColor="#ffffff"
+        android:fillColor="@android:color/white"
         android:pathData="M18.874 48.105L21.431 53h-1.9l-1.6-3.801h-0.137L16.071 53h-1.9l2.557-4.895-2.721-5.182h1.873l1.777 4.102h0.137l1.928-4.102h1.873l-2.721 5.182zm12.619-5.181h1.668V53h-1.668v-6.932l-2.256 5.605h-1.449l-2.27-5.605V53H23.85V42.924h1.668l2.994 6.891 2.981-6.891zm5.865 0v8.832h4.635V53H35.69V42.924h1.668z" />
     <path
         android:fillColor="#f29c1f"

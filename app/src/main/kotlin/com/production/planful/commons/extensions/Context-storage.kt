@@ -1,7 +1,6 @@
 package com.production.planful.commons.extensions
 
 import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -412,24 +411,6 @@ fun Context.rescanAndDeletePath(path: String, callback: () -> Unit) {
         } catch (_: Exception) {
         }
         callback()
-    }
-}
-
-fun Context.updateInMediaStore(oldPath: String, newPath: String) {
-    ensureBackgroundThread {
-        val values = ContentValues().apply {
-            put(MediaColumns.DATA, newPath)
-            put(MediaColumns.DISPLAY_NAME, newPath.getFilenameFromPath())
-            put(MediaColumns.TITLE, newPath.getFilenameFromPath())
-        }
-        val uri = getFileUri(oldPath)
-        val selection = "${MediaColumns.DATA} = ?"
-        val selectionArgs = arrayOf(oldPath)
-
-        try {
-            contentResolver.update(uri, values, selection, selectionArgs)
-        } catch (ignored: Exception) {
-        }
     }
 }
 

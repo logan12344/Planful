@@ -93,8 +93,6 @@
     <string name="add_another_reminder">Add another reminder</string>
     <string name="reminders">Reminders</string>
 
-    <!-- Event attendees -->
-
     <!-- Time zones -->
     <string name="enter_a_country">Enter a country or time zone</string>
 
@@ -115,8 +113,6 @@
     <string name="move_events_into_default">Move affected events into the default event type</string>
     <string name="remove_affected_events">Permanently remove affected events</string>
     <string name="unsync_caldav_calendar">To remove a CalDAV calendar you have to unsynchronize it</string>
-
-    <!-- Holidays -->
 
     <!-- Settings -->
     <string name="manage_event_types">Manage event types</string>
@@ -194,10 +190,6 @@
     <string name="value">Value</string>
     <string name="disclaimer">Disclaimer</string>
 
-    <!-- Blocked numbers -->
-
-    <!-- Favorites -->
-
     <!-- Search -->
     <string name="search">Search</string>
     <string name="type_2_characters">Type in at least 2 characters to start the search.</string>
@@ -207,8 +199,6 @@
 
     <!-- Permissions -->
     <string name="no_post_notifications_permissions">Permission to post notifications is required</string>
-
-    <!-- Renaming -->
 
     <!-- Copy / Move -->
     <string name="invalid_destination">Could not write to the selected destination</string>
@@ -259,8 +249,6 @@
         It is a system limitation, so if you want to use the widgets, you have to move the app back on the internal storage.</string>
     <string name="wrong_folder_selected">Wrong folder selected, please select path \'%s\'</string>
 
-    <!-- File properties -->
-
     <!-- Color customization -->
     <string name="use_default">Use default</string>
     <string name="theme">Theme</string>
@@ -298,21 +286,8 @@
     <string name="no">No</string>
 
     <!-- Password protection -->
-    <string name="enter_pin">Enter PIN</string>
-    <string name="please_enter_pin">Please enter a PIN</string>
-    <string name="wrong_pin">Wrong PIN</string>
-    <string name="repeat_pin">Repeat PIN</string>
-    <string name="insert_pattern">Insert pattern</string>
-    <string name="wrong_pattern">Wrong pattern</string>
-    <string name="repeat_pattern">Repeat pattern</string>
-    <string name="add_fingerprint">Add fingerprint</string>
-    <string name="place_finger">Please place your finger on the fingerprint sensor</string>
-    <string name="open_biometric_dialog">Open biometric ID verification dialog</string>
     <string name="authenticate">Authenticate</string>
     <string name="authentication_failed">Authentication failed</string>
-    <string name="authentication_blocked">Authentication blocked, please try again in a moment</string>
-    <string name="no_fingerprints_registered">You have no fingerprints registered, please add some in the Settings of your device</string>
-    <string name="go_to_settings">Go to Settings</string>
 
     <!-- Times -->
     <string name="tomorrow">Tomorrow</string>

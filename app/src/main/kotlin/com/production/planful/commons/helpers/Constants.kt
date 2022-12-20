@@ -145,58 +145,6 @@ const val FAVORITES = "favorites"
 const val SHOW_CALL_CONFIRMATION = "show_call_confirmation"
 internal const val COLOR_PICKER_RECENT_COLORS = "color_picker_recent_colors"
 
-// phone number/email types
-const val CELL = "CELL"
-const val WORK = "WORK"
-const val HOME = "HOME"
-const val OTHER = "OTHER"
-const val PREF = "PREF"
-const val MAIN = "MAIN"
-const val FAX = "FAX"
-const val WORK_FAX = "WORK;FAX"
-const val HOME_FAX = "HOME;FAX"
-const val PAGER = "PAGER"
-const val MOBILE = "MOBILE"
-
-// IMs not supported by Ez-vcard
-const val HANGOUTS = "Hangouts"
-const val QQ = "QQ"
-const val JABBER = "Jabber"
-
-// licenses
-internal const val LICENSE_KOTLIN = 1L
-const val LICENSE_SUBSAMPLING = 2L
-const val LICENSE_GLIDE = 4L
-const val LICENSE_CROPPER = 8L
-const val LICENSE_FILTERS = 16L
-const val LICENSE_RTL = 32L
-const val LICENSE_JODA = 64L
-const val LICENSE_STETHO = 128L
-const val LICENSE_OTTO = 256L
-const val LICENSE_PHOTOVIEW = 512L
-const val LICENSE_PICASSO = 1024L
-const val LICENSE_PATTERN = 2048L
-const val LICENSE_REPRINT = 4096L
-const val LICENSE_GIF_DRAWABLE = 8192L
-const val LICENSE_AUTOFITTEXTVIEW = 16384L
-const val LICENSE_ROBOLECTRIC = 32768L
-const val LICENSE_ESPRESSO = 65536L
-const val LICENSE_GSON = 131072L
-const val LICENSE_LEAK_CANARY = 262144L
-const val LICENSE_NUMBER_PICKER = 524288L
-const val LICENSE_EXOPLAYER = 1048576L
-const val LICENSE_PANORAMA_VIEW = 2097152L
-const val LICENSE_SANSELAN = 4194304L
-const val LICENSE_GESTURE_VIEWS = 8388608L
-const val LICENSE_INDICATOR_FAST_SCROLL = 16777216L
-const val LICENSE_EVENT_BUS = 33554432L
-const val LICENSE_AUDIO_RECORD_VIEW = 67108864L
-const val LICENSE_SMS_MMS = 134217728L
-const val LICENSE_APNG = 268435456L
-const val LICENSE_PDF_VIEWER = 536870912L
-const val LICENSE_M3U_PARSER = 1073741824L
-const val LICENSE_ANDROID_LAME = 2147483648L
-
 // global intents
 const val OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB = 1000
 const val OPEN_DOCUMENT_TREE_OTG = 1001
@@ -243,11 +191,6 @@ const val PROTECTION_FINGERPRINT = 2
 // renaming
 const val RENAME_SIMPLE = 0
 const val RENAME_PATTERN = 1
-
-const val SHOW_ALL_TABS = -1
-const val SHOW_PATTERN = 0
-const val SHOW_PIN = 1
-const val SHOW_FINGERPRINT = 2
 
 // permissions
 const val PERMISSION_READ_STORAGE = 1
@@ -301,13 +244,6 @@ const val SIDELOADING_FALSE = 2
 
 // default tabs
 const val TAB_LAST_USED = 0
-const val TAB_CONTACTS = 1
-const val TAB_FAVORITES = 2
-const val TAB_CALL_HISTORY = 4
-const val TAB_GROUPS = 8
-const val TAB_FILES = 16
-const val TAB_RECENT_FILES = 32
-const val TAB_STORAGE_ANALYSIS = 64
 
 val photoExtensions: Array<String>
     get() = arrayOf(

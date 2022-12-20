@@ -433,33 +433,8 @@ private fun deleteRecursively(file: File, context: Context): Boolean {
     return deleted
 }
 
-fun Activity.scanPathRecursively(path: String, callback: (() -> Unit)? = null) {
-    applicationContext.scanPathRecursively(path, callback)
-}
-
-fun Activity.scanPathsRecursively(paths: List<String>, callback: (() -> Unit)? = null) {
-    applicationContext.scanPathsRecursively(paths, callback)
-}
-
 fun Activity.rescanPath(path: String, callback: (() -> Unit)? = null) {
     applicationContext.rescanPath(path, callback)
-}
-
-fun createTempFile(file: File): File? {
-    return if (file.isDirectory) {
-        createTempDir("temp", "${System.currentTimeMillis()}", file.parentFile)
-    } else {
-        if (isRPlus()) {
-            // this can throw FileSystemException, lets catch and handle it at the place calling this function
-            kotlin.io.path.createTempFile(
-                file.parentFile.toPath(),
-                "temp",
-                "${System.currentTimeMillis()}"
-            ).toFile()
-        } else {
-            createTempFile("temp", "${System.currentTimeMillis()}", file.parentFile)
-        }
-    }
 }
 
 fun Activity.hideKeyboard() {
