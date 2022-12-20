@@ -137,7 +137,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cpv_circle_color="@color/md_red_400_dark"
+            app:cpv_circle_color="@color/red_text"
             app:cpv_circle_width="5dp"
             app:cpv_background_circle_width="5dp"
             app:cpv_background_circle_color="@color/color_primary" />

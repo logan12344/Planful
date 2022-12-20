@@ -116,7 +116,7 @@
             app:layout_constraintEnd_toStartOf="@+id/toggle_mark_complete"
             tools:text="Event description" />
 
-        <CheckBox
+        <com.production.planful.commons.views.MyAppCompatCheckbox
             android:id="@+id/toggle_mark_complete"
             android:layout_width="40dp"
             android:layout_height="40dp"

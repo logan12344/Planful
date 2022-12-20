@@ -157,7 +157,7 @@ class DayFragment : Fragment() {
             mHolder.day_events.visibility = View.GONE
         }
 
-        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events) {
+        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
             editEvent(it as Event)
         }.apply {
             this.setDataUpdatedListener {

@@ -28,6 +28,7 @@ class DayEventsAdapter(
     activity: SimpleActivity,
     val events: ArrayList<Event>,
     recyclerView: MyRecyclerView,
+    var dayCode: String,
     itemClick: (Any) -> Unit
 ) :
     MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
@@ -101,7 +102,6 @@ class DayEventsAdapter(
 
     private fun setupView(view: View, event: Event) {
         view.apply {
-            val startDayCode = Formatter.getDayCodeFromTS(event.startTS)
             event_item_holder.isSelected = selectedKeys.contains(event.id?.toInt())
             event_item_holder.background.applyColorFilter(textColor)
             event_item_title.text = event.title
@@ -112,16 +112,17 @@ class DayEventsAdapter(
                     event.startTS
                 )
             if (event.startTS != event.endTS) {
+                val startDayCode = Formatter.getDayCodeFromTS(event.startTS)
                 val endDayCode = Formatter.getDayCodeFromTS(event.endTS)
                 val startDate = Formatter.getDayTitle(activity, startDayCode, false)
                 val endDate = Formatter.getDayTitle(activity, endDayCode, false)
-                val startDayString = " ($startDate)"
+                val startDayString = if (startDayCode != dayCode) " ($startDate)" else ""
                 if (!event.getIsAllDay()) {
                     val endTimeString = Formatter.getTimeFromTS(context, event.endTS)
-                    val endDayString = " ($endDate)"
+                    val endDayString = if (endDayCode != dayCode) " ($endDate)" else ""
                     event_item_time.text = "${event_item_time.text}$startDayString - $endTimeString$endDayString"
                 } else {
-                    val endDayString = if (endDayCode != startDayCode) " - ($endDate)" else ""
+                    val endDayString = if (endDayCode != dayCode) " - ($endDate)" else ""
                     event_item_time.text = "${event_item_time.text}$startDayString$endDayString"
                 }
             }
@@ -158,7 +159,7 @@ class DayEventsAdapter(
                     var ifDayExist = false
 
                     for (item in jsonArray) {
-                        if (item.first == startDayCode) {
+                        if (item.first == dayCode) {
                             ifDayExist = true
                             checklistArray.addAll(item.second)
                             jsonArray.remove(item)
@@ -203,7 +204,7 @@ class DayEventsAdapter(
                             if (!item.checked) i++
                         }
 
-                        jsonArray.add(Pair(startDayCode, checklistArray))
+                        jsonArray.add(Pair(dayCode, checklistArray))
                         val jsonString = gson.convertToJsonString(jsonArray)
                         ensureBackgroundThread {
                             context.updateChecklist(event, jsonString)

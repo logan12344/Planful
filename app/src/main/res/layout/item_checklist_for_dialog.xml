@@ -23,12 +23,12 @@
             android:textSize="16sp"
             android:textStyle="normal"/>
 
-        <CheckBox
+        <com.production.planful.commons.views.MyAppCompatCheckbox
             android:id="@+id/cbChecklistItemDone"
-            android:layout_marginStart="20dp"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical" />
 
     </LinearLayout>
 

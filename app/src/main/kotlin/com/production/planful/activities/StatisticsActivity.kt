@@ -2,6 +2,7 @@ package com.production.planful.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.production.planful.R
 import com.production.planful.adapters.StatisticsEventsAdapter
@@ -10,16 +11,15 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.APP_LAUNCHER_NAME
 import com.production.planful.commons.helpers.NavigationIcon
 import com.production.planful.commons.helpers.ensureBackgroundThread
-import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
-import com.production.planful.helpers.EVENT_ID
-import com.production.planful.helpers.EVENT_OCCURRENCE_TS
-import com.production.planful.helpers.IS_TASK_COMPLETED
-import com.production.planful.helpers.getActivityToOpen
+import com.production.planful.extensions.seconds
+import com.production.planful.helpers.*
 import com.production.planful.models.Event
+import com.production.planful.models.TrackTargetItem
 import kotlinx.android.synthetic.main.activity_about.about_nested_scrollview
 import kotlinx.android.synthetic.main.activity_statistics.*
-import kotlinx.android.synthetic.main.fragment_day.view.*
+import kotlinx.android.synthetic.main.fragment_day.view.tvNoData1
+import kotlinx.android.synthetic.main.fragment_day.view.tvNoData2
 
 class StatisticsActivity : BaseSimpleActivity() {
     private var primaryColor = 0
@@ -42,58 +42,67 @@ class StatisticsActivity : BaseSimpleActivity() {
         super.onResume()
         updateTextColors(about_nested_scrollview)
         setupToolbar(statistics_toolbar, NavigationIcon.Arrow)
+
         ensureBackgroundThread {
-            receivedEvents(eventsHelper.getTasksWithTrack(trackTarget = true))
+            val startDateTime = Formatter.getLocalDateTimeFromCode(Formatter.getTodayCode()).minusWeeks(1)
+            val endDateTime = startDateTime.plusWeeks(7)
+            eventsHelper.getEvents(startDateTime.seconds(), endDateTime.seconds()) { events ->
+                receivedEvents(events)
+            }
         }
     }
 
-    private fun receivedEvents(events: List<Event>) {
+    private fun receivedEvents(events: ArrayList<Event>) {
         val newHash = events.hashCode()
         if (newHash == lastHash) {
             return
         }
         lastHash = newHash
 
-        val replaceDescription = config.replaceDescription
-        val sorted = ArrayList(
-            events.sortedWith(
-                compareBy({ !it.getIsAllDay() },
-                    { it.startTS },
-                    { it.endTS },
-                    { it.title },
-                    {
-                        if (replaceDescription) it.location else it.description
-                    })
-            )
-        )
+        val sorted = ArrayList<Event>()
+        for (event in events) {
+            if (event.isTrackTargetEnable()) sorted.add(event)
+        }
+
+        val sortedTarget = ArrayList<Pair<TrackTargetItem, Event>>()
+        var lastId = -1L
+        var daysCount = 0
+        var daysDone = 0
+
+        for (i in 0 until sorted.size) {
+            if (i + 1 >= sorted.size) {
+                daysCount++
+                if (sorted[i].isTaskCompleted()) daysDone++
+                sortedTarget.add(Pair(TrackTargetItem(daysCount, daysDone), sorted[i]))
+                break
+            }
+            if (sorted[i].id == sorted[i+1].id) {
+                daysCount++
+                if (sorted[i].isTaskCompleted()) daysDone++
+            } else {
+                daysCount++
+                if (sorted[i].isTaskCompleted()) daysDone++
+                sortedTarget.add(Pair(TrackTargetItem(daysCount, daysDone), sorted[i]))
+                daysCount = 0
+                daysDone = 0
+            }
+        }
 
         runOnUiThread {
-            updateEvents(sorted)
+            updateEvents(sortedTarget)
         }
     }
 
-    private fun updateEvents(events: ArrayList<Event>) {
+    private fun updateEvents(events: ArrayList<Pair<TrackTargetItem, Event>>) {
         if (events.size > 0) {
             no_data.visibility = View.GONE
             day_events.visibility = View.VISIBLE
 
-            StatisticsEventsAdapter(this, events, day_events) {
-                editEvent(it as Event)
-            }.apply {
-                day_events.adapter = this
-            }
+            day_events.adapter = StatisticsEventsAdapter(this, events)
 
             if (areSystemAnimationsEnabled) {
                 day_events.scheduleLayoutAnimation()
             }
-        }
-    }
-    private fun editEvent(event: Event) {
-        Intent(this, getActivityToOpen(event.isTask())).apply {
-            putExtra(EVENT_ID, event.id)
-            putExtra(EVENT_OCCURRENCE_TS, event.startTS)
-            putExtra(IS_TASK_COMPLETED, event.isTaskCompleted())
-            startActivity(this)
         }
     }
 }
