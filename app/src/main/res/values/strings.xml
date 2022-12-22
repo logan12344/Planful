@@ -13,7 +13,6 @@
     <string name="widget_monthly">Calendar monthly</string>
     <string name="widget_list">Calendar event list</string>
     <string name="widget_todays_date">Calendar today\'s date</string>
-
     <!-- Event -->
     <string name="event">Event</string>
     <string name="edit_event">Edit Event</string>
@@ -24,7 +23,6 @@
     <string name="please_fill_location">Please fill in a location to be shown on a map</string>
     <string name="public_event_notification_text">An event is upcoming</string>
     <string name="saving_filtered_out">Saving… But the selected event type is filtered out in the top Menu - Filter</string>
-
     <!-- Tasks -->
     <string name="task">Task</string>
     <string name="edit_task">Edit Task</string>
@@ -32,7 +30,6 @@
     <string name="duplicate_task">Duplicate task</string>
     <string name="mark_completed">Mark completed</string>
     <string name="end_task_before_start">The task cannot end earlier than it starts</string>
-
     <!-- Event Repetition -->
     <string name="no_repetition">Once</string>
     <string name="daily">Every day</string>
@@ -70,7 +67,6 @@
     <string name="fourth_m">fourth</string>
     <string name="fifth_m">fifth</string>
     <string name="last_m">last</string>
-
     <!-- alternative versions for some languages, use the same translations if you are not sure what this means -->
     <!-- used in repetition, like "Every first Sunday" -->
     <string name="repeat_every_f">Repeat every</string>
@@ -81,30 +77,19 @@
     <string name="fourth_f">fourth</string>
     <string name="fifth_f">fifth</string>
     <string name="last_f">last</string>
-
-    <!-- Birthdays -->
-    <string name="birthdays">Birthdays</string>
-
-    <!-- Anniversaries -->
-    <string name="anniversaries">Anniversaries</string>
-
     <!-- Event Reminders -->
     <string name="reminder">Reminder</string>
     <string name="add_another_reminder">Add another reminder</string>
     <string name="reminders">Reminders</string>
-
     <!-- Time zones -->
     <string name="enter_a_country">Enter a country or time zone</string>
-
     <!-- Event details -->
     <string name="location">Location</string>
     <string name="description">Description</string>
     <string name="all_day">All-day</string>
     <string name="track_target">Track target</string>
-
     <!-- Weekly view -->
     <string name="week">Week</string>
-
     <!-- Event types -->
     <string name="event_types">Event types</string>
     <string name="add_new_type">Add a new tag</string>
@@ -113,7 +98,6 @@
     <string name="move_events_into_default">Move affected events into the default event type</string>
     <string name="remove_affected_events">Permanently remove affected events</string>
     <string name="unsync_caldav_calendar">To remove a CalDAV calendar you have to unsynchronize it</string>
-
     <!-- Settings -->
     <string name="manage_event_types">Manage event types</string>
     <string name="vibrate">Vibrate on reminder notification</string>
@@ -124,7 +108,6 @@
     <string name="alarm_stream">Alarm</string>
     <string name="notification_stream">Notification</string>
     <string name="ring_stream">Ring</string>
-
     <!-- CalDAV sync -->
     <string name="store_locally_only">Store locally only</string>
     <string name="refreshing">Refreshing…</string>
@@ -136,7 +119,6 @@
     <string name="status_free">Free</string>
     <string name="status_busy">Busy</string>
     <string name="fetching_event_failed">Fetching event %s failed</string>
-
     <!-- alternative versions for some languages, use the same translations if you are not sure what this means -->
     <!-- used in repetition, like "Every last Sunday" -->
     <string name="monday_alt">Monday</string>
@@ -146,7 +128,6 @@
     <string name="friday_alt">Friday</string>
     <string name="saturday_alt">Saturday</string>
     <string name="sunday_alt">Sunday</string>
-
     <!-- List widget config example events -->
     <string name="sample_title_1">Workout</string>
     <string name="sample_description_1">Leg day</string>
@@ -156,7 +137,6 @@
     <string name="sample_title_4">Lunch with Mary</string>
     <string name="sample_description_4">In the Plaza</string>
     <string name="sample_title_5">Coffee time</string>
-
     <!-- List widget config -->
     <string name="show_events_happening">Show events happening:</string>
     <string name="within_the_next_one_year">Within the next 1 year</string>
@@ -174,9 +154,6 @@
         <item quantity="one">Within the next %d month</item>
         <item quantity="other">Within the next %d months</item>
     </plurals>
-
-    <!-- FAQ -->
-
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="error">Error: %s</string>
@@ -189,17 +166,13 @@
     <string name="email">Email</string>
     <string name="value">Value</string>
     <string name="disclaimer">Disclaimer</string>
-
     <!-- Search -->
     <string name="search">Search</string>
     <string name="type_2_characters">Type in at least 2 characters to start the search.</string>
-
     <!-- Filters -->
     <string name="no_items_found">No items found.</string>
-
     <!-- Permissions -->
     <string name="no_post_notifications_permissions">Permission to post notifications is required</string>
-
     <!-- Copy / Move -->
     <string name="invalid_destination">Could not write to the selected destination</string>
     <string name="source_and_destination_same">Source and destination cannot be the same</string>
@@ -217,10 +190,8 @@
     <string name="could_not_create_file">Could not create file %s</string>
     <string name="no_space">The destination does not have enough space available.\nRequired %1$s, available %2$s</string>
     <string name="system_service_disabled">System service for selecting files and folders is unavailable</string>
-
     <!-- Create new -->
     <string name="unknown_error_occurred">An unknown error occurred</string>
-
     <!-- File operation conflicts -->
     <string name="file_already_exists">File \"%s\" already exists</string>
     <string name="folder_already_exists">Folder \"%s\" already exists</string>
@@ -229,7 +200,6 @@
     <string name="overwrite">Overwrite</string>
     <string name="skip">Skip</string>
     <string name="apply_to_all">Apply to all</string>
-
     <!-- File picker -->
     <string name="confirm_storage_access_title">Confirm external storage access</string>
     <string name="confirm_folder_access_title">Confirm folder access</string>
@@ -238,7 +208,6 @@
     <string name="confirm_storage_access_android_text">Please allow the app accessing the selected storage on the next screen by pressing \'Use this folder\' at the bottom.</string>
     <string name="confirm_storage_access_android_text_specific">Please allow accessing \'&lt;b&gt;%s&lt;/b&gt;\' on the next screen by pressing \'&lt;b&gt;Use this folder&lt;/b&gt;\' at the bottom.</string>
     <string name="confirm_create_doc_for_new_folder_text">Please press \'&lt;b&gt;Save&lt;/b&gt;\' at the bottom of the next screen to create the new folder.</string>
-
     <!-- Storages -->
     <string name="internal">Internal</string>
     <string name="sd_card">SD Card</string>
@@ -248,7 +217,6 @@
     <string name="app_on_sd_card">You seem to have the app installed on an SD card, that makes the app widgets unavailable. You won\'t even see them on the list of available widgets.
         It is a system limitation, so if you want to use the widgets, you have to move the app back on the internal storage.</string>
     <string name="wrong_folder_selected">Wrong folder selected, please select path \'%s\'</string>
-
     <!-- Color customization -->
     <string name="use_default">Use default</string>
     <string name="theme">Theme</string>
@@ -256,16 +224,12 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="save_before_closing">You have unsaved changes. Save before exit?</string>
-
     <!-- Themes -->
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
     <string name="custom">Custom</string>
     <string name="shared">Shared</string>
     <string name="system_default">System default</string>
-
-    <!-- What's new -->
-
     <!-- Actionbar items -->
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
@@ -274,21 +238,14 @@
     <string name="maximum_share_reached">You cannot share this much content at once</string>
     <string name="print">Print</string>
     <string name="statistics">Statistics</string>
-
     <!-- Sorting -->
     <string name="title">Title</string>
-
     <!-- Confirmation dialog -->
     <string name="proceed_with_deletion">Are you sure you want to proceed with the deletion?</string>
     <!-- Are you sure you want to delete 5 items? -->
     <!-- Are you sure you want to move 3 items into the Recycle Bin? -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
-    <!-- Password protection -->
-    <string name="authenticate">Authenticate</string>
-    <string name="authentication_failed">Authentication failed</string>
-
     <!-- Times -->
     <string name="tomorrow">Tomorrow</string>
     <string name="every_day">Every day</string>
@@ -330,7 +287,6 @@
         <item quantity="one">%d year</item>
         <item quantity="other">%d years</item>
     </plurals>
-
     <!-- For example: Event reminder: 3 minutes before -->
     <plurals name="seconds_before">
         <item quantity="one">%d second before</item>
@@ -360,7 +316,6 @@
         <item quantity="one">%d year before</item>
         <item quantity="other">%d years before</item>
     </plurals>
-
     <!-- For example: Postpone reminder by 3 minutes -->
     <plurals name="by_seconds">
         <item quantity="one">%d second</item>
@@ -390,12 +345,10 @@
         <item quantity="one">%d year</item>
         <item quantity="other">%d years</item>
     </plurals>
-
     <!-- For example: Time remaining till the alarm goes off: 6 hours, 5 minutes -->
     <string name="time_remaining">Time remaining:\n%s</string>
     <string name="reminder_warning">Please make sure the reminders work properly before relying on them. Check your device battery and notification settings, if there is nothing blocking the reminders, or killing the app in the background.</string>
     <string name="notifications_disabled">Notifications of this application are disabled. Please go in your device settings for enabling them.</string>
-
     <!-- Alarms -->
     <string name="alarm">Alarm</string>
     <string name="snooze">Snooze</string>
@@ -407,7 +360,6 @@
     <string name="no_sound">No sound</string>
     <string name="during_day_at_hh_mm">During the day at hh:mm</string>
     <string name="during_day_at">During the day at %02d:%02d</string>
-
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="general_settings">General</string>
@@ -424,16 +376,13 @@
     <string name="snooze_time">Snooze time</string>
     <string name="settings_exported_successfully">Settings exported successfully</string>
     <string name="settings_imported_successfully">Settings imported successfully</string>
-
     <!-- Import / Export -->
     <string name="exporting">Exporting…</string>
     <string name="no_entries_for_importing">No entries for importing have been found</string>
-
     <!-- OTG devices -->
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Please choose the top folder of the USB device on the next screen, to grant access</string>
     <string name="wrong_root_selected_usb">Wrong folder selected, please select the main folder of your USB device</string>
-
     <!-- Dates -->
     <string name="january">January</string>
     <string name="february">February</string>
@@ -485,7 +434,6 @@
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
     <string name="sunday_short">Sun</string>
-
     <!-- About -->
     <string name="about">About</string>
     <string name="support">Support</string>
@@ -494,11 +442,6 @@
     <string name="hello">Hello :)</string>
     <string name="app_version">App version: %s</string>
     <string name="device_os">Device OS: %s</string>
-
-    <!-- New app (do not translate anything on the 4th line) -->
-
-    <!-- FAQ -->
-
     <!-- License -->
     <string name="third_party_licences">Third party licences</string>
     <string name="checklist">Checklist</string>

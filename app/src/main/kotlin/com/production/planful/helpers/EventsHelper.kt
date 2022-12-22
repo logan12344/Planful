@@ -317,9 +317,6 @@ class EventsHelper(val context: Context) {
         applyTypeFilter: Boolean,
         callback: (events: ArrayList<Event>) -> Unit
     ) {
-        val birthDayEventId = getLocalBirthdaysEventTypeId(createIfNotExists = false)
-        val anniversaryEventId = getAnniversariesEventTypeId(createIfNotExists = false)
-
         var events = ArrayList<Event>()
         if (applyTypeFilter) {
             val displayEventTypes = context.config.displayEventTypes
@@ -367,20 +364,6 @@ class EventsHelper(val context: Context) {
         events.forEach {
             if (it.isTask()) updateIsTaskCompleted(it)
             it.updateIsPastEvent()
-            val originalEvent = eventsDB.getEventWithId(it.id!!)
-            if (originalEvent != null &&
-                (birthDayEventId != -1L && it.eventType == birthDayEventId) or
-                (anniversaryEventId != -1L && it.eventType == anniversaryEventId)
-            ) {
-                val eventStartDate = Formatter.getDateFromTS(it.startTS)
-                val originalEventStartDate = Formatter.getDateFromTS(originalEvent.startTS)
-                if (it.hasMissingYear().not()) {
-                    val years = (eventStartDate.year - originalEventStartDate.year).coerceAtLeast(0)
-                    if (years > 0) {
-                        it.title = "${it.title} ($years)"
-                    }
-                }
-            }
             it.color = eventTypeColors.get(it.eventType) ?: context.getProperPrimaryColor()
         }
 
@@ -411,32 +394,6 @@ class EventsHelper(val context: Context) {
         }
 
         return insertOrUpdateEventTypeSync(eventType)
-    }
-
-    fun getLocalBirthdaysEventTypeId(createIfNotExists: Boolean = true): Long {
-        var eventTypeId = getLocalEventTypeIdWithClass(BIRTHDAY_EVENT)
-        if (eventTypeId == -1L && createIfNotExists) {
-            val birthdays = context.getString(R.string.birthdays)
-            eventTypeId = createPredefinedEventType(
-                birthdays,
-                R.color.default_birthdays_color,
-                BIRTHDAY_EVENT
-            )
-        }
-        return eventTypeId
-    }
-
-    fun getAnniversariesEventTypeId(createIfNotExists: Boolean = true): Long {
-        var eventTypeId = getLocalEventTypeIdWithClass(ANNIVERSARY_EVENT)
-        if (eventTypeId == -1L && createIfNotExists) {
-            val anniversaries = context.getString(R.string.anniversaries)
-            eventTypeId = createPredefinedEventType(
-                anniversaries,
-                R.color.default_anniversaries_color,
-                ANNIVERSARY_EVENT
-            )
-        }
-        return eventTypeId
     }
 
     fun getRepeatableEventsFor(

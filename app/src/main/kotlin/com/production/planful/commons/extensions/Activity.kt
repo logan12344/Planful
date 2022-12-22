@@ -637,43 +637,6 @@ private fun createCasualFileOutputStream(
     }
 }
 
-fun Activity.showBiometricPrompt(
-    successCallback: ((String, Int) -> Unit)? = null,
-    failureCallback: (() -> Unit)? = null
-) {
-    Class2BiometricAuthPrompt.Builder(getText(R.string.authenticate), getText(R.string.cancel))
-        .build()
-        .startAuthentication(
-            AuthPromptHost(this as FragmentActivity),
-            object : AuthPromptCallback() {
-                override fun onAuthenticationSucceeded(
-                    activity: FragmentActivity?,
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    successCallback?.invoke("", PROTECTION_FINGERPRINT)
-                }
-
-                override fun onAuthenticationError(
-                    activity: FragmentActivity?,
-                    errorCode: Int,
-                    errString: CharSequence
-                ) {
-                    val isCanceledByUser =
-                        errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON || errorCode == BiometricPrompt.ERROR_USER_CANCELED
-                    if (!isCanceledByUser) {
-                        toast(errString.toString())
-                    }
-                    failureCallback?.invoke()
-                }
-
-                override fun onAuthenticationFailed(activity: FragmentActivity?) {
-                    toast(R.string.authentication_failed)
-                    failureCallback?.invoke()
-                }
-            }
-        )
-}
-
 fun BaseSimpleActivity.createDirectorySync(directory: String): Boolean {
     if (getDoesFilePathExist(directory)) {
         return true

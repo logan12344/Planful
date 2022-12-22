@@ -25,10 +25,7 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
 import androidx.print.PrintHelper
 import com.production.planful.R
-import com.production.planful.activities.EventActivity
-import com.production.planful.activities.EventTypePickerActivity
-import com.production.planful.activities.SnoozeReminderActivity
-import com.production.planful.activities.TaskActivity
+import com.production.planful.activities.*
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.databases.EventsDatabase
@@ -377,13 +374,13 @@ fun Context.getNotification(
         .setSound(Uri.parse(soundUri), config.reminderAudioStream)
         .setChannelId(channelId)
         .apply {
-            if (event.isTask() && !event.isTaskCompleted()) {
+            /*if (event.isTask() && !event.isTaskCompleted()) {
                 addAction(
                     R.drawable.ic_task_vector,
                     getString(R.string.mark_completed),
                     getMarkCompletedPendingIntent(this@getNotification, event)
                 )
-            }
+            }*/
             addAction(
                 R.drawable.ic_snooze_vector,
                 getString(R.string.snooze),
@@ -410,11 +407,11 @@ fun Context.getNotification(
     return notification
 }
 
-private fun getFormattedEventTime(startTime: String, endTime: String) =
-    if (startTime == endTime) startTime else "$startTime \u2013 $endTime"
+private fun getFormattedEventTime(startTime: String, endTime: String) = if (startTime == endTime) startTime else "$startTime \u2013 $endTime"
 
 private fun getPendingIntent(context: Context, event: Event): PendingIntent {
-    val activityClass = getActivityToOpen(event.isTask())
+    //val activityClass = getActivityToOpen(event.isTask())
+    val activityClass = MainActivity::class.java
     val intent = Intent(context, activityClass)
     intent.putExtra(EVENT_ID, event.id)
     intent.putExtra(EVENT_OCCURRENCE_TS, event.startTS)
@@ -427,8 +424,7 @@ private fun getPendingIntent(context: Context, event: Event): PendingIntent {
 }
 
 private fun getSnoozePendingIntent(context: Context, event: Event): PendingIntent {
-    val snoozeClass =
-        if (context.config.useSameSnooze) SnoozeService::class.java else SnoozeReminderActivity::class.java
+    val snoozeClass = if (context.config.useSameSnooze) SnoozeService::class.java else SnoozeReminderActivity::class.java
     val intent = Intent(context, snoozeClass).setAction("Snooze")
     intent.putExtra(EVENT_ID, event.id)
     return if (context.config.useSameSnooze) {

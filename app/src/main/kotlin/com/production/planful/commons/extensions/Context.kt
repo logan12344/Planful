@@ -93,14 +93,6 @@ val Context.sdCardPath: String get() = baseConfig.sdCardPath
 val Context.internalStoragePath: String get() = baseConfig.internalStoragePath
 val Context.otgPath: String get() = baseConfig.OTGPath
 
-fun isFingerPrintSensorAvailable() = isMarshmallowPlus() && Reprint.isHardwarePresent()
-
-fun Context.isBiometricIdAvailable(): Boolean = when (BiometricManager.from(this)
-    .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
-    BiometricManager.BIOMETRIC_SUCCESS, BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> true
-    else -> false
-}
-
 private fun Context.queryCursorDesc(
     uri: Uri,
     projection: Array<String>,

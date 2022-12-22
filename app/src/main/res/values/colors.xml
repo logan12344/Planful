@@ -15,7 +15,7 @@
     <color name="bottom_tabs_light_background">#FFF1F1F1</color>
 
     <color name="light_grey_stroke">#40FFFFFF</color>
-
+    <color name="ic_launcher_background">#029ADB</color>
     <!-- Color Customization -->
     <color name="theme_light_text_color">@color/md_grey_600</color>
     <color name="theme_light_background_color">@color/md_grey_white</color>
