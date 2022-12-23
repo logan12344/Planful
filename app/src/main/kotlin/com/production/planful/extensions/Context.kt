@@ -364,7 +364,7 @@ fun Context.getNotification(
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(contentTitle)
         .setContentText(contentText)
-        .setSmallIcon(R.drawable.ic_calendar_vector)
+        .setSmallIcon(R.drawable.logo)
         .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MAX)
