@@ -26,12 +26,10 @@ import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.biometric.BiometricManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.loader.content.CursorLoader
-import com.github.ajalt.reprint.core.Reprint
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.production.planful.R

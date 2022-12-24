@@ -318,8 +318,8 @@ class TaskActivity : SimpleActivity() {
     private fun setupRecycle() {
         checklistArray = ArrayList()
         jsonArray = ArrayList()
-        if (mTask.getCheckList() != "") {
-            jsonArray = gson.fromJson(mTask.getCheckList())
+        if (mTask.checklist != "") {
+            jsonArray = gson.fromJson(mTask.checklist)
 
             var ifDayExist = false
 
@@ -378,8 +378,8 @@ class TaskActivity : SimpleActivity() {
         task_description.setText(mTask.description)
         task_all_day.isChecked = mTask.getIsAllDay()
         toggleAllDay(mTask.getIsAllDay())
-        toggleTarget(mTask.isTrackTargetEnable())
-        toggleChecklist(mTask.isCheckListEnable())
+        toggleTarget(mTask.trackTarget)
+        toggleChecklist(mTask.checklistEnable)
         checkRepeatTexts(mRepeatInterval)
     }
 
@@ -528,14 +528,20 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun storeTask(wasRepeatable: Boolean) {
+        jsonArray.add(Pair(dayCode, checklistArray))
+
         if (mTask.id == null) {
+            mTask.apply {
+                checklistEnable = task_checklist.isChecked
+                checklist = gson.convertToJsonString(jsonArray)
+                trackTarget = task_target.isChecked
+            }
             eventsHelper.insertTask(mTask, true) {
                 hideKeyboard()
 
                 if (DateTime.now().isAfter(mTaskStartDateTime.millis)) {
                     if (mTask.repeatInterval == 0 && mTask.getReminders()
-                            .any { it.type == REMINDER_NOTIFICATION }
-                    ) {
+                            .any { it.type == REMINDER_NOTIFICATION }) {
                         notifyEvent(mTask)
                     }
                 }
@@ -549,18 +555,15 @@ class TaskActivity : SimpleActivity() {
                 }
             } else {
                 hideKeyboard()
+                mTask.apply {
+                    checklistEnable = task_checklist.isChecked
+                    checklist = gson.convertToJsonString(jsonArray)
+                    trackTarget = task_target.isChecked
+                }
                 eventsHelper.updateEvent(mTask, updateAtCalDAV = false, showToasts = true) {
                     finish()
                 }
             }
-        }
-
-        jsonArray.add(Pair(dayCode, checklistArray))
-        val jsonString = gson.convertToJsonString(jsonArray)
-        ensureBackgroundThread {
-            updateChecklistEnable(mTask.copy(startTS = mOriginalStartTS), task_checklist.isChecked)
-            updateChecklist(mTask.copy(startTS = mOriginalStartTS), jsonString)
-            updateTrackTargetEnable(mTask.copy(startTS = mOriginalStartTS), task_target.isChecked)
         }
     }
 
@@ -581,6 +584,9 @@ class TaskActivity : SimpleActivity() {
                             repeatRule = 0
                             repeatInterval = 0
                             repeatLimit = 0
+                            checklistEnable = task_checklist.isChecked
+                            checklist = gson.convertToJsonString(jsonArray)
+                            trackTarget = task_target.isChecked
                         }
 
                         eventsHelper.insertTask(mTask, showToasts = true) {
@@ -591,8 +597,17 @@ class TaskActivity : SimpleActivity() {
                 1 -> {
                     ensureBackgroundThread {
                         eventsHelper.addEventRepeatLimit(mTask.id!!, mTaskOccurrenceTS)
+                        for (i in 0 until jsonArray.size) {
+                            if (jsonArray[i].first != dayCode) {
+                                jsonArray[i].second.clear()
+                                jsonArray[i].second.addAll(checklistArray)
+                            }
+                        }
                         mTask.apply {
                             id = null
+                            checklistEnable = task_checklist.isChecked
+                            checklist = gson.convertToJsonString(jsonArray)
+                            trackTarget = task_target.isChecked
                         }
 
                         eventsHelper.insertTask(mTask, showToasts = true) {
@@ -603,6 +618,17 @@ class TaskActivity : SimpleActivity() {
                 2 -> {
                     ensureBackgroundThread {
                         eventsHelper.addEventRepeatLimit(mTask.id!!, mTaskOccurrenceTS)
+                        for (i in 0 until jsonArray.size) {
+                            if (jsonArray[i].first != dayCode) {
+                                jsonArray[i].second.clear()
+                                jsonArray[i].second.addAll(checklistArray)
+                            }
+                        }
+                        mTask.apply {
+                            checklistEnable = task_checklist.isChecked
+                            checklist = gson.convertToJsonString(jsonArray)
+                            trackTarget = task_target.isChecked
+                        }
                         eventsHelper.updateEvent(mTask, updateAtCalDAV = false, showToasts = true) {
                             finish()
                         }

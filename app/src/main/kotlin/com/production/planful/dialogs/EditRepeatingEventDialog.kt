@@ -17,10 +17,7 @@ class EditRepeatingEventDialog(
     private var dialog: AlertDialog? = null
 
     init {
-        val view = (activity.layoutInflater.inflate(
-            R.layout.dialog_edit_repeating_event,
-            null
-        ) as ViewGroup).apply {
+        val view = (activity.layoutInflater.inflate(R.layout.dialog_edit_repeating_event, null) as ViewGroup).apply {
             edit_repeating_event_one_only.setOnClickListener { sendResult(0) }
             edit_repeating_event_this_and_future_occurences.setOnClickListener { sendResult(1) }
             edit_repeating_event_all_occurrences.setOnClickListener { sendResult(2) }

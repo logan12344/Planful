@@ -5,7 +5,10 @@ import android.view.View
 import com.production.planful.R
 import com.production.planful.adapters.StatisticsEventsAdapter
 import com.production.planful.commons.activities.BaseSimpleActivity
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.areSystemAnimationsEnabled
+import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.updateTextColors
 import com.production.planful.commons.helpers.APP_LAUNCHER_NAME
 import com.production.planful.commons.helpers.NavigationIcon
 import com.production.planful.commons.helpers.ensureBackgroundThread
@@ -28,7 +31,6 @@ class StatisticsActivity : BaseSimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
         val textColor = getProperTextColor()
-        val backgroundColor = getProperBackgroundColor()
         primaryColor = getProperPrimaryColor()
 
         no_data.tvNoData1.setTextColor(textColor)
@@ -58,11 +60,10 @@ class StatisticsActivity : BaseSimpleActivity() {
 
         val sorted = ArrayList<Event>()
         for (event in events) {
-            if (event.isTrackTargetEnable()) sorted.add(event)
+            if (event.trackTarget) sorted.add(event)
         }
 
         val sortedTarget = ArrayList<Pair<TrackTargetItem, Event>>()
-        var lastId = -1L
         var daysCount = 0
         var daysDone = 0
 

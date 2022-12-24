@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="AppCompatResource">
     <item
-        android:id="@+id/share"
-        android:icon="@drawable/ic_share_vector"
-        android:title="@string/share"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_vector"
         android:title="@string/search"
@@ -25,20 +20,24 @@
         android:title="@string/change_view"
         app:showAsAction="always" />
     <item
+        android:id="@+id/statistics"
+        android:icon="@drawable/ic_track_target"
+        android:title="@string/statistics"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/go_to_date"
         android:showAsAction="never"
         android:title="@string/go_to_date"
         app:showAsAction="never" />
     <item
-        android:id="@+id/statistics"
-        android:icon="@drawable/ic_track_target"
-        android:showAsAction="never"
-        android:title="@string/statistics"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/print"
         android:showAsAction="never"
         android:title="@string/print"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_vector"
+        android:title="@string/share"
         app:showAsAction="never" />
     <item
         android:id="@+id/about"

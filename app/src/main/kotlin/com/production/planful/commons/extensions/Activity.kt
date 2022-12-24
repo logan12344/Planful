@@ -21,12 +21,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.biometric.BiometricPrompt
-import androidx.biometric.auth.AuthPromptCallback
-import androidx.biometric.auth.AuthPromptHost
-import androidx.biometric.auth.Class2BiometricAuthPrompt
 import androidx.documentfile.provider.DocumentFile
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.production.planful.R
 import com.production.planful.commons.activities.BaseSimpleActivity

@@ -152,9 +152,9 @@ class DayEventsAdapter(
             toggle_mark_complete.beVisibleIf(event.isTask())
             toggle_mark_complete.isChecked = event.isTaskCompleted()
             toggle_mark_complete.setOnClickListener {
-                if (event.isCheckListEnable()) {
+                if (event.checklistEnable) {
                     val checklistArray: ArrayList<ChecklistItem> = ArrayList()
-                    val jsonArray = gson.fromJson<ArrayList<Pair<String, ArrayList<ChecklistItem>>>>(event.getCheckList())
+                    val jsonArray = gson.fromJson<ArrayList<Pair<String, ArrayList<ChecklistItem>>>>(event.checklist)
 
                     var ifDayExist = false
 

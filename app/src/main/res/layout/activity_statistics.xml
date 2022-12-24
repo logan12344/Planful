@@ -69,7 +69,7 @@
                     android:id="@+id/tvNoData2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_data_description"
+                    android:text="@string/no_data_statistics_description"
                     android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>

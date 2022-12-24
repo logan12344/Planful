@@ -39,8 +39,6 @@ const val REMINDER_OFF = -1
 const val REMINDER_DEFAULT_VALUE = "${REMINDER_OFF},${REMINDER_OFF},${REMINDER_OFF}"
 
 const val OTHER_EVENT = 0
-const val BIRTHDAY_EVENT = 1
-const val ANNIVERSARY_EVENT = 2
 
 const val ITEM_EVENT = 0
 const val ITEM_SECTION_DAY = 1

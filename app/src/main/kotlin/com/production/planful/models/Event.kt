@@ -226,10 +226,4 @@ data class Event(
             DateTimeZone.getDefault().id
         }
     }
-
-    fun isCheckListEnable() = checklistEnable
-
-    fun getCheckList() = checklist
-
-    fun isTrackTargetEnable() = trackTarget
 }

@@ -9,6 +9,7 @@
     <string name="go_to_date">Go to date</string>
     <string name="no_data_title">No Data!</string>
     <string name="no_data_description">Your plans list is empty.</string>
+    <string name="no_data_statistics_description">Your statistics is empty.</string>
     <!-- Widget titles -->
     <string name="widget_monthly">Calendar monthly</string>
     <string name="widget_list">Calendar event list</string>
@@ -28,7 +29,6 @@
     <string name="edit_task">Edit Task</string>
     <string name="new_task">New Task</string>
     <string name="duplicate_task">Duplicate task</string>
-    <string name="mark_completed">Mark completed</string>
     <string name="end_task_before_start">The task cannot end earlier than it starts</string>
     <!-- Event Repetition -->
     <string name="no_repetition">Once</string>

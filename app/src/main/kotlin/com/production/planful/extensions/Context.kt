@@ -685,8 +685,8 @@ fun Context.getEventListItems(
                 it.repeatInterval > 0,
                 it.isTask(),
                 it.isTaskCompleted(),
-                it.getCheckList(),
-                it.isCheckListEnable()
+                it.checklist,
+                it.checklistEnable
             )
         listItems.add(listEvent)
     }
@@ -784,22 +784,8 @@ fun Context.getDatesWeekDateTime(date: DateTime): String {
     }
 }
 
-fun Context.updateChecklistEnable(event: Event, status: Boolean) {
-    eventsDB.updateChecklistEnable(event.id!!, status)
-}
-
-fun Context.getChecklist(event: Event): String {
-    if (event.id == null) return ""
-    val originalEvent = eventsDB.getTaskWithId(event.id!!)
-    return originalEvent?.getCheckList() ?: ""
-}
-
 fun Context.updateChecklist(event: Event, checklist: String) {
     eventsDB.updateChecklist(event.id!!, checklist)
-}
-
-fun Context.updateTrackTargetEnable(event: Event, status: Boolean) {
-    eventsDB.updateTrackTargetEnable(event.id!!, status)
 }
 
 fun Context.isTaskCompleted(event: Event): Boolean {

@@ -322,10 +322,6 @@ fun Context.getDocumentFile(path: String): DocumentFile? {
 
 fun Context.getSomeDocumentFile(path: String) = getFastDocumentFile(path) ?: getDocumentFile(path)
 
-fun Context.scanPathRecursively(path: String, callback: (() -> Unit)? = null) {
-    scanPathsRecursively(arrayListOf(path), callback)
-}
-
 fun Context.scanPathsRecursively(paths: List<String>, callback: (() -> Unit)? = null) {
     val allPaths = ArrayList<String>()
     for (path in paths) {
