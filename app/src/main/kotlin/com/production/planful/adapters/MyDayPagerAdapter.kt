@@ -43,7 +43,7 @@ class MyDayPagerAdapter(
 
     fun updateCalendars(pos: Int) {
         for (i in -1..1) {
-            mFragments[pos + i]?.updateCalendar()
+            mFragments[pos + i]?.refreshItems()
         }
     }
 

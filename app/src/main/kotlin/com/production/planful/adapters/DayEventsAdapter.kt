@@ -16,27 +16,24 @@ import com.production.planful.commons.adapters.MyRecyclerViewAdapter
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.MEDIUM_ALPHA
 import com.production.planful.commons.helpers.ensureBackgroundThread
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
 import com.production.planful.commons.views.MyRecyclerView
 import com.production.planful.dialogs.DeleteEventDialog
 import com.production.planful.extensions.*
 import com.production.planful.helpers.Formatter
 import com.production.planful.models.ChecklistItem
 import com.production.planful.models.Event
+import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.event_list_item.view.*
 
 class DayEventsAdapter(
     activity: SimpleActivity,
     val events: ArrayList<Event>,
     recyclerView: MyRecyclerView,
+    val listener: RefreshRecyclerViewListener?,
     var dayCode: String,
     itemClick: (Any) -> Unit
-) :
-    MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
-
-    private var dataUpdatedListener: ((Unit) -> Unit)? = null
-    fun setDataUpdatedListener(block: (Unit) -> Unit) {
-        dataUpdatedListener = block
-    }
+) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
 
     private val allDayString = resources.getString(R.string.all_day)
     private val displayDescription = activity.config.displayDescription
@@ -102,10 +99,46 @@ class DayEventsAdapter(
 
     private fun setupView(view: View, event: Event) {
         view.apply {
+            var isTaskComplete = event.isTaskCompleted()
+            val checklistArray: ArrayList<ChecklistItem> = ArrayList()
+            var jsonArray: ArrayList<Pair<String, ArrayList<ChecklistItem>>> = ArrayList()
+            if (event.checklistEnable) {
+                jsonArray = gson.fromJson(event.checklist)
+
+                var ifDayExist = false
+
+                for (item in jsonArray) {
+                    if (item.first == dayCode) {
+                        ifDayExist = true
+                        checklistArray.addAll(item.second)
+                        jsonArray.remove(item)
+                        break
+                    }
+                }
+
+                if (!ifDayExist) {
+                    for (item in jsonArray) {
+                        val listAccountCloned = ArrayList(item.second)
+                        for (arrayItem in listAccountCloned) {
+                            arrayItem.checked = false
+                        }
+                        checklistArray.addAll(listAccountCloned)
+                        break
+                    }
+                }
+
+                for (item in checklistArray) {
+                    if (!item.checked) {
+                        isTaskComplete = false
+                        break
+                    }
+                }
+            }
+
             event_item_holder.isSelected = selectedKeys.contains(event.id?.toInt())
             event_item_holder.background.applyColorFilter(textColor)
             event_item_title.text = event.title
-            event_item_title.checkViewStrikeThrough(event.isTaskCompleted())
+            event_item_title.checkViewStrikeThrough(isTaskComplete)
             event_item_time.text =
                 if (event.getIsAllDay()) allDayString else Formatter.getTimeFromTS(
                     context,
@@ -134,7 +167,7 @@ class DayEventsAdapter(
             var newTextColor = textColor
 
             val adjustAlpha = if (event.isTask()) {
-                dimCompletedTasks && event.isTaskCompleted()
+                dimCompletedTasks && isTaskComplete
             } else {
                 dimPastEvents && event.isPastEvent && !isPrintVersion
             }
@@ -150,34 +183,9 @@ class DayEventsAdapter(
             event_item_time_image.applyColorFilter(newTextColor)
             event_item_task_image.beVisibleIf(event.isTask())
             toggle_mark_complete.beVisibleIf(event.isTask())
-            toggle_mark_complete.isChecked = event.isTaskCompleted()
+            toggle_mark_complete.isChecked = isTaskComplete
             toggle_mark_complete.setOnClickListener {
                 if (event.checklistEnable) {
-                    val checklistArray: ArrayList<ChecklistItem> = ArrayList()
-                    val jsonArray = gson.fromJson<ArrayList<Pair<String, ArrayList<ChecklistItem>>>>(event.checklist)
-
-                    var ifDayExist = false
-
-                    for (item in jsonArray) {
-                        if (item.first == dayCode) {
-                            ifDayExist = true
-                            checklistArray.addAll(item.second)
-                            jsonArray.remove(item)
-                            break
-                        }
-                    }
-
-                    if (!ifDayExist) {
-                        for (item in jsonArray) {
-                            val listAccountCloned = ArrayList(item.second)
-                            for (arrayItem in listAccountCloned) {
-                                arrayItem.checked = false
-                            }
-                            checklistArray.addAll(listAccountCloned)
-                            break
-                        }
-                    }
-
                     val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
                     val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
                     val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
@@ -189,7 +197,7 @@ class DayEventsAdapter(
                     tvTitle.text = event.title
                     tvTitleDate.text = event_item_time.text
 
-                    val checklistAdapterForDialog = ChecklistAdapterForDialog(checklistArray, rvNestedInDialog)
+                    val checklistAdapterForDialog = ChecklistAdapterForDialog(context, checklistArray, rvNestedInDialog)
                     rvNestedInDialog.adapter = checklistAdapterForDialog
                     rvNestedInDialog.layoutManager = LinearLayoutManager(context)
 
@@ -205,13 +213,12 @@ class DayEventsAdapter(
                         }
 
                         jsonArray.add(Pair(dayCode, checklistArray))
-                        val jsonString = gson.convertToJsonString(jsonArray)
                         ensureBackgroundThread {
-                            context.updateChecklist(event, jsonString)
+                            context.updateChecklist(event, gson.convertToJsonString(jsonArray))
                             context.updateTaskCompletion(event, i == 0)
                             activity.runOnUiThread {
                                 notifyDataSetChanged()
-                                dataUpdatedListener?.invoke(Unit)
+                                listener?.refreshItems()
                             }
                         }
                     }
@@ -221,7 +228,7 @@ class DayEventsAdapter(
                     context.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
                     builder.window?.setLayout((displayMetrics.widthPixels * 0.8).toInt(), -2)
-                } else setCompleted(view, event)
+                } else setCompleted(view, event, isTaskComplete)
             }
 
             val startMargin = if (event.isTask()) {
@@ -234,12 +241,12 @@ class DayEventsAdapter(
         }
     }
 
-    private fun setCompleted(view: View, event: Event) {
+    private fun setCompleted(view: View, event: Event, isTaskComplete: Boolean) {
         ensureBackgroundThread {
-            view.context.updateTaskCompletion(event, completed = !event.isTaskCompleted())
+            view.context.updateTaskCompletion(event, completed = !isTaskComplete)
             activity.runOnUiThread {
                 notifyDataSetChanged()
-                dataUpdatedListener?.invoke(Unit)
+                listener?.refreshItems()
             }
         }
     }

@@ -44,7 +44,7 @@ fun Context.updateTextColors(viewGroup: ViewGroup) {
 
     val backgroundColor = baseConfig.backgroundColor
     val accentColor = when {
-        isWhiteTheme() || isBlackAndWhiteTheme() -> baseConfig.accentColor
+        isWhiteTheme() || isBlackAndWhiteTheme() -> baseConfig.primaryColor
         else -> getProperPrimaryColor()
     }
 

@@ -805,7 +805,7 @@ fun Context.updateTaskCompletion(event: Event, completed: Boolean) {
         completedTasksDB.deleteTaskWithIdAndTs(event.id!!, event.startTS)
     }
     // mark event as "incomplete" in the main events db
-    eventsDB.updateTaskCompletion(event.id!!, event.flags.removeBit(FLAG_TASK_COMPLETED))
+    //eventsDB.updateTaskCompletion(event.id!!, event.flags.removeBit(FLAG_TASK_COMPLETED))
 }
 
 // same as Context.queryCursor but inlined to allow non-local returns

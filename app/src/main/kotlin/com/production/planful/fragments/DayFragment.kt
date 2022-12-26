@@ -16,18 +16,17 @@ import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.DayEventsAdapter
+import com.production.planful.adapters.EventListAdapter
 import com.production.planful.commons.extensions.*
-import com.production.planful.extensions.config
-import com.production.planful.extensions.eventsHelper
-import com.production.planful.extensions.getViewBitmap
-import com.production.planful.extensions.printBitmap
+import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
+import com.production.planful.extensions.*
 import com.production.planful.helpers.*
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.Event
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import kotlinx.android.synthetic.main.top_navigation.view.*
 
-class DayFragment : Fragment() {
+class DayFragment : Fragment(), RefreshRecyclerViewListener {
     var mListener: NavigationListener? = null
     private var mTextColor = 0
     private var mDayCode = ""
@@ -58,7 +57,7 @@ class DayFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        updateCalendar()
+        refreshItems()
     }
 
     private fun setupButtons() {
@@ -99,14 +98,6 @@ class DayFragment : Fragment() {
                 (activity as MainActivity).showGoToDateDialog()
             }
             setTextColor(context.getProperTextColor())
-        }
-    }
-
-    fun updateCalendar() {
-        val startTS = Formatter.getDayStartTS(mDayCode)
-        val endTS = Formatter.getDayEndTS(mDayCode)
-        context?.eventsHelper?.getEvents(startTS, endTS) {
-            receivedEvents(it)
         }
     }
 
@@ -157,23 +148,9 @@ class DayFragment : Fragment() {
             mHolder.day_events.visibility = View.GONE
         }
 
-        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, mDayCode) {
+        DayEventsAdapter(activity as SimpleActivity, events, mHolder.day_events, this,  mDayCode) {
             editEvent(it as Event)
         }.apply {
-            this.setDataUpdatedListener {
-                val tasksCount = events.count { it.isTask() }
-                if (tasksCount != 0) {
-                    val percent = 100 * events.count { it.isTaskCompleted() } / events.count { it.isTask() }
-                    val day = Formatter.getDayTitle(requireContext(), mDayCode)
-                    val spannable = SpannableString(day.plus(" $percent%"))
-                    spannable.setSpan(
-                        StyleSpan(Typeface.BOLD),
-                        day.lastIndex + 1, spannable.lastIndex + 1,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                    mHolder.top_value.text = spannable
-                }
-            }
             mHolder.day_events.adapter = this
         }
 
@@ -208,6 +185,14 @@ class DayFragment : Fragment() {
                     (day_events.adapter as? DayEventsAdapter)?.togglePrintMode()
                 }, 1000)
             }, 1000)
+        }
+    }
+
+    override fun refreshItems() {
+        val startTS = Formatter.getDayStartTS(mDayCode)
+        val endTS = Formatter.getDayEndTS(mDayCode)
+        context?.eventsHelper?.getEvents(startTS, endTS) {
+            receivedEvents(it)
         }
     }
 }

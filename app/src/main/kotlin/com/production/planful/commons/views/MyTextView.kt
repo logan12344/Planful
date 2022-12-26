@@ -17,6 +17,6 @@ class MyTextView : AppCompatTextView {
 
     fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
         setTextColor(textColor)
-        setLinkTextColor(accentColor)
+        setLinkTextColor(textColor)
     }
 }

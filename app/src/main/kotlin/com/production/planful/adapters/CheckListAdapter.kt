@@ -1,6 +1,7 @@
 package com.production.planful.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.production.planful.R
-import com.production.planful.commons.extensions.applyColorFilter
-import com.production.planful.commons.extensions.getProperPrimaryColor
+import com.production.planful.commons.extensions.*
 import com.production.planful.models.ChecklistItem
 
 class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val items: ArrayList<ChecklistItem>) :
@@ -28,11 +28,12 @@ class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val i
     }
 
     override fun onBindViewHolder(holder: ChecklistViewHolder, position: Int) {
-        val item = items[position]
+        if (context.baseConfig.backgroundColor.getContrastColor() == Color.WHITE) {
+            holder.checklistText.editText?.setTextColor(context.getColor(R.color.theme_dark_text_color))
+        }
+        holder.checklistDelete.applyColorFilter(context.getProperTextColor())
 
-        holder.checklistDelete.applyColorFilter(context.getProperPrimaryColor())
-        
-        holder.checklistText.editText?.setText(item.name)
+        holder.checklistText.editText?.setText(items[position].name)
         holder.checklistText.editText?.doAfterTextChanged {
             items[position].name = it.toString()
         }

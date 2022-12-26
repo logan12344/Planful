@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="?attr/colorPrimary">
-    <item android:id="@+id/button_background_holder">
-        <layer-list>
-            <item>
-                <shape android:shape="rectangle">
-                    <solid android:color="?attr/colorPrimary" />
-                    <corners android:radius="@dimen/material_button_corner_radius" />
-                </shape>
-            </item>
-        </layer-list>
-    </item>
-</ripple>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/color_primary" />
+    <corners android:radius="@dimen/material_button_corner_radius" />
+</shape>

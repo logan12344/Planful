@@ -81,10 +81,7 @@ open class BaseConfig(val context: Context) {
         set(textColor) = prefs.edit().putInt(TEXT_COLOR, textColor).apply()
 
     var backgroundColor: Int
-        get() = prefs.getInt(
-            BACKGROUND_COLOR,
-            context.resources.getColor(R.color.theme_light_background_color)
-        )
+        get() = prefs.getInt(BACKGROUND_COLOR, context.resources.getColor(R.color.theme_light_background_color))
         set(backgroundColor) = prefs.edit().putInt(BACKGROUND_COLOR, backgroundColor).apply()
 
     var primaryColor: Int
@@ -163,9 +160,6 @@ open class BaseConfig(val context: Context) {
             context.getColor(R.color.white)
         )
         set(widgetTextColor) = prefs.edit().putInt(WIDGET_TEXT_COLOR, widgetTextColor).apply()
-
-    fun getFolderProtectionType(path: String) =
-        prefs.getInt("$PROTECTED_FOLDER_TYPE$path", PROTECTION_NONE)
 
     var keepLastModified: Boolean
         get() = prefs.getBoolean(KEEP_LAST_MODIFIED, true)

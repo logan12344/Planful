@@ -221,7 +221,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateBackgroundColor(getCurrentBackgroundColor())
         updateActionbarColor(getCurrentStatusBarColor())
         updateNavigationBarColor(curNavigationBarColor, true)
-        updateApplyToAllColors(getCurrentPrimaryColor())
     }
 
     private fun getCurrentThemeId(): Int {
@@ -362,12 +361,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         refreshMenuItems()
     }
 
-    private fun updateApplyToAllColors(newColor: Int) {
-        val applyBackground = resources.getDrawable(R.drawable.button_background_rounded, theme) as RippleDrawable
-        (applyBackground as LayerDrawable).findDrawableByLayerId(R.id.button_background_holder)
-            .applyColorFilter(newColor)
-    }
-
     private fun updateLabelColors(textColor: Int) {
         arrayListOf<MyTextView>(
             customization_theme_label,
@@ -375,9 +368,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         ).forEach {
             it.setTextColor(textColor)
         }
-
-        val primaryColor = getCurrentPrimaryColor()
-        updateApplyToAllColors(primaryColor)
     }
 
     private fun getCurrentTextColor() =
