@@ -478,8 +478,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private fun shareApp() {
         val intend = Intent(Intent.ACTION_SEND)
         intend.type = "text/plain"
-        intend.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL")
-        intend.putExtra(Intent.EXTRA_TEXT, "https://www.google.com.ua")
+        intend.putExtra(Intent.EXTRA_SUBJECT, "Sharing APP")
+        intend.putExtra(Intent.EXTRA_TEXT, "Planful, it's a flexible scheduler and handy tracker, you should download it and try it out!\nhttps://play.google.com/store/apps/details?id=com.production.planful.release")
         startActivity(Intent.createChooser(intend, "Share URL"))
     }
 
