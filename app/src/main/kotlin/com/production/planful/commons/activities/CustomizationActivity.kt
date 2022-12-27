@@ -2,8 +2,6 @@ package com.production.planful.commons.activities
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import com.production.planful.R
 import com.production.planful.commons.dialogs.ConfirmationAdvancedDialog

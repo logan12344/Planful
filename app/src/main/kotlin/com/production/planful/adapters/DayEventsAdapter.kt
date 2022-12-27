@@ -1,5 +1,6 @@
 package com.production.planful.adapters
 
+import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.View
@@ -23,7 +24,6 @@ import com.production.planful.extensions.*
 import com.production.planful.helpers.Formatter
 import com.production.planful.models.ChecklistItem
 import com.production.planful.models.Event
-import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.event_list_item.view.*
 
 class DayEventsAdapter(
@@ -186,12 +186,18 @@ class DayEventsAdapter(
             toggle_mark_complete.isChecked = isTaskComplete
             toggle_mark_complete.setOnClickListener {
                 if (event.checklistEnable) {
-                    val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog).create()
+                    val builder = AlertDialog.Builder(context).create()
                     val view = layoutInflater.inflate(R.layout.checklist_dialog, null)
                     val tvTitle = view.findViewById<TextView>(R.id.tvOptionsTitle)
                     val tvTitleDate = view.findViewById<TextView>(R.id.tvTitleDate)
                     val rvNestedInDialog = view.findViewById<RecyclerView>(R.id.rvNestedInDialog)
                     val llClose = view.findViewById<TextView>(R.id.closeBtn)
+
+                    if (context.baseConfig.backgroundColor.getContrastColor() == Color.WHITE) {
+                        builder.window?.setBackgroundDrawable(context.getDrawable(R.drawable.rounded_corner_black))
+                    } else {
+                        builder.window?.setBackgroundDrawable(context.getDrawable(R.drawable.rounded_corner_white))
+                    }
                     builder.setView(view)
 
                     tvTitle.text = event.title

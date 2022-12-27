@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
 import com.production.planful.commons.extensions.baseConfig
 import com.production.planful.commons.extensions.getContrastColor
-import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.models.ChecklistItem
 
 class ChecklistAdapterForDialog(private val context: Context, private val items: ArrayList<ChecklistItem>, val rv: RecyclerView) :

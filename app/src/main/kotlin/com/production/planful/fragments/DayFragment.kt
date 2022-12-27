@@ -16,10 +16,12 @@ import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
 import com.production.planful.adapters.DayEventsAdapter
-import com.production.planful.adapters.EventListAdapter
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
-import com.production.planful.extensions.*
+import com.production.planful.extensions.config
+import com.production.planful.extensions.eventsHelper
+import com.production.planful.extensions.getViewBitmap
+import com.production.planful.extensions.printBitmap
 import com.production.planful.helpers.*
 import com.production.planful.interfaces.NavigationListener
 import com.production.planful.models.Event

@@ -10,7 +10,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.production.planful.R
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.baseConfig
+import com.production.planful.commons.extensions.getContrastColor
+import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.models.ChecklistItem
 
 class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val items: ArrayList<ChecklistItem>) :
