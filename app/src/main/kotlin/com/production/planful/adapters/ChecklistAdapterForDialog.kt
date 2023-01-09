@@ -13,7 +13,10 @@ import com.production.planful.commons.extensions.baseConfig
 import com.production.planful.commons.extensions.getContrastColor
 import com.production.planful.models.ChecklistItem
 
-class ChecklistAdapterForDialog(private val context: Context, private val items: ArrayList<ChecklistItem>, val rv: RecyclerView) :
+class ChecklistAdapterForDialog(
+    private val context: Context,
+    private val items: ArrayList<ChecklistItem>,
+    val rv: RecyclerView) :
     RecyclerView.Adapter<ChecklistAdapterForDialog.ChecklistViewHolder>() {
 
     inner class ChecklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

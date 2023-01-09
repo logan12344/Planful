@@ -16,7 +16,10 @@ import com.production.planful.commons.extensions.getContrastColor
 import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.models.ChecklistItem
 
-class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val items: ArrayList<ChecklistItem>) :
+class ChecklistAdapter(
+    private val context: Context,
+    val rv: RecyclerView,
+    private val items: ArrayList<ChecklistItem>) :
     RecyclerView.Adapter<ChecklistAdapter.ChecklistViewHolder>() {
 
     inner class ChecklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,10 +48,6 @@ class ChecklistAdapter(val context: Context, val rv: RecyclerView, private val i
             holder.checklistDelete.visibility = View.INVISIBLE
         } else {
             holder.checklistDelete.visibility = View.VISIBLE
-        }
-
-        if (position == (itemCount - 1)) {
-            holder.checklistText.editText?.requestFocus()
         }
 
         holder.checklistDelete.setOnClickListener {
