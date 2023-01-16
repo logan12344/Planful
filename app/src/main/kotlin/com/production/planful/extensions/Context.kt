@@ -467,18 +467,6 @@ fun Context.rescheduleReminder(event: Event?, minutes: Int) {
     }
 }
 
-// if the default event start time is set to "Next full hour" and the event is created before midnight, it could change the day
-fun Context.launchNewEventIntent(
-    dayCode: String = Formatter.getTodayCode(),
-    allowChangingDay: Boolean = false
-) {
-    Intent(applicationContext, EventActivity::class.java).apply {
-        putExtra(NEW_EVENT_START_TS, getNewEventTimestampFromCode(dayCode, allowChangingDay))
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(this)
-    }
-}
-
 // if the default start time is set to "Next full hour" and the task is created before midnight, it could change the day
 fun Context.launchNewTaskIntent(
     dayCode: String = Formatter.getTodayCode(),
@@ -492,14 +480,7 @@ fun Context.launchNewTaskIntent(
 }
 
 fun Context.launchNewEventOrTaskActivity() {
-    if (config.allowCreatingTasks) {
-        Intent(this, EventTypePickerActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(this)
-        }
-    } else {
-        launchNewEventIntent()
-    }
+    launchNewTaskIntent()
 }
 
 fun Context.getNewEventTimestampFromCode(dayCode: String, allowChangingDay: Boolean = false): Long {
@@ -759,7 +740,7 @@ fun Context.printBitmap(bitmap: Bitmap) {
 }
 
 fun Context.editEvent(event: ListEvent) {
-    Intent(this, getActivityToOpen(event.isTask)).apply {
+    Intent(this, TaskActivity::class.java).apply {
         putExtra(EVENT_ID, event.id)
         putExtra(EVENT_OCCURRENCE_TS, event.startTS)
         putExtra(IS_TASK_COMPLETED, event.isTaskCompleted)

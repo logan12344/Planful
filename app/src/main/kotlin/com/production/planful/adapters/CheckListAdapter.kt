@@ -50,10 +50,14 @@ class ChecklistAdapter(
             holder.checklistDelete.visibility = View.VISIBLE
         }
 
+        if (position == (itemCount - 1)) {
+            holder.checklistText.editText?.requestFocus()
+        }
+
         holder.checklistDelete.setOnClickListener {
             rv.post {
                 items.removeAt(position)
-                notifyDataSetChanged()
+                notifyItemRemoved(position)
             }
         }
     }

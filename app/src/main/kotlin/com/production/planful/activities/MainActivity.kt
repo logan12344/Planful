@@ -17,6 +17,7 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import com.production.planful.BuildConfig
@@ -28,6 +29,7 @@ import com.production.planful.commons.helpers.*
 import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
 import com.production.planful.commons.models.RadioItem
 import com.production.planful.databases.EventsDatabase
+import com.production.planful.dialogs.ReminderWarningDialog
 import com.production.planful.extensions.*
 import com.production.planful.fragments.*
 import com.production.planful.helpers.*
@@ -70,36 +72,9 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
         calendar_fab.beVisibleIf(config.storedView != YEARLY_VIEW && config.storedView != WEEKLY_VIEW)
         calendar_fab.setOnClickListener {
-            if (config.allowCreatingTasks) {
-                if (fab_extended_overlay.isVisible()) {
-                    openNewEvent()
-
-                    Handler().postDelayed({
-                        hideExtendedFab()
-                    }, 300)
-                } else {
-                    showExtendedFab()
-                }
-            } else {
-                openNewEvent()
-            }
+            openNewTask()
         }
         settings_fab.setOnClickListener { launchSettings() }
-
-        fab_event_label.setOnClickListener { openNewEvent() }
-        fab_task_label.setOnClickListener { openNewTask() }
-
-        fab_extended_overlay.setOnClickListener {
-            hideExtendedFab()
-        }
-
-        fab_task_icon.setOnClickListener {
-            openNewTask()
-
-            Handler().postDelayed({
-                hideExtendedFab()
-            }, 300)
-        }
 
         storeStateVariables()
 
@@ -126,8 +101,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (savedInstanceState == null) {
             checkCalDAVUpdateListener()
         }
-
-        //batteryOptimizationRequest()
     }
 
     override fun onResume() {
@@ -158,12 +131,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         storeStateVariables()
         updateWidgets()
         updateTextColors(calendar_coordinator)
-        fab_extended_overlay.background =
-            ColorDrawable(getProperBackgroundColor().adjustAlpha(0.8f))
-        fab_event_label.setTextColor(getProperTextColor())
-        fab_task_label.setTextColor(getProperTextColor())
-
-        fab_task_icon.drawable.applyColorFilter(mStoredPrimaryColor.getContrastColor())
 
         search_holder.background = ColorDrawable(getProperBackgroundColor())
         checkSwipeRefreshAvailability()
@@ -181,6 +148,11 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (config.caldavSync) {
             updateCalDAVEvents()
         }
+
+        /*val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            ReminderWarningDialog(this) {}
+        }*/
     }
 
     override fun onPause() {
@@ -197,10 +169,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     }
 
     fun refreshMenuItems() {
-        if (fab_extended_overlay.isVisible()) {
-            hideExtendedFab()
-        }
-
         shouldGoToTodayBeVisible =
             currentFragments.lastOrNull()?.shouldGoToTodayBeVisible() ?: false
         main_toolbar.menu.apply {
@@ -214,10 +182,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private fun setupOptionsMenu() {
         setupSearch(main_toolbar.menu)
         main_toolbar.setOnMenuItemClickListener { menuItem ->
-            if (fab_extended_overlay.isVisible()) {
-                hideExtendedFab()
-            }
-
             when (menuItem.itemId) {
                 R.id.share -> shareApp()
                 R.id.change_view -> showViewDialog()
@@ -239,7 +203,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             swipe_refresh_layout.isRefreshing = false
             checkSwipeRefreshAvailability()
             when {
-                fab_extended_overlay.isVisible() -> hideExtendedFab()
                 currentFragments.size > 1 -> removeTopFragment()
                 else -> super.onBackPressed()
             }
@@ -410,7 +373,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         intent.removeExtra(EVENT_OCCURRENCE_TS)
         if (eventIdToOpen != 0L && eventOccurrenceToOpen != 0L) {
             hideKeyboard()
-            Intent(this, EventActivity::class.java).apply {
+            Intent(this, TaskActivity::class.java).apply {
                 putExtra(EVENT_ID, eventIdToOpen)
                 putExtra(EVENT_OCCURRENCE_TS, eventOccurrenceToOpen)
                 startActivity(this)
@@ -434,7 +397,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                         val id = eventsDB.getEventIdWithLastImportId("%-$eventId")
                         if (id != null) {
                             hideKeyboard()
-                            Intent(this, EventActivity::class.java).apply {
+                            Intent(this, TaskActivity::class.java).apply {
                                 putExtra(EVENT_ID, id)
                                 startActivity(this)
                             }
@@ -630,39 +593,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         else -> dayCode
     }
 
-    private fun showExtendedFab() {
-        animateFabIcon(false)
-        arrayOf(fab_event_label, fab_extended_overlay, fab_task_icon, fab_task_label).forEach {
-            it.fadeIn()
-        }
-    }
-
-    private fun hideExtendedFab() {
-        animateFabIcon(true)
-        arrayOf(fab_event_label, fab_extended_overlay, fab_task_icon, fab_task_label).forEach {
-            it.fadeOut()
-        }
-    }
-
-    private fun animateFabIcon(showPlus: Boolean) {
-        val newDrawableId = if (showPlus) {
-            R.drawable.ic_plus_vector
-        } else {
-            R.drawable.ic_today_vector
-        }
-        val newDrawable =
-            resources.getColoredDrawableWithColor(newDrawableId, getProperPrimaryColor())
-        calendar_fab.setImageDrawable(newDrawable)
-    }
-
-    private fun openNewEvent() {
-        hideKeyboard()
-        val lastFragment = currentFragments.last()
-        val allowChangingDay =
-            lastFragment !is DayFragmentsHolder && lastFragment !is MonthDayFragmentsHolder
-        launchNewEventIntent(lastFragment.getNewEventDayCode(), allowChangingDay)
-    }
-
     private fun openNewTask() {
         hideKeyboard()
         val lastFragment = currentFragments.last()
@@ -761,7 +691,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                     val eventsAdapter = EventListAdapter(this, listItems, true, this, search_results_list) {
                             hideKeyboard()
                             if (it is ListEvent) {
-                                Intent(applicationContext, getActivityToOpen(it.isTask)).apply {
+                                Intent(applicationContext, TaskActivity::class.java).apply {
                                     putExtra(EVENT_ID, it.id)
                                     startActivity(this)
                                 }
@@ -797,18 +727,4 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         config.storedView = DAILY_VIEW
         updateViewPager(dayCode)
     }
-
-    @SuppressLint("BatteryLife")
-    private fun batteryOptimizationRequest() {
-        val intent = Intent()
-        val packageName = applicationContext.packageName
-        val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
-        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-            intent.data = Uri.parse("package:$packageName")
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            applicationContext.startActivity(intent)
-        }
-    }
-
 }

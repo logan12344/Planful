@@ -1,6 +1,5 @@
 package com.production.planful.helpers
 
-import com.production.planful.activities.EventActivity
 import com.production.planful.activities.TaskActivity
 
 const val STORED_LOCALLY_ONLY = 0
@@ -226,10 +225,4 @@ fun isWeekend(i: Int, isSundayFirst: Boolean): Boolean {
     } else {
         i == 5 || i == 6 || i == 12 || i == 13
     }
-}
-
-fun getActivityToOpen(isTask: Boolean) = if (isTask) {
-    TaskActivity::class.java
-} else {
-    EventActivity::class.java
 }

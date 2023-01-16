@@ -131,48 +131,11 @@
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name=".activities.EventActivity"
-            android:exported="true"
-            android:label="@string/new_event"
-            android:launchMode="singleTask"
-            android:parentActivityName=".activities.MainActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.INSERT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.item/event" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.INSERT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.dir/event" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activities.TaskActivity"
             android:exported="false"
             android:label="@string/new_task"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.MainActivity" />
-
-        <activity
-            android:name=".activities.SelectTimeZoneActivity"
-            android:exported="false"
-            android:parentActivityName=".activities.EventActivity">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:resource="@xml/searchable" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".activities.SettingsActivity"
@@ -194,12 +157,6 @@
 
         <activity
             android:name=".activities.SnoozeReminderActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:theme="@style/Theme.Transparent" />
-
-        <activity
-            android:name=".activities.EventTypePickerActivity"
             android:excludeFromRecents="true"
             android:exported="false"
             android:theme="@style/Theme.Transparent" />

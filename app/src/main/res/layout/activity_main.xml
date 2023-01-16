@@ -43,56 +43,6 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <RelativeLayout
-                android:id="@+id/fab_extended_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0"
-                android:visibility="gone" />
-
-            <com.production.planful.commons.views.MyTextView
-                android:id="@+id/fab_event_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0"
-                android:paddingVertical="@dimen/small_margin"
-                android:paddingEnd="@dimen/activity_margin"
-                android:text="@string/event"
-                android:textSize="@dimen/big_text_size"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/calendar_fab"
-                app:layout_constraintEnd_toStartOf="@+id/calendar_fab"
-                app:layout_constraintTop_toTopOf="@+id/calendar_fab" />
-
-            <com.production.planful.commons.views.MyFloatingActionButton
-                android:id="@+id/fab_task_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_margin"
-                android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_task_vector"
-                android:visibility="gone"
-                android:contentDescription="@string/task"
-                app:backgroundTint="@color/color_primary"
-                app:layout_constraintBottom_toTopOf="@+id/calendar_fab"
-                app:layout_constraintEnd_toEndOf="@+id/calendar_fab"
-                app:layout_constraintStart_toStartOf="@+id/calendar_fab"
-                app:rippleColor="@color/pressed_item_foreground"/>
-
-            <com.production.planful.commons.views.MyTextView
-                android:id="@+id/fab_task_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0"
-                android:paddingVertical="@dimen/small_margin"
-                android:paddingEnd="@dimen/activity_margin"
-                android:text="@string/task"
-                android:textSize="@dimen/big_text_size"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/fab_task_icon"
-                app:layout_constraintEnd_toStartOf="@+id/calendar_fab"
-                app:layout_constraintTop_toTopOf="@+id/fab_task_icon" />
-
             <com.production.planful.commons.views.MyFloatingActionButton
                 android:id="@+id/settings_fab"
                 android:layout_width="wrap_content"
@@ -114,7 +64,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:layout_marginBottom="@dimen/activity_margin"
-                android:contentDescription="@string/new_event"
+                android:contentDescription="@string/new_task"
                 android:src="@drawable/ic_plus_vector"
                 app:backgroundTint="@color/color_primary"
                 app:layout_constraintBottom_toBottomOf="parent"

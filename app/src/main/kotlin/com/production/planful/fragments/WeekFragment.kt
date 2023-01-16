@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.flexbox.FlexboxLayout
 import com.production.planful.R
+import com.production.planful.activities.TaskActivity
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
@@ -354,18 +355,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                             val timestamp =
                                 Formatter.getDateTimeFromTS(weekTimestamp + index * DAY_SECONDS)
                                     .withTime(hour, 0, 0, 0).seconds()
-                            if (config.allowCreatingTasks) {
-                                val items = arrayListOf(
-                                    RadioItem(TYPE_EVENT, getString(R.string.event)),
-                                    RadioItem(TYPE_TASK, getString(R.string.task))
-                                )
-
-                                RadioGroupDialog(activity!!, items) {
-                                    launchNewEventIntent(timestamp, it as Int == TYPE_TASK)
-                                }
-                            } else {
-                                launchNewEventIntent(timestamp, false)
-                            }
+                            launchNewEventIntent(timestamp)
                         }
 
                         // do not use setStartDelay, it will trigger instantly if the device has disabled animations
@@ -381,8 +371,8 @@ class WeekFragment : Fragment(), WeeklyCalendar {
         })
     }
 
-    private fun launchNewEventIntent(timestamp: Long, isTask: Boolean) {
-        Intent(context, getActivityToOpen(isTask)).apply {
+    private fun launchNewEventIntent(timestamp: Long) {
+        Intent(context, TaskActivity::class.java).apply {
             putExtra(NEW_EVENT_START_TS, timestamp)
             putExtra(NEW_EVENT_SET_HOUR_DURATION, true)
             startActivity(this)
@@ -653,7 +643,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
                         }
 
                         setOnClickListener {
-                            Intent(context, getActivityToOpen(event.isTask())).apply {
+                            Intent(context, TaskActivity::class.java).apply {
                                 putExtra(EVENT_ID, event.id!!)
                                 putExtra(EVENT_OCCURRENCE_TS, event.startTS)
                                 putExtra(IS_TASK_COMPLETED, event.isTaskCompleted())
@@ -883,7 +873,7 @@ class WeekFragment : Fragment(), WeeklyCalendar {
             calculateExtraHeight()
 
             setOnClickListener {
-                Intent(context, getActivityToOpen(event.isTask())).apply {
+                Intent(context, TaskActivity::class.java).apply {
                     putExtra(EVENT_ID, event.id)
                     putExtra(EVENT_OCCURRENCE_TS, event.startTS)
                     putExtra(IS_TASK_COMPLETED, event.isTaskCompleted())

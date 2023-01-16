@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.PowerManager
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -295,13 +296,13 @@ class TaskActivity : SimpleActivity() {
 
         task_reminder_1.setOnClickListener {
             handleNotificationAvailability {
-                if (config.wasAlarmWarningShown) {
-                    showReminder1Dialog()
-                } else {
+                val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
+                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                     ReminderWarningDialog(this) {
-                        config.wasAlarmWarningShown = true
                         showReminder1Dialog()
                     }
+                } else {
+                    showReminder1Dialog()
                 }
             }
         }
@@ -415,13 +416,13 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun saveCurrentTask() {
-        if (config.wasAlarmWarningShown || (mReminder1Minutes == REMINDER_OFF && mReminder2Minutes == REMINDER_OFF && mReminder3Minutes == REMINDER_OFF)) {
+        val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
+        if (pm.isIgnoringBatteryOptimizations(packageName) || (mReminder1Minutes == REMINDER_OFF && mReminder2Minutes == REMINDER_OFF && mReminder3Minutes == REMINDER_OFF)) {
             ensureBackgroundThread {
                 saveTask()
             }
         } else {
             ReminderWarningDialog(this) {
-                config.wasAlarmWarningShown = true
                 ensureBackgroundThread {
                     saveTask()
                 }

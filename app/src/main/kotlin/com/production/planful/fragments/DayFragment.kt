@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.production.planful.R
 import com.production.planful.activities.MainActivity
 import com.production.planful.activities.SimpleActivity
+import com.production.planful.activities.TaskActivity
 import com.production.planful.adapters.DayEventsAdapter
 import com.production.planful.commons.extensions.*
 import com.production.planful.commons.interfaces.RefreshRecyclerViewListener
@@ -162,7 +163,7 @@ class DayFragment : Fragment(), RefreshRecyclerViewListener {
     }
 
     private fun editEvent(event: Event) {
-        Intent(context, getActivityToOpen(event.isTask())).apply {
+        Intent(context, TaskActivity::class.java).apply {
             putExtra(EVENT_ID, event.id)
             putExtra(EVENT_OCCURRENCE_TS, event.startTS)
             putExtra(IS_TASK_COMPLETED, event.isTaskCompleted())
