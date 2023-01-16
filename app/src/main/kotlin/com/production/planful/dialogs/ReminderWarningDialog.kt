@@ -22,18 +22,13 @@ class ReminderWarningDialog(val activity: Activity, val callback: () -> Unit) {
 
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok) { _, _ -> dialogConfirmed() }
-            .setNeutralButton(R.string.settings, null)
-            .setNegativeButton(R.string.battery_allow) { _, _ -> allowBattery() }
             .apply {
                 activity.setupDialogStuff(
                     view,
                     this,
                     R.string.disclaimer,
                     cancelOnTouchOutside = false
-                ) { alertDialog ->
-                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                        redirectToSettings()
-                    }
+                ) {
                 }
             }
     }
@@ -41,34 +36,5 @@ class ReminderWarningDialog(val activity: Activity, val callback: () -> Unit) {
     private fun dialogConfirmed() {
         dialog?.dismiss()
         callback()
-    }
-
-    @SuppressLint("BatteryLife")
-    private fun allowBattery() {
-        activity.hideKeyboard()
-        val pm: PowerManager = (activity.getSystemService(AppCompatActivity.POWER_SERVICE) as PowerManager)
-        if (!pm.isIgnoringBatteryOptimizations(activity.packageName)) {
-            Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                data = Uri.fromParts("package", activity.packageName, null)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                try {
-                    activity.startActivity(this)
-                } catch (e: Exception) {
-                    activity.showErrorToast(e)
-                }
-            }
-        }
-    }
-
-    private fun redirectToSettings() {
-        activity.hideKeyboard()
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.fromParts("package", activity.packageName, null)
-            try {
-                activity.startActivity(this)
-            } catch (e: Exception) {
-                activity.showErrorToast(e)
-            }
-        }
     }
 }

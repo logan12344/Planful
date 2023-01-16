@@ -296,14 +296,7 @@ class TaskActivity : SimpleActivity() {
 
         task_reminder_1.setOnClickListener {
             handleNotificationAvailability {
-                val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
-                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                    ReminderWarningDialog(this) {
-                        showReminder1Dialog()
-                    }
-                } else {
-                    showReminder1Dialog()
-                }
+                showReminder1Dialog()
             }
         }
 
@@ -416,17 +409,8 @@ class TaskActivity : SimpleActivity() {
     }
 
     private fun saveCurrentTask() {
-        val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
-        if (pm.isIgnoringBatteryOptimizations(packageName) || (mReminder1Minutes == REMINDER_OFF && mReminder2Minutes == REMINDER_OFF && mReminder3Minutes == REMINDER_OFF)) {
-            ensureBackgroundThread {
-                saveTask()
-            }
-        } else {
-            ReminderWarningDialog(this) {
-                ensureBackgroundThread {
-                    saveTask()
-                }
-            }
+        ensureBackgroundThread {
+            saveTask()
         }
     }
 

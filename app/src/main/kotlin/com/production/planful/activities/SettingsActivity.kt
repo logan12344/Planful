@@ -1,10 +1,14 @@
 package com.production.planful.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.media.AudioManager
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import com.production.planful.R
 import com.production.planful.commons.dialogs.RadioGroupDialog
 import com.production.planful.commons.dialogs.SelectAlarmSoundDialog
@@ -12,6 +16,7 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.AlarmSound
 import com.production.planful.commons.models.RadioItem
+import com.production.planful.dialogs.ReminderWarningDialog
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.updateWidgets
@@ -41,6 +46,7 @@ class SettingsActivity : SimpleActivity() {
         setupCustomizeColors()
         setupCustomizeNotifications()
         setupSundayFirst()
+        setupRunInBackground()
         setupVibrate()
         setupReminderSound()
         setupReminderAudioStream()
@@ -109,6 +115,16 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
+    private fun setupRunInBackground() {
+        run_in_background.isChecked = (getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)
+        run_in_background_holder.setOnClickListener {
+            ReminderWarningDialog(this) {
+                allowBattery()
+                run_in_background.toggle()
+            }
+        }
+    }
+
     private fun setupCustomizeColors() {
         settings_customize_colors_holder.setOnClickListener {
             startCustomizationActivity()
@@ -119,8 +135,7 @@ class SettingsActivity : SimpleActivity() {
         settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
 
         if (settings_customize_notifications_holder.isGone()) {
-            settings_reminder_sound_holder.background =
-                resources.getDrawable(R.drawable.ripple_top_corners, theme)
+            settings_reminder_sound_holder.background = resources.getDrawable(R.drawable.ripple_top_corners, theme)
         }
 
         settings_customize_notifications_holder.setOnClickListener {
@@ -332,12 +347,24 @@ class SettingsActivity : SimpleActivity() {
         }
 
         runOnUiThread {
-            val msg =
-                if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing
+            val msg = if (configValues.size > 0) R.string.settings_imported_successfully else R.string.no_entries_for_importing
             toast(msg)
 
             setupSettingItems()
             updateWidgets()
+        }
+    }
+
+    @SuppressLint("BatteryLife")
+    private fun allowBattery() {
+        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+            data = Uri.fromParts("package", packageName, null)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            try {
+                startActivity(this)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 }

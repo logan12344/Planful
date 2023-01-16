@@ -101,6 +101,12 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (savedInstanceState == null) {
             checkCalDAVUpdateListener()
         }
+
+        if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
+            ReminderWarningDialog(this) {
+                allowBattery()
+            }
+        }
     }
 
     override fun onResume() {
@@ -148,11 +154,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (config.caldavSync) {
             updateCalDAVEvents()
         }
-
-        /*val pm: PowerManager = (getSystemService(POWER_SERVICE) as PowerManager)
-        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-            ReminderWarningDialog(this) {}
-        }*/
     }
 
     override fun onPause() {
@@ -726,5 +727,18 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         calendar_fab.beVisible()
         config.storedView = DAILY_VIEW
         updateViewPager(dayCode)
+    }
+
+    @SuppressLint("BatteryLife")
+    private fun allowBattery() {
+        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+            data = Uri.fromParts("package", packageName, null)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            try {
+                startActivity(this)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
+        }
     }
 }
