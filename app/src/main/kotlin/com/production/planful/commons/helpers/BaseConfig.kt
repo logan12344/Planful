@@ -248,6 +248,11 @@ open class BaseConfig(val context: Context) {
         set(wasAlarmWarningShown) = prefs.edit()
             .putBoolean(WAS_ALARM_WARNING_SHOWN, wasAlarmWarningShown).apply()
 
+    var wasBatteryDisclaimerShown: Boolean
+        get() = prefs.getBoolean(WAS_BATTERY_DISCLAIMER_SHOWN, false)
+        set(wasBatteryDisclaimerShown) = prefs.edit()
+            .putBoolean(WAS_BATTERY_DISCLAIMER_SHOWN, wasBatteryDisclaimerShown).apply()
+
     var useSameSnooze: Boolean
         get() = prefs.getBoolean(USE_SAME_SNOOZE, true)
         set(useSameSnooze) = prefs.edit().putBoolean(USE_SAME_SNOOZE, useSameSnooze).apply()

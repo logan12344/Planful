@@ -1,16 +1,15 @@
 package com.production.planful.adapters
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.production.planful.R
-import com.production.planful.commons.extensions.*
+import com.production.planful.commons.extensions.applyColorFilter
+import com.production.planful.commons.extensions.baseConfig
+import com.production.planful.commons.extensions.getContrastColor
+import com.production.planful.commons.extensions.getProperTextColor
 import com.production.planful.models.ChecklistItem
 import kotlinx.android.synthetic.main.item_checklist.view.*
 

@@ -16,7 +16,6 @@ import com.production.planful.commons.extensions.*
 import com.production.planful.commons.helpers.*
 import com.production.planful.commons.models.AlarmSound
 import com.production.planful.commons.models.RadioItem
-import com.production.planful.dialogs.ReminderWarningDialog
 import com.production.planful.extensions.config
 import com.production.planful.extensions.eventsHelper
 import com.production.planful.extensions.updateWidgets
@@ -118,10 +117,8 @@ class SettingsActivity : SimpleActivity() {
     private fun setupRunInBackground() {
         run_in_background.isChecked = (getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)
         run_in_background_holder.setOnClickListener {
-            ReminderWarningDialog(this) {
-                allowBattery()
-                run_in_background.toggle()
-            }
+            allowBattery()
+            run_in_background.toggle()
         }
     }
 
@@ -359,7 +356,6 @@ class SettingsActivity : SimpleActivity() {
     private fun allowBattery() {
         Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
             data = Uri.fromParts("package", packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
             try {
                 startActivity(this)
             } catch (e: Exception) {

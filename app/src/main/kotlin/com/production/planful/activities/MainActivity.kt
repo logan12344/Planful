@@ -100,9 +100,16 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             checkCalDAVUpdateListener()
         }
 
-        if (!config.wasAlarmWarningShown  && !(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
+        if (!config.wasBatteryDisclaimerShown) {
             ReminderWarningDialog(this) {
-                config.wasAlarmWarningShown = true
+                config.wasBatteryDisclaimerShown = true
+                if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
+                    allowBattery()
+                }
+            }
+        }
+        if (config.wasBatteryDisclaimerShown) {
+            if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
                 allowBattery()
             }
         }
@@ -732,7 +739,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private fun allowBattery() {
         Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
             data = Uri.fromParts("package", packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
             try {
                 startActivity(this)
             } catch (e: Exception) {

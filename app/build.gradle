@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.timfreiheit.resourceplaceholders'
 
-def canonicalVersionCode = 276
-def canonicalVersionName = "1.2.3"
+def canonicalVersionCode = 278
+def canonicalVersionName = "1.2.5"
 
 def postFixSize = 10
 def abiPostFix =
