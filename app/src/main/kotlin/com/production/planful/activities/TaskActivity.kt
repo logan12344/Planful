@@ -339,7 +339,7 @@ class TaskActivity : SimpleActivity() {
             checklistArray.add(ChecklistItem("", false))
         }
 
-        checklistAdapter = ChecklistAdapter(this, checklistArray)
+        checklistAdapter = ChecklistAdapter(checklistArray)
         recycle_checklist.adapter = checklistAdapter
         recycle_checklist.layoutManager = LinearLayoutManager(this)
     }
