@@ -10,14 +10,12 @@ import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.PowerManager
 import android.provider.ContactsContract.*
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import com.production.planful.BuildConfig
@@ -102,8 +100,9 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             checkCalDAVUpdateListener()
         }
 
-        if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
+        if (!config.wasAlarmWarningShown  && !(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
             ReminderWarningDialog(this) {
+                config.wasAlarmWarningShown = true
                 allowBattery()
             }
         }

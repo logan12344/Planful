@@ -5,28 +5,20 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputLayout
 import com.production.planful.R
-import com.production.planful.commons.extensions.applyColorFilter
-import com.production.planful.commons.extensions.baseConfig
-import com.production.planful.commons.extensions.getContrastColor
-import com.production.planful.commons.extensions.getProperTextColor
+import com.production.planful.commons.extensions.*
 import com.production.planful.models.ChecklistItem
+import kotlinx.android.synthetic.main.item_checklist.view.*
 
 class ChecklistAdapter(
     private val context: Context,
-    val rv: RecyclerView,
     private val items: ArrayList<ChecklistItem>) :
     RecyclerView.Adapter<ChecklistAdapter.ChecklistViewHolder>() {
 
-    inner class ChecklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var checklistText: TextInputLayout = itemView.findViewById(R.id.checklist_item_layout)
-        var checklistDelete: ImageView = itemView.findViewById(R.id.checklist_item_delete)
-    }
+    inner class ChecklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChecklistViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_checklist, parent, false)
@@ -34,30 +26,35 @@ class ChecklistAdapter(
     }
 
     override fun onBindViewHolder(holder: ChecklistViewHolder, position: Int) {
-        if (context.baseConfig.backgroundColor.getContrastColor() == Color.WHITE) {
-            holder.checklistText.editText?.setTextColor(context.getColor(R.color.theme_dark_text_color))
-        }
-        holder.checklistDelete.applyColorFilter(context.getProperTextColor())
+        val checkList = items[position]
+        setupView(holder.itemView, checkList)
+        if (position == 0) holder.itemView.checklist_item_delete.visibility = View.INVISIBLE
+        else holder.itemView.checklist_item_delete.visibility = View.VISIBLE
+    }
 
-        holder.checklistText.editText?.setText(items[position].name)
-        holder.checklistText.editText?.doAfterTextChanged {
-            items[position].name = it.toString()
-        }
+    private fun setupView(view: View, checkList: ChecklistItem) {
+        view.apply {
+            if (context.baseConfig.backgroundColor.getContrastColor() == Color.WHITE) {
+                checklist_item.setTextColor(context.getColor(R.color.theme_dark_text_color))
+            }
+            checklist_item_delete.applyColorFilter(context.getProperTextColor())
+            checklist_item_done.applyColorFilter(context.getProperTextColor())
+            checklist_item.requestFocus()
+            checklist_item.setText(checkList.name)
 
-        if (position == 0) {
-            holder.checklistDelete.visibility = View.INVISIBLE
-        } else {
-            holder.checklistDelete.visibility = View.VISIBLE
-        }
+            checklist_item.doAfterTextChanged {
+                checklist_item_done.applyColorFilter(context.getProperPrimaryColor())
+            }
 
-        if (position == (itemCount - 1)) {
-            holder.checklistText.editText?.requestFocus()
-        }
+            checklist_item_done.setOnClickListener {
+                checkList.name = checklist_item.text.toString()
+                context.toast(R.string.checklist_saved, Toast.LENGTH_LONG)
+                checklist_item_done.applyColorFilter(context.getProperTextColor())
+            }
 
-        holder.checklistDelete.setOnClickListener {
-            rv.post {
-                items.removeAt(position)
-                notifyItemRemoved(position)
+            checklist_item_delete.setOnClickListener {
+                items.remove(checkList)
+                notifyDataSetChanged()
             }
         }
     }

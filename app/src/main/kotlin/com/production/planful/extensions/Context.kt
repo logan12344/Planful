@@ -38,7 +38,6 @@ import com.production.planful.interfaces.WidgetsDao
 import com.production.planful.models.*
 import com.production.planful.receivers.CalDAVSyncReceiver
 import com.production.planful.receivers.NotificationReceiver
-import com.production.planful.services.MarkCompletedService
 import com.production.planful.services.SnoozeService
 import kotlinx.android.synthetic.main.day_monthly_event_view.view.*
 import org.joda.time.DateTime
@@ -289,8 +288,7 @@ fun Context.notifyEvent(originalEvent: Event) {
     ensureBackgroundThread {
         if (event.isTask()) eventsHelper.updateIsTaskCompleted(event)
         val notification = getNotification(pendingIntent, event, content)
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         try {
             if (notification != null) {
                 notificationManager.notify(event.id!!.toInt(), notification)
@@ -374,13 +372,6 @@ fun Context.getNotification(
         .setSound(Uri.parse(soundUri), config.reminderAudioStream)
         .setChannelId(channelId)
         .apply {
-            /*if (event.isTask() && !event.isTaskCompleted()) {
-                addAction(
-                    R.drawable.ic_task_vector,
-                    getString(R.string.mark_completed),
-                    getMarkCompletedPendingIntent(this@getNotification, event)
-                )
-            }*/
             addAction(
                 R.drawable.ic_snooze_vector,
                 getString(R.string.snooze),
@@ -413,8 +404,6 @@ private fun getPendingIntent(context: Context, event: Event): PendingIntent {
     //val activityClass = getActivityToOpen(event.isTask())
     val activityClass = MainActivity::class.java
     val intent = Intent(context, activityClass)
-    intent.putExtra(EVENT_ID, event.id)
-    intent.putExtra(EVENT_OCCURRENCE_TS, event.startTS)
     return PendingIntent.getActivity(
         context,
         event.id!!.toInt(),
@@ -442,17 +431,6 @@ private fun getSnoozePendingIntent(context: Context, event: Event): PendingInten
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
-}
-
-private fun getMarkCompletedPendingIntent(context: Context, task: Event): PendingIntent {
-    val intent = Intent(context, MarkCompletedService::class.java).setAction(ACTION_MARK_COMPLETED)
-    intent.putExtra(EVENT_ID, task.id)
-    return PendingIntent.getService(
-        context,
-        task.id!!.toInt(),
-        intent,
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
 }
 
 fun Context.rescheduleReminder(event: Event?, minutes: Int) {

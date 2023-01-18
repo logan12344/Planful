@@ -18,7 +18,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
         val wakelock = powerManager.newWakeLock(
             PowerManager.PARTIAL_WAKE_LOCK,
-            "simplecalendar:notificationreceiver"
+            "planful:notificationreceiver"
         )
         wakelock.acquire(3000)
 

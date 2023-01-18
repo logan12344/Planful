@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.PowerManager
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -282,7 +281,7 @@ class TaskActivity : SimpleActivity() {
 
         checklist_complete.setOnClickListener {
             checklistArray.add(ChecklistItem("", false))
-            checklistAdapter.notifyItemInserted(checklistArray.size)
+            checklistAdapter.notifyItemInserted(checklistAdapter.itemCount)
         }
 
         task_start_date.setOnClickListener { setupStartDate() }
@@ -340,7 +339,7 @@ class TaskActivity : SimpleActivity() {
             checklistArray.add(ChecklistItem("", false))
         }
 
-        checklistAdapter = ChecklistAdapter(this, recycle_checklist, checklistArray)
+        checklistAdapter = ChecklistAdapter(this, checklistArray)
         recycle_checklist.adapter = checklistAdapter
         recycle_checklist.layoutManager = LinearLayoutManager(this)
     }

@@ -1,7 +1,5 @@
 package com.production.planful.helpers
 
-import com.production.planful.activities.TaskActivity
-
 const val STORED_LOCALLY_ONLY = 0
 const val ROW_COUNT = 6
 const val COLUMN_COUNT = 7

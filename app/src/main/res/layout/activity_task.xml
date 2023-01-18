@@ -321,9 +321,9 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:background="@drawable/checklist_bg"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/zero"
+                android:paddingStart="@dimen/small_margin"
                 android:paddingTop="@dimen/medium_margin"
-                android:paddingEnd="@dimen/normal_margin"
+                android:paddingEnd="@dimen/small_margin"
                 android:paddingBottom="@dimen/medium_margin"
                 android:layout_alignParentEnd="true">
 

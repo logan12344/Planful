@@ -3,15 +3,29 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
+    <ImageView
+        android:id="@+id/checklist_item_done"
+        android:layout_width="@dimen/color_sample_size"
+        android:layout_height="@dimen/color_sample_size"
+        android:layout_alignTop="@+id/checklist_item_layout"
+        android:layout_alignBottom="@+id/checklist_item_layout"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:padding="@dimen/small_margin"
+        android:src="@drawable/ic_plus_vector"
+        android:contentDescription="@string/checklist_save" />
+
     <com.production.planful.commons.views.MyTextInputLayout
         android:id="@+id/checklist_item_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_margin"
+        android:layout_toEndOf="@id/checklist_item_done"
         android:layout_toStartOf="@+id/checklist_item_delete"
         android:hint="@string/item_name">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/checklist_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
@@ -31,6 +45,8 @@
         android:layout_alignTop="@+id/checklist_item_layout"
         android:layout_alignBottom="@+id/checklist_item_layout"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:padding="@dimen/small_margin"
         android:src="@drawable/ic_delete_vector"
         android:contentDescription="@string/delete" />

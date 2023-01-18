@@ -20,7 +20,6 @@ class ChecklistAdapterForDialog(
     RecyclerView.Adapter<ChecklistAdapterForDialog.ChecklistViewHolder>() {
 
     inner class ChecklistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         var tvChecklistItemName: TextView = itemView.findViewById(R.id.tvChecklistItemName)
         var cbChecklistItemDone: CheckBox = itemView.findViewById(R.id.cbChecklistItemDone)
     }

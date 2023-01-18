@@ -387,8 +387,10 @@
     <string name="device_os">Device OS: %s</string>
     <string name="third_party_licences">Third party licences</string>
     <string name="checklist">Checklist</string>
-    <string name="add_item">Add item</string>
+    <string name="add_item">Add new item</string>
     <string name="item_name">Item name</string>
     <string name="close">Close</string>
     <string name="support_description">If you have any problems, or a suggestion on how to make our app more attractive to you, email us, we\'ll do our best to help you.</string>
+    <string name="checklist_saved">Item saved</string>
+    <string name="checklist_save">Save item</string>
 </resources>
