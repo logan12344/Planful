@@ -103,16 +103,16 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         if (!config.wasBatteryDisclaimerShown) {
             ReminderWarningDialog(this) {
                 config.wasBatteryDisclaimerShown = true
-                /*if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
+                if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
                     allowBattery()
-                }*/
+                }
             }
         }
-        /*if (config.wasBatteryDisclaimerShown) {
+        if (config.wasBatteryDisclaimerShown) {
             if (!(getSystemService(POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(packageName)) {
                 allowBattery()
             }
-        }*/
+        }
     }
 
     override fun onResume() {
